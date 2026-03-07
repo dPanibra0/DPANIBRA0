@@ -24,43 +24,56 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
     </h2>
 
     <div class="relative mt-14 md:mt-16">
-      <div class="absolute bottom-3 left-4 top-3 w-px bg-border/90"></div>
+      <div class="absolute bottom-3 left-2 top-3 w-px bg-border/90"></div>
 
       <div class="space-y-24 md:space-y-28">
         {
-          experience.items.map((item) => (
-            <article class="exp-reveal relative pl-10 md:pl-14" data-exp-item>
-              <span class="absolute left-[9px] top-5 h-3.5 w-3.5 rounded-full border border-accent-strong/70 bg-accent md:left-[10px]"></span>
+          experience.items.map((item, index) => {
+            const context = (item as { context?: string }).context ?? "";
+            const technologies = (item as { technologies?: string[] }).technologies ?? [];
 
-              <div class="max-w-[960px] rounded-2xl border border-border/50 bg-black/12 px-6 py-6 transition duration-200 hover:border-accent/40 md:px-8 md:py-7">
-                <p class="text-sm font-medium tracking-[0.01em] text-[#bcc6d1] md:text-[15px]">{item.period}</p>
-                <h3 class="mt-2 text-[22px] font-semibold leading-tight tracking-[-0.02em] text-text md:text-[24px]">{item.role}</h3>
-                <p class="mt-2 text-lg font-medium text-text/90">{item.company}</p>
-                <p class="mt-3 text-base leading-relaxed text-muted">{item.context}</p>
+            return (
+            <article
+              class="exp-reveal relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
+              data-exp-item
+              style={`transition-delay:${index * 80}ms`}
+            >
+              <span class="absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border border-accent-strong/70 bg-accent md:left-[3px]"></span>
 
-                <ul class="mt-5 space-y-2.5">
+              <div class="space-y-2">
+                <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">{item.company}</h3>
+                <p class="text-sm text-[#bcc6d1] md:text-[15px]">{item.period}</p>
+                <p class="text-sm text-muted/80 md:text-base">
+                  {isEnglish ? (index === 0 ? "Full-time · Remote" : "Full-time · On-site") : index === 0 ? "Full-time · Remoto" : "Full-time · Presencial"}
+                </p>
+              </div>
+
+              <div class="max-w-[920px]">
+                <h4 class="text-[22px] font-semibold tracking-[-0.02em] text-text md:text-3xl">{item.role}</h4>
+                {context && <p class="mt-3 text-base leading-relaxed text-muted">{context}</p>}
+
+                <ul class="mt-6 space-y-3">
                   {
                     item.highlights.slice(0, 4).map((highlight) => (
                       <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-base">
-                        <span class="mt-[2px] text-accent-strong">•</span>
+                        <span class="mt-[1px] text-muted">›</span>
                         <span>{highlight}</span>
                       </li>
                     ))
                   }
                 </ul>
 
-                <div class="mt-5 flex flex-wrap gap-2">
-                  {
-                    item.technologies.map((tech) => (
-                      <span class="rounded-md border px-2.5 py-1 text-xs text-[#c1c9d2] md:text-sm" style="background:#161616;border-color:#2a2a2a;">
-                        {tech}
-                      </span>
-                    ))
-                  }
+                <div class="mt-6 flex flex-wrap gap-2">
+                  {technologies.map((tech) => (
+                    <span class="rounded-md border px-2.5 py-1 text-xs text-[#c1c9d2] md:text-sm" style="background:#161616;border-color:#2a2a2a;">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             </article>
-          ))
+            );
+          })
         }
       </div>
     </div>
@@ -70,8 +83,8 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
 <style>
   .exp-reveal {
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 360ms ease, transform 360ms ease;
+    transform: translateY(12px);
+    transition: opacity 420ms ease, transform 420ms ease;
   }
 
   .exp-reveal.is-visible {
