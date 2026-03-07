@@ -1,0 +1,144 @@
+---
+import type { NavItem } from "../../content/types";
+
+interface Props {
+  nav: NavItem[];
+  lang: "es" | "en";
+}
+
+const { nav, lang } = Astro.props;
+const menuLabel = lang === "es" ? "Abrir menu" : "Open menu";
+const contactHref = lang === "es" ? "#contacto" : "#contact";
+---
+
+<header class="sticky top-0 z-40  border-border/50 bg-bg/82 backdrop-blur-xl transition-transform duration-300" data-nav-header>
+  <div class="container-shell flex items-center py-3 lg:py-4">
+    <a href={lang === "es" ? "/" : "/en"} class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg">
+      <span class="inline-flex h-6 w-6 items-center justify-center rounded-md border border-border bg-surface/70 text-xs font-bold text-accent-strong">
+        dp
+      </span>
+      dPanibra0
+    </a>
+    <nav class="hidden items-center gap-2 lg:ml-auto lg:flex">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "rounded-md px-3 py-2 text-sm font-medium tracking-wide transition",
+              item.href === contactHref
+                ? "rounded-full border border-text bg-text px-4 py-2 text-sm font-semibold tracking-[0.01em] text-bg shadow-[0_12px_24px_-18px_rgba(0,0,0,0.65)] hover:opacity-90"
+                : "text-muted hover:bg-surface/55 hover:text-text",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="ml-auto flex items-center gap-2 md:gap-3 lg:hidden">
+      <button
+        class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-text transition hover:border-accent/60 lg:hidden"
+        type="button"
+        data-menu-toggle
+        aria-label={menuLabel}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="sr-only">{menuLabel}</span>
+        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M4 6h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav
+  id="mobile-menu"
+  class="pointer-events-none fixed inset-x-0 top-[57px] z-30 border-b border-border/70 bg-[#0b0d11]/98 shadow-[0_20px_40px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl opacity-0 transition duration-200 lg:hidden"
+  data-menu-panel
+  aria-hidden="true"
+>
+  <div class="container-shell py-4">
+    <div class="grid gap-2">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "rounded-md px-3 py-2 text-sm font-normal transition",
+              item.href === contactHref
+                ? "rounded-full border border-text bg-text px-4 py-2 text-sm font-semibold text-bg hover:opacity-90"
+                : "text-muted hover:bg-surface hover:text-text",
+            ]}
+            data-mobile-link
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<script>
+  const header = document.querySelector("[data-nav-header]");
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const panel = document.querySelector("[data-menu-panel]");
+  const links = document.querySelectorAll("[data-mobile-link]");
+  let lastScrollY = window.scrollY;
+
+  const closeMenu = () => {
+    if (!toggle || !panel) return;
+    toggle.setAttribute("aria-expanded", "false");
+    panel.classList.add("opacity-0", "pointer-events-none");
+    panel.setAttribute("aria-hidden", "true");
+  };
+
+  if (toggle && panel) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      const next = !isOpen;
+      toggle.setAttribute("aria-expanded", String(next));
+      panel.classList.toggle("opacity-0", !next);
+      panel.classList.toggle("pointer-events-none", !next);
+      panel.setAttribute("aria-hidden", String(!next));
+    });
+
+    links.forEach((link) => link.addEventListener("click", closeMenu));
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 1024) closeMenu();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+  }
+
+  if (header) {
+    window.addEventListener(
+      "scroll",
+      () => {
+        const currentScrollY = window.scrollY;
+        const menuOpen = toggle?.getAttribute("aria-expanded") === "true";
+
+        if (currentScrollY < 8 || menuOpen) {
+          header.classList.remove("-translate-y-full");
+          lastScrollY = currentScrollY;
+          return;
+        }
+
+        if (currentScrollY > lastScrollY + 8) {
+          header.classList.add("-translate-y-full");
+        } else if (currentScrollY < lastScrollY - 8) {
+          header.classList.remove("-translate-y-full");
+        }
+
+        lastScrollY = currentScrollY;
+      },
+      { passive: true },
+    );
+  }
+</script>

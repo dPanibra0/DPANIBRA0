@@ -1,0 +1,84 @@
+---
+import type { PortfolioContent } from "../../content/types";
+
+interface Props {
+  id: string;
+  process: PortfolioContent["process"];
+  overline: string;
+}
+
+const { id, process, overline } = Astro.props;
+const isEnglish = process.title.toLowerCase().includes("working");
+
+const headlineTop = isEnglish ? "From analysis to" : "Del análisis al sistema";
+const headlineBottom = isEnglish ? "production systems" : "en producción";
+const intro = isEnglish
+  ? "A structured methodology that ensures quality, predictability and measurable outcomes in every engagement."
+  : "Metodología estructurada que garantiza calidad, predictibilidad y resultados medibles en cada proyecto.";
+
+const iconByIndex = ["search", "grid", "code", "pulse"];
+---
+
+<section id={id} class="section-space border-t border-border/50">
+  <div class="container-shell pt-8 md:pt-12">
+    <p class="micro-label mb-5">{overline}</p>
+    <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+      {headlineTop}
+      <br />
+      <span class="text-muted">{headlineBottom}</span>
+    </h2>
+    <p class="mt-7 max-w-[820px] text-base leading-relaxed text-muted md:text-lg">{intro}</p>
+
+    <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/20">
+      <div class="grid md:grid-cols-2 xl:grid-cols-4">
+        {
+          process.steps.map((step, index) => (
+            <article class="group relative border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:min-h-[360px] xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(4n)]:border-r-0 hover:bg-stone-300/10">
+              <p class="text-6xl font-bold leading-none tracking-[-0.04em] text-white/[0.1] md:text-7xl md:my-8">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+
+              <div class="mt-10 h-5 w-5 text-[#9ea8b4]">
+                {iconByIndex[index] === "search" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="6"></circle>
+                    <path d="m20 20-4.2-4.2"></path>
+                  </svg>
+                )}
+                {iconByIndex[index] === "grid" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="4" y="4" width="7" height="7"></rect>
+                    <rect x="13" y="4" width="7" height="7"></rect>
+                    <rect x="4" y="13" width="7" height="7"></rect>
+                    <rect x="13" y="13" width="7" height="7"></rect>
+                  </svg>
+                )}
+                {iconByIndex[index] === "code" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="m8 17-4-5 4-5"></path>
+                    <path d="m16 7 4 5-4 5"></path>
+                    <path d="m13.5 4-3 16"></path>
+                  </svg>
+                )}
+                {iconByIndex[index] === "pulse" && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 12h4l2.2-5 3.6 10 2.4-6H21"></path>
+                  </svg>
+                )}
+              </div>
+
+              <h3 class="mt-6 text-lg font-semibold tracking-[-0.02em] text-text md:text-xl">{step.title}</h3>
+              <p class="mt-4 text-sm leading-relaxed text-muted md:text-base">{step.description}</p>
+
+              {index < process.steps.length - 1 && (
+                <span class="absolute -right-4 top-1/2 z-10 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border/70 bg-bg text-muted xl:inline-flex">
+                  ›
+                </span>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

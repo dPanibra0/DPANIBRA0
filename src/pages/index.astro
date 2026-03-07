@@ -1,0 +1,44 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import About from "../components/sections/About.astro";
+import TechStack from "../components/sections/TechStack.astro";
+import Projects from "../components/sections/Projects.astro";
+import Experience from "../components/sections/Experience.astro";
+import Process from "../components/sections/Process.astro";
+import Philosophy from "../components/sections/Philosophy.astro";
+import Contact from "../components/sections/Contact.astro";
+import { esContent } from "../content/es";
+
+const content = esContent;
+---
+
+<MainLayout title={content.meta.title} description={content.meta.description} lang="es">
+  <Navbar nav={content.nav} lang="es" />
+  <main>
+    <Hero id="inicio" hero={content.hero} />
+    <About id="sobre-mi" about={content.about} overline="SOBRE MÍ" />
+    <div class="divider-line"></div>
+    <TechStack id="stack" stack={content.stack} overline="STACK TÉCNICO" />
+    <Experience id="experiencia" experience={content.experience} overline="EXPERIENCIA PROFESIONAL" />
+    <Projects
+      id="proyectos"
+      projects={content.projects}
+      overline="PROYECTOS DESTACADOS"
+      labels={{
+        problem: "Problema",
+        architecture: "Arquitectura",
+        stack: "Stack",
+        challenges: "Desafios",
+        solution: "Solucion",
+        impact: "Impacto",
+      }}
+    />
+    <Process id="proceso" process={content.process} overline="PROCESO DE TRABAJO" />
+    <Philosophy id="filosofia" philosophy={content.philosophy} overline="Filosofía de Ingeniería" />
+    <Contact id="contacto" contact={content.contact} overline="Contacto" />
+  </main>
+  <Footer footer={content.footer} nav={content.nav} />
+</MainLayout>

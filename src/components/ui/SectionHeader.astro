@@ -1,0 +1,17 @@
+---
+interface Props {
+  title: string;
+  overline?: string;
+  intro?: string;
+}
+
+const { title, overline, intro } = Astro.props;
+---
+
+<header class="mb-8 max-w-3xl">
+  {overline && <p class="micro-label mb-3">{overline}</p>}
+  <h2 class="text-[32px] font-medium leading-[1.18] tracking-[-0.03em] text-text lg:text-[56px] lg:leading-[1.2]">
+    {title}
+  </h2>
+  {intro && <p class="mt-4 text-[18px] leading-[1.5] text-muted">{intro}</p>}
+</header>

@@ -1,0 +1,23 @@
+---
+import type { NavItem, PortfolioContent } from "../../content/types";
+
+interface Props {
+  footer: PortfolioContent["footer"];
+  nav: NavItem[];
+}
+
+const { footer, nav } = Astro.props;
+---
+
+<footer class="border-t border-border/80 py-10">
+  <div class="container-shell flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="text-sm text-muted">{footer.copyright}</p>
+    </div>
+    <nav class="flex flex-wrap items-center gap-4 text-sm text-muted">
+      {nav.map((item) => <a href={item.href} class="transition hover:text-text">{item.label}</a>)}
+      <a href={footer.githubUrl} target="_blank" rel="noreferrer" class="transition hover:text-text">GitHub</a>
+      <a href={footer.linkedinUrl} target="_blank" rel="noreferrer" class="transition hover:text-text">LinkedIn</a>
+    </nav>
+  </div>
+</footer>

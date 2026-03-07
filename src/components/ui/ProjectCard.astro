@@ -1,0 +1,29 @@
+---
+import type { ProjectContent } from "../../content/types";
+
+interface Props {
+  project: ProjectContent;
+  labels: {
+    problem: string;
+    architecture: string;
+    stack: string;
+    challenges: string;
+    solution: string;
+    impact: string;
+  };
+}
+
+const { project, labels } = Astro.props;
+---
+
+<article class="card-surface p-6 md:p-7">
+  <h3 class="text-xl font-semibold text-text">{project.title}</h3>
+  <div class="mt-5 space-y-4 text-sm leading-relaxed text-muted">
+    <p><span class="font-semibold text-text">{labels.problem}:</span> {project.problem}</p>
+    <p><span class="font-semibold text-text">{labels.architecture}:</span> {project.architecture}</p>
+    <p><span class="font-semibold text-text">{labels.stack}:</span> {project.stack}</p>
+    <p><span class="font-semibold text-text">{labels.challenges}:</span> {project.challenges}</p>
+    <p><span class="font-semibold text-text">{labels.solution}:</span> {project.solution}</p>
+    <p><span class="font-semibold text-text">{labels.impact}:</span> {project.impact}</p>
+  </div>
+</article>
