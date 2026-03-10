@@ -10,7 +10,7 @@ export const esContent: PortfolioContent = {
   nav: [
     { label: "Sobre mí", href: "#sobre-mi" },
     { label: "Stack", href: "#stack" },
-    { label: "Proyectos", href: "#proyectos" },
+    //{ label: "Proyectos", href: "#proyectos" },
     { label: "Experiencia", href: "#experiencia" },
     { label: "Proceso", href: "#proceso" },
     { label: "Filosofia", href: "#filosofia" },
@@ -46,7 +46,7 @@ export const esContent: PortfolioContent = {
     categories: [
       {
         category: "Backend",
-        items: ["Java 17/21", "Spring Boot", "JPA/Hibernate", "APIs REST", "Spring Batch"],
+        items: ["Java 8/21", "Spring Boot", "JPA/Hibernate", "APIs REST", "Spring Batch"],
       },
       {
         category: "Bases de datos",
@@ -54,7 +54,7 @@ export const esContent: PortfolioContent = {
       },
       {
         category: "DevOps e Infraestructura",
-        items: ["Docker", "Git", "Linux", "CI/CD"],
+        items: ["Docker", "Git", "Jenkins", "CI/CD"],
       },
       {
         category: "Testing y calidad",
@@ -102,27 +102,51 @@ export const esContent: PortfolioContent = {
     items: [
       {
         role: "Senior Backend Engineer",
-        company: "NTT Data - Plataforma de Servicios Financieros",
-        period: "2021 - Actualidad",
-        context: "Rediseño de plataforma transaccional para operaciones financieras críticas en entorno corporativo internacional.",
+        company: "LATAMTECH",
+        period: "2025 - 2026",
+        context: "Sistema logístico para Olva Courier",
         highlights: [
-          "Reducción de tiempos de respuesta en servicios críticos mediante optimizacion de capas de acceso a datos.",
-          "Refactorización arquitectonica para mejorar mantenibilidad y escalabilidad en módulos de negocio.",
-          "Integración de sistemas externos con politicas de resiliencia y control de errores.",
+          "Desarrollo de APIs para actualización y consulta de estados de envíos en sistemas de tracking.",
+          "Implementación de integraciones entre plataformas externas y sistemas logísticos internos.",
+          "Trabajo con sistemas de mensajería, colas y persistencia para asegurar confiabilidad en actualizaciones de estado.",
         ],
         technologies: ["Java", "Spring Boot", "Oracle", "REST APIs"],
       },
       {
         role: "Backend Developer",
-        company: "Plataforma Transaccional Regional",
-        period: "2019 - 2022",
-        context: "Implementación y evolución de procesos batch de alto volumen para conciliación y procesamiento diario.",
+        company: "NTT DATA",
+        period: "2021 - 2025",
+        context: "Participación en múltiples proyectos empresariales para clientes internacionales, desarrollando soluciones backend y sistemas corporativos.",
         highlights: [
-          "Mejora de rendimiento en base de datos Oracle a traves de optimizacion de SQL y ajustes de modelo relacional.",
+          "Desarrollo de servicios backend para sistemas corporativos.",
           "Implementacion de procesos batch para conciliaciones y cargas masivas con mayor confiabilidad.",
-          "Trabajo bajo estandares corporativos, revisiones tecnicas y buenas prácticas de desarrollo.",
+          "Implementación de procesos de negocio relacionados con gestión de datos y servicios internos.",
         ],
-        technologies: ["Java", "Spring Batch", "Oracle", "Linux"],
+        technologies: ["Java", "Spring Batch", "Oracle", "React", "Jenkins"],
+      },
+      {
+        role: "Frontend Developer",
+        company: "MULTIPLICA",
+        period: "2020",
+        context: "Participación en el desarrollo de la nueva landing page corporativa.",
+        highlights: [
+          "Implementación de componentes visuales y animaciones web para la nueva página institucional.",
+          "Desarrollo de secciones interactivas para mejorar la experiencia de usuario.",
+          "Colaboración con el equipo de diseño para implementar interfaces modernas y responsivas.",
+        ],
+        technologies: ["HTML", "CSS", "JavaScript", "Vue", "Animation Libraries"],
+      },
+      {
+        role: "Full Stack Developer",
+        company: "ALMA SOFTWARE",
+        period: "2019 - 2020",
+        context: "Desarrollo de soluciones de comercio electrónico durante el contexto de la pandemia, orientadas a la digitalización de tiendas.",
+        highlights: [
+          "Desarrollo de tiendas online para negocios que necesitaban migrar al comercio digital.",
+          "Implementación de funcionalidades de catálogo, pedidos y gestión básica de productos.",
+          "Adaptación rápida de soluciones para permitir la continuidad de negocios durante el confinamiento.",
+        ],
+        technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
     ],
   },
@@ -166,14 +190,14 @@ export const esContent: PortfolioContent = {
     subtitle: "Colaboraciones corporativas, oportunidades internacionales y trabajo remoto.",
     links: [
       { label: "Email", value: "dpanibra0@gmail.com", href: "mailto:dpanibra0@gmail.com" },
-      { label: "LinkedIn", value: "linkedin.com/in/tu-perfil", href: "https://linkedin.com" },
-      { label: "GitHub", value: "github.com/tu-usuario", href: "https://github.com" },
+      { label: "LinkedIn", value: "linkedin.com/in/david-panibra", href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/" },
+      { label: "GitHub", value: "github.com/dPanibra0", href: "https://github.com/dPanibra0" },
     ],
     availability: "Disponible para proyectos - Remote",
   },
   footer: {
     copyright: "2026 Backend Portfolio. All rights reserved.",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/dPanibra0",
     linkedinUrl: "https://linkedin.com",
   },
 };

@@ -24,7 +24,7 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
     </h2>
 
     <div class="relative mt-14 md:mt-16">
-      <div class="absolute bottom-3 left-2 top-3 w-px bg-border/90"></div>
+      <div class="absolute bg-gray-300  bottom-2 left-[10px] top-2 w-px bg-gradient-to-b from-accent/70 via-accent-strong/45 to-accent/70"></div>
 
       <div class="space-y-24 md:space-y-28">
         {
@@ -34,11 +34,10 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
 
             return (
             <article
-              class="exp-reveal relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
-              data-exp-item
-              style={`transition-delay:${index * 80}ms`}
+              class="group relative grid gap-8 pl-10 opacity-70 transition duration-200 hover:opacity-100 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
             >
-              <span class="absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border border-accent-strong/70 bg-accent md:left-[3px]"></span>
+              <span class="pointer-events-none absolute bottom-2 left-[10px] top-2 w-px bg-accent/55 opacity-0 transition duration-200 group-hover:opacity-100"></span>
+              <span class="absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border border-[#9aa8b8] bg-[#ffffff] shadow-[0_0_0_2px_rgba(10,10,10,0.95)] transition duration-200 group-hover:scale-110 group-hover:border-white group-hover:bg-[#f6f6f6] md:left-[3px]"></span>
 
               <div class="space-y-2">
                 <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">{item.company}</h3>
@@ -79,47 +78,3 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
     </div>
   </div>
 </section>
-
-<style>
-  .exp-reveal {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 420ms ease, transform 420ms ease;
-  }
-
-  .exp-reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .exp-reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-  }
-</style>
-
-<script>
-  const items = Array.from(document.querySelectorAll("[data-exp-item]"));
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (reduceMotion) {
-    items.forEach((item) => item.classList.add("is-visible"));
-  } else {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
-    );
-
-    items.forEach((item) => observer.observe(item));
-  }
-</script>
