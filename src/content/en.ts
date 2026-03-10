@@ -1,178 +1,203 @@
 import type { PortfolioContent } from "./types";
 
-export const enContent: PortfolioContent = {
+export const esContent: PortfolioContent = {
   locale: "en",
   meta: {
-    title: "Enterprise Backend Portfolio | Scalable Architecture",
+    title: "Portafolio Backend Enterprise | Arquitectura Escalable",
     description:
-      "Professional portfolio for international corporations: enterprise backend architecture with Java, Spring Boot, Oracle and resilient systems.",
+      "Portafolio profesional orientado a empresas internacionales: backend enterprise con Java, Spring Boot, Oracle y arquitectura resiliente para sistemas críticos.",
   },
   nav: [
-    { label: "About", href: "#about" },
+    { label: "Sobre mí", href: "#sobre-mi" },
     { label: "Stack", href: "#stack" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
-    { label: "Process", href: "#process" },
-    { label: "Philosophy", href: "#philosophy" },
-    { label: "Contact", href: "#contact" },
+    //{ label: "Proyectos", href: "#proyectos" },
+    { label: "Experiencia", href: "#experiencia" },
+    { label: "Proceso", href: "#proceso" },
+    { label: "Filosofia", href: "#filosofia" },
+    { label: "Contacto", href: "#contacto" },
   ],
   hero: {
-    eyebrow: "Backend engineering for mission-critical operations",
-    availability: "Open to international opportunities",
-    title: "Enterprise-Grade Backend Architecture for Scalable Systems",
+    eyebrow: "Ingenieria backend para operaciones críticas",
+    availability: "Disponible para proyectos - Remote",
+    title: "Arquitectura Backend Empresarial para Sistemas Escalables",
     subtitle:
-      "I design and build backend platforms for international corporate environments focused on stability, performance and operational resilience.",
+      "Diseño y desarrollo plataformas backend para entornos corporativos internacionales con estabilidad, rendimiento y resiliencia operativa.",
     message:
-      "Technical execution centered on reliability, clean architecture and systems prepared to scale without compromising data consistency.",
-    ctaPrimary: "Contact",
-    ctaSecondary: "Download Resume",
+      "Enfoque técnico orientado a confiabilidad, arquitectura limpia y sistemas listos para crecer sin comprometer consistencia de datos.",
+    ctaPrimary: "Contactar",
+    ctaSecondary: "Descargar CV",
     stats: [
-      { value: "99.95%", label: "Operational stability" },
-      { value: "-38%", label: "Critical process incidents" },
-      { value: "x2.4", label: "Batch throughput improvement" },
+      { value: "5+", label: "Años de experiencia" },
+      { value: "2M+", label: "Transacciones/día procesadas" },
+      { value: "99%", label: "Uptime en producción" },
+      { value: "99%", label: "Estabilidad operativa" },
     ],
   },
   about: {
-    title: "About Me",
+    title: "Sobre mí",
     paragraphs: [
-      "Backend engineer focused on corporate ecosystems where availability, traceability and transactional accuracy are business-critical requirements.",
-      "Specialized in Java, Spring Boot and Oracle in production-grade environments, including critical integrations and batch processing.",
-      "I work with scalable architecture, data consistency and long-term maintainability while collaborating with distributed teams under international standards.",
+      "Ingeniero backend enfocado en ecosistemas corporativos donde la disponibilidad, la trazabilidad y la precisión transaccional son requerimientos de negocio.",
+      "Especializado en Java, Spring Boot y Oracle en ambientes productivos de alta exigencia, con experiencia en integraciones críticas y procesamiento batch.",
+      "Trabajo con arquitectura escalable, consistencia de datos y mantenibilidad a largo plazo, colaborando con equipos distribuidos bajo estandares internacionales.",
     ],
   },
   stack: {
-    title: "Technical Stack",
+    title: "Stack Técnico",
     categories: [
       {
         category: "Backend",
-        items: ["Java 17/21", "Spring Boot", "JPA/Hibernate", "REST APIs", "Spring Batch"],
+        items: ["Java 8/21", "Spring Boot", "JPA/Hibernate", "APIs REST", "Spring Batch"],
       },
       {
-        category: "Databases",
-        items: ["Oracle", "Advanced SQL", "Relational modeling", "Query optimization"],
+        category: "Bases de datos",
+        items: ["Oracle", "SQL avanzado", "Modelado relacional", "Optimización de consultas"],
       },
       {
-        category: "DevOps & Infrastructure",
-        items: ["Docker", "Git", "Linux", "CI/CD"],
+        category: "DevOps e Infraestructura",
+        items: ["Docker", "Git", "Jenkins", "CI/CD"],
       },
       {
-        category: "Testing & Quality",
-        items: ["JUnit", "Spock", "Unit testing", "Integration testing"],
+        category: "Testing y calidad",
+        items: ["JUnit", "Spock", "Pruebas unitarias", "Pruebas de integracion"],
       },
     ],
   },
   projects: {
-    title: "Featured Projects",
+    title: "Proyectos Destacados",
     intro:
-      "Each project highlights technical decisions designed to protect continuity, reduce risk and deliver measurable business outcomes.",
+      "Cada proyecto refleja decisiones técnicas orientadas a continuidad operativa, control de riesgo y resultados medibles para el negocio.",
     items: [
       {
-        title: "Corporate logistics tracking platform",
+        title: "Plataforma de tracking logistico corporativo",
         problem:
-          "The business required reliable event traceability across multiple logistics actors and external systems with asynchronous state transitions.",
+          "El negocio necesitaba trazabilidad confiable de eventos logísticos entre multiples actores y sistemas externos con estados asíncronos.",
         architecture:
-          "Modular architecture based on Spring Boot services, Oracle persistence and transactional workflow orchestration with step-level confirmations.",
-        stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, REST APIs, Docker",
+          "Arquitectura modular basada en servicios Spring Boot, persistencia Oracle y orquestación de flujos transaccionales con confirmaciones por etapa.",
+        stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, APIs REST, Docker",
         challenges:
-          "Consistency across distributed events, operation idempotency and external integration fault tolerance.",
+          "Consistencia entre eventos distribuidos, idempotencia de operaciones y tolerancia a fallos de integraciones externas.",
         solution:
-          "Retry policies with backoff, correlation logging and confirmation mechanisms were implemented to prevent duplication and event loss.",
+          "Se implementaron políticas de reintentos con backoff, registros de correlación y mecanismos de confirmación para evitar duplicidad y perdida de eventos.",
         impact:
-          "Improved operational stability and reduced logistics tracking incidents during high-demand periods.",
+          "Aumento de estabilidad operativa y reducción de incidencias en seguimiento logístico en ciclos de alta demanda.",
       },
       {
-        title: "High-volume financial batch system",
+        title: "Sistema batch financiero de alto volumen",
         problem:
-          "Financial operations needed to process large nightly volumes within strict processing windows.",
+          "La operacion financiera requeria procesar grandes volumenes nocturnos dentro de ventanas de tiempo estrictas.",
         architecture:
-          "Batch pipeline with Spring Batch, partitioned workloads, strong transaction controls and execution traceability per job/step.",
-        stack: "Java 17, Spring Batch, Oracle, Advanced SQL, Linux, CI/CD",
+          "Pipeline batch con Spring Batch, particionamiento por lotes, control transaccional robusto y trazabilidad de ejecución por job/step.",
+        stack: "Java 17, Spring Batch, Oracle, SQL avanzado, Linux, CI/CD",
         challenges:
-          "Integrity controls in reprocessing scenarios, batch-level error handling and query bottlenecks under heavy load.",
+          "Control de integridad en re-procesos, manejo de errores por lote y cuellos de botella en consultas de alto costo.",
         solution:
-          "Critical queries were optimized, commit/rollback strategies were improved and pre/post consistency validations were added.",
+          "Se optimizaron queries críticas, se mejoraron estrategias de commit/rollback y se incorporo validación de consistencia previa/post proceso.",
         impact:
-          "Better execution times and fewer operational errors in recurring financial closing cycles.",
+          "Mejora en tiempos de ejecución y disminución de errores operativos en cierres financieros recurrentes.",
       },
     ],
   },
   experience: {
-    title: "Professional Experience",
+    title: "Experiencia Profesional",
     items: [
       {
         role: "Senior Backend Engineer",
-        company: "International Corporate Company",
-        period: "2022 - Present",
-        context: "Architecture modernization of transaction-critical services for international corporate operations.",
+        company: "LATAMTECH",
+        period: "2025 - 2026",
+        context: "Sistema logístico para Olva Courier",
         highlights: [
-          "Reduced response times in critical services through data access optimization.",
-          "Led architectural refactors that improved maintainability and horizontal scalability.",
-          "Integrated external systems with resilient error handling and stability controls.",
+          "Desarrollo de APIs para actualización y consulta de estados de envíos en sistemas de tracking.",
+          "Implementación de integraciones entre plataformas externas y sistemas logísticos internos.",
+          "Trabajo con sistemas de mensajería, colas y persistencia para asegurar confiabilidad en actualizaciones de estado.",
         ],
         technologies: ["Java", "Spring Boot", "Oracle", "REST APIs"],
       },
       {
         role: "Backend Developer",
-        company: "Regional Transactional Platform",
-        period: "2019 - 2022",
-        context: "Development of high-volume batch workflows for reconciliation and daily business processing windows.",
+        company: "NTT DATA",
+        period: "2021 - 2025",
+        context: "Participación en múltiples proyectos empresariales para clientes internacionales, desarrollando soluciones backend y sistemas corporativos.",
         highlights: [
-          "Improved Oracle database performance through SQL optimization and relational modeling adjustments.",
-          "Implemented reliable batch processes for reconciliations and high-volume data loads.",
-          "Worked under corporate standards, technical reviews and established engineering practices.",
+          "Desarrollo de servicios backend para sistemas corporativos.",
+          "Implementacion de procesos batch para conciliaciones y cargas masivas con mayor confiabilidad.",
+          "Implementación de procesos de negocio relacionados con gestión de datos y servicios internos.",
         ],
-        technologies: ["Java", "Spring Batch", "Oracle", "Linux"],
+        technologies: ["Java", "Spring Batch", "Oracle", "React", "Jenkins"],
+      },
+      {
+        role: "Frontend Developer",
+        company: "MULTIPLICA",
+        period: "2020",
+        context: "Participación en el desarrollo de la nueva landing page corporativa.",
+        highlights: [
+          "Implementación de componentes visuales y animaciones web para la nueva página institucional.",
+          "Desarrollo de secciones interactivas para mejorar la experiencia de usuario.",
+          "Colaboración con el equipo de diseño para implementar interfaces modernas y responsivas.",
+        ],
+        technologies: ["HTML", "CSS", "JavaScript", "Vue", "Animation Libraries"],
+      },
+      {
+        role: "Full Stack Developer",
+        company: "ALMA SOFTWARE",
+        period: "2019 - 2020",
+        context: "Desarrollo de soluciones de comercio electrónico durante el contexto de la pandemia, orientadas a la digitalización de tiendas.",
+        highlights: [
+          "Desarrollo de tiendas online para negocios que necesitaban migrar al comercio digital.",
+          "Implementación de funcionalidades de catálogo, pedidos y gestión básica de productos.",
+          "Adaptación rápida de soluciones para permitir la continuidad de negocios durante el confinamiento.",
+        ],
+        technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
     ],
   },
   process: {
-    title: "Working Process",
+    title: "Proceso de Trabajo",
     steps: [
       {
-        step: "Step 1",
-        title: "Technical analysis and domain understanding",
-        description: "Understand business context, operational risks and core objectives before defining solutions.",
+        step: "Paso 1",
+        title: "Análisis técnico y dominio",
+        description: "Comprensión del negocio, riesgos operativos y objetivos funcionales antes de definir soluciones.",
       },
       {
-        step: "Step 2",
-        title: "Corporate-aligned architecture design",
-        description: "Design for enterprise standards, scalability, maintainability and technical governance.",
+        step: "Paso 2",
+        title: "Diseño arquitectónico corporativo",
+        description: "Diseño alineado a estandares empresariales, escalabilidad y gobernanza técnica.",
+      },
+      { 
+        step: "Paso 3",
+        title: "Implementación con calidad",
+        description: "Desarrollo con pruebas, documentación y criterios de mantenibilidad desde el inicio.",
       },
       {
-        step: "Step 3",
-        title: "Quality-driven implementation",
-        description: "Build with testing, documentation and maintainability criteria from day one.",
-      },
-      {
-        step: "Step 4",
-        title: "Optimization and continuous improvement",
-        description: "Monitor, tune performance and evolve systems safely over time.",
+        step: "Paso 4",
+        title: "Optimización y mejora continua",
+        description: "Monitoreo, ajuste de rendimiento y evolución controlada para sostener estabilidad.",
       },
     ],
   },
   philosophy: {
-    title: "Technical Philosophy",
+    title: "Filosofia Técnica",
     points: [
-      "Architecture driven by domain needs and business impact.",
-      "Clean, maintainable code as a long-term asset.",
-      "Stability and data consistency are non-negotiable.",
-      "Systems designed to scale in enterprise environments.",
-      "Resilience and proactive failure prevention by design.",
+      "Arquitectura orientada al dominio y al impacto de negocio.",
+      "Código limpio, legible y sostenible en el tiempo.",
+      "Prioridad en estabilidad y consistencia de datos.",
+      "Sistemas diseñados para escalar en entornos empresariales.",
+      "Resiliencia operativa y prevención activa de fallos.",
     ],
   },
   contact: {
-    title: "Contact",
-    subtitle: "Corporate collaborations, international opportunities and remote work.",
+    title: "Contacto",
+    subtitle: "Colaboraciones corporativas, oportunidades internacionales y trabajo remoto.",
     links: [
-      { label: "Email", value: "email@company.com", href: "mailto:email@company.com" },
-      { label: "LinkedIn", value: "linkedin.com/in/your-profile", href: "https://linkedin.com" },
-      { label: "GitHub", value: "github.com/your-handle", href: "https://github.com" },
+      { label: "Email", value: "dpanibra0@gmail.com", href: "mailto:dpanibra0@gmail.com" },
+      { label: "LinkedIn", value: "linkedin.com/in/david-panibra", href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/" },
+      { label: "GitHub", value: "github.com/dPanibra0", href: "https://github.com/dPanibra0" },
     ],
-    availability: "Available for international opportunities and remote collaboration with distributed teams.",
+    availability: "Disponible para proyectos - Remote",
   },
   footer: {
     copyright: "2026 Backend Portfolio. All rights reserved.",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/dPanibra0",
     linkedinUrl: "https://linkedin.com",
   },
 };
