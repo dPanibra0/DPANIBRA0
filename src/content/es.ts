@@ -3,7 +3,7 @@ import type { PortfolioContent } from "./types";
 export const esContent: PortfolioContent = {
   locale: "es",
   meta: {
-    title: "Portafolio Backend Enterprise | Arquitectura Escalable",
+    title: "David Panibra | Portafolio",
     description:
       "Portafolio profesional orientado a empresas internacionales: backend enterprise con Java, Spring Boot, Oracle y arquitectura resiliente para sistemas críticos.",
   },
