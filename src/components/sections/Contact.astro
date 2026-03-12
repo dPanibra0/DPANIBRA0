@@ -5,20 +5,24 @@ interface Props {
   id: string;
   contact: PortfolioContent["contact"];
   overline: string;
+  lang: "es" | "en";
 }
 
-const { id, contact, overline } = Astro.props;
-const headlineTop = "Hablemos sobre";
-const headlineBottom = "tu próximo proyecto";
+const { id, contact, overline, lang } = Astro.props;
+const isEnglish = lang === "en";
+const headlineTop = isEnglish ? "Let\'s discuss" : "Hablemos sobre";
+const headlineBottom = isEnglish ? "your next project" : "tu proximo proyecto";
 
-const supportTitle = "Trabajo Remoto Internacional";
-const supportText = "Experiencia con equipos distribuidos en multiples zonas horarias. Adaptabilidad a culturas corporativas y metodologias globales.";
+const supportTitle = isEnglish ? "International Remote Work" : "Trabajo Remoto Internacional";
+const supportText = isEnglish
+  ? "Experience with distributed teams across multiple time zones and strong adaptability to global corporate cultures."
+  : "Experiencia con equipos distribuidos en multiples zonas horarias. Adaptabilidad a culturas corporativas y metodologias globales.";
 
 const sublabelByType = (label: string) => {
   const lower = label.toLowerCase();
-  if (lower.includes("email")) return "Respuesta en menos de 24h";
-  if (lower.includes("linkedin")) return "Perfil profesional completo";
-  return "Proyectos y contribuciones";
+  if (lower.includes("email")) return isEnglish ? "Response within 24h" : "Respuesta en menos de 24h";
+  if (lower.includes("linkedin")) return isEnglish ? "Complete professional profile" : "Perfil profesional completo";
+  return isEnglish ? "Projects and contributions" : "Proyectos y contribuciones";
 };
 ---
 

@@ -34,10 +34,11 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
 
             return (
             <article
-              class="group relative grid gap-8 pl-10 opacity-70 transition duration-200 hover:opacity-100 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
+              class="exp-item relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
+              data-exp-item
             >
-              <span class="pointer-events-none absolute bottom-2 left-[10px] top-2 w-px bg-accent/55 opacity-0 transition duration-200 group-hover:opacity-100"></span>
-              <span class="absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border border-[#9aa8b8] bg-[#ffffff] shadow-[0_0_0_2px_rgba(10,10,10,0.95)] transition duration-200 group-hover:scale-110 group-hover:border-white group-hover:bg-[#f6f6f6] md:left-[3px]"></span>
+              <span class="exp-segment pointer-events-none absolute bottom-2 left-[10px] top-2 w-px"></span>
+              <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]"></span>
 
               <div class="space-y-2">
                 <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">{item.company}</h3>
@@ -78,3 +79,84 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
     </div>
   </div>
 </section>
+
+<style>
+  .exp-item {
+    opacity: 0.4;
+    transition: opacity 300ms ease;
+  }
+
+  .exp-node {
+    border-color: #9aa8b8;
+    background: #cdd4db;
+    transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  }
+
+  .exp-segment {
+    background: rgba(77, 131, 166, 0.55);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .exp-item:hover,
+  .exp-item.is-active {
+    opacity: 1;
+  }
+
+  .exp-item:hover .exp-segment,
+  .exp-item.is-active .exp-segment {
+    opacity: 1;
+  }
+
+  .exp-item:hover .exp-node,
+  .exp-item.is-active .exp-node {
+    transform: scale(1.1);
+    border-color: #d8e3ee;
+    background: #f6f8fb;
+  }
+</style>
+
+<script>
+  const items = Array.from(document.querySelectorAll("[data-exp-item]"));
+
+  if (items.length) {
+    let ticking = false;
+
+    const updateActiveItem = () => {
+      const triggerY = window.innerHeight * 0.45;
+      let activeItem = null;
+      let nearest = Number.POSITIVE_INFINITY;
+
+      for (const item of items) {
+        const rect = item.getBoundingClientRect();
+        const containsTrigger = rect.top <= triggerY && rect.bottom >= triggerY;
+
+        if (containsTrigger) {
+          activeItem = item;
+          break;
+        }
+
+        const center = rect.top + rect.height / 2;
+        const distance = Math.abs(center - triggerY);
+        if (distance < nearest) {
+          nearest = distance;
+          activeItem = item;
+        }
+      }
+
+      items.forEach((item) => item.classList.toggle("is-active", item === activeItem));
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveItem);
+        ticking = true;
+      }
+    };
+
+    updateActiveItem();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+  }
+</script>

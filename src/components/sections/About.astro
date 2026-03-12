@@ -8,29 +8,53 @@ interface Props {
 }
 
 const { id, about, overline } = Astro.props;
+const isEnglish = about.title.toLowerCase().includes("about");
 
-const capabilityCards = [
-  {
-    title: "Backend Corporativo",
-    subtitle: "Java · Spring Boot · Oracle",
-    icon: "backend",
-  },
-  {
-    title: "Sistemas Transaccionales",
-    subtitle: "Integridad · Consistencia · Batch",
-    icon: "database",
-  },
-  {
-    title: "Equipos Distribuidos",
-    subtitle: "Remoto · Internacional · Agile",
-    icon: "globe",
-  },
-  {
-    title: "Estandares Corporativos",
-    subtitle: "SOX · Clean Code · CI/CD",
-    icon: "shield",
-  },
-];
+const capabilityCards = isEnglish
+  ? [
+      {
+        title: "Corporate Backend",
+        subtitle: "Java · Spring Boot · Oracle",
+        icon: "backend",
+      },
+      {
+        title: "Transactional Systems",
+        subtitle: "Integrity · Consistency · Batch",
+        icon: "database",
+      },
+      {
+        title: "Distributed Teams",
+        subtitle: "Remote · International · Agile",
+        icon: "globe",
+      },
+      {
+        title: "Enterprise Standards",
+        subtitle: "SOX · Clean Code · CI/CD",
+        icon: "shield",
+      },
+    ]
+  : [
+      {
+        title: "Backend Corporativo",
+        subtitle: "Java · Spring Boot · Oracle",
+        icon: "backend",
+      },
+      {
+        title: "Sistemas Transaccionales",
+        subtitle: "Integridad · Consistencia · Batch",
+        icon: "database",
+      },
+      {
+        title: "Equipos Distribuidos",
+        subtitle: "Remoto · Internacional · Agile",
+        icon: "globe",
+      },
+      {
+        title: "Estandares Corporativos",
+        subtitle: "SOX · Clean Code · CI/CD",
+        icon: "shield",
+      },
+    ];
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -39,9 +63,11 @@ const capabilityCards = [
       <div>
         <p class="micro-label mb-5">{overline}</p>
         <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-          Backend Engineer para
+          {isEnglish ? "Backend Engineer for" : "Backend Engineer para"}
           <br />
-          <span class="text-muted">entornos empresariales críticos</span>
+          <span class="text-muted">
+            {isEnglish ? "critical enterprise environments" : "entornos empresariales criticos"}
+          </span>
         </h2>
         <div class="mt-8 max-w-[620px] space-y-6 text-base leading-relaxed text-muted md:text-lg">
           <p>{about.paragraphs[0]}</p>
