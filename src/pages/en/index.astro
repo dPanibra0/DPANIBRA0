@@ -19,13 +19,14 @@ const content = enContent;
   <Navbar nav={content.nav} lang="en" />
   <main>
     <Hero id="home" hero={content.hero} />
-    <About id="about" about={content.about} overline="Professional profile" />
+    <About id="about" about={content.about} overline={content.overlines.about} />
     <div class="divider-line"></div>
-    <TechStack id="stack" stack={content.stack} overline="Core capabilities" />
+    <TechStack id="stack" stack={content.stack} overline={content.overlines.stack} />
+<!--    
     <Projects
       id="projects"
       projects={content.projects}
-      overline="Business impact"
+      overline={content.overlines.projects}
       labels={{
         problem: "Problem",
         architecture: "Architecture",
@@ -35,10 +36,11 @@ const content = enContent;
         impact: "Impact",
       }}
     />
-    <Experience id="experience" experience={content.experience} overline="Professional track" />
-    <Process id="process" process={content.process} overline="Delivery approach" />
-    <Philosophy id="philosophy" philosophy={content.philosophy} overline="Engineering principles" />
-    <Contact id="contact" contact={content.contact} overline="Direct contact" lang="en" />
+-->
+    <Experience id="experience" experience={content.experience} overline={content.overlines.experience} />
+    <Process id="process" process={content.process} overline={content.overlines.process} />
+    <Philosophy id="philosophy" philosophy={content.philosophy} overline={content.overlines.philosophy} />
+    <Contact id="contact" contact={content.contact} overline={content.overlines.contact} />
   </main>
   <Footer footer={content.footer} nav={content.nav} />
 </MainLayout>

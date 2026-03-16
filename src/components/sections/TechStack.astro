@@ -8,60 +8,17 @@ interface Props {
 }
 
 const { id, stack, overline } = Astro.props;
-const isEnglish = stack.title.toLowerCase().includes("technical");
-
-const headlineTop = isEnglish ? "Production-ready" : "Tecnologías de nivel";
-const headlineBottom = isEnglish ? "enterprise stack" : "enterprise en producción";
-const intro = isEnglish
-  ? "Tools and frameworks used in real corporate production systems, not just personal projects."
-  : "Herramientas y frameworks utilizados en entornos productivos corporativos reales, no solo en proyectos personales.";
-
-const hintMap: Record<string, string> = {
-  "Java 17/21": "LTS · Enterprise",
-  "Spring Boot": "Microservicios · REST",
-  "JPA/Hibernate": "ORM · Persistence",
-  "Spring Batch": "High-volume processing",
-  "APIs REST": "Design · Versioning",
-  "REST APIs": "Design · Versioning",
-  Oracle: "RAC · Partitioning",
-  "SQL avanzado": "Hints · Execution plans",
-  "Advanced SQL": "Hints · Execution plans",
-  "Modelado relacional": "Normalization · ERD",
-  "Relational modeling": "Normalization · ERD",
-  "Optimizacion de consultas": "Indexes · Statistics",
-  "Query optimization": "Indexes · Statistics",
-  Docker: "Containers · Compose",
-  Git: "Branching · GitFlow",
-  Linux: "Shell · Administration",
-  "CI/CD": "Pipelines · Automation",
-  JUnit: "Unit · Integration",
-  "JUnit 5": "Unit · Integration",
-  Spock: "BDD · Groovy",
-  "Spock Framework": "BDD · Groovy",
-  "Pruebas unitarias": "Coverage · Mocking",
-  "Unit testing": "Coverage · Mocking",
-  "Pruebas de integracion": "E2E · Contracts",
-  "Integration testing": "E2E · Contracts",
-};
-
-const categoryIcon = (label: string) => {
-  const value = label.toLowerCase();
-  if (value.includes("backend")) return "code";
-  if (value.includes("datos") || value.includes("database")) return "db";
-  if (value.includes("devops") || value.includes("infra")) return "gear";
-  return "shield";
-};
 ---
 
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5">{overline}</p>
     <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-      {headlineTop}
+      {stack.headingPrimary}
       <br />
-      <span class="text-muted">{headlineBottom}</span>
+      <span class="text-muted">{stack.headingSecondary}</span>
     </h2>
-    <p class="mt-7 max-w-[780px] text-base leading-relaxed text-muted md:text-lg">{intro}</p>
+    <p class="mt-7 max-w-[780px] text-base leading-relaxed text-muted md:text-lg">{stack.intro}</p>
 
     <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/28">
       <div class="grid md:grid-cols-2 xl:grid-cols-4">
@@ -70,26 +27,26 @@ const categoryIcon = (label: string) => {
             <article class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:min-h-[360px] xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(4n)]:border-r-0">
               <div class="mb-8 inline-flex items-center gap-3">
                 <span class="h-5 w-5 text-[#b5c0cc]">
-                  {categoryIcon(category.category) === "code" && (
+                  {category.icon === "code" && (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                       <path d="m8 17-4-5 4-5"></path>
                       <path d="m16 7 4 5-4 5"></path>
                       <path d="m13.5 4-3 16"></path>
                     </svg>
                   )}
-                  {categoryIcon(category.category) === "db" && (
+                  {category.icon === "db" && (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                       <ellipse cx="12" cy="6" rx="6.5" ry="2.7"></ellipse>
                       <path d="M5.5 6v7c0 1.5 2.9 2.7 6.5 2.7s6.5-1.2 6.5-2.7V6"></path>
                     </svg>
                   )}
-                  {categoryIcon(category.category) === "gear" && (
+                  {category.icon === "gear" && (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                       <path d="M12 9.2a2.8 2.8 0 1 0 0 5.6 2.8 2.8 0 0 0 0-5.6Z"></path>
                       <path d="m19 12-.9-.4a6.9 6.9 0 0 0-.4-1l.5-.9-1.4-1.4-.9.5a6.9 6.9 0 0 0-1-.4L14.4 7h-2.8l-.4.9a6.9 6.9 0 0 0-1 .4l-.9-.5-1.4 1.4.5.9a6.9 6.9 0 0 0-.4 1L7 12v2.8l.9.4a6.9 6.9 0 0 0 .4 1l-.5.9 1.4 1.4.9-.5a6.9 6.9 0 0 0 1 .4l.4.9h2.8l.4-.9a6.9 6.9 0 0 0 1-.4l.9.5 1.4-1.4-.5-.9a6.9 6.9 0 0 0 .4-1l.9-.4V12Z"></path>
                     </svg>
                   )}
-                  {categoryIcon(category.category) === "shield" && (
+                  {category.icon === "shield" && (
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                       <path d="M12 3l6 2.4v6.1c0 4.1-2.4 7.7-6 9.5-3.6-1.8-6-5.4-6-9.5V5.4L12 3Z"></path>
                       <path d="m9.5 12 1.8 1.9 3.3-3.7"></path>
@@ -101,8 +58,8 @@ const categoryIcon = (label: string) => {
 
               <ul class="space-y-4">
                 {category.items.map((item) => <li>
-                  <p class="text-base font-semibold leading-tight tracking-[-0.02em] text-text md:text-lg">{item}</p>
-                  {hintMap[item] && <p class="mt-1 text-xs leading-snug text-[#7a8592] md:text-sm">{hintMap[item]}</p>}
+                  <p class="text-base font-semibold leading-tight tracking-[-0.02em] text-text md:text-lg">{item.name}</p>
+                  <p class="mt-1 text-xs leading-snug text-[#7a8592] md:text-sm">{item.hint}</p>
                 </li>)}
               </ul>
             </article>

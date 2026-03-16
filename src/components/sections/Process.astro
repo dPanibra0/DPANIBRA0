@@ -8,13 +8,6 @@ interface Props {
 }
 
 const { id, process, overline } = Astro.props;
-const isEnglish = process.title.toLowerCase().includes("working");
-
-const headlineTop = isEnglish ? "From analysis to" : "Del análisis al sistema";
-const headlineBottom = isEnglish ? "production systems" : "en producción";
-const intro = isEnglish
-  ? "A structured methodology that ensures quality, predictability and measurable outcomes in every engagement."
-  : "Metodología estructurada que garantiza calidad, predictibilidad y resultados medibles en cada proyecto.";
 
 const iconByIndex = ["search", "grid", "code", "pulse"];
 ---
@@ -23,11 +16,11 @@ const iconByIndex = ["search", "grid", "code", "pulse"];
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5">{overline}</p>
     <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-      {headlineTop}
+      {process.headingPrimary}
       <br />
-      <span class="text-muted">{headlineBottom}</span>
+      <span class="text-muted">{process.headingSecondary}</span>
     </h2>
-    <p class="mt-7 max-w-[820px] text-base leading-relaxed text-muted md:text-lg">{intro}</p>
+    <p class="mt-7 max-w-[820px] text-base leading-relaxed text-muted md:text-lg">{process.intro}</p>
 
     <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/20">
       <div class="grid md:grid-cols-2 xl:grid-cols-4">

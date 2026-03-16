@@ -8,91 +8,6 @@ interface Props {
 }
 
 const { id, philosophy, overline } = Astro.props;
-const isEnglish = philosophy.title.toLowerCase().includes("technical");
-
-const headlineTop = isEnglish ? "Principles behind" : "Principios que guian";
-const headlineBottom = isEnglish ? "every architecture decision" : "cada linea de arquitectura";
-const intro = isEnglish
-  ? "They are not just best practices. They are commitments that define the quality of every delivered system."
-  : "No son solo buenas prácticas. Son compromisos que definen la calidad de cada sistema entregado.";
-
-const principles = isEnglish
-  ? [
-      {
-        icon: "domain",
-        title: "Domain-Driven Architecture",
-        description:
-          "Systems that mirror business reality. Every technical decision stays aligned with domain models to improve evolution and maintainability.",
-      },
-      {
-        icon: "code",
-        title: "Clean and Maintainable Code",
-        description:
-          "Readable, structured and documented code. It reduces technical debt and improves collaboration across distributed engineering teams.",
-      },
-      {
-        icon: "shield",
-        title: "Stability and Consistency",
-        description:
-          "Data integrity as a non-negotiable priority. Robust transactions and active prevention of inconsistent states in critical systems.",
-      },
-      {
-        icon: "scale",
-        title: "Scalable Systems",
-        description:
-          "Architectures designed to grow with business demand. Capacity can increase without structural redesign.",
-      },
-      {
-        icon: "resilience",
-        title: "Resilience by Design",
-        description:
-          "Failure-aware engineering with recovery, retries and graceful degradation to sustain service continuity under stress.",
-      },
-      {
-        icon: "global",
-        title: "International Standards",
-        description:
-          "Engineering aligned with global enterprise practices, including governance frameworks, audits and compliance controls.",
-      },
-    ]
-  : [
-      {
-        icon: "domain",
-        title: "Arquitectura Orientada al Dominio",
-        description:
-          "Sistemas que reflejan el negocio. Cada decisión técnica esta alineada con el modelo de dominio, facilitando evolución y mantenibilidad.",
-      },
-      {
-        icon: "code",
-        title: "Código Limpio y Mantenible",
-        description:
-          "Código legible, bien estructurado y documentado. Reduce deuda técnica y facilita la colaboracion en equipos distribuidos.",
-      },
-      {
-        icon: "shield",
-        title: "Estabilidad y Consistencia",
-        description:
-          "Integridad de datos como prioridad absoluta. Transacciones robustas y prevención de estados inconsistentes en sistemas críticos.",
-      },
-      {
-        icon: "scale",
-        title: "Sistemas Escalables",
-        description:
-          "Arquitecturas preparadas para crecer con el negocio. Diseño que soporta incrementos de carga sin rediseño estructural.",
-      },
-      {
-        icon: "resilience",
-        title: "Resiliencia y Prevención",
-        description:
-          "Diseño anticipando fallos. Mecanismos de recuperación, reintentos inteligentes y degradación elegante ante errores.",
-      },
-      {
-        icon: "global",
-        title: "Estandares Internacionales",
-        description:
-          "Adherencia a mejores prácticas globales. Experiencia con estandares corporativos como SOX, auditorias y compliance.",
-      },
-    ];
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -100,17 +15,17 @@ const principles = isEnglish
     <div class="text-center">
       <p class="micro-label mb-5">{overline}</p>
       <h2 class="mx-auto max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-        {headlineTop}
+        {philosophy.headingPrimary}
         <br />
-        <span class="text-muted">{headlineBottom}</span>
+        <span class="text-muted">{philosophy.headingSecondary}</span>
       </h2>
-      <p class="mx-auto mt-7 max-w-[900px] text-base leading-relaxed text-muted md:text-lg">{intro}</p>
+      <p class="mx-auto mt-7 max-w-[900px] text-base leading-relaxed text-muted md:text-lg">{philosophy.intro}</p>
     </div>
 
     <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/20">
       <div class="grid md:grid-cols-2 xl:grid-cols-3">
         {
-          principles.map((item, index) => (
+          philosophy.principles.map((item, index) => (
             <article class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 md:[&:nth-child(n+5)]:border-b-0 xl:min-h-[280px] xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0 xl:[&:nth-child(n+4)]:border-b-0 hover:bg-stone-300/10">
               <div class="mb-8 mt-2 h-6 w-6 text-[#9ea8b4]">
                 {item.icon === "domain" && (

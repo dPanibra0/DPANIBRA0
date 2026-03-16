@@ -31,7 +31,11 @@ export interface AboutContent {
 
 export interface StackCategory {
   category: string;
-  items: string[];
+  icon: "code" | "db" | "gear" | "shield";
+  items: Array<{
+    name: string;
+    hint: string;
+  }>;
 }
 
 export interface ProjectContent {
@@ -48,6 +52,7 @@ export interface ExperienceItem {
   role: string;
   company: string;
   period: string;
+  workMode: string;
   context: string;
   highlights: string[];
   technologies: string[];
@@ -59,10 +64,17 @@ export interface ProcessStep {
   description: string;
 }
 
+export interface PhilosophyPrinciple {
+  icon: "domain" | "code" | "shield" | "scale" | "resilience" | "global";
+  title: string;
+  description: string;
+}
+
 export interface ContactLink {
   label: string;
   value: string;
   href: string;
+  sublabel: string;
 }
 
 export interface PortfolioContent {
@@ -72,10 +84,22 @@ export interface PortfolioContent {
     description: string;
   };
   nav: NavItem[];
+  overlines: {
+    about: string;
+    stack: string;
+    projects: string;
+    experience: string;
+    process: string;
+    philosophy: string;
+    contact: string;
+  };
   hero: HeroContent;
   about: AboutContent;
   stack: {
     title: string;
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
     categories: StackCategory[];
   };
   projects: {
@@ -85,19 +109,31 @@ export interface PortfolioContent {
   };
   experience: {
     title: string;
+    headingPrimary: string;
+    headingSecondary: string;
     items: ExperienceItem[];
   };
   process: {
     title: string;
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
     steps: ProcessStep[];
   };
   philosophy: {
     title: string;
-    points: string[];
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    principles: PhilosophyPrinciple[];
   };
   contact: {
     title: string;
+    headlineTop: string;
+    headlineBottom: string;
     subtitle: string;
+    supportTitle: string;
+    supportText: string;
     links: ContactLink[];
     availability: string;
   };

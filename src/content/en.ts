@@ -5,159 +5,231 @@ export const enContent: PortfolioContent = {
   meta: {
     title: "David Panibra | Software Engineer",
     description:
-      "Ingeniero de software especializado en backend y arquitectura de microservicios. Diseño sistemas empresariales end-to-end a partir del análisis del dominio del negocio, desde la interacción del usuario hasta la persistencia de datos.",
+      "Software engineer specialized in backend systems and microservices architecture. I design end-to-end enterprise platforms based on business domain analysis, from user interaction to data persistence.",
   },
   nav: [
-    { label: "Sobre mí", href: "#sobre-mi" },
+    { label: "About", href: "#about" },
     { label: "Stack", href: "#stack" },
-    //{ label: "Proyectos", href: "#proyectos" },
-    { label: "Experiencia", href: "#experiencia" },
-    { label: "Proceso", href: "#proceso" },
-    { label: "Filosofia", href: "#filosofia" },
-    { label: "Contacto", href: "#contacto" },
+    //{ label: "Projects", href: "#projects" },
+    { label: "Experience", href: "#experience" },
+    { label: "Process", href: "#process" },
+    { label: "Philosophy", href: "#philosophy" },
+    { label: "Contact", href: "#contact" },
   ],
+  overlines: {
+    about: "ABOUT",
+    stack: "TECHNICAL STACK",
+    projects: "FEATURED PROJECTS",
+    experience: "PROFESSIONAL EXPERIENCE",
+    process: "WORK PROCESS",
+    philosophy: "ENGINEERING PHILOSOPHY",
+    contact: "CONTACT",
+  },
   hero: {
-    eyebrow: "Ingeniería de software orientada al dominio",
-    availability: "Disponible para proyectos - Remote",
-    title: "Diseño de Sistemas Empresariales Escalables",
+    eyebrow: "Domain-driven software engineering",
+    availability: "Available for projects - Remote",
+    title: "Scalable Enterprise System Design",
     subtitle:
-      "Ingeniero de software enfocado en análisis de dominio y arquitectura backend, desarrollando sistemas completos desde la interacción del usuario hasta la lógica de negocio y persistencia de datos.",
+      "Software engineer focused on domain analysis and backend architecture, building complete systems from user interaction to business logic and data persistence.",
     message:
-      "Especialización en arquitecturas backend resilientes con Java y microservicios, diseñadas para entornos corporativos donde la confiabilidad, la consistencia de datos y la evolución del sistema son críticas.",
-    ctaPrimary: "Contactar",
-    ctaSecondary: "Descargar CV",
+      "Specialized in resilient backend architectures with Java and microservices, designed for corporate environments where reliability, data consistency, and controlled system evolution are critical.",
+    ctaPrimary: "Contact",
+    ctaSecondary: "Download CV",
     stats: [
-      { value: "5+", label: "Años desarrollando software empresarial" },
-      { value: "4", label: "Empresas tecnológicas" },
-      { value: "3", label: "Sectores industriales (logística, energía, pensiones)" },
-      { value: "2", label: "Sistemas empresariales internacionales" },
+      { value: "5+", label: "Years building enterprise software" },
+      { value: "4", label: "Technology companies" },
+      { value: "3", label: "Industry sectors (logistics, energy, pensions)" },
+      { value: "2", label: "International enterprise systems" },
     ],
   },
   about: {
-    title: "Sobre mí",
-    headingPrimary: "Ingeniería de software para",
-    headingSecondary: "sistemas empresariales complejos",
+    title: "About",
+    headingPrimary: "Software engineering for",
+    headingSecondary: "complex enterprise systems",
     paragraphs: [
-      "Ingeniero de software enfocado en comprender el dominio del negocio y traducir sus procesos, reglas y operaciones en sistemas de software claros y mantenibles.",
-      "Trabajo diseñando soluciones end-to-end, desde la interacción del usuario con el producto hasta la arquitectura backend, la lógica de negocio y la persistencia de datos.",
-      "Mi especialización está en backend empresarial con Java y microservicios, desarrollando servicios resilientes, integraciones entre sistemas y modelos de datos que reflejen correctamente la lógica del negocio."
+      "Software engineer focused on understanding business domains and translating their processes, rules, and operations into clear and maintainable software systems.",
+      "I design end-to-end solutions, from product user interaction to backend architecture, business logic, and data persistence.",
+      "My specialization is enterprise backend development with Java and microservices, building resilient services, system integrations, and data models that accurately reflect business logic.",
     ],
-
     cards: [
       {
-        title: "Análisis de Dominio",
-        subtitle: "Procesos · Reglas · Modelado",
-        icon: "globe"
+        title: "Domain Analysis",
+        subtitle: "Processes · Rules · Modeling",
+        icon: "globe",
       },
       {
-        title: "Arquitectura de Sistemas",
-        subtitle: "Microservices · APIs · Integración",
-        icon: "database"
+        title: "Systems Architecture",
+        subtitle: "Microservices · APIs · Integration",
+        icon: "database",
       },
       {
-        title: "Backend Resiliente",
+        title: "Resilient Backend",
         subtitle: "Java · Spring Boot · Oracle",
-        icon: "backend"
+        icon: "shield",
       },
       {
-        title: "Sistemas Empresariales",
-        subtitle: "Consistencia · Escalabilidad · Mantenibilidad",
-        icon: "shield"
-      }
+        title: "Enterprise Systems",
+        subtitle: "Consistency · Scalability · Maintainability",
+        icon: "backend",
+      },
     ],
   },
   stack: {
-    title: "Stack Técnico",
+    title: "Technical Capabilities",
+    headingPrimary: "Technologies applied to",
+    headingSecondary: "real enterprise systems",
+    intro:
+      "Tools, frameworks, and practices I use to analyze, design, and build end-to-end enterprise systems, from business logic to persistence and production operations.",
     categories: [
       {
-        category: "Backend",
-        items: ["Java 8/21", "Spring Boot", "JPA/Hibernate", "APIs REST", "Spring Batch"],
+        category: "Backend and architecture",
+        icon: "code",
+        items: [
+          { name: "Java 8-21", hint: "Enterprise · LTS" },
+          { name: "Spring Boot", hint: "Microservices · REST APIs" },
+          { name: "JPA / Hibernate", hint: "Persistence · ORM" },
+          { name: "REST APIs", hint: "Design · Integration" },
+          { name: "Spring Batch", hint: "High-volume processing" },
+        ],
       },
       {
-        category: "Bases de datos",
-        items: ["Oracle", "SQL avanzado", "Modelado relacional", "Optimización de consultas"],
+        category: "Data and persistence",
+        icon: "db",
+        items: [
+          { name: "Oracle", hint: "Enterprise database" },
+          { name: "Advanced SQL", hint: "Queries · Performance" },
+          { name: "Relational modeling", hint: "Domain-driven structures" },
+          {
+            name: "Query optimization",
+            hint: "Indexes · Execution plans",
+          },
+        ],
       },
       {
-        category: "DevOps e Infraestructura",
-        items: ["Docker", "Git", "Jenkins", "CI/CD"],
+        category: "Delivery and infrastructure",
+        icon: "gear",
+        items: [
+          { name: "Docker", hint: "Containers · Deployment" },
+          { name: "Git", hint: "Version control" },
+          { name: "Jenkins", hint: "Pipelines · Automation" },
+          { name: "CI/CD", hint: "Build · Delivery" },
+          { name: "Azure", hint: "Cloud environments" },
+        ],
       },
       {
-        category: "Testing y calidad",
-        items: ["JUnit", "Spock", "Pruebas unitarias", "Pruebas de integracion"],
+        category: "Testing and quality",
+        icon: "shield",
+        items: [
+          { name: "JUnit", hint: "Unit testing" },
+          { name: "Spock", hint: "BDD · Groovy" },
+          { name: "Unit testing", hint: "Validation · Coverage" },
+          { name: "Integration testing", hint: "Flows · Services" },
+          { name: "SonarQube", hint: "Code quality" },
+        ],
       },
     ],
   },
   projects: {
-    title: "Proyectos Destacados",
+    title: "Featured Projects",
     intro:
-      "Cada proyecto refleja decisiones técnicas orientadas a continuidad operativa, control de riesgo y resultados medibles para el negocio.",
+      "Each project reflects technical decisions focused on operational continuity, risk control, and measurable business outcomes.",
     items: [
       {
-        title: "Plataforma de tracking logistico corporativo",
+        title: "Corporate logistics tracking platform",
         problem:
-          "El negocio necesitaba trazabilidad confiable de eventos logísticos entre multiples actores y sistemas externos con estados asíncronos.",
+          "The business needed reliable traceability of logistics events across multiple actors and external systems with asynchronous states.",
         architecture:
-          "Arquitectura modular basada en servicios Spring Boot, persistencia Oracle y orquestación de flujos transaccionales con confirmaciones por etapa.",
-        stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, APIs REST, Docker",
+          "Modular architecture based on Spring Boot services, Oracle persistence, and transactional flow orchestration with stage-based confirmations.",
+        stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, REST APIs, Docker",
         challenges:
-          "Consistencia entre eventos distribuidos, idempotencia de operaciones y tolerancia a fallos de integraciones externas.",
+          "Consistency across distributed events, operation idempotency, and tolerance to failures in external integrations.",
         solution:
-          "Se implementaron políticas de reintentos con backoff, registros de correlación y mecanismos de confirmación para evitar duplicidad y perdida de eventos.",
+          "Retry policies with backoff, correlation records, and confirmation mechanisms were implemented to prevent duplicate and lost events.",
         impact:
-          "Aumento de estabilidad operativa y reducción de incidencias en seguimiento logístico en ciclos de alta demanda.",
+          "Improved operational stability and reduced incidents in logistics tracking during high-demand cycles.",
       },
       {
-        title: "Sistema batch financiero de alto volumen",
+        title: "High-volume financial batch system",
         problem:
-          "La operacion financiera requeria procesar grandes volumenes nocturnos dentro de ventanas de tiempo estrictas.",
+          "The financial operation required processing large nightly volumes within strict execution windows.",
         architecture:
-          "Pipeline batch con Spring Batch, particionamiento por lotes, control transaccional robusto y trazabilidad de ejecución por job/step.",
-        stack: "Java 17, Spring Batch, Oracle, SQL avanzado, Linux, CI/CD",
+          "Batch pipeline with Spring Batch, partitioned lots, robust transaction control, and job/step execution traceability.",
+        stack: "Java 17, Spring Batch, Oracle, Advanced SQL, Linux, CI/CD",
         challenges:
-          "Control de integridad en re-procesos, manejo de errores por lote y cuellos de botella en consultas de alto costo.",
+          "Integrity control for reprocessing, batch-level error handling, and bottlenecks in high-cost queries.",
         solution:
-          "Se optimizaron queries críticas, se mejoraron estrategias de commit/rollback y se incorporo validación de consistencia previa/post proceso.",
+          "Critical queries were optimized, commit/rollback strategies were improved, and consistency validation was added before and after processing.",
         impact:
-          "Mejora en tiempos de ejecución y disminución de errores operativos en cierres financieros recurrentes.",
+          "Better execution times and fewer operational errors in recurring financial closing processes.",
       },
     ],
   },
   experience: {
-    title: "Experiencia Profesional",
+    title: "Professional Experience",
+    headingPrimary: "Track record in",
+    headingSecondary: "high-impact corporate environments",
     items: [
       {
-        role: "Senior Backend Engineer",
+        role: "Backend Engineer",
         company: "LATAMTECH",
         period: "2025 - 2026",
-        context: "Sistema logístico para Olva Courier",
+        workMode: "Full-time · Remote",
+        context: "International logistics integration - Olva Courier",
         highlights: [
-          "Desarrollo de APIs para actualización y consulta de estados de envíos en sistemas de tracking.",
-          "Implementación de integraciones entre plataformas externas y sistemas logísticos internos.",
-          "Trabajo con sistemas de mensajería, colas y persistencia para asegurar confiabilidad en actualizaciones de estado.",
+          "Analysis of the logistics domain and definition of system integration for registration and synchronization of people, packages, waybills, and transactions.",
+          "Designed and developed two Java 21 microservices from scratch using hexagonal architecture to integrate the external logistics platform with Olva's core system.",
+          "Technical coordination with teams from both platforms to define data flows, integration contracts, and validate behavior before production.",
+          "Designed and evolved the data model, including creation of new tables and updates to Oracle stored procedures to support the new integration.",
         ],
-        technologies: ["Java", "Spring Boot", "Oracle", "REST APIs"],
+        technologies: [
+          "Java 21",
+          "Spring Boot",
+          "Microservices",
+          "Hexagonal Architecture",
+          "REST APIs",
+          "Oracle",
+          "SQL",
+          "Spock",
+          "Groovy",
+          "Azure",
+        ],
       },
       {
-        role: "Backend Developer",
+        role: "Center Developer",
         company: "NTT DATA",
-        period: "2021 - 2025",
-        context: "Participación en múltiples proyectos empresariales para clientes internacionales, desarrollando soluciones backend y sistemas corporativos.",
+        period: "2020 - 2025",
+        workMode: "Full-time · Hybrid",
+        context: "International projects - Cepsa (Spain) · Habitat AFP (Chile)",
         highlights: [
-          "Desarrollo de servicios backend para sistemas corporativos.",
-          "Implementacion de procesos batch para conciliaciones y cargas masivas con mayor confiabilidad.",
-          "Implementación de procesos de negocio relacionados con gestión de datos y servicios internos.",
+          "Started as a full stack developer, building web components and backend services for enterprise platforms.",
+          "Evolved to frontend technical leadership in the Cepsa project, coordinating development of React widgets integrated into the company's OpenText platform.",
+          "Designed and implemented BFF APIs in Java and Spring Boot to expose information from SAP enterprise systems to the frontend.",
+          "Developed backend microservices for Habitat AFP's pension management system, including batch processing modules for high-volume financial files sent by government entities.",
         ],
-        technologies: ["Java", "Spring Batch", "Oracle", "React", "Jenkins"],
+        technologies: [
+          "Java",
+          "Spring Boot",
+          "Spring Batch",
+          "Microservices",
+          "React",
+          "REST APIs",
+          "Kubernetes",
+          "Oracle",
+          "SQL",
+          "SAP Integration",
+          "Git",
+        ],
       },
       {
         role: "Frontend Developer",
         company: "MULTIPLICA",
         period: "2020",
-        context: "Participación en el desarrollo de la nueva landing page corporativa.",
+        workMode: "Full-time · Remote",
+        context: "Participation in the development of the new corporate landing page.",
         highlights: [
-          "Implementación de componentes visuales y animaciones web para la nueva página institucional.",
-          "Desarrollo de secciones interactivas para mejorar la experiencia de usuario.",
-          "Colaboración con el equipo de diseño para implementar interfaces modernas y responsivas.",
+          "Implemented visual components and web animations for the new corporate website.",
+          "Developed interactive sections to improve user experience.",
+          "Collaborated with the design team to implement modern and responsive interfaces.",
         ],
         technologies: ["HTML", "CSS", "JavaScript", "Vue", "Animation Libraries"],
       },
@@ -165,60 +237,126 @@ export const enContent: PortfolioContent = {
         role: "Full Stack Developer",
         company: "ALMA SOFTWARE",
         period: "2019 - 2020",
-        context: "Desarrollo de soluciones de comercio electrónico durante el contexto de la pandemia, orientadas a la digitalización de tiendas.",
+        workMode: "Full-time · Remote",
+        context:
+          "Developed e-commerce solutions during the pandemic, focused on helping stores digitize their operations.",
         highlights: [
-          "Desarrollo de tiendas online para negocios que necesitaban migrar al comercio digital.",
-          "Implementación de funcionalidades de catálogo, pedidos y gestión básica de productos.",
-          "Adaptación rápida de soluciones para permitir la continuidad de negocios durante el confinamiento.",
+          "Built online stores for businesses that needed to migrate to digital commerce.",
+          "Implemented catalog, order, and basic product management functionalities.",
+          "Quickly adapted solutions to help businesses maintain continuity during lockdown periods.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
     ],
   },
   process: {
-    title: "Proceso de Trabajo",
+    title: "Work Process",
+    headingPrimary: "From analysis to",
+    headingSecondary: "production systems",
+    intro:
+      "A structured methodology that ensures quality, predictability, and measurable outcomes in every engagement.",
     steps: [
       {
-        step: "Paso 1",
-        title: "Análisis técnico y dominio",
-        description: "Comprensión del negocio, riesgos operativos y objetivos funcionales antes de definir soluciones.",
+        step: "Step 1",
+        title: "Technical and domain analysis",
+        description:
+          "Understanding business context, operational risks, and functional goals before defining solutions.",
       },
       {
-        step: "Paso 2",
-        title: "Diseño arquitectónico corporativo",
-        description: "Diseño alineado a estandares empresariales, escalabilidad y gobernanza técnica.",
-      },
-      { 
-        step: "Paso 3",
-        title: "Implementación con calidad",
-        description: "Desarrollo con pruebas, documentación y criterios de mantenibilidad desde el inicio.",
+        step: "Step 2",
+        title: "Enterprise architecture design",
+        description:
+          "Design aligned with enterprise standards, scalability, and technical governance.",
       },
       {
-        step: "Paso 4",
-        title: "Optimización y mejora continua",
-        description: "Monitoreo, ajuste de rendimiento y evolución controlada para sostener estabilidad.",
+        step: "Step 3",
+        title: "Quality-first implementation",
+        description:
+          "Development with testing, documentation, and maintainability criteria from the beginning.",
+      },
+      {
+        step: "Step 4",
+        title: "Optimization and continuous improvement",
+        description:
+          "Monitoring, performance tuning, and controlled evolution to sustain long-term stability.",
       },
     ],
   },
   philosophy: {
-    title: "Filosofia Técnica",
-    points: [
-      "Arquitectura orientada al dominio y al impacto de negocio.",
-      "Código limpio, legible y sostenible en el tiempo.",
-      "Prioridad en estabilidad y consistencia de datos.",
-      "Sistemas diseñados para escalar en entornos empresariales.",
-      "Resiliencia operativa y prevención activa de fallos.",
+    title: "Technical Philosophy",
+    headingPrimary: "Principles behind",
+    headingSecondary: "every architecture decision",
+    intro:
+      "They are not just best practices. They are commitments that define the quality of every delivered system.",
+    principles: [
+      {
+        icon: "domain",
+        title: "Domain-Driven Architecture",
+        description:
+          "Systems that mirror business reality. Every technical decision stays aligned with domain models to improve evolution and maintainability.",
+      },
+      {
+        icon: "code",
+        title: "Clean and Maintainable Code",
+        description:
+          "Readable, structured, and documented code. It reduces technical debt and improves collaboration across distributed engineering teams.",
+      },
+      {
+        icon: "shield",
+        title: "Stability and Consistency",
+        description:
+          "Data integrity as a non-negotiable priority. Robust transactions and active prevention of inconsistent states in critical systems.",
+      },
+      {
+        icon: "scale",
+        title: "Scalable Systems",
+        description:
+          "Architectures designed to grow with business demand. Capacity can increase without structural redesign.",
+      },
+      {
+        icon: "resilience",
+        title: "Resilience by Design",
+        description:
+          "Failure-aware engineering with recovery, retries, and graceful degradation to sustain service continuity under stress.",
+      },
+      {
+        icon: "global",
+        title: "International Standards",
+        description:
+          "Engineering aligned with global enterprise practices, including governance frameworks, audits, and compliance controls.",
+      },
     ],
   },
   contact: {
-    title: "Contacto",
-    subtitle: "Colaboraciones corporativas, oportunidades internacionales y trabajo remoto.",
+    title: "Contact",
+    headlineTop: "Let's talk about",
+    headlineBottom: "your next project",
+    subtitle:
+      "Corporate collaborations, international opportunities, and remote work.",
+    supportTitle: "International Remote Work",
+    supportText:
+      "Experience with distributed teams across multiple time zones, with strong adaptability to global corporate cultures and methodologies.",
     links: [
-      { label: "Email", value: "dpanibra0@gmail.com", href: "mailto:dpanibra0@gmail.com" },
-      { label: "LinkedIn", value: "linkedin.com/in/david-panibra", href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/" },
-      { label: "GitHub", value: "github.com/dPanibra0", href: "https://github.com/dPanibra0" },
+      {
+        label: "Email",
+        value: "dpanibra0@gmail.com",
+        href: "mailto:dpanibra0@gmail.com",
+        sublabel: "Reply within 24h",
+      },
+      {
+        label: "LinkedIn",
+        value: "linkedin.com/in/david-panibra",
+        href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
+        sublabel: "Full professional profile",
+      },
+      {
+        label: "GitHub",
+        value: "github.com/dPanibra0",
+        href: "https://github.com/dPanibra0",
+        sublabel: "Projects and contributions",
+      },
     ],
-    availability: "Disponible para proyectos - Remote",
+    availability: "Available for projects - Remote",
   },
   footer: {
     copyright: "2026 Backend Portfolio. All rights reserved.",

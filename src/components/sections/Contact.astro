@@ -5,25 +5,9 @@ interface Props {
   id: string;
   contact: PortfolioContent["contact"];
   overline: string;
-  lang: "es" | "en";
 }
 
-const { id, contact, overline, lang } = Astro.props;
-const isEnglish = lang === "en";
-const headlineTop = isEnglish ? "Let\'s discuss" : "Hablemos sobre";
-const headlineBottom = isEnglish ? "your next project" : "tu proximo proyecto";
-
-const supportTitle = isEnglish ? "International Remote Work" : "Trabajo Remoto Internacional";
-const supportText = isEnglish
-  ? "Experience with distributed teams across multiple time zones and strong adaptability to global corporate cultures."
-  : "Experiencia con equipos distribuidos en multiples zonas horarias. Adaptabilidad a culturas corporativas y metodologias globales.";
-
-const sublabelByType = (label: string) => {
-  const lower = label.toLowerCase();
-  if (lower.includes("email")) return isEnglish ? "Response within 24h" : "Respuesta en menos de 24h";
-  if (lower.includes("linkedin")) return isEnglish ? "Complete professional profile" : "Perfil profesional completo";
-  return isEnglish ? "Projects and contributions" : "Proyectos y contribuciones";
-};
+const { id, contact, overline } = Astro.props;
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -32,9 +16,9 @@ const sublabelByType = (label: string) => {
       <div>
         <p class="micro-label mb-5">{overline}</p>
         <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-          {headlineTop}
+          {contact.headlineTop}
           <br />
-          <span class="text-muted">{headlineBottom}</span>
+          <span class="text-muted">{contact.headlineBottom}</span>
         </h2>
         <p class="mt-7 max-w-[620px] text-base leading-relaxed text-muted md:text-lg">{contact.subtitle}</p>
 
@@ -54,8 +38,8 @@ const sublabelByType = (label: string) => {
               </svg>
             </span>
             <div>
-              <h3 class="text-lg font-semibold tracking-[-0.02em] text-text md:text-xl">{supportTitle}</h3>
-              <p class="mt-2.5 text-sm leading-relaxed text-muted md:text-base">{supportText}</p>
+              <h3 class="text-lg font-semibold tracking-[-0.02em] text-text md:text-xl">{contact.supportTitle}</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-muted md:text-base">{contact.supportText}</p>
             </div>
           </div>
         </article>
@@ -95,7 +79,7 @@ const sublabelByType = (label: string) => {
                   </span>
                   <div>
                     <p class="text-base font-semibold tracking-[-0.02em] text-text md:text-lg">{link.value}</p>
-                    <p class="mt-2 text-sm text-muted md:text-base">{sublabelByType(link.label)}</p>
+                    <p class="mt-2 text-sm text-muted md:text-base">{link.sublabel}</p>
                   </div>
                 </div>
                 <span class="mt-1 text-muted transition group-hover:translate-x-0.5 group-hover:text-text">↗</span>

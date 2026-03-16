@@ -8,19 +8,15 @@ interface Props {
 }
 
 const { id, experience, overline } = Astro.props;
-const isEnglish = experience.title.toLowerCase().includes("professional");
-
-const headlineTop = isEnglish ? "Career in" : "Historial en entornos";
-const headlineBottom = isEnglish ? "high-impact corporate environments" : "corporativos de alto impacto";
 ---
 
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5">{overline}</p>
     <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-      {headlineTop}
+      {experience.headingPrimary}
       <br />
-      <span class="text-muted">{headlineBottom}</span>
+      <span class="text-muted">{experience.headingSecondary}</span>
     </h2>
 
     <div class="relative mt-14 md:mt-16">
@@ -43,9 +39,7 @@ const headlineBottom = isEnglish ? "high-impact corporate environments" : "corpo
               <div class="space-y-2">
                 <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">{item.company}</h3>
                 <p class="text-sm text-[#bcc6d1] md:text-[15px]">{item.period}</p>
-                <p class="text-sm text-muted/80 md:text-base">
-                  {isEnglish ? (index === 0 ? "Full-time · Remote" : "Full-time · On-site") : index === 0 ? "Full-time · Remoto" : "Full-time · Presencial"}
-                </p>
+                <p class="text-sm text-muted/80 md:text-base">{item.workMode}</p>
               </div>
 
               <div class="max-w-[920px]">
