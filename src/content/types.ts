@@ -19,7 +19,14 @@ export interface HeroContent {
 
 export interface AboutContent {
   title: string;
+  headingPrimary: string;
+  headingSecondary: string;
   paragraphs: string[];
+  cards: Array<{
+    title: string;
+    subtitle: string;
+    icon: "backend" | "database" | "globe" | "shield";
+  }>;
 }
 
 export interface StackCategory {

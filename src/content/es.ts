@@ -3,9 +3,9 @@ import type { PortfolioContent } from "./types";
 export const esContent: PortfolioContent = {
   locale: "es",
   meta: {
-    title: "David Panibra | Portafolio",
+    title: "David Panibra | Software Engineer",
     description:
-      "Portafolio profesional orientado a empresas internacionales: backend enterprise con Java, Spring Boot, Oracle y arquitectura resiliente para sistemas críticos.",
+      "Ingeniero de software especializado en backend y arquitectura de microservicios. Diseño sistemas empresariales end-to-end a partir del análisis del dominio del negocio, desde la interacción del usuario hasta la persistencia de datos.",
   },
   nav: [
     { label: "Sobre mí", href: "#sobre-mi" },
@@ -17,28 +17,53 @@ export const esContent: PortfolioContent = {
     { label: "Contacto", href: "#contacto" },
   ],
   hero: {
-    eyebrow: "Ingenieria backend para operaciones críticas",
+    eyebrow: "Ingeniería de software orientada al dominio",
     availability: "Disponible para proyectos - Remote",
-    title: "Arquitectura Backend Empresarial para Sistemas Escalables",
+    title: "Diseño de Sistemas Empresariales Escalables",
     subtitle:
-      "Diseño y desarrollo plataformas backend para entornos corporativos internacionales con estabilidad, rendimiento y resiliencia operativa.",
+      "Ingeniero de software enfocado en análisis de dominio y arquitectura backend, desarrollando sistemas completos desde la interacción del usuario hasta la lógica de negocio y persistencia de datos.",
     message:
-      "Enfoque técnico orientado a confiabilidad, arquitectura limpia y sistemas listos para crecer sin comprometer consistencia de datos.",
+      "Especialización en arquitecturas backend resilientes con Java y microservicios, diseñadas para entornos corporativos donde la confiabilidad, la consistencia de datos y la evolución del sistema son críticas.",
     ctaPrimary: "Contactar",
     ctaSecondary: "Descargar CV",
     stats: [
-      { value: "5+", label: "Años de experiencia" },
-      { value: "2M+", label: "Transacciones/día procesadas" },
-      { value: "99%", label: "Uptime en producción" },
-      { value: "99%", label: "Estabilidad operativa" },
+      { value: "5+", label: "Años desarrollando software empresarial" },
+      { value: "4", label: "Empresas tecnológicas" },
+      { value: "3", label: "Sectores industriales (logística, energía, pensiones)" },
+      { value: "2", label: "Sistemas empresariales internacionales" },
     ],
   },
   about: {
     title: "Sobre mí",
+    headingPrimary: "Ingeniería de software para",
+    headingSecondary: "sistemas empresariales complejos",
     paragraphs: [
-      "Ingeniero backend enfocado en ecosistemas corporativos donde la disponibilidad, la trazabilidad y la precisión transaccional son requerimientos de negocio.",
-      "Especializado en Java, Spring Boot y Oracle en ambientes productivos de alta exigencia, con experiencia en integraciones críticas y procesamiento batch.",
-      "Trabajo con arquitectura escalable, consistencia de datos y mantenibilidad a largo plazo, colaborando con equipos distribuidos bajo estandares internacionales.",
+      "Ingeniero de software enfocado en comprender el dominio del negocio y traducir sus procesos, reglas y operaciones en sistemas de software claros y mantenibles.",
+      "Trabajo diseñando soluciones end-to-end, desde la interacción del usuario con el producto hasta la arquitectura backend, la lógica de negocio y la persistencia de datos.",
+      "Mi especialización está en backend empresarial con Java y microservicios, desarrollando servicios resilientes, integraciones entre sistemas y modelos de datos que reflejen correctamente la lógica del negocio."
+    ],
+
+    cards: [
+      {
+        title: "Análisis de Dominio",
+        subtitle: "Procesos · Reglas · Modelado",
+        icon: "globe"
+      },
+      {
+        title: "Arquitectura de Sistemas",
+        subtitle: "Microservices · APIs · Integración",
+        icon: "database"
+      },
+      {
+        title: "Backend Resiliente",
+        subtitle: "Java · Spring Boot · Oracle",
+        icon: "backend"
+      },
+      {
+        title: "Sistemas Empresariales",
+        subtitle: "Consistencia · Escalabilidad · Mantenibilidad",
+        icon: "shield"
+      }
     ],
   },
   stack: {
