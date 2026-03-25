@@ -341,14 +341,14 @@ export const esContent: PortfolioContent = {
     title: "Contacto",
 
     headlineTop: "Conversemos sobre",
-    headlineBottom: "tu sistema o proyecto",
+    headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Interesado en colaborar en proyectos donde el análisis del negocio y el diseño de sistemas sean clave para construir soluciones sólidas.",
+      "Colaborando en proyectos donde el dominio del negocio, la arquitectura y la confiabilidad del sistema son factores clave.",
 
     supportTitle: "Trabajo remoto internacional",
     supportText:
-      "Experiencia trabajando con equipos distribuidos, coordinando soluciones técnicas y adaptándome a distintos contextos empresariales y zonas horarias.",
+      "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
 
     links: [
       {
