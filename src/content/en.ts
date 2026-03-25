@@ -5,7 +5,7 @@ export const enContent: PortfolioContent = {
   meta: {
     title: "David Panibra | Software Engineer",
     description:
-      "Software engineer specialized in backend systems and microservices architecture. I design end-to-end enterprise platforms based on business domain analysis, from user interaction to data persistence.",
+      "Software engineer specialized in backend and microservices architecture. I design end-to-end enterprise systems based on business domain analysis, from user interaction to data persistence.",
   },
   nav: [
     { label: "About", href: "#about" },
@@ -30,9 +30,9 @@ export const enContent: PortfolioContent = {
     availability: "Available for projects - Remote",
     title: "Scalable Enterprise System Design",
     subtitle:
-      "Software engineer focused on domain analysis and backend architecture, building complete systems from user interaction to business logic and data persistence.",
+      "Software engineer focused on analyzing business needs and designing complete systems, from user experience to the logic that processes and stores information consistently.",
     message:
-      "Specialized in resilient backend architectures with Java and microservices, designed for corporate environments where reliability, data consistency, and controlled system evolution are critical.",
+      "Specialized in Java backend and microservices, building reliable systems that process critical information, integrate with other platforms, and evolve without compromising data consistency.",
     ctaPrimary: "Contact",
     ctaSecondary: "Download CV",
     stats: [
@@ -47,9 +47,9 @@ export const enContent: PortfolioContent = {
     headingPrimary: "Software engineering for",
     headingSecondary: "complex enterprise systems",
     paragraphs: [
-      "Software engineer focused on understanding business domains and translating their processes, rules, and operations into clear and maintainable software systems.",
-      "I design end-to-end solutions, from product user interaction to backend architecture, business logic, and data persistence.",
-      "My specialization is enterprise backend development with Java and microservices, building resilient services, system integrations, and data models that accurately reflect business logic.",
+      "Software engineer focused on understanding how the business works, including its processes and rules, and translating that into systems that solve real problems in a clear and maintainable way.",
+      "I design end-to-end solutions, considering the full system flow: from user interaction with the application to how data is processed and stored.",
+      "My specialization is Java backend and microservices, building services that process critical information, integrate with other systems, and maintain data consistency in enterprise environments.",
     ],
     cards: [
       {
@@ -142,7 +142,7 @@ export const enContent: PortfolioContent = {
           "Modular architecture based on Spring Boot services, Oracle persistence, and transactional flow orchestration with stage-based confirmations.",
         stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, REST APIs, Docker",
         challenges:
-          "Consistency across distributed events, operation idempotency, and tolerance to failures in external integrations.",
+          "Consistency across distributed events, idempotency of operations, and tolerance to failures in external integrations.",
         solution:
           "Retry policies with backoff, correlation records, and confirmation mechanisms were implemented to prevent duplicate and lost events.",
         impact:
@@ -153,7 +153,7 @@ export const enContent: PortfolioContent = {
         problem:
           "The financial operation required processing large nightly volumes within strict execution windows.",
         architecture:
-          "Batch pipeline with Spring Batch, partitioned lots, robust transaction control, and job/step execution traceability.",
+          "Batch pipeline with Spring Batch, batch partitioning, robust transaction control, and execution traceability by job/step.",
         stack: "Java 17, Spring Batch, Oracle, Advanced SQL, Linux, CI/CD",
         challenges:
           "Integrity control for reprocessing, batch-level error handling, and bottlenecks in high-cost queries.",
@@ -176,10 +176,10 @@ export const enContent: PortfolioContent = {
         workMode: "Full-time · Remote",
         context: "International logistics integration - Olva Courier",
         highlights: [
-          "Analysis of the logistics domain and definition of system integration for registration and synchronization of people, packages, waybills, and transactions.",
-          "Designed and developed two Java 21 microservices from scratch using hexagonal architecture to integrate the external logistics platform with Olva's core system.",
+          "Logistics domain analysis to understand how shipments are recorded and processed, defining the integration between an external platform and the company's core system.",
+          "Designed and developed two Java 21 microservices from scratch using hexagonal architecture to process logistics events and synchronize critical business information.",
           "Technical coordination with teams from both platforms to define data flows, integration contracts, and validate behavior before production.",
-          "Designed and evolved the data model, including creation of new tables and updates to Oracle stored procedures to support the new integration.",
+          "Designed and evolved the Oracle data model, ensuring shipment information is recorded consistently and aligned with business logic.",
         ],
         technologies: [
           "Java 21",
@@ -201,10 +201,10 @@ export const enContent: PortfolioContent = {
         workMode: "Full-time · Hybrid",
         context: "International projects - Cepsa (Spain) · Habitat AFP (Chile)",
         highlights: [
-          "Started as a full stack developer, building web components and backend services for enterprise platforms.",
-          "Evolved to frontend technical leadership in the Cepsa project, coordinating development of React widgets integrated into the company's OpenText platform.",
-          "Designed and implemented BFF APIs in Java and Spring Boot to expose information from SAP enterprise systems to the frontend.",
-          "Developed backend microservices for Habitat AFP's pension management system, including batch processing modules for high-volume financial files sent by government entities.",
+          "Started as a full stack developer, building interfaces and backend services for corporate platforms used by business users.",
+          "Evolved into frontend technical leadership in the Cepsa project, coordinating the development of React components integrated into the company's corporate platform.",
+          "Designed and implemented APIs in Java and Spring Boot to expose information from SAP enterprise systems to business applications.",
+          "Developed backend microservices for Habitat AFP's pension system, processing large volumes of financial data and applying business rules for validation.",
         ],
         technologies: [
           "Java",
@@ -225,11 +225,11 @@ export const enContent: PortfolioContent = {
         company: "MULTIPLICA",
         period: "2020",
         workMode: "Full-time · Remote",
-        context: "Participation in the development of the new corporate landing page.",
+        context: "Corporate landing page development",
         highlights: [
-          "Implemented visual components and web animations for the new corporate website.",
-          "Developed interactive sections to improve user experience.",
-          "Collaborated with the design team to implement modern and responsive interfaces.",
+          "Implemented visual components and animations for the corporate website, improving user interaction with the site.",
+          "Developed interactive sections focused on presenting content in a clear and engaging way.",
+          "Collaborated with the design team to build modern, responsive interfaces aligned with the brand's visual identity.",
         ],
         technologies: ["HTML", "CSS", "JavaScript", "Vue", "Animation Libraries"],
       },
@@ -238,12 +238,11 @@ export const enContent: PortfolioContent = {
         company: "ALMA SOFTWARE",
         period: "2019 - 2020",
         workMode: "Full-time · Remote",
-        context:
-          "Developed e-commerce solutions during the pandemic, focused on helping stores digitize their operations.",
+        context: "Development of e-commerce solutions during the pandemic",
         highlights: [
-          "Built online stores for businesses that needed to migrate to digital commerce.",
-          "Implemented catalog, order, and basic product management functionalities.",
-          "Quickly adapted solutions to help businesses maintain continuity during lockdown periods.",
+          "Developed online stores for businesses that needed to quickly migrate to digital channels.",
+          "Implemented catalog, order, and product management features for core commercial operations.",
+          "Adapted technology solutions to support business continuity during lockdown periods.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
@@ -254,76 +253,76 @@ export const enContent: PortfolioContent = {
     headingPrimary: "From analysis to",
     headingSecondary: "production systems",
     intro:
-      "A structured methodology that ensures quality, predictability, and measurable outcomes in every engagement.",
+      "A way of working focused on understanding the business, designing coherent solutions, and taking them to production in a controlled and maintainable way.",
     steps: [
       {
         step: "Step 1",
-        title: "Technical and domain analysis",
+        title: "Domain understanding",
         description:
-          "Understanding business context, operational risks, and functional goals before defining solutions.",
+          "Analysis of how the business works, its processes, actors, and rules, to understand what problem must be solved before proposing a technical solution.",
       },
       {
         step: "Step 2",
-        title: "Enterprise architecture design",
+        title: "System design",
         description:
-          "Design aligned with enterprise standards, scalability, and technical governance.",
+          "Definition of the architecture considering the full flow: user interaction, backend services, integrations, and data model.",
       },
       {
         step: "Step 3",
-        title: "Quality-first implementation",
+        title: "System implementation",
         description:
-          "Development with testing, documentation, and maintainability criteria from the beginning.",
+          "Development of services and components with focus on clarity, testing, and maintainability, ensuring the solution correctly reflects business logic.",
       },
       {
         step: "Step 4",
-        title: "Optimization and continuous improvement",
+        title: "Production evolution",
         description:
-          "Monitoring, performance tuning, and controlled evolution to sustain long-term stability.",
+          "Continuous monitoring and system improvement, adjusting performance, fixing issues, and enabling evolution without affecting stability.",
       },
     ],
   },
   philosophy: {
-    title: "Technical Philosophy",
-    headingPrimary: "Principles behind",
-    headingSecondary: "every architecture decision",
+    title: "Engineering Philosophy",
+    headingPrimary: "Principles for designing",
+    headingSecondary: "enterprise systems",
     intro:
-      "They are not just best practices. They are commitments that define the quality of every delivered system.",
+      "Principles that guide how I analyze, design, and implement systems that must be reliable, maintainable, and aligned with the business.",
     principles: [
       {
         icon: "domain",
-        title: "Domain-Driven Architecture",
+        title: "The system reflects the business",
         description:
-          "Systems that mirror business reality. Every technical decision stays aligned with domain models to improve evolution and maintainability.",
-      },
-      {
-        icon: "code",
-        title: "Clean and Maintainable Code",
-        description:
-          "Readable, structured, and documented code. It reduces technical debt and improves collaboration across distributed engineering teams.",
-      },
-      {
-        icon: "shield",
-        title: "Stability and Consistency",
-        description:
-          "Data integrity as a non-negotiable priority. Robust transactions and active prevention of inconsistent states in critical systems.",
-      },
-      {
-        icon: "scale",
-        title: "Scalable Systems",
-        description:
-          "Architectures designed to grow with business demand. Capacity can increase without structural redesign.",
-      },
-      {
-        icon: "resilience",
-        title: "Resilience by Design",
-        description:
-          "Failure-aware engineering with recovery, retries, and graceful degradation to sustain service continuity under stress.",
+          "Software must accurately represent business processes and rules. A poor domain model generates complexity and long-term errors.",
       },
       {
         icon: "global",
-        title: "International Standards",
+        title: "Think about the full system",
         description:
-          "Engineering aligned with global enterprise practices, including governance frameworks, audits, and compliance controls.",
+          "Every decision considers the entire flow: user, services, integrations, and data. The goal is not isolated pieces, but complete solutions.",
+      },
+      {
+        icon: "code",
+        title: "Clarity over complexity",
+        description:
+          "Code must be understandable and maintainable. Well-applied simplicity reduces errors and makes system evolution easier.",
+      },
+      {
+        icon: "shield",
+        title: "Data consistency as a priority",
+        description:
+          "In enterprise systems, data must be correct and reliable. Integrity is prioritized over quick or incomplete solutions.",
+      },
+      {
+        icon: "resilience",
+        title: "Design for failures",
+        description:
+          "Systems should keep working even when something fails. Errors, retries, and recovery are considered from the design stage.",
+      },
+      {
+        icon: "scale",
+        title: "Ready to grow",
+        description:
+          "Solutions are designed to evolve with the business, avoiding full redesigns as load or complexity increases.",
       },
     ],
   },
@@ -335,7 +334,7 @@ export const enContent: PortfolioContent = {
       "Corporate collaborations, international opportunities, and remote work.",
     supportTitle: "International Remote Work",
     supportText:
-      "Experience with distributed teams across multiple time zones, with strong adaptability to global corporate cultures and methodologies.",
+      "Experience with distributed teams across multiple time zones. Adaptability to corporate cultures and global methodologies.",
     links: [
       {
         label: "Email",

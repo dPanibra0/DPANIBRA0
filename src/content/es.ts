@@ -30,9 +30,9 @@ export const esContent: PortfolioContent = {
     availability: "Disponible para proyectos - Remote",
     title: "Diseño de Sistemas Empresariales Escalables",
     subtitle:
-      "Ingeniero de software enfocado en análisis de dominio y arquitectura backend, desarrollando sistemas completos desde la interacción del usuario hasta la lógica de negocio y persistencia de datos.",
+      "Ingeniero de software enfocado en analizar el negocio y diseñar sistemas completos, desde la experiencia del usuario hasta la lógica que procesa la información y la almacena de forma consistente.",
     message:
-      "Especialización en arquitecturas backend resilientes con Java y microservicios, diseñadas para entornos corporativos donde la confiabilidad, la consistencia de datos y la evolución del sistema son críticas.",
+      "Especializado en backend con Java y microservicios, construyendo sistemas confiables que procesan información crítica, se integran con otras plataformas y evolucionan sin comprometer la consistencia de los datos.",
     ctaPrimary: "Contactar",
     ctaSecondary: "Descargar CV",
     stats: [
@@ -50,9 +50,9 @@ export const esContent: PortfolioContent = {
     headingPrimary: "Ingeniería de software para",
     headingSecondary: "sistemas empresariales complejos",
     paragraphs: [
-      "Ingeniero de software enfocado en comprender el dominio del negocio y traducir sus procesos, reglas y operaciones en sistemas de software claros y mantenibles.",
-      "Trabajo diseñando soluciones end-to-end, desde la interacción del usuario con el producto hasta la arquitectura backend, la lógica de negocio y la persistencia de datos.",
-      "Mi especialización está en backend empresarial con Java y microservicios, desarrollando servicios resilientes, integraciones entre sistemas y modelos de datos que reflejen correctamente la lógica del negocio.",
+      "Ingeniero de software enfocado en comprender cómo funciona el negocio, sus procesos y reglas, para traducirlos en sistemas que resuelvan problemas reales de forma clara y mantenible.",
+      "Diseño soluciones de extremo a extremo, considerando todo el flujo del sistema: desde la interacción del usuario con la aplicación hasta la forma en que los datos son procesados y almacenados.",
+      "Mi especialización está en backend con Java y microservicios, construyendo servicios que procesan información crítica, se integran con otros sistemas y mantienen la consistencia de los datos en entornos empresariales.",
     ],
 
     cards: [
@@ -180,10 +180,10 @@ export const esContent: PortfolioContent = {
         workMode: "Full-time · Remoto",
         context: "Integración logística internacional — Olva Courier",
         highlights: [
-          "Análisis del dominio logístico y definición de la integración entre sistemas para el registro y sincronización de personas, paquetes, guías y transacciones.",
-          "Diseño y desarrollo desde cero de dos microservicios en Java 21 bajo arquitectura hexagonal para integrar la plataforma logística externa con el sistema CORE de Olva.",
-          "Coordinación técnica con los equipos responsables de ambas plataformas para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de producción.",
-          "Diseño y evolución del modelo de datos, incluyendo creación de nuevas tablas y ajustes a procedimientos almacenados en Oracle para soportar la nueva integración.",
+          "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la integración entre una plataforma externa y el sistema CORE de la empresa.",
+          "Diseño y desarrollo desde cero de dos microservicios en Java 21 bajo arquitectura hexagonal para procesar eventos logísticos y sincronizar información crítica del negocio.",
+          "Coordinación técnica entre equipos de ambas plataformas para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de su paso a producción.",
+          "Diseño y evolución del modelo de datos en Oracle, asegurando que la información de envíos se registre de forma consistente y alineada con la lógica del negocio.",
         ],
         technologies: [
           "Java 21",
@@ -206,10 +206,10 @@ export const esContent: PortfolioContent = {
         context:
           "Proyectos internacionales — Cepsa (España) · Habitat AFP (Chile)",
         highlights: [
-          "Inicio como desarrollador fullstack construyendo componentes web y servicios backend para plataformas corporativas.",
-          "Evolución a liderazgo técnico frontend en el proyecto Cepsa, coordinando el desarrollo de widgets en React integrados en la plataforma OpenText de la compañía.",
-          "Diseño e implementación de APIs BFF en Java y Spring Boot para exponer información proveniente de sistemas corporativos SAP hacia el frontend.",
-          "Desarrollo de microservicios backend para el sistema de gestión de pensiones de Habitat AFP, incluyendo módulos de procesamiento batch para archivos financieros de alto volumen enviados por entidades gubernamentales.",
+          "Inicio como desarrollador fullstack construyendo interfaces y servicios backend para plataformas corporativas utilizadas por usuarios de negocio.",
+          "Evolución a liderazgo técnico frontend en el proyecto Cepsa, coordinando el desarrollo de componentes en React integrados en la plataforma corporativa de la empresa.",
+          "Diseño e implementación de APIs en Java y Spring Boot para exponer información proveniente de sistemas empresariales SAP hacia aplicaciones del negocio.",
+          "Desarrollo de microservicios backend para el sistema de pensiones de Habitat AFP, procesando grandes volúmenes de información financiera y aplicando reglas de negocio para su validación.",
         ],
         technologies: [
           "Java",
@@ -230,12 +230,11 @@ export const esContent: PortfolioContent = {
         company: "MULTIPLICA",
         period: "2020",
         workMode: "Full-time · Remoto",
-        context:
-          "Participación en el desarrollo de la nueva landing page corporativa.",
+        context: "Desarrollo de landing page corporativa",
         highlights: [
-          "Implementación de componentes visuales y animaciones web para la nueva página institucional.",
-          "Desarrollo de secciones interactivas para mejorar la experiencia de usuario.",
-          "Colaboración con el equipo de diseño para implementar interfaces modernas y responsivas.",
+          "Implementación de componentes visuales y animaciones para la página institucional, mejorando la interacción del usuario con el sitio.",
+          "Desarrollo de secciones interactivas orientadas a presentar contenido de forma clara y atractiva.",
+          "Colaboración con el equipo de diseño para construir interfaces modernas, responsivas y alineadas con la identidad visual de la marca.",
         ],
         technologies: [
           "HTML",
@@ -250,12 +249,11 @@ export const esContent: PortfolioContent = {
         company: "ALMA SOFTWARE",
         period: "2019 - 2020",
         workMode: "Full-time · Remoto",
-        context:
-          "Desarrollo de soluciones de comercio electrónico durante el contexto de la pandemia, orientadas a la digitalización de tiendas.",
+        context: "Desarrollo de soluciones e-commerce durante la pandemia",
         highlights: [
-          "Desarrollo de tiendas online para negocios que necesitaban migrar al comercio digital.",
-          "Implementación de funcionalidades de catálogo, pedidos y gestión básica de productos.",
-          "Adaptación rápida de soluciones para permitir la continuidad de negocios durante el confinamiento.",
+          "Desarrollo de tiendas online para negocios que necesitaban migrar rápidamente al canal digital.",
+          "Implementación de funcionalidades de catálogo, pedidos y gestión de productos para operaciones comerciales básicas.",
+          "Adaptación de soluciones tecnológicas para permitir la continuidad operativa de negocios durante el confinamiento.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
@@ -266,76 +264,76 @@ export const esContent: PortfolioContent = {
     headingPrimary: "Del análisis al sistema",
     headingSecondary: "en producción",
     intro:
-      "Metodología estructurada que garantiza calidad, predictibilidad y resultados medibles en cada proyecto.",
+      "Forma de trabajo enfocada en entender el negocio, diseñar soluciones coherentes y llevarlas a producción de forma controlada y mantenible.",
     steps: [
       {
         step: "Paso 1",
-        title: "Análisis técnico y dominio",
+        title: "Comprensión del dominio",
         description:
-          "Comprensión del negocio, riesgos operativos y objetivos funcionales antes de definir soluciones.",
+          "Análisis de cómo funciona el negocio, sus procesos, actores y reglas, para entender qué problema se debe resolver antes de proponer una solución técnica.",
       },
       {
         step: "Paso 2",
-        title: "Diseño arquitectónico corporativo",
+        title: "Diseño del sistema",
         description:
-          "Diseño alineado a estandares empresariales, escalabilidad y gobernanza técnica.",
+          "Definición de la arquitectura considerando todo el flujo: interacción del usuario, servicios backend, integraciones y modelo de datos.",
       },
       {
         step: "Paso 3",
-        title: "Implementación con calidad",
+        title: "Implementación del sistema",
         description:
-          "Desarrollo con pruebas, documentación y criterios de mantenibilidad desde el inicio.",
+          "Desarrollo de servicios y componentes con foco en claridad, pruebas y mantenibilidad, asegurando que la solución refleje correctamente la lógica del negocio.",
       },
       {
         step: "Paso 4",
-        title: "Optimización y mejora continua",
+        title: "Evolución en producción",
         description:
-          "Monitoreo, ajuste de rendimiento y evolución controlada para sostener estabilidad.",
+          "Monitoreo y mejora continua del sistema, ajustando rendimiento, corrigiendo problemas y permitiendo su evolución sin afectar la estabilidad.",
       },
     ],
   },
   philosophy: {
-    title: "Filosofia Técnica",
-    headingPrimary: "Principios que guian",
-    headingSecondary: "cada linea de arquitectura",
+    title: "Filosofía de Ingeniería",
+    headingPrimary: "Principios para diseñar",
+    headingSecondary: "sistemas empresariales",
     intro:
-      "No son solo buenas practicas. Son compromisos que definen la calidad de cada sistema entregado.",
+      "Principios que guían cómo analizo, diseño e implemento sistemas que deben ser confiables, mantenibles y alineados al negocio.",
     principles: [
       {
         icon: "domain",
-        title: "Arquitectura Orientada al Dominio",
+        title: "El sistema refleja el negocio",
         description:
-          "Sistemas que reflejan el negocio. Cada decisión técnica esta alineada con el modelo de dominio, facilitando evolución y mantenibilidad.",
-      },
-      {
-        icon: "code",
-        title: "Código Limpio y Mantenible",
-        description:
-          "Código legible, bien estructurado y documentado. Reduce deuda técnica y facilita la colaboración en equipos distribuidos.",
-      },
-      {
-        icon: "shield",
-        title: "Estabilidad y Consistencia",
-        description:
-          "Integridad de datos como prioridad absoluta. Transacciones robustas y prevención de estados inconsistentes en sistemas críticos.",
-      },
-      {
-        icon: "scale",
-        title: "Sistemas Escalables",
-        description:
-          "Arquitecturas preparadas para crecer con el negocio. Diseño que soporta incrementos de carga sin rediseño estructural.",
-      },
-      {
-        icon: "resilience",
-        title: "Resiliencia y Prevención",
-        description:
-          "Diseño anticipando fallos. Mecanismos de recuperación, reintentos inteligentes y degradación elegante ante errores.",
+          "El software debe representar correctamente los procesos y reglas del negocio. Un mal modelo de dominio genera complejidad y errores a largo plazo.",
       },
       {
         icon: "global",
-        title: "Estandares Internacionales",
+        title: "Pensar en el sistema completo",
         description:
-          "Adherencia a mejores practicas globales. Experiencia con estandares corporativos como SOX, auditorias y compliance.",
+          "Cada decisión considera todo el flujo: usuario, servicios, integraciones y datos. No se diseñan piezas aisladas, sino soluciones completas.",
+      },
+      {
+        icon: "code",
+        title: "Claridad sobre complejidad",
+        description:
+          "El código debe ser entendible y mantenible. La simplicidad bien aplicada reduce errores y facilita la evolución del sistema.",
+      },
+      {
+        icon: "shield",
+        title: "Consistencia de datos como prioridad",
+        description:
+          "En sistemas empresariales, los datos deben ser correctos y confiables. Se prioriza la integridad sobre soluciones rápidas o incompletas.",
+      },
+      {
+        icon: "resilience",
+        title: "Diseñar para fallos",
+        description:
+          "Los sistemas deben seguir funcionando incluso cuando algo falla. Se consideran errores, reintentos y recuperación desde el diseño.",
+      },
+      {
+        icon: "scale",
+        title: "Preparado para crecer",
+        description:
+          "Las soluciones se diseñan para evolucionar con el negocio, evitando rediseños completos cuando aumentan la carga o la complejidad.",
       },
     ],
   },
