@@ -339,13 +339,17 @@ export const esContent: PortfolioContent = {
   },
   contact: {
     title: "Contacto",
-    headlineTop: "Hablemos sobre",
-    headlineBottom: "tu próximo proyecto",
+
+    headlineTop: "Conversemos sobre",
+    headlineBottom: "tu sistema o proyecto",
+
     subtitle:
-      "Colaboraciones corporativas, oportunidades internacionales y trabajo remoto.",
-    supportTitle: "Trabajo Remoto Internacional",
+      "Interesado en colaborar en proyectos donde el análisis del negocio y el diseño de sistemas sean clave para construir soluciones sólidas.",
+
+    supportTitle: "Trabajo remoto internacional",
     supportText:
-      "Experiencia con equipos distribuidos en multiples zonas horarias. Adaptabilidad a culturas corporativas y metodologías globales.",
+      "Experiencia trabajando con equipos distribuidos, coordinando soluciones técnicas y adaptándome a distintos contextos empresariales y zonas horarias.",
+
     links: [
       {
         label: "Email",
@@ -357,20 +361,22 @@ export const esContent: PortfolioContent = {
         label: "LinkedIn",
         value: "linkedin.com/in/david-panibra",
         href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
-        sublabel: "Perfil profesional completo",
+        sublabel: "Experiencia profesional",
       },
       {
         label: "GitHub",
         value: "github.com/dPanibra0",
         href: "https://github.com/dPanibra0",
-        sublabel: "Proyectos y contribuciones",
+        sublabel: "Código y proyectos",
       },
     ],
-    availability: "Disponible para proyectos - Remote",
+
+    availability: "Disponible para proyectos internacionales — Remote",
   },
+
   footer: {
-    copyright: "2026 Backend Portfolio. All rights reserved.",
+    copyright: "© 2026 David Panibra — Software Engineer",
     githubUrl: "https://github.com/dPanibra0",
-    linkedinUrl: "https://linkedin.com",
+    linkedinUrl: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
   },
 };

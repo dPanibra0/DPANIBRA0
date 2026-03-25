@@ -1,5 +1,6 @@
 ---
 import type { PortfolioContent } from "../../content/types";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   id: string;
@@ -10,6 +11,12 @@ interface Props {
 const { id, process, overline } = Astro.props;
 
 const iconByIndex = ["search", "grid", "code", "pulse"];
+const processIconMap: Record<(typeof iconByIndex)[number], string> = {
+  search: "lucide:search",
+  grid: "lucide:layout-grid",
+  code: "lucide:code",
+  pulse: "lucide:activity",
+};
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -32,32 +39,7 @@ const iconByIndex = ["search", "grid", "code", "pulse"];
               </p>
 
               <div class="mt-10 h-5 w-5 text-[#9ea8b4]">
-                {iconByIndex[index] === "search" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <circle cx="11" cy="11" r="6"></circle>
-                    <path d="m20 20-4.2-4.2"></path>
-                  </svg>
-                )}
-                {iconByIndex[index] === "grid" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <rect x="4" y="4" width="7" height="7"></rect>
-                    <rect x="13" y="4" width="7" height="7"></rect>
-                    <rect x="4" y="13" width="7" height="7"></rect>
-                    <rect x="13" y="13" width="7" height="7"></rect>
-                  </svg>
-                )}
-                {iconByIndex[index] === "code" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="m8 17-4-5 4-5"></path>
-                    <path d="m16 7 4 5-4 5"></path>
-                    <path d="m13.5 4-3 16"></path>
-                  </svg>
-                )}
-                {iconByIndex[index] === "pulse" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M3 12h4l2.2-5 3.6 10 2.4-6H21"></path>
-                  </svg>
-                )}
+                <Icon name={processIconMap[iconByIndex[index]]} class="h-5 w-5" aria-hidden="true" />
               </div>
 
               <h3 class="mt-6 text-lg font-semibold tracking-[-0.02em] text-text md:text-xl">{step.title}</h3>

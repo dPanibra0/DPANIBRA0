@@ -1,5 +1,6 @@
 ---
 import type { NavItem } from "../../content/types";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   nav: NavItem[];
@@ -46,11 +47,7 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
         aria-controls="mobile-menu"
       >
         <span class="sr-only">{menuLabel}</span>
-        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M4 6h16"></path>
-          <path d="M4 12h16"></path>
-          <path d="M4 18h16"></path>
-        </svg>
+        <Icon name="lucide:menu" class="h-4 w-4" aria-hidden="true" />
       </button>
     </div>
   </div>

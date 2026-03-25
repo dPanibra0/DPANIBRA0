@@ -1,5 +1,6 @@
 ---
 import type { AboutContent } from "../../content/types";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   id: string;
@@ -8,6 +9,13 @@ interface Props {
 }
 
 const { id, about, overline } = Astro.props;
+
+const aboutIconMap: Record<AboutContent["cards"][number]["icon"], string> = {
+  backend: "lucide:server",
+  database: "lucide:database",
+  globe: "lucide:globe",
+  shield: "lucide:shield-check",
+};
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -31,33 +39,7 @@ const { id, about, overline } = Astro.props;
           about.cards.map((card) => (
             <article class="min-h-[160px] rounded-2xl border border-border/60 bg-black/28 px-6 py-6 md:min-h-[172px] md:px-7 md:py-7">
               <div class="mb-8 h-5 w-5 text-[#9ea8b4]">
-                {card.icon === "backend" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <rect x="5" y="4" width="14" height="16" rx="2"></rect>
-                    <path d="M8 8h8"></path>
-                    <path d="M8 12h8"></path>
-                  </svg>
-                )}
-                {card.icon === "database" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <ellipse cx="12" cy="6" rx="6.5" ry="2.7"></ellipse>
-                    <path d="M5.5 6v7c0 1.5 2.9 2.7 6.5 2.7s6.5-1.2 6.5-2.7V6"></path>
-                  </svg>
-                )}
-                {card.icon === "globe" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <circle cx="12" cy="12" r="7"></circle>
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5a11 11 0 0 1 0 14"></path>
-                    <path d="M12 5a11 11 0 0 0 0 14"></path>
-                  </svg>
-                )}
-                {card.icon === "shield" && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <path d="M12 3l6 2.4v6.1c0 4.1-2.4 7.7-6 9.5-3.6-1.8-6-5.4-6-9.5V5.4L12 3Z"></path>
-                    <path d="m9.5 12 1.8 1.9 3.3-3.7"></path>
-                  </svg>
-                )}
+                <Icon name={aboutIconMap[card.icon]} class="h-5 w-5" aria-hidden="true" />
               </div>
               <h3 class="text-base font-semibold leading-tight tracking-[-0.02em] text-text md:text-lg">{card.title}</h3>
               <p class="mt-2 text-sm leading-snug tracking-[-0.01em] text-[#7a8592] md:text-sm">{card.subtitle}</p>
