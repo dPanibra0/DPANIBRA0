@@ -344,8 +344,7 @@ export const esContent: PortfolioContent = {
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Colaborando en proyectos donde el dominio del negocio, la arquitectura y la confiabilidad del sistema son factores clave.",
-
+      "Trabajemos juntos, si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
     supportTitle: "Trabajo remoto internacional",
     supportText:
       "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
