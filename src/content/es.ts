@@ -344,7 +344,7 @@ export const esContent: PortfolioContent = {
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Trabajemos juntos, si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
+      "Trabajemos juntos. Si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
     supportTitle: "Trabajo remoto internacional",
     supportText:
       "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
