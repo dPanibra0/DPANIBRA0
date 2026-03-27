@@ -39,9 +39,82 @@ const { title, description, lang } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script is:inline>
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("motion-enabled");
+      }
+    </script>
   </head>
   <body>
     <slot />
+    <script is:inline>
+      (() => {
+        const supportsIO = "IntersectionObserver" in window;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const revealElements = Array.from(document.querySelectorAll("[data-reveal]"));
+
+        if (!revealElements.length) return;
+
+        const revealNow = (element) => {
+          element.classList.add("is-revealed");
+        };
+
+        if (!supportsIO || reducedMotion.matches) {
+          revealElements.forEach(revealNow);
+          return;
+        }
+
+        const staggerGroups = new Map();
+
+        revealElements.forEach((element) => {
+          const parent = element.closest("[data-reveal-group]");
+          const explicitDelay = Number(element.dataset.revealDelay ?? "");
+
+          if (Number.isFinite(explicitDelay) && explicitDelay >= 0) {
+            element.style.setProperty("--reveal-delay", `${explicitDelay}ms`);
+            return;
+          }
+
+          if (!parent) return;
+
+          const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+          const rawStep =
+            (isDesktop ? parent.dataset.revealStaggerDesktop : parent.dataset.revealStaggerMobile) ??
+            parent.dataset.revealStagger ??
+            "50";
+          const step = Number(rawStep);
+          const safeStep = Number.isFinite(step) && step >= 0 ? step : 50;
+          const nextIndex = staggerGroups.get(parent) ?? 0;
+          staggerGroups.set(parent, nextIndex + 1);
+          element.style.setProperty("--reveal-delay", `${nextIndex * safeStep}ms`);
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const element = entry.target;
+              const revealOnce = element.dataset.revealOnce !== "false";
+
+              if (entry.isIntersecting) {
+                revealNow(element);
+                if (revealOnce) {
+                  observer.unobserve(element);
+                }
+              } else if (!revealOnce) {
+                element.classList.remove("is-revealed");
+              }
+            });
+          },
+          {
+            root: null,
+            rootMargin: "0px 0px -8% 0px",
+            threshold: 0.16,
+          },
+        );
+
+        revealElements.forEach((element) => observer.observe(element));
+      })();
+    </script>
     <script>
       const path = window.location.pathname;
       const browserLang = navigator.language.toLowerCase();

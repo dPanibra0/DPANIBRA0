@@ -22,21 +22,34 @@ const philosophyIconMap: Record<PortfolioContent["philosophy"]["principles"][num
 
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
-    <div class="text-center">
-      <p class="micro-label mb-5">{overline}</p>
-      <h2 class="mx-auto max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+    <div
+      class="text-center"
+      data-reveal-group
+      data-reveal-stagger-mobile="84"
+      data-reveal-stagger-desktop="66"
+    >
+      <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+      <h2 class="mx-auto max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
         {philosophy.headingPrimary}
         <br />
         <span class="text-muted">{philosophy.headingSecondary}</span>
       </h2>
-      <p class="mx-auto mt-7 max-w-[900px] text-base leading-relaxed text-muted md:text-lg">{philosophy.intro}</p>
+      <p class="mx-auto mt-7 max-w-[900px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{philosophy.intro}</p>
     </div>
 
-    <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/20">
-      <div class="grid md:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/20" data-reveal="zoom" data-reveal-delay="80">
+      <div
+        class="grid md:grid-cols-2 xl:grid-cols-3"
+        data-reveal-group
+        data-reveal-stagger-mobile="72"
+        data-reveal-stagger-desktop="54"
+      >
         {
           philosophy.principles.map((item, index) => (
-            <article class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 md:[&:nth-child(n+5)]:border-b-0 xl:min-h-[280px] xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0 xl:[&:nth-child(n+4)]:border-b-0 hover:bg-stone-300/10">
+            <article
+              class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 md:[&:nth-child(n+5)]:border-b-0 xl:min-h-[280px] xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(3n)]:border-r-0 xl:[&:nth-child(n+4)]:border-b-0 hover:bg-stone-300/10"
+              data-reveal="up"
+            >
               <div class="mb-8 mt-2 h-6 w-6 text-[#9ea8b4]">
                 <Icon name={philosophyIconMap[item.icon]} class="h-6 w-6" aria-hidden="true" />
               </div>

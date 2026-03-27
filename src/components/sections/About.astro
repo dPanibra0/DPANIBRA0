@@ -21,23 +21,35 @@ const aboutIconMap: Record<AboutContent["cards"][number]["icon"], string> = {
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
     <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
-      <div>
-        <p class="micro-label mb-5">{overline}</p>
-        <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+      <div
+        data-reveal-group
+        data-reveal-stagger-mobile="84"
+        data-reveal-stagger-desktop="64"
+      >
+        <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+        <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
           {about.headingPrimary}
           <br />
           <span class="text-muted">{about.headingSecondary}</span>
         </h2>
-        <div class="mt-8 max-w-[620px] space-y-6 text-base leading-relaxed text-muted md:text-lg">
-          <p>{about.paragraphs[0]}</p>
-          <p>{about.paragraphs[1]}</p>
+        <div class="mt-8 max-w-[620px] space-y-6 text-base leading-relaxed text-muted md:text-lg" data-reveal-group data-reveal-stagger="56">
+          <p data-reveal="up">{about.paragraphs[0]}</p>
+          <p data-reveal="up">{about.paragraphs[1]}</p>
         </div>
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:self-center">
+      <div
+        class="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:self-center"
+        data-reveal-group
+        data-reveal-stagger-mobile="74"
+        data-reveal-stagger-desktop="54"
+      >
         {
           about.cards.map((card) => (
-            <article class="min-h-[160px] rounded-2xl border border-border/60 bg-black/28 px-6 py-6 md:min-h-[172px] md:px-7 md:py-7 hover:bg-stone-300/10">
+            <article
+              class="min-h-[160px] rounded-2xl border border-border/60 bg-black/28 px-6 py-6 md:min-h-[172px] md:px-7 md:py-7 hover:bg-stone-300/10"
+              data-reveal="right"
+            >
               <div class="mb-8 h-5 w-5 text-[#9ea8b4]">
                 <Icon name={aboutIconMap[card.icon]} class="h-5 w-5" aria-hidden="true" />
               </div>

@@ -359,8 +359,8 @@ export const enContent: PortfolioContent = {
     availability: "Available for projects - Remote",
   },
   footer: {
-    copyright: "2026 Backend Portfolio. All rights reserved.",
+    copyright: "© 2026 David Panibra — Software Engineer",
     githubUrl: "https://github.com/dPanibra0",
-    linkedinUrl: "https://linkedin.com",
+    linkedinUrl: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
   },
 };

@@ -12,17 +12,22 @@ const { id, experience, overline } = Astro.props;
 
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
-    <p class="micro-label mb-5">{overline}</p>
-    <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+    <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+    <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
       {experience.headingPrimary}
       <br />
       <span class="text-muted">{experience.headingSecondary}</span>
     </h2>
 
-    <div class="relative mt-14 md:mt-16">
+    <div class="relative mt-14 md:mt-16" data-reveal="up" data-reveal-delay="90">
       <div class="absolute bg-gray-300  bottom-2 left-[10px] top-2 w-px bg-gradient-to-b from-accent/70 via-accent-strong/45 to-accent/70"></div>
 
-      <div class="space-y-24 md:space-y-28">
+      <div
+        class="space-y-24 md:space-y-28"
+        data-reveal-group
+        data-reveal-stagger-mobile="78"
+        data-reveal-stagger-desktop="58"
+      >
         {
           experience.items.map((item, index) => {
             const context = (item as { context?: string }).context ?? "";
@@ -32,6 +37,7 @@ const { id, experience, overline } = Astro.props;
             <article
               class="exp-item relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
               data-exp-item
+              data-reveal="up"
             >
               <span class="exp-segment pointer-events-none absolute bottom-2 left-[10px] top-2 w-px"></span>
               <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]"></span>
@@ -107,6 +113,14 @@ const { id, experience, overline } = Astro.props;
     transform: scale(1.1);
     border-color: #d8e3ee;
     background: #f6f8fb;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exp-item,
+    .exp-node,
+    .exp-segment {
+      transition: none;
+    }
   }
 </style>
 

@@ -20,19 +20,27 @@ const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon
 
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
-    <p class="micro-label mb-5">{overline}</p>
-    <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+    <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+    <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
       {stack.headingPrimary}
       <br />
       <span class="text-muted">{stack.headingSecondary}</span>
     </h2>
-    <p class="mt-7 max-w-[780px] text-base leading-relaxed text-muted md:text-lg">{stack.intro}</p>
+    <p class="mt-7 max-w-[780px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{stack.intro}</p>
 
-    <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/28">
-      <div class="grid md:grid-cols-2 xl:grid-cols-4">
+    <div class="mt-12 overflow-hidden rounded-2xl border border-border/60 bg-black/28" data-reveal="zoom" data-reveal-delay="80">
+      <div
+        class="grid md:grid-cols-2 xl:grid-cols-4"
+        data-reveal-group
+        data-reveal-stagger-mobile="72"
+        data-reveal-stagger-desktop="56"
+      >
         {
           stack.categories.map((category) => (
-            <article class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:min-h-[360px] xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(4n)]:border-r-0 hover:bg-stone-300/10">
+            <article
+              class="border-b border-border/60 p-7 md:border-r md:[&:nth-child(2n)]:border-r-0 xl:min-h-[360px] xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:[&:nth-child(4n)]:border-r-0 hover:bg-stone-300/10"
+              data-reveal="up"
+            >
               <div class="mb-8 inline-flex items-center gap-3">
                 <span class="h-5 w-5 text-[#b5c0cc]">
                   <Icon name={stackIconMap[category.icon]} class="h-5 w-5" aria-hidden="true" />
