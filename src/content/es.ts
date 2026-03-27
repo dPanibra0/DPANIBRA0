@@ -351,23 +351,24 @@ export const esContent: PortfolioContent = {
 
     links: [
       {
-        label: "Email",
-        value: "dpanibra0@gmail.com",
-        href: "mailto:dpanibra0@gmail.com",
-        sublabel: "Respuesta en menos de 24h",
-      },
-      {
         label: "LinkedIn",
         value: "linkedin.com/in/david-panibra",
         href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
         sublabel: "Experiencia profesional",
       },
-      {
+       {
         label: "GitHub",
         value: "github.com/dPanibra0",
         href: "https://github.com/dPanibra0",
         sublabel: "Código y proyectos",
       },
+      {
+        label: "Email",
+        value: "dpanibra0@gmail.com",
+        href: "mailto:dpanibra0@gmail.com",
+        sublabel: "Respuesta en menos de 24h",
+      },
+     
     ],
 
     availability: "Disponible para proyectos internacionales — Remote",

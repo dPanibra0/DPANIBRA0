@@ -337,12 +337,6 @@ export const enContent: PortfolioContent = {
       "Experience with distributed teams across multiple time zones. Adaptability to corporate cultures and global methodologies.",
     links: [
       {
-        label: "Email",
-        value: "dpanibra0@gmail.com",
-        href: "mailto:dpanibra0@gmail.com",
-        sublabel: "Reply within 24h",
-      },
-      {
         label: "LinkedIn",
         value: "linkedin.com/in/david-panibra",
         href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
@@ -354,6 +348,13 @@ export const enContent: PortfolioContent = {
         href: "https://github.com/dPanibra0",
         sublabel: "Projects and contributions",
       },
+      {
+        label: "Email",
+        value: "dpanibra0@gmail.com",
+        href: "mailto:dpanibra0@gmail.com",
+        sublabel: "Reply within 24h",
+      },
+      
     ],
     availability: "Available for projects - Remote",
   },
