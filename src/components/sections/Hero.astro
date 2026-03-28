@@ -120,7 +120,7 @@ const { id, hero } = Astro.props;
         { timeout: 2500 },
       );
     } else {
-      window.setTimeout(upgradeToOriginal, 1200);
+      globalThis.setTimeout(upgradeToOriginal, 1200);
     }
   };
 

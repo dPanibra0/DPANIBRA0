@@ -22,12 +22,7 @@ const { id, experience, overline } = Astro.props;
     <div class="relative mt-14 md:mt-16" data-reveal="up" data-reveal-delay="90">
       <div class="absolute bg-gray-300  bottom-2 left-[10px] top-2 w-px bg-gradient-to-b from-accent/70 via-accent-strong/45 to-accent/70"></div>
 
-      <div
-        class="space-y-24 md:space-y-28"
-        data-reveal-group
-        data-reveal-stagger-mobile="78"
-        data-reveal-stagger-desktop="58"
-      >
+      <div class="space-y-16 md:space-y-24 lg:space-y-28">
         {
           experience.items.map((item, index) => {
             const context = (item as { context?: string }).context ?? "";
@@ -37,7 +32,6 @@ const { id, experience, overline } = Astro.props;
             <article
               class="exp-item relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
               data-exp-item
-              data-reveal="up"
             >
               <span class="exp-segment pointer-events-none absolute bottom-2 left-[10px] top-2 w-px"></span>
               <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]"></span>
@@ -131,7 +125,7 @@ const { id, experience, overline } = Astro.props;
     let ticking = false;
 
     const updateActiveItem = () => {
-      const triggerY = window.innerHeight * 0.45;
+      const triggerY = window.innerWidth < 768 ? window.innerHeight * 0.62 : window.innerHeight * 0.45;
       let activeItem = null;
       let nearest = Number.POSITIVE_INFINITY;
 
