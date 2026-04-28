@@ -270,6 +270,10 @@ const resolveContactIcon = (label: string) => {
 </style>
 
 <script>
+  if ((window as Window & { __contactLinksInit?: boolean }).__contactLinksInit) {
+    // no-op
+  } else {
+    (window as Window & { __contactLinksInit?: boolean }).__contactLinksInit = true;
   const contactLinks = document.querySelectorAll<HTMLAnchorElement>("[data-contact-link]");
 
   const openExternalAfterPress = (href: string) => {
@@ -319,4 +323,5 @@ const resolveContactIcon = (label: string) => {
       }, 210);
     });
   });
+  }
 </script>

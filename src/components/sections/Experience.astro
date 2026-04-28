@@ -119,6 +119,10 @@ const { id, experience, overline } = Astro.props;
 </style>
 
 <script>
+  if ((window as Window & { __experienceInit?: boolean }).__experienceInit) {
+    // no-op
+  } else {
+    (window as Window & { __experienceInit?: boolean }).__experienceInit = true;
   const items = Array.from(document.querySelectorAll("[data-exp-item]"));
 
   if (items.length) {
@@ -160,5 +164,6 @@ const { id, experience, overline } = Astro.props;
     updateActiveItem();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+  }
   }
 </script>

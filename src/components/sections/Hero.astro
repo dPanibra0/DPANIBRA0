@@ -80,14 +80,16 @@ const { id, hero } = Astro.props;
  </section>
 
 <script>
-  const media = document.querySelector("[data-parallax-media]") as HTMLElement | null;
-  const image = document.querySelector("[data-parallax-image]") as HTMLElement | null;
-  const heroImage = document.querySelector("[data-parallax-image]") as HTMLImageElement | null;
-  const originalSrc = heroImage?.dataset.originalSrc;
+  if ((window as Window & { __heroInit?: boolean }).__heroInit) {
+    // no-op
+  } else {
+    (window as Window & { __heroInit?: boolean }).__heroInit = true;
+  const mediaItems = Array.from(document.querySelectorAll("[data-parallax-media]")) as HTMLElement[];
+  const imageItems = Array.from(document.querySelectorAll("[data-parallax-image]")) as HTMLImageElement[];
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const canUpgradeToOriginal = () => {
-    if (!heroImage || !originalSrc) return false;
+    if (!imageItems.length) return false;
     if (window.innerWidth < 1024 || window.devicePixelRatio < 1.5) return false;
 
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
@@ -98,17 +100,22 @@ const { id, hero } = Astro.props;
   };
 
   const upgradeToOriginal = () => {
-    if (!canUpgradeToOriginal() || !heroImage || !originalSrc) return;
+    if (!canUpgradeToOriginal()) return;
 
-    const preload = new window.Image();
-    preload.decoding = "async";
-    preload.src = originalSrc;
+    imageItems.forEach((heroImage) => {
+      const originalSrc = heroImage.dataset.originalSrc;
+      if (!originalSrc) return;
 
-    preload.onload = () => {
-      heroImage.removeAttribute("srcset");
-      heroImage.removeAttribute("sizes");
-      heroImage.src = originalSrc;
-    };
+      const preload = new window.Image();
+      preload.decoding = "async";
+      preload.src = originalSrc;
+
+      preload.onload = () => {
+        heroImage.removeAttribute("srcset");
+        heroImage.removeAttribute("sizes");
+        heroImage.src = originalSrc;
+      };
+    });
   };
 
   const scheduleOriginalUpgrade = () => {
@@ -130,19 +137,23 @@ const { id, hero } = Astro.props;
     window.addEventListener("load", scheduleOriginalUpgrade, { once: true });
   }
 
-  if (media && image && !prefersReducedMotion) {
+  if (mediaItems.length && imageItems.length && !prefersReducedMotion) {
     let ticking = false;
 
     const updateParallax = () => {
-      const rect = media.getBoundingClientRect();
-      const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+      mediaItems.forEach((media, index) => {
+        const image = imageItems[index];
+        if (!image) return;
+        const rect = media.getBoundingClientRect();
+        const inView = rect.bottom > 0 && rect.top < window.innerHeight;
 
-      if (inView) {
-        const centerOffset = window.innerHeight / 2 - (rect.top + rect.height / 2);
-        const speed = window.innerWidth < 768 ? 0.08 : 0.12;
-        const y = centerOffset * speed;
-        (image as HTMLElement).style.setProperty("--parallax-offset", `${y.toFixed(2)}px`);
-      }
+        if (inView) {
+          const centerOffset = window.innerHeight / 2 - (rect.top + rect.height / 2);
+          const speed = window.innerWidth < 768 ? 0.08 : 0.12;
+          const y = centerOffset * speed;
+          image.style.setProperty("--parallax-offset", `${y.toFixed(2)}px`);
+        }
+      });
 
       ticking = false;
     };
@@ -157,5 +168,6 @@ const { id, hero } = Astro.props;
     updateParallax();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+  }
   }
 </script>

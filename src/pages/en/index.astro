@@ -5,20 +5,32 @@ import Footer from "../../components/layout/Footer.astro";
 import Hero from "../../components/sections/Hero.astro";
 import About from "../../components/sections/About.astro";
 import TechStack from "../../components/sections/TechStack.astro";
-import Projects from "../../components/sections/Projects.astro";
 import Experience from "../../components/sections/Experience.astro";
 import Process from "../../components/sections/Process.astro";
 import Philosophy from "../../components/sections/Philosophy.astro";
 import Contact from "../../components/sections/Contact.astro";
 import FloatingQuickActions from "../../components/ui/FloatingQuickActions.astro";
+import { esContent } from "../../content/talento/es";
 import { enContent } from "../../content/talento/en";
 
 const content = enContent;
 ---
 
 <MainLayout title={content.meta.title} description={content.meta.description} lang="en">
-  <Navbar nav={content.nav} lang="en" />
+  <Navbar navEs={esContent.nav} navEn={enContent.nav} initialLang="en" />
   <main>
+    <div data-lang-block="es" hidden aria-hidden="true">
+      <Hero id="inicio" hero={esContent.hero} />
+      <About id="sobre-mi" about={esContent.about} overline={esContent.overlines.about} />
+      <div class="divider-line"></div>
+      <TechStack id="stack" stack={esContent.stack} overline={esContent.overlines.stack} />
+      <Experience id="experiencia" experience={esContent.experience} overline={esContent.overlines.experience} />
+      <Process id="proceso" process={esContent.process} overline={esContent.overlines.process} />
+      <Philosophy id="filosofia" philosophy={esContent.philosophy} overline={esContent.overlines.philosophy} />
+      <Contact id="contacto" contact={esContent.contact} overline={esContent.overlines.contact} />
+    </div>
+
+    <div data-lang-block="en">
     <Hero id="home" hero={content.hero} />
     <About id="about" about={content.about} overline={content.overlines.about} />
     <div class="divider-line"></div>
@@ -42,7 +54,44 @@ const content = enContent;
     <Process id="process" process={content.process} overline={content.overlines.process} />
     <Philosophy id="philosophy" philosophy={content.philosophy} overline={content.overlines.philosophy} />
     <Contact id="contact" contact={content.contact} overline={content.overlines.contact} />
+    </div>
   </main>
   <FloatingQuickActions lang="en" />
-  <Footer footer={content.footer} nav={content.nav} />
+  <div data-lang-block="es" hidden aria-hidden="true">
+    <Footer footer={esContent.footer} nav={esContent.nav} />
+  </div>
+  <div data-lang-block="en">
+    <Footer footer={content.footer} nav={content.nav} />
+  </div>
+
+  <script is:inline>
+    (() => {
+      const readStoredLang = (fallback) => {
+        const raw = localStorage.getItem("site-lang");
+        if (raw === "es" || raw === "en") return raw;
+        return fallback;
+      };
+
+      const applyLanguage = (lang) => {
+        document.querySelectorAll("[data-lang-block]").forEach((block) => {
+          const matches = block.getAttribute("data-lang-block") === lang;
+          block.toggleAttribute("hidden", !matches);
+          block.setAttribute("aria-hidden", String(!matches));
+        });
+        document.documentElement.lang = lang;
+      };
+
+      const initial = readStoredLang("en");
+      applyLanguage(initial);
+      window.dispatchEvent(new CustomEvent("site-language:change", { detail: { lang: initial } }));
+
+      window.addEventListener("site-language:change", (event) => {
+        const custom = event;
+        const lang = custom && custom.detail ? custom.detail.lang : null;
+        if (lang !== "es" && lang !== "en") return;
+        localStorage.setItem("site-lang", lang);
+        applyLanguage(lang);
+      });
+    })();
+  </script>
 </MainLayout>

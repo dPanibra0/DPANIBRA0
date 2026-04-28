@@ -15,6 +15,7 @@ const labels =
         email: "Enviar correo",
         contact: "Ir a contacto",
         scrollTop: "Volver arriba",
+        language: "Cambiar idioma a ingles",
       }
     : {
         linkedin: "Open LinkedIn profile",
@@ -22,15 +23,18 @@ const labels =
         email: "Send email",
         contact: "Go to contact section",
         scrollTop: "Back to top",
+        language: "Switch language to Spanish",
       };
 
 const contactHref = lang === "es" ? "#contacto" : "#contact";
+const languageText = lang === "es" ? "EN" : "ES";
 ---
 
 <aside
   class="pointer-events-none fixed bottom-5 right-4 z-50 sm:bottom-6 sm:right-6"
   aria-label="Quick actions"
   data-floating-actions
+  data-initial-lang={lang}
 >
   <div
     class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md shadow-[0_20px_40px_-24px_rgba(0,0,0,0.85)] transition duration-300"
@@ -58,11 +62,19 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     <a href="mailto:dpanibra0@gmail.com" class="fq-action" aria-label={labels.email}>
       <Icon name="lucide:mail" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href={contactHref} class="fq-action" aria-label={labels.contact}>
+    <a href={contactHref} class="fq-action" data-contact-action aria-label={labels.contact}>
       <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
     </a>
     <button type="button" class="fq-action border border-white/10" data-scroll-top aria-label={labels.scrollTop}>
       <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
+    </button>
+    <button
+      type="button"
+      class="fq-action text-[11px] font-semibold tracking-[0.05em] border border-white/10"
+      data-language-toggle
+      aria-label={labels.language}
+    >
+      {languageText}
     </button>
   </div>
 </aside>
@@ -108,7 +120,44 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   const floatingActions = document.querySelector("[data-floating-actions]") as HTMLElement | null;
   const floatingActionsPanel = document.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
   const scrollTopButton = document.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
+  const languageToggle = document.querySelector("[data-language-toggle]") as HTMLButtonElement | null;
+  const contactAction = document.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
   let lastScrollY = window.scrollY;
+
+  const langLabels = {
+    es: {
+      nextText: "EN",
+      languageAria: "Cambiar idioma a ingles",
+      contactAria: "Ir a contacto",
+      contactHref: "#contacto",
+    },
+    en: {
+      nextText: "ES",
+      languageAria: "Switch language to Spanish",
+      contactAria: "Go to contact section",
+      contactHref: "#contact",
+    },
+  } as const;
+
+  const readStoredLang = (fallback: "es" | "en") => {
+    const raw = localStorage.getItem("site-lang");
+    if (raw === "es" || raw === "en") return raw;
+    return fallback;
+  };
+
+  const applyLanguageUi = (nextLang: "es" | "en") => {
+    if (languageToggle) {
+      languageToggle.textContent = langLabels[nextLang].nextText;
+      languageToggle.setAttribute("aria-label", langLabels[nextLang].languageAria);
+    }
+
+    if (contactAction) {
+      contactAction.setAttribute("href", langLabels[nextLang].contactHref);
+      contactAction.setAttribute("aria-label", langLabels[nextLang].contactAria);
+    }
+
+    document.documentElement.lang = nextLang;
+  };
 
   const setPanelVisible = (visible: boolean) => {
     if (!floatingActionsPanel) return;
@@ -148,6 +197,28 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     scrollTopButton.addEventListener("click", () => {
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    });
+  }
+
+  if (languageToggle) {
+      const initialLang = floatingActions?.dataset.initialLang === "en" ? "en" : "es";
+      const activeLang = readStoredLang(initialLang);
+      applyLanguageUi(activeLang);
+
+      languageToggle.addEventListener("click", () => {
+      const currentLang = readStoredLang(initialLang);
+      const nextLang = currentLang === "es" ? "en" : "es";
+      localStorage.setItem("site-lang", nextLang);
+      applyLanguageUi(nextLang);
+      window.dispatchEvent(new CustomEvent("site-language:change", { detail: { lang: nextLang } }));
+      });
+
+    window.addEventListener("site-language:change", (event) => {
+      const custom = event as CustomEvent<{ lang?: string }>;
+      const nextLang = custom.detail?.lang;
+      if (nextLang !== "es" && nextLang !== "en") return;
+      localStorage.setItem("site-lang", nextLang);
+      applyLanguageUi(nextLang);
     });
   }
 </script>

@@ -122,13 +122,5 @@ const socialImageUrl = new URL("/images/og-1200x630.png", baseUrl).toString();
         revealElements.forEach((element) => observer.observe(element));
       })();
     </script>
-    <script>
-      const path = window.location.pathname;
-      const browserLang = navigator.language.toLowerCase();
-
-      if (path === "/" && browserLang.startsWith("en")) {
-        window.location.replace("/en");
-      }
-    </script>
   </body>
 </html>
