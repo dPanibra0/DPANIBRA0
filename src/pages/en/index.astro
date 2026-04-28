@@ -10,7 +10,8 @@ import Experience from "../../components/sections/Experience.astro";
 import Process from "../../components/sections/Process.astro";
 import Philosophy from "../../components/sections/Philosophy.astro";
 import Contact from "../../components/sections/Contact.astro";
-import { enContent } from "../../content/en";
+import FloatingQuickActions from "../../components/ui/FloatingQuickActions.astro";
+import { enContent } from "../../content/talento/en";
 
 const content = enContent;
 ---
@@ -42,5 +43,6 @@ const content = enContent;
     <Philosophy id="philosophy" philosophy={content.philosophy} overline={content.overlines.philosophy} />
     <Contact id="contact" contact={content.contact} overline={content.overlines.contact} />
   </main>
+  <FloatingQuickActions lang="en" />
   <Footer footer={content.footer} nav={content.nav} />
 </MainLayout>

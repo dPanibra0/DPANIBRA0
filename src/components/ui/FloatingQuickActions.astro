@@ -1,0 +1,153 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  lang: "es" | "en";
+}
+
+const { lang } = Astro.props;
+
+const labels =
+  lang === "es"
+    ? {
+        linkedin: "Abrir perfil de LinkedIn",
+        github: "Abrir perfil de GitHub",
+        email: "Enviar correo",
+        contact: "Ir a contacto",
+        scrollTop: "Volver arriba",
+      }
+    : {
+        linkedin: "Open LinkedIn profile",
+        github: "Open GitHub profile",
+        email: "Send email",
+        contact: "Go to contact section",
+        scrollTop: "Back to top",
+      };
+
+const contactHref = lang === "es" ? "#contacto" : "#contact";
+---
+
+<aside
+  class="pointer-events-none fixed bottom-5 right-4 z-50 sm:bottom-6 sm:right-6"
+  aria-label="Quick actions"
+  data-floating-actions
+>
+  <div
+    class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md shadow-[0_20px_40px_-24px_rgba(0,0,0,0.85)] transition duration-300"
+    data-floating-actions-panel
+    aria-hidden="true"
+  >
+    <a
+      href="https://www.linkedin.com/in/david-panibra-1bb87a1a4/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fq-action"
+      aria-label={labels.linkedin}
+    >
+      <Icon name="lucide:linkedin" class="h-4 w-4" aria-hidden="true" />
+    </a>
+    <a
+      href="https://github.com/dPanibra0"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fq-action"
+      aria-label={labels.github}
+    >
+      <Icon name="lucide:github" class="h-4 w-4" aria-hidden="true" />
+    </a>
+    <a href="mailto:dpanibra0@gmail.com" class="fq-action" aria-label={labels.email}>
+      <Icon name="lucide:mail" class="h-4 w-4" aria-hidden="true" />
+    </a>
+    <a href={contactHref} class="fq-action" aria-label={labels.contact}>
+      <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
+    </a>
+    <button type="button" class="fq-action border border-white/10" data-scroll-top aria-label={labels.scrollTop}>
+      <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
+    </button>
+  </div>
+</aside>
+
+<style>
+  .fq-action {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(20, 22, 26, 0.334), rgba(12, 14, 17, 0.95));
+    color: rgb(236, 239, 244);
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .fq-action:hover {
+    transform: translateY(-1px);
+    border-color: rgba(77, 131, 166, 0.8);
+    background: linear-gradient(180deg, rgba(31, 41, 53, 0.96), rgba(17, 24, 33, 0.96));
+  }
+
+  .fq-action:active {
+    transform: translateY(0);
+  }
+
+  .fq-action:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.95);
+    outline-offset: 2px;
+  }
+
+
+  @media (max-width: 640px) {
+    .fq-action {
+      height: 2.125rem;
+      width: 2.125rem;
+    }
+  }
+</style>
+
+<script>
+  const floatingActions = document.querySelector("[data-floating-actions]") as HTMLElement | null;
+  const floatingActionsPanel = document.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
+  const scrollTopButton = document.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
+  let lastScrollY = window.scrollY;
+
+  const setPanelVisible = (visible: boolean) => {
+    if (!floatingActionsPanel) return;
+    floatingActionsPanel.classList.toggle("opacity-0", !visible);
+    floatingActionsPanel.classList.toggle("translate-y-2", !visible);
+    floatingActionsPanel.classList.toggle("pointer-events-none", !visible);
+    floatingActionsPanel.classList.toggle("pointer-events-auto", visible);
+    floatingActionsPanel.setAttribute("aria-hidden", String(!visible));
+  };
+
+  const updateFloatingVisibility = () => {
+    if (!floatingActions || !floatingActionsPanel) return;
+
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY < 8 ) {
+      setPanelVisible(false);
+      lastScrollY = currentScrollY;
+      return;
+    }
+
+    if (currentScrollY > lastScrollY + 8) {
+      setPanelVisible(false);
+    } else if (currentScrollY < lastScrollY - 8) {
+      setPanelVisible(true);
+    }
+
+    lastScrollY = currentScrollY;
+  };
+
+
+  updateFloatingVisibility();
+  window.addEventListener("scroll", updateFloatingVisibility, { passive: true });
+  window.addEventListener("resize", updateFloatingVisibility);
+
+  if (scrollTopButton) {
+    scrollTopButton.addEventListener("click", () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+    });
+  }
+</script>
