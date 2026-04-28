@@ -21,7 +21,7 @@ const contactHref = initialLang === "es" ? "#contacto" : "#contact";
   data-nav-en={JSON.stringify(navEn)}
 >
   <div class="container-shell flex items-center py-3 lg:py-4">
-    <a href={initialLang === "es" ? "/talento" : "/en"} class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg" data-nav-home>
+    <a href="/talento" class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg" data-nav-home>
       <span class="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded-md border border-border/70 bg-white">
         <img src="/dpanibra0.svg" alt="dPanibra0 logo" class="h-full w-full object-cover" loading="eager" decoding="async" />
       </span>
@@ -110,7 +110,7 @@ const contactHref = initialLang === "es" ? "#contacto" : "#contact";
       menuLabel: "Open menu",
       languageAria: "Switch language to Spanish",
       nextLangText: "ES",
-      homeHref: "/en",
+      homeHref: "/talento",
       nav: { items: parsedNavEn },
     },
   };

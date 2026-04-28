@@ -108,22 +108,36 @@ a {
 }
 
 .hero-glow {
-  background: radial-gradient(circle at 84% 18%, rgba(59, 109, 140, 0.14), transparent 40%);
+  background: transparent;
+}
+
+.hero-stage {
+  min-height: clamp(340px, 50vw, 600px);
+}
+
+.hero-bg-image {
+  opacity: 0.88;
+}
+
+.hero-bg-fade {
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0.97) 0%, rgba(10, 10, 10, 0.94) 28%, rgba(10, 10, 10, 0.72) 46%, rgba(10, 10, 10, 0.35) 62%, rgba(10, 10, 10, 0.12) 78%, rgba(10, 10, 10, 0.06) 100%),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.58) 0%, rgba(10, 10, 10, 0.06) 42%, rgba(10, 10, 10, 0.68) 100%);
+}
+
+.hero-mobile-fade {
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.75) 0%, rgba(10, 10, 10, 0.2) 32%, rgba(10, 10, 10, 0.02) 55%);
 }
 
 .hero-image-frame {
   box-shadow: none;
 }
 
-.parallax-image {
-  transform: translate3d(0, var(--parallax-offset, 0px), 0);
-  will-change: transform;
-}
-
 .hero-media-shell {
-  width: min(90vw, 1480px);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(37, 42, 49, 0.8);
+  background: linear-gradient(180deg, rgba(12, 15, 20, 0.82), rgba(8, 10, 13, 0.9));
 }
 
 .stats-segment {
