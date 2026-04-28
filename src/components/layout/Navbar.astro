@@ -12,8 +12,6 @@ const { navEs, navEn, initialLang } = Astro.props;
 const nav = initialLang === "es" ? navEs : navEn;
 const menuLabel = initialLang === "es" ? "Abrir menu" : "Open menu";
 const contactHref = initialLang === "es" ? "#contacto" : "#contact";
-const langButtonLabel = initialLang === "es" ? "Cambiar idioma a ingles" : "Switch language to Spanish";
-const langButtonText = initialLang === "es" ? "EN" : "ES";
 ---
 
 <header
@@ -49,14 +47,6 @@ const langButtonText = initialLang === "es" ? "EN" : "ES";
       }
     </nav>
     <div class="ml-auto flex items-center gap-2 md:gap-3 lg:hidden">
-      <button
-        type="button"
-        class="hidden"
-        data-language-toggle
-        aria-label={langButtonLabel}
-      >
-        {langButtonText}
-      </button>
       <button
         class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-text transition hover:border-accent/60 lg:hidden"
         type="button"
@@ -205,25 +195,23 @@ const langButtonText = initialLang === "es" ? "EN" : "ES";
     });
   }
 
-  if (languageToggles.length) {
-    languageToggles.forEach((button) => {
-      button.addEventListener("click", () => {
-        const current = readStoredLang("es");
-        const next = current === "es" ? "en" : "es";
-        emitLangChange(next);
-      });
+  languageToggles.forEach((button) => {
+    button.addEventListener("click", () => {
+      const current = readStoredLang("es");
+      const next = current === "es" ? "en" : "es";
+      emitLangChange(next);
     });
+  });
 
-    const initial = readStoredLang("es");
-    applyLanguageUi(initial);
+  const initial = readStoredLang("es");
+  applyLanguageUi(initial);
 
-    window.addEventListener("site-language:change", (event) => {
-      const custom = event as CustomEvent<{ lang?: string }>;
-      const lang = custom?.detail?.lang;
-      if (lang !== "es" && lang !== "en") return;
-      applyLanguageUi(lang);
-    });
-  }
+  window.addEventListener("site-language:change", (event) => {
+    const custom = event as CustomEvent<{ lang?: string }>;
+    const lang = custom?.detail?.lang;
+    if (lang !== "es" && lang !== "en") return;
+    applyLanguageUi(lang);
+  });
 
   if (header) {
     window.addEventListener(

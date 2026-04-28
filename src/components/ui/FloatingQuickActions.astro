@@ -15,7 +15,6 @@ const labels =
         email: "Enviar correo",
         contact: "Ir a contacto",
         scrollTop: "Volver arriba",
-        language: "Cambiar idioma a ingles",
       }
     : {
         linkedin: "Open LinkedIn profile",
@@ -23,11 +22,9 @@ const labels =
         email: "Send email",
         contact: "Go to contact section",
         scrollTop: "Back to top",
-        language: "Switch language to Spanish",
       };
 
 const contactHref = lang === "es" ? "#contacto" : "#contact";
-const languageText = lang === "es" ? "EN" : "ES";
 ---
 
 <aside
@@ -48,7 +45,7 @@ const languageText = lang === "es" ? "EN" : "ES";
       class="fq-action"
       aria-label={labels.linkedin}
     >
-      <Icon name="lucide:linkedin" class="h-4 w-4" aria-hidden="true" />
+      <Icon name="simple-icons:linkedin" class="h-4 w-4" aria-hidden="true" />
     </a>
     <a
       href="https://github.com/dPanibra0"
@@ -57,24 +54,28 @@ const languageText = lang === "es" ? "EN" : "ES";
       class="fq-action"
       aria-label={labels.github}
     >
-      <Icon name="lucide:github" class="h-4 w-4" aria-hidden="true" />
+      <Icon name="simple-icons:github" class="h-4 w-4" aria-hidden="true" />
     </a>
     <a href="mailto:dpanibra0@gmail.com" class="fq-action" aria-label={labels.email}>
-      <Icon name="lucide:mail" class="h-4 w-4" aria-hidden="true" />
+      <Icon name="simple-icons:gmail" class="h-4 w-4" aria-hidden="true" />
     </a>
     <a href={contactHref} class="fq-action" data-contact-action aria-label={labels.contact}>
       <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <button type="button" class="fq-action border border-white/10" data-scroll-top aria-label={labels.scrollTop}>
-      <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
-    </button>
     <button
       type="button"
-      class="fq-action text-[11px] font-semibold tracking-[0.05em] border border-white/10"
-      data-language-toggle
-      aria-label={labels.language}
+      class="fq-action fq-action-scroll border border-white/10"
+      data-scroll-top
+      aria-label={labels.scrollTop}
     >
-      {languageText}
+      <span class="fq-scroll-icon-wrap" aria-hidden="true">
+        <span class="fq-scroll-icon fq-scroll-icon-primary">
+          <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
+        </span>
+        <span class="fq-scroll-icon fq-scroll-icon-secondary">
+          <Icon name="lucide:arrow-up" class="h-4 w-4" aria-hidden="true" />
+        </span>
+      </span>
     </button>
   </div>
 </aside>
@@ -90,6 +91,54 @@ const languageText = lang === "es" ? "EN" : "ES";
     background: linear-gradient(180deg, rgba(20, 22, 26, 0.334), rgba(12, 14, 17, 0.95));
     color: rgb(236, 239, 244);
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .fq-action-scroll {
+    overflow: hidden;
+  }
+
+  .fq-scroll-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    height: 1rem;
+    width: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fq-scroll-icon {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 230ms cubic-bezier(0.22, 1, 0.36, 1), opacity 230ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .fq-scroll-icon-secondary {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fq-action-scroll:hover .fq-scroll-icon-primary {
+      transform: translateY(-120%);
+      opacity: 0;
+      transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1), opacity 200ms linear;
+    }
+
+    .fq-action-scroll:hover .fq-scroll-icon-secondary {
+      transform: translateY(0);
+      opacity: 1;
+      transition-delay: 90ms;
+    }
+
+    .fq-action-scroll:not(:hover) .fq-scroll-icon-primary,
+    .fq-action-scroll:not(:hover) .fq-scroll-icon-secondary {
+      transition-duration: 0ms;
+      transition-delay: 0ms;
+    }
+
   }
 
   .fq-action:hover {
@@ -118,10 +167,9 @@ const languageText = lang === "es" ? "EN" : "ES";
 
 <script>
   const floatingActions = document.querySelector("[data-floating-actions]") as HTMLElement | null;
-  const floatingActionsPanel = document.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
-  const scrollTopButton = document.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
-  const languageToggle = document.querySelector("[data-language-toggle]") as HTMLButtonElement | null;
-  const contactAction = document.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
+  const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
+  const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
+  const contactAction = floatingActions?.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
   let lastScrollY = window.scrollY;
 
   const langLabels = {
@@ -146,17 +194,22 @@ const languageText = lang === "es" ? "EN" : "ES";
   };
 
   const applyLanguageUi = (nextLang: "es" | "en") => {
-    if (languageToggle) {
-      languageToggle.textContent = langLabels[nextLang].nextText;
-      languageToggle.setAttribute("aria-label", langLabels[nextLang].languageAria);
-    }
+    const state = langLabels[nextLang];
 
     if (contactAction) {
-      contactAction.setAttribute("href", langLabels[nextLang].contactHref);
-      contactAction.setAttribute("aria-label", langLabels[nextLang].contactAria);
+      contactAction.setAttribute("href", state.contactHref);
+      contactAction.setAttribute("aria-label", state.contactAria);
     }
 
     document.documentElement.lang = nextLang;
+  };
+
+  const applyLanguageBlocks = (nextLang: "es" | "en") => {
+    document.querySelectorAll("[data-lang-block]").forEach((block) => {
+      const matches = block.getAttribute("data-lang-block") === nextLang;
+      block.toggleAttribute("hidden", !matches);
+      block.setAttribute("aria-hidden", String(!matches));
+    });
   };
 
   const setPanelVisible = (visible: boolean) => {
@@ -200,25 +253,17 @@ const languageText = lang === "es" ? "EN" : "ES";
     });
   }
 
-  if (languageToggle) {
-      const initialLang = floatingActions?.dataset.initialLang === "en" ? "en" : "es";
-      const activeLang = readStoredLang(initialLang);
-      applyLanguageUi(activeLang);
+  const initialLang = floatingActions?.dataset.initialLang === "en" ? "en" : "es";
+  const activeLang = readStoredLang(initialLang);
+  applyLanguageUi(activeLang);
+  applyLanguageBlocks(activeLang);
 
-      languageToggle.addEventListener("click", () => {
-      const currentLang = readStoredLang(initialLang);
-      const nextLang = currentLang === "es" ? "en" : "es";
-      localStorage.setItem("site-lang", nextLang);
-      applyLanguageUi(nextLang);
-      window.dispatchEvent(new CustomEvent("site-language:change", { detail: { lang: nextLang } }));
-      });
-
-    window.addEventListener("site-language:change", (event) => {
-      const custom = event as CustomEvent<{ lang?: string }>;
-      const nextLang = custom.detail?.lang;
-      if (nextLang !== "es" && nextLang !== "en") return;
-      localStorage.setItem("site-lang", nextLang);
-      applyLanguageUi(nextLang);
-    });
-  }
+  window.addEventListener("site-language:change", (event) => {
+    const custom = event as CustomEvent<{ lang?: string }>;
+    const nextLang = custom.detail?.lang;
+    if (nextLang !== "es" && nextLang !== "en") return;
+    localStorage.setItem("site-lang", nextLang);
+    applyLanguageUi(nextLang);
+    applyLanguageBlocks(nextLang);
+  });
 </script>
