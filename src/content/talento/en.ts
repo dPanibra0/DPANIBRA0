@@ -8,16 +8,17 @@ export const enContent: PortfolioContent = {
       "Software engineer specialized in backend and microservices architecture. I design end-to-end enterprise systems based on business domain analysis, from user interaction to data persistence.",
   },
   nav: [
-    { label: "About", href: "#about" },
-    { label: "Stack", href: "#stack" },
-    //{ label: "Projects", href: "#projects" },
+    { label: "Microservices", href: "#microservices" },
+    { label: "Architecture", href: "#architecture" },
     { label: "Experience", href: "#experience" },
-    { label: "Process", href: "#process" },
-    { label: "Philosophy", href: "#philosophy" },
+    { label: "Projects", href: "#projects" },
+    { label: "Stack", href: "#stack" },
     { label: "Contact", href: "#contact" },
   ],
   overlines: {
     about: "ABOUT",
+    microservices: "MICROSERVICES",
+    hexagonal: "HEXAGONAL ARCHITECTURE",
     stack: "TECHNICAL STACK",
     projects: "FEATURED PROJECTS",
     experience: "PROFESSIONAL EXPERIENCE",
@@ -28,9 +29,9 @@ export const enContent: PortfolioContent = {
   hero: {
     eyebrow: "Domain-driven software engineering",
     availability: "Available for projects - Remote",
-    title: "Scalable Enterprise System Design",
+    title: "Java Backend for Enterprise Microservices",
     subtitle:
-      "Software engineer focused on analyzing business needs and designing complete systems, from user experience to the logic that processes and stores information consistently.",
+      "I build and evolve Java/Spring Boot APIs and microservices for critical workflows, with a strong focus on data consistency, reliable integrations, and production-ready delivery.",
     message:
       "Specialized in Java backend and microservices, building reliable systems that process critical information, integrate with other platforms, and evolve without compromising data consistency.",
     ctaPrimary: "Contact",
@@ -40,6 +41,37 @@ export const enContent: PortfolioContent = {
       { value: "4", label: "Technology companies" },
       { value: "3", label: "Industry sectors (logistics, energy, pensions)" },
       { value: "2", label: "International enterprise systems" },
+    ],
+  },
+  microservices: {
+    headingPrimary: "Microservices",
+    headingSecondary: "scalable, resilient, and observable",
+    intro:
+      "I design decoupled services for critical domains with clear communication, operational control, and safe production evolution.",
+    pillars: [
+      {
+        title: "Scalable",
+        description: "When demand grows, we scale only the part that needs it.",
+      },
+      {
+        title: "Resilient",
+        description: "If one part fails, the rest keeps running.",
+      },
+      {
+        title: "Observable",
+        description: "We see what is happening in real time with metrics, logs, and traces.",
+      },
+    ],
+  },
+  hexagonal: {
+    headingPrimary: "Hexagonal architecture",
+    headingSecondary: "focused on domain and maintainability",
+    intro:
+      "I structure use cases with ports and adapters to isolate business rules and make testing and integration easier.",
+    points: [
+      "Domain isolated from framework and infrastructure details.",
+      "Adapters for APIs, persistence, and external integrations.",
+      "More direct tests over use cases and critical rules.",
     ],
   },
   about: {

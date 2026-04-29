@@ -1,0 +1,81 @@
+---
+interface Props {
+  id: string;
+  hexagonal: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    points: string[];
+  };
+  overline: string;
+}
+
+const { id, hexagonal, overline } = Astro.props;
+---
+
+<section id={id} class="section-space border-t border-border/50">
+  <div class="container-shell pt-8 md:pt-12">
+    <div class="hex-arch-layout" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="46">
+      <article class="hex-arch-copy" data-reveal="up">
+        <p class="micro-label mb-4">{overline}</p>
+        <h2 class="text-[30px] font-semibold leading-[1.04] tracking-[-0.028em] text-text md:text-[40px]">
+          {hexagonal.headingPrimary}
+          <br />
+          <span class="text-muted">{hexagonal.headingSecondary}</span>
+        </h2>
+        <p class="mt-5 max-w-[64ch] text-[15px] leading-relaxed text-muted md:text-[17px]">{hexagonal.intro}</p>
+        <ul class="mt-5 space-y-3">
+          {
+            hexagonal.points.map((point) => (
+              <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-[16px]">
+                <span class="text-muted">›</span>
+                <span>{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+
+      <article class="hex-arch-diagram-wrap" data-reveal="up">
+        <svg viewBox="0 0 620 360" class="hex-architecture-diagram" role="img" aria-label="Diagrama de arquitectura hexagonal con dominio, puertos y adaptadores">
+          <g stroke="currentColor" fill="none" opacity="0.78">
+            <polygon stroke-width="1.8" points="310,94 378,133 378,211 310,250 242,211 242,133" />
+            <polygon stroke-width="1.2" points="310,56 412,115 412,229 310,288 208,229 208,115" />
+            <polygon stroke-width="1" points="310,26 438,100 438,244 310,318 182,244 182,100" opacity="0.68" />
+          </g>
+
+          <g stroke="currentColor" stroke-width="1" opacity="0.54">
+            <line x1="310" y1="56" x2="310" y2="26" />
+            <line x1="412" y1="115" x2="438" y2="100" />
+            <line x1="412" y1="229" x2="438" y2="244" />
+            <line x1="310" y1="288" x2="310" y2="318" />
+            <line x1="208" y1="229" x2="182" y2="244" />
+            <line x1="208" y1="115" x2="182" y2="100" />
+          </g>
+
+          <g fill="currentColor" font-size="16" font-weight="600" text-anchor="middle">
+            <text x="310" y="176">DOMINIO</text>
+          </g>
+
+          <g fill="currentColor" font-size="12" opacity="0.88" text-anchor="middle">
+            <text x="310" y="86">PUERTOS</text>
+            <text x="406" y="141">APLICACION</text>
+            <text x="406" y="218">APLICACION</text>
+            <text x="310" y="278">PUERTOS</text>
+            <text x="214" y="218">APLICACION</text>
+            <text x="214" y="141">APLICACION</text>
+          </g>
+
+          <g fill="currentColor" font-size="11" opacity="0.72" text-anchor="middle">
+            <text x="310" y="18">TELEMETRIA</text>
+            <text x="456" y="96">API REST</text>
+            <text x="456" y="260">DB / EVENTOS</text>
+            <text x="310" y="348">INTEGRACIONES</text>
+            <text x="164" y="260">SCHEDULER</text>
+            <text x="164" y="96">CLIENTES</text>
+          </g>
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>

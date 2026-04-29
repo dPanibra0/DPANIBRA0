@@ -86,6 +86,8 @@ export interface PortfolioContent {
   nav: NavItem[];
   overlines: {
     about: string;
+    microservices: string;
+    hexagonal: string;
     stack: string;
     projects: string;
     experience: string;
@@ -94,6 +96,21 @@ export interface PortfolioContent {
     contact: string;
   };
   hero: HeroContent;
+  microservices: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    pillars: Array<{
+      title: string;
+      description: string;
+    }>;
+  };
+  hexagonal: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    points: string[];
+  };
   about: AboutContent;
   stack: {
     title: string;

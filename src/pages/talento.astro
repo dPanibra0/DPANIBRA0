@@ -3,11 +3,11 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import Hero from "../components/sections/Hero.astro";
-import About from "../components/sections/About.astro";
-import TechStack from "../components/sections/TechStack.astro";
+import Microservices from "../components/sections/Microservices.astro";
+import HexagonalArchitecture from "../components/sections/HexagonalArchitecture.astro";
+import TechStackCompact from "../components/sections/TechStackCompact.astro";
 import Experience from "../components/sections/Experience.astro";
-import Process from "../components/sections/Process.astro";
-import Philosophy from "../components/sections/Philosophy.astro";
+import Projects from "../components/sections/Projects.astro";
 import Contact from "../components/sections/Contact.astro";
 import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
 import { esContent } from "../content/talento/es";
@@ -21,14 +21,13 @@ const content = esContent;
   <main data-lang-main>
     <div data-lang-block="es">
     <Hero id="inicio" hero={esContent.hero} />
-    <About id="sobre-mi" about={esContent.about} overline={esContent.overlines.about} />
-    <div class="divider-line"></div>
-    <TechStack id="stack" stack={esContent.stack} overline={esContent.overlines.stack} />
+    <Microservices id="microservicios" microservices={esContent.microservices} overline={esContent.overlines.microservices} />
+    <HexagonalArchitecture id="arquitectura" hexagonal={esContent.hexagonal} overline={esContent.overlines.hexagonal} />
     <Experience id="experiencia" experience={esContent.experience} overline={esContent.overlines.experience} />
-    {/* <Projects
+    <Projects
       id="proyectos"
-      projects={content.projects}
-      overline={content.overlines.projects}
+      projects={esContent.projects}
+      overline={esContent.overlines.projects}
       labels={{
         problem: "Problema",
         architecture: "Arquitectura",
@@ -38,20 +37,29 @@ const content = esContent;
         impact: "Impacto",
       }}
     />
-      */}
-    <Process id="proceso" process={esContent.process} overline={esContent.overlines.process} />
-    <Philosophy id="filosofia" philosophy={esContent.philosophy} overline={esContent.overlines.philosophy} />
+    <TechStackCompact id="stack" stack={esContent.stack} overline={esContent.overlines.stack} />
     <Contact id="contacto" contact={esContent.contact} overline={esContent.overlines.contact} />
     </div>
 
     <div data-lang-block="en" hidden aria-hidden="true">
       <Hero id="home" hero={enContent.hero} />
-      <About id="about" about={enContent.about} overline={enContent.overlines.about} />
-      <div class="divider-line"></div>
-      <TechStack id="stack-en" stack={enContent.stack} overline={enContent.overlines.stack} />
+      <Microservices id="microservices" microservices={enContent.microservices} overline={enContent.overlines.microservices} />
+      <HexagonalArchitecture id="architecture" hexagonal={enContent.hexagonal} overline={enContent.overlines.hexagonal} />
       <Experience id="experience" experience={enContent.experience} overline={enContent.overlines.experience} />
-      <Process id="process" process={enContent.process} overline={enContent.overlines.process} />
-      <Philosophy id="philosophy" philosophy={enContent.philosophy} overline={enContent.overlines.philosophy} />
+      <Projects
+        id="projects"
+        projects={enContent.projects}
+        overline={enContent.overlines.projects}
+        labels={{
+          problem: "Problem",
+          architecture: "Architecture",
+          stack: "Stack",
+          challenges: "Challenges",
+          solution: "Solution",
+          impact: "Impact",
+        }}
+      />
+      <TechStackCompact id="stack" stack={enContent.stack} overline={enContent.overlines.stack} />
       <Contact id="contact" contact={enContent.contact} overline={enContent.overlines.contact} />
     </div>
   </main>

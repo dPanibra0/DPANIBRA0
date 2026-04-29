@@ -8,16 +8,17 @@ export const esContent: PortfolioContent = {
       "Ingeniero de software especializado en backend y arquitectura de microservicios. Diseño sistemas empresariales end-to-end a partir del análisis del dominio del negocio, desde la interacción del usuario hasta la persistencia de datos.",
   },
   nav: [
-    { label: "Sobre mí", href: "#sobre-mi" },
-    { label: "Stack", href: "#stack" },
-    //{ label: "Proyectos", href: "#proyectos" },
+    { label: "Microservicios", href: "#microservicios" },
+    { label: "Arquitectura", href: "#arquitectura" },
     { label: "Experiencia", href: "#experiencia" },
-    { label: "Proceso", href: "#proceso" },
-    { label: "Filosofia", href: "#filosofia" },
+    { label: "Proyectos", href: "#proyectos" },
+    { label: "Stack", href: "#stack" },
     { label: "Contacto", href: "#contacto" },
   ],
   overlines: {
     about: "SOBRE MI",
+    microservices: "MICROSERVICIOS",
+    hexagonal: "ARQUITECTURA HEXAGONAL",
     stack: "STACK TÉCNICO",
     projects: "PROYECTOS DESTACADOS",
     experience: "EXPERIENCIA PROFESIONAL",
@@ -28,9 +29,9 @@ export const esContent: PortfolioContent = {
   hero: {
     eyebrow: "Ingeniería de software orientada al dominio",
     availability: "Disponible para proyectos - Remote",
-    title: "Diseño de Sistemas Empresariales Escalables",
+    title: "Backend Java para Microservicios Empresariales",
     subtitle:
-      "Ingeniero de software enfocado en analizar el negocio y diseñar sistemas completos, desde la experiencia del usuario hasta la lógica que procesa la información y la almacena de forma consistente.",
+      "Construyo y evoluciono APIs y microservicios con Java/Spring Boot para procesos críticos, priorizando consistencia de datos, integración confiable y entregas listas para producción.",
     message:
       "Especializado en backend con Java y microservicios, construyendo sistemas confiables que procesan información crítica, se integran con otras plataformas y evolucionan sin comprometer la consistencia de los datos.",
     ctaPrimary: "Contactar",
@@ -43,6 +44,37 @@ export const esContent: PortfolioContent = {
         label: "Sectores industriales (logística, energía, pensiones)",
       },
       { value: "2", label: "Sistemas empresariales internacionales" },
+    ],
+  },
+  microservices: {
+    headingPrimary: "Microservicios",
+    headingSecondary: "escalables, resilientes y observables",
+    intro:
+      "Diseño servicios desacoplados para dominios críticos, con comunicación clara, control operacional y evolución segura en producción.",
+    pillars: [
+      {
+        title: "Escalable",
+        description: "Si crece la demanda, escalamos solo la parte que lo necesita.",
+      },
+      {
+        title: "Resiliente",
+        description: "Si algo falla, el resto sigue funcionando sin caerse todo.",
+      },
+      {
+        title: "Observable",
+        description: "Vemos qué pasa en tiempo real con métricas, logs y trazas.",
+      },
+    ],
+  },
+  hexagonal: {
+    headingPrimary: "Arquitectura hexagonal",
+    headingSecondary: "enfocada en dominio y mantenibilidad",
+    intro:
+      "Estructuro casos de uso con puertos y adaptadores para aislar reglas de negocio y facilitar pruebas e integración.",
+    points: [
+      "Dominio protegido del framework y de detalles de infraestructura.",
+      "Adaptadores para APIs, persistencia e integraciones externas.",
+      "Pruebas más directas sobre casos de uso y reglas críticas.",
     ],
   },
   about: {
