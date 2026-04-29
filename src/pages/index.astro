@@ -1,3 +1,96 @@
 ---
-return Astro.redirect("/talento");
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import About from "../components/sections/About.astro";
+import TechStack from "../components/sections/TechStack.astro";
+import Experience from "../components/sections/Experience.astro";
+import Process from "../components/sections/Process.astro";
+import Philosophy from "../components/sections/Philosophy.astro";
+import Contact from "../components/sections/Contact.astro";
+import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
+import { esContent } from "../content/talento/es";
+import { enContent } from "../content/talento/en";
+
+const content = esContent;
 ---
+
+<MainLayout title={content.meta.title} description={content.meta.description} lang="es">
+  <Navbar navEs={esContent.nav} navEn={enContent.nav} initialLang="es" />
+  <main data-lang-main>
+    <div data-lang-block="es">
+    <Hero id="inicio" hero={esContent.hero} />
+    <About id="sobre-mi" about={esContent.about} overline={esContent.overlines.about} />
+    <div class="divider-line"></div>
+    <TechStack id="stack" stack={esContent.stack} overline={esContent.overlines.stack} />
+    <Experience id="experiencia" experience={esContent.experience} overline={esContent.overlines.experience} />
+    {/* <Projects
+      id="proyectos"
+      projects={content.projects}
+      overline={content.overlines.projects}
+      labels={{
+        problem: "Problema",
+        architecture: "Arquitectura",
+        stack: "Stack",
+        challenges: "Desafios",
+        solution: "Solucion",
+        impact: "Impacto",
+      }}
+    />
+      */}
+    <Process id="proceso" process={esContent.process} overline={esContent.overlines.process} />
+    <Philosophy id="filosofia" philosophy={esContent.philosophy} overline={esContent.overlines.philosophy} />
+    <Contact id="contacto" contact={esContent.contact} overline={esContent.overlines.contact} />
+    </div>
+
+    <div data-lang-block="en" hidden aria-hidden="true">
+      <Hero id="home" hero={enContent.hero} />
+      <About id="about" about={enContent.about} overline={enContent.overlines.about} />
+      <div class="divider-line"></div>
+      <TechStack id="stack-en" stack={enContent.stack} overline={enContent.overlines.stack} />
+      <Experience id="experience" experience={enContent.experience} overline={enContent.overlines.experience} />
+      <Process id="process" process={enContent.process} overline={enContent.overlines.process} />
+      <Philosophy id="philosophy" philosophy={enContent.philosophy} overline={enContent.overlines.philosophy} />
+      <Contact id="contact" contact={enContent.contact} overline={enContent.overlines.contact} />
+    </div>
+  </main>
+  <FloatingQuickActions lang="es" />
+  <div data-lang-block="es">
+    <Footer footer={esContent.footer} nav={esContent.nav} />
+  </div>
+  <div data-lang-block="en" hidden aria-hidden="true">
+    <Footer footer={enContent.footer} nav={enContent.nav} />
+  </div>
+
+  <script is:inline>
+    (() => {
+      const readStoredLang = (fallback) => {
+        const raw = localStorage.getItem("site-lang");
+        if (raw === "es" || raw === "en") return raw;
+        return fallback;
+      };
+
+      const applyLanguage = (lang) => {
+        document.querySelectorAll("[data-lang-block]").forEach((block) => {
+          const matches = block.getAttribute("data-lang-block") === lang;
+          block.toggleAttribute("hidden", !matches);
+          block.setAttribute("aria-hidden", String(!matches));
+        });
+        document.documentElement.lang = lang;
+      };
+
+      const initial = readStoredLang("es");
+      applyLanguage(initial);
+      window.dispatchEvent(new CustomEvent("site-language:change", { detail: { lang: initial } }));
+
+      window.addEventListener("site-language:change", (event) => {
+        const custom = event;
+        const lang = custom && custom.detail ? custom.detail.lang : null;
+        if (lang !== "es" && lang !== "en") return;
+        localStorage.setItem("site-lang", lang);
+        applyLanguage(lang);
+      });
+    })();
+  </script>
+</MainLayout>
