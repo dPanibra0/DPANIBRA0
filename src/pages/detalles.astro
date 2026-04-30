@@ -1,0 +1,287 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import { esContent } from "../content/talento/es";
+import { enContent } from "../content/talento/en";
+import type { PortfolioContent } from "../content/types";
+
+interface Props {
+  id: string;
+  experience: PortfolioContent["experience"];
+  overline: string;
+}
+
+const { id, experience, overline } = Astro.props;
+const content = esContent;
+---
+
+<MainLayout
+  title="Detalles profesionales | David Panibra"
+  description="Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra."
+  lang="es"
+>
+  <Navbar navEs={esContent.nav} navEn={enContent.nav} initialLang="es" />
+
+  <main class="section-space border-t border-border/50">
+    <div class="container-shell pt-8 md:pt-12">
+      <p class="micro-label mb-5" data-reveal="up">DETALLE</p>
+      <h1
+        class="max-w-[900px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[48px]"
+        data-reveal="up"
+      >
+        Pagina de detalle
+        <br />
+        <span class="text-muted">experiencia, proyectos y blog</span>
+      </h1>
+      <section id={id} class="section-space border-t border-border/50">
+        <div class="container-shell pt-8 md:pt-12">
+          <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+          <h2
+            class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]"
+            data-reveal="up"
+          >
+            {content.experience.headingPrimary}
+            <br />
+            <span class="text-muted">{content.experience.headingSecondary}</span>
+          </h2>
+
+          <div
+            class="relative mt-14 md:mt-16"
+            data-reveal="up"
+            data-reveal-delay="90"
+          >
+            <div
+              class="absolute bg-gray-300 bottom-2 left-[10px] top-2 w-px bg-gradient-to-b from-accent/70 via-accent-strong/45 to-accent/70"
+            >
+            </div>
+
+            <div class="space-y-16 md:space-y-24 lg:space-y-28">
+              {
+                content.experience.items.map((item, index) => {
+                  const context = (item as { context?: string }).context ?? "";
+                  const technologies =
+                    (item as { technologies?: string[] }).technologies ?? [];
+
+                  return (
+                    <article
+                      class="exp-item relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14"
+                      data-exp-item
+                    >
+                      <span class="exp-segment pointer-events-none absolute bottom-2 left-[10px] top-2 w-px" />
+                      <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]" />
+
+                      <div class="space-y-2">
+                        <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">
+                          {item.company}
+                        </h3>
+                        <p class="text-sm text-[#bcc6d1] md:text-[15px]">
+                          {item.period}
+                        </p>
+                        <p class="text-sm text-muted/80 md:text-base">
+                          {item.workMode}
+                        </p>
+                      </div>
+
+                      <div class="max-w-[920px]">
+                        <h4 class="text-[22px] font-semibold tracking-[-0.02em] text-text md:text-3xl">
+                          {item.role}
+                        </h4>
+                        {context && (
+                          <p class="mt-3 text-base leading-relaxed text-muted">
+                            {context}
+                          </p>
+                        )}
+
+                        <ul class="mt-6 space-y-3">
+                          {item.highlights.slice(0, 4).map((highlight) => (
+                            <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-base">
+                              <span class="mt-[1px] text-muted">›</span>
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <div class="mt-6 flex flex-wrap gap-2">
+                          {technologies.map((tech) => (
+                            <span
+                              class="rounded-md border px-2.5 py-1 text-xs text-[#c1c9d2] md:text-sm"
+                              style="background:#161616;border-color:#2a2a2a;"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+      <a
+        href="/talento#experiencia"
+        class="back-link"
+        data-reveal="up"
+        data-reveal-delay="180"
+      >
+        <span aria-hidden="true">←</span>
+        <span>Volver a experiencia</span>
+      </a>
+    </div>
+  </main>
+
+  <Footer footer={content.footer} nav={content.nav} />
+</MainLayout>
+
+<style>
+  .detail-block {
+    margin-top: 2rem;
+    border: 1px solid rgba(86, 97, 108, 0.5);
+    background: linear-gradient(
+      180deg,
+      rgba(19, 23, 29, 0.72),
+      rgba(13, 16, 21, 0.92)
+    );
+    padding: 1rem;
+  }
+
+  .detail-copy {
+    margin-top: 0.85rem;
+    max-width: 70ch;
+    font-size: 0.92rem;
+    line-height: 1.72;
+    color: rgba(197, 208, 218, 0.86);
+  }
+
+  .back-link {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.9rem;
+    color: rgba(224, 234, 244, 0.94);
+    text-decoration: underline;
+    text-decoration-color: rgba(163, 180, 196, 0.6);
+    text-underline-offset: 3px;
+  }
+
+  .back-link:hover,
+  .back-link:focus-visible {
+    text-decoration-color: rgba(226, 235, 246, 0.95);
+  }
+
+  @media (min-width: 768px) {
+    .detail-block {
+      margin-top: 2.3rem;
+      padding: 1.35rem 1.4rem;
+    }
+  }
+</style>
+
+--- ---
+
+<style>
+  .exp-item {
+    opacity: 0.4;
+    transition: opacity 300ms ease;
+  }
+
+  .exp-node {
+    border-color: #9aa8b8;
+    background: #cdd4db;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .exp-segment {
+    background: rgba(77, 131, 166, 0.55);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .exp-item:hover,
+  .exp-item.is-active {
+    opacity: 1;
+  }
+
+  .exp-item:hover .exp-segment,
+  .exp-item.is-active .exp-segment {
+    opacity: 1;
+  }
+
+  .exp-item:hover .exp-node,
+  .exp-item.is-active .exp-node {
+    transform: scale(1.1);
+    border-color: #d8e3ee;
+    background: #f6f8fb;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exp-item,
+    .exp-node,
+    .exp-segment {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  if ((window as Window & { __experienceInit?: boolean }).__experienceInit) {
+    // no-op
+  } else {
+    (window as Window & { __experienceInit?: boolean }).__experienceInit = true;
+    const items = Array.from(document.querySelectorAll("[data-exp-item]"));
+
+    if (items.length) {
+      let ticking = false;
+
+      const updateActiveItem = () => {
+        const triggerY =
+          window.innerWidth < 768
+            ? window.innerHeight * 0.62
+            : window.innerHeight * 0.45;
+        let activeItem = null;
+        let nearest = Number.POSITIVE_INFINITY;
+
+        for (const item of items) {
+          const rect = item.getBoundingClientRect();
+          const containsTrigger =
+            rect.top <= triggerY && rect.bottom >= triggerY;
+
+          if (containsTrigger) {
+            activeItem = item;
+            break;
+          }
+
+          const center = rect.top + rect.height / 2;
+          const distance = Math.abs(center - triggerY);
+          if (distance < nearest) {
+            nearest = distance;
+            activeItem = item;
+          }
+        }
+
+        items.forEach((item) =>
+          item.classList.toggle("is-active", item === activeItem),
+        );
+        ticking = false;
+      };
+
+      const onScroll = () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateActiveItem);
+          ticking = true;
+        }
+      };
+
+      updateActiveItem();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+    }
+  }
+</script>
