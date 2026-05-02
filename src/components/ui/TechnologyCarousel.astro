@@ -1,0 +1,145 @@
+---
+import { Icon } from "astro-icon/components";
+
+const marqueeTechnologies = [
+  { label: "Java", icon: "simple-icons:openjdk" },
+  { label: "Spring", icon: "simple-icons:spring" },
+  { label: "Spring Boot", icon: "simple-icons:springboot" },
+  { label: "Hibernate", icon: "simple-icons:hibernate" },
+  { label: "Oracle", icon: "simple-icons:oracle" },
+  { label: "PostgreSQL", icon: "simple-icons:postgresql" },
+  { label: "MySQL", icon: "simple-icons:mysql" },
+  { label: "MongoDB", icon: "simple-icons:mongodb" },
+  { label: "Redis", icon: "simple-icons:redis" },
+  { label: "Docker", icon: "simple-icons:docker" },
+  { label: "Kubernetes", icon: "simple-icons:kubernetes" },
+  { label: "Git", icon: "simple-icons:git" },
+  { label: "GitHub", icon: "simple-icons:github" },
+  { label: "GitLab", icon: "simple-icons:gitlab" },
+  { label: "Jenkins", icon: "simple-icons:jenkins" },
+  { label: "Azure", icon: "simple-icons:microsoftazure" },
+  { label: "AWS", icon: "simple-icons:amazonwebservices" },
+  { label: "JUnit", icon: "simple-icons:junit5" },
+  { label: "SonarQube", icon: "simple-icons:sonarqube" },
+  { label: "Linux", icon: "simple-icons:linux" },
+  { label: "Apache Kafka", icon: "simple-icons:apachekafka" },
+  { label: "RabbitMQ", icon: "simple-icons:rabbitmq" },
+  { label: "Maven", icon: "simple-icons:apachemaven" },
+  { label: "Gradle", icon: "simple-icons:gradle" },
+];
+---
+
+<div class="tech-marquee" data-reveal="up" aria-label="Technology icons carousel">
+  <div class="tech-marquee__viewport">
+    <div class="tech-marquee__track" role="list">
+      {
+        [0, 1].map((groupIndex) => (
+          <div class="tech-marquee__group" aria-hidden={groupIndex === 1 ? "true" : undefined}>
+            {marqueeTechnologies.map((technology) => (
+              <div class="tech-hex" role="listitem" aria-label={technology.label} title={technology.label}>
+                <Icon name={technology.icon} class="tech-hex__icon" aria-hidden="true" />
+              </div>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .tech-marquee {
+    --tech-gap: 1.2rem;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%);
+  }
+
+  .tech-marquee__viewport {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .tech-marquee__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    animation: stack-marquee 44s linear infinite;
+    will-change: transform;
+  }
+
+  .tech-marquee__group {
+    display: flex;
+    align-items: center;
+    gap: var(--tech-gap);
+    padding-right: var(--tech-gap);
+    flex-shrink: 0;
+  }
+
+  .tech-hex {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 3.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.02);
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+    flex: 0 0 auto;
+  }
+
+  .tech-hex__icon {
+    width: 1.45rem;
+    height: 1.45rem;
+    color: #ffffff;
+  }
+
+  @keyframes stack-marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .tech-hex {
+      width: 3.8rem;
+      height: 3.3rem;
+    }
+
+    .tech-marquee {
+      --tech-gap: 0.9rem;
+    }
+
+    .tech-hex__icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tech-marquee {
+      mask-image: none;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .tech-marquee__viewport {
+      width: max-content;
+      min-width: 100%;
+      overflow: visible;
+    }
+
+    .tech-marquee__track {
+      animation: none;
+    }
+
+    .tech-marquee__group:last-child {
+      display: none;
+    }
+  }
+</style>

@@ -170,7 +170,7 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
   const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
   const contactAction = floatingActions?.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
-  let lastScrollY = window.scrollY;
+  const footer = document.querySelector("footer") as HTMLElement | null;
 
   const langLabels = {
     es: {
@@ -224,21 +224,23 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   const updateFloatingVisibility = () => {
     if (!floatingActions || !floatingActionsPanel) return;
 
-    const currentScrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const maxScroll = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
+    const progress = window.scrollY / maxScroll;
+    const nearPageEnd = progress >= 0.86;
+    setPanelVisible(nearPageEnd);
 
-    if (currentScrollY < 8 ) {
-      setPanelVisible(false);
-      lastScrollY = currentScrollY;
-      return;
+    const baseOffset = window.matchMedia("(min-width: 640px)").matches ? 24 : 20;
+    let extraOffset = 0;
+
+    if (footer) {
+      const footerTop = footer.getBoundingClientRect().top;
+      if (footerTop < viewportHeight) {
+        extraOffset = viewportHeight - footerTop + 16;
+      }
     }
 
-    if (currentScrollY > lastScrollY + 8) {
-      setPanelVisible(false);
-    } else if (currentScrollY < lastScrollY - 8) {
-      setPanelVisible(true);
-    }
-
-    lastScrollY = currentScrollY;
+    floatingActions.style.bottom = `${baseOffset + extraOffset}px`;
   };
 
 

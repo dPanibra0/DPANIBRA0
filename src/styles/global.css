@@ -355,7 +355,9 @@ a {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(112, 143, 169, 0.5), transparent);
 }
-
+.footer-card-proyect-background {
+  background: linear-gradient(180deg, rgba(20, 22, 26, 0.9), rgba(13, 14, 17, 0.9));
+}
 .stats-item:first-child {
   border-top: 0;
 }
