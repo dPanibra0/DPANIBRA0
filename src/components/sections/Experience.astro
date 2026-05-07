@@ -58,7 +58,7 @@ const getFinalDate = (period: string) => {
     </div>
 
     <div class="mt-10 md:mt-12" data-reveal="up" data-reveal-delay="120">
-      <a href={detailsHref} class="exp-cta inline-flex items-center gap-2 text-sm font-medium text-text md:text-base">
+      <a href={detailsHref} class="inline-cta text-xs md:text-sm">
         <span>{detailsLabel}</span>
         <span aria-hidden="true">→</span>
       </a>
@@ -128,17 +128,6 @@ const getFinalDate = (period: string) => {
   .exp-list:hover .exp-item:hover,
   .exp-list:hover .exp-item:focus-within {
     opacity: 1;
-  }
-
-  .exp-cta {
-    text-decoration: underline;
-    text-decoration-color: rgba(163, 180, 196, 0.6);
-    text-underline-offset: 3px;
-  }
-
-  .exp-cta:hover,
-  .exp-cta:focus-visible {
-    text-decoration-color: rgba(226, 235, 246, 0.95);
   }
 
   @media (min-width: 768px) {

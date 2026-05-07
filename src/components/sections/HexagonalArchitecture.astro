@@ -17,17 +17,17 @@ const { id, hexagonal, overline } = Astro.props;
   <div class="container-shell pt-8 md:pt-12">
     <div class="hex-arch-layout" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="46">
       <article class="hex-arch-copy" data-reveal="up">
-        <p class="micro-label mb-4">{overline}</p>
-        <h2 class="text-[30px] font-semibold leading-[1.04] tracking-[-0.028em] text-text md:text-[40px]">
+        <p class="micro-label mb-5">{overline}</p>
+        <h2 class="text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
           {hexagonal.headingPrimary}
           <br />
           <span class="text-muted">{hexagonal.headingSecondary}</span>
         </h2>
-        <p class="mt-5 max-w-[64ch] text-[15px] leading-relaxed text-muted md:text-[17px]">{hexagonal.intro}</p>
-        <ul class="mt-5 space-y-3">
+        <p class="mt-6 max-w-[64ch] text-base leading-relaxed text-muted md:text-lg">{hexagonal.intro}</p>
+        <ul class="mt-6 space-y-3">
           {
             hexagonal.points.map((point) => (
-              <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-[16px]">
+              <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-base">
                 <span class="text-muted">›</span>
                 <span>{point}</span>
               </li>
