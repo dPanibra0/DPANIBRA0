@@ -13,6 +13,7 @@
   --site-max-w: 1320px;
   --site-px: 24px;
   --section-py: 64px;
+  --font-accent: "Fira Code", "Cascadia Code", "Consolas", monospace;
 }
 
 * {
@@ -75,6 +76,9 @@ a {
   font-weight: 500;
   letter-spacing: -0.01em;
   transition: all 180ms ease;
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .steel-button-primary {
@@ -100,10 +104,23 @@ a {
 
 .micro-label {
   color: #b7c0c9;
+  font-family: var(--font-accent);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+.technical-accent {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section-title-accent {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .micro-grid {
@@ -119,7 +136,10 @@ a {
 }
 
 .micro-card-label {
+  font-family: var(--font-accent);
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
 }
 
 .micro-figure {

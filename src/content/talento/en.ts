@@ -17,8 +17,8 @@ export const enContent: PortfolioContent = {
   ],
   overlines: {
     about: "ABOUT",
-    microservices: "MICROSERVICES",
-    hexagonal: "HEXAGONAL ARCHITECTURE",
+    microservices: "01 //MICROSERVICES",
+    hexagonal: "HEXAGONALARCHITECTURE",
     stack: "TECHNICAL STACK",
     projects: "FEATURED PROJECTS",
     experience: "PROFESSIONAL EXPERIENCE",
@@ -368,18 +368,6 @@ export const enContent: PortfolioContent = {
     supportText:
       "Experience with distributed teams across multiple time zones. Adaptability to corporate cultures and global methodologies.",
     links: [
-      {
-        label: "LinkedIn",
-        value: "linkedin.com/in/david-panibra",
-        href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
-        sublabel: "Full professional profile",
-      },
-      {
-        label: "GitHub",
-        value: "github.com/dPanibra0",
-        href: "https://github.com/dPanibra0",
-        sublabel: "Projects and contributions",
-      },
       {
         label: "Email",
         value: "dpanibra0@gmail.com",

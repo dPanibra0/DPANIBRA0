@@ -34,15 +34,15 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   data-initial-lang={lang}
 >
   <div
-    class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md shadow-[0_20px_40px_-24px_rgba(0,0,0,0.85)] transition duration-300"
+    class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md transition duration-300  shadow-md"
     data-floating-actions-panel
-    aria-hidden="true"
+    aria-hidden="true" 
   >
     <a
       href="https://www.linkedin.com/in/david-panibra-1bb87a1a4/"
       target="_blank"
       rel="noopener noreferrer"
-      class="fq-action"
+      class="fq-action rounded-full"
       aria-label={labels.linkedin}
     >
       <Icon name="simple-icons:linkedin" class="h-4 w-4" aria-hidden="true" />
@@ -51,20 +51,20 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
       href="https://github.com/dPanibra0"
       target="_blank"
       rel="noopener noreferrer"
-      class="fq-action"
+      class="fq-action rounded-full"
       aria-label={labels.github}
     >
       <Icon name="simple-icons:github" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href="mailto:dpanibra0@gmail.com" class="fq-action" aria-label={labels.email}>
+    <a href="mailto:dpanibra0@gmail.com" class="fq-action rounded-full" aria-label={labels.email}>
       <Icon name="simple-icons:gmail" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href={contactHref} class="fq-action" data-contact-action aria-label={labels.contact}>
+    <a href={contactHref} class="fq-action rounded-full" data-contact-action aria-label={labels.contact}>
       <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
     </a>
     <button
       type="button"
-      class="fq-action fq-action-scroll border border-white/10"
+      class="fq-action fq-action-scroll border border-white/10 rounded-full"
       data-scroll-top
       aria-label={labels.scrollTop}
     >
@@ -87,8 +87,7 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     width: 2.25rem;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(20, 22, 26, 0.334), rgba(12, 14, 17, 0.95));
+    background: #0a0a0a;
     color: rgb(236, 239, 244);
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
   }
@@ -143,8 +142,7 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
 
   .fq-action:hover {
     transform: translateY(-1px);
-    border-color: rgba(77, 131, 166, 0.8);
-    background: linear-gradient(180deg, rgba(31, 41, 53, 0.96), rgba(17, 24, 33, 0.96));
+    
   }
 
   .fq-action:active {

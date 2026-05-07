@@ -17,14 +17,14 @@ export const esContent: PortfolioContent = {
   ],
   overlines: {
     about: "SOBRE MI",
-    microservices: "MICROSERVICIOS",
-    hexagonal: "ARQUITECTURA HEXAGONAL",
-    stack: "STACK TÉCNICO",
-    projects: "PROYECTOS DESTACADOS",
-    experience: "EXPERIENCIA PROFESIONAL",
-    process: "PROCESO DE TRABAJO",
-    philosophy: "FILOSOFÍA DE INGENIERÍA",
-    contact: "CONTACTO",
+    microservices: "01 // MICROSERVICIOS",
+    hexagonal: "02 // ARQUITECTURA_HEXAGONAL",
+    stack: "05 // STACK_TÉCNICO",
+    projects: "04 // PROYECTOS_DESTACADOS",
+    experience: "03 // EXPERIENCIA_PROFESIONAL",
+    process: "06 // PROCESO_DE_TRABAJO",
+    philosophy: "07 // FILOSOFÍA_DE_INGENIERÍA",
+    contact: "06 // CONTACTO",
   },
   hero: {
     eyebrow: "Ingeniería de software orientada al dominio",
@@ -382,18 +382,6 @@ export const esContent: PortfolioContent = {
       "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
 
     links: [
-      {
-        label: "LinkedIn",
-        value: "linkedin.com/in/david-panibra",
-        href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
-        sublabel: "Experiencia profesional",
-      },
-       {
-        label: "GitHub",
-        value: "github.com/dPanibra0",
-        href: "https://github.com/dPanibra0",
-        sublabel: "Código y proyectos",
-      },
       {
         label: "Email",
         value: "dpanibra0@gmail.com",
