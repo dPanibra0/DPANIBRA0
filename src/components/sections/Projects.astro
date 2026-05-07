@@ -6,30 +6,13 @@ interface Props {
   id: string;
   projects: PortfolioContent["projects"];
   overline: string;
-  labels: {
-    problem: string;
-    architecture: string;
-    stack: string;
-    challenges: string;
-    solution: string;
-    impact: string;
-  };
 }
 
-const { id, projects, overline, labels } = Astro.props;
+const { id, projects, overline } = Astro.props;
 const isEnglish = projects.title.toLowerCase().includes("featured");
 
 const headlineTop = isEnglish ? "Featured" : "Decisiones técnicas con";
 const headlineBottom = isEnglish ? "enterprise project architecture" : "impacto empresarial real";
-
-const metricLabels = isEnglish
-  ? ["Latency reduction", "Production uptime", "Response window"]
-  : ["Reduccion latencia", "Uptime alcanzado", "Tiempo de respuesta"];
-
-const metricValues = [
-  ["84%", "99.9%", "5s→800ms"],
-  ["67%", "99.8%", "2.4h→55m"],
-];
 
 const sectionTags = isEnglish
   ? ["Logistics · Microservices", "Finance · Batch"]

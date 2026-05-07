@@ -20,8 +20,8 @@ const contactPlaceholders = [
 ---
 
 <section id={id} class="section-space border-t border-[#cfd8e3] bg-[#f4f7fb] text-[#0b0f14]">
-  <div class="container-shell pt-8 md:pt-12">
-    <div class="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+  <div class="container-shell pt-8 md:pt-12" data-reveal-group data-reveal-stagger-mobile="88" data-reveal-stagger-desktop="70">
+    <div class="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14" data-reveal="up">
       <div>
         <p class="micro-label micro-label-contact mb-5">{overline}</p>
         <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-[#0b0f14] md:text-[44px]">
@@ -48,7 +48,7 @@ const contactPlaceholders = [
       </div>
     </div>
 
-    <div class="contact-separator" aria-hidden="true">
+    <div class="contact-separator" aria-hidden="true" data-reveal="up">
       <span class="contact-separator-line"></span>
       <img src="/android-chrome-192x192.png" alt="" class="contact-separator-logo rounded-full" loading="lazy" decoding="async" />
       <span class="contact-separator-line"></span>
@@ -59,6 +59,7 @@ const contactPlaceholders = [
       data-contact-form
       data-contact-email={contactEmail}
       aria-label="Formulario de contacto por email"
+      data-reveal="up"
     >
       <label class="sr-only" for="contact-project-input">Cuéntame sobre tu proyecto</label>
       <div class="contact-field-wrap">

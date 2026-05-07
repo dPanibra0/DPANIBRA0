@@ -1,3 +1,31 @@
 ---
-return Astro.redirect("/talento");
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import Microservices from "../components/sections/Microservices.astro";
+import HexagonalArchitecture from "../components/sections/HexagonalArchitecture.astro";
+import TechStackCompact from "../components/sections/TechStackCompact.astro";
+import Experience from "../components/sections/Experience.astro";
+import Projects from "../components/sections/Projects.astro";
+import Contact from "../components/sections/Contact.astro";
+import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
+import { esContent } from "../content/talento/es";
+
+const content = esContent;
 ---
+
+<MainLayout title={content.meta.title} description={content.meta.description} lang="es">
+  <Navbar nav={content.nav} />
+  <main>
+    <Hero id="inicio" hero={content.hero} />
+    <Microservices id="microservicios" microservices={content.microservices} overline={content.overlines.microservices} />
+    <HexagonalArchitecture id="arquitectura" hexagonal={content.hexagonal} overline={content.overlines.hexagonal} />
+    <Experience id="experiencia" experience={content.experience} overline={content.overlines.experience} />
+    <Projects id="proyectos" projects={content.projects} overline={content.overlines.projects} />
+    <TechStackCompact id="stack" stack={content.stack} overline={content.overlines.stack} />
+    <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} />
+  </main>
+  <FloatingQuickActions lang="es" />
+  <Footer footer={content.footer} nav={content.nav} />
+</MainLayout>

@@ -3,25 +3,20 @@ import type { NavItem } from "../../content/types";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  navEs: NavItem[];
-  navEn: NavItem[];
-  initialLang: "es" | "en";
+  nav: NavItem[];
 }
 
-const { navEs, navEn, initialLang } = Astro.props;
-const nav = initialLang === "es" ? navEs : navEn;
-const menuLabel = initialLang === "es" ? "Abrir menu" : "Open menu";
-const contactHref = initialLang === "es" ? "#contacto" : "#contact";
+const { nav } = Astro.props;
+const menuLabel = "Abrir menu";
+const contactHref = "#contacto";
 ---
 
 <header
   class="sticky top-0 z-40  border-border/50 bg-bg/82 backdrop-blur-xl transition-transform duration-300"
   data-nav-header
-  data-nav-es={JSON.stringify(navEs)}
-  data-nav-en={JSON.stringify(navEn)}
 >
   <div class="container-shell flex items-center py-3 lg:py-4">
-    <a href="/talento" class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg" data-nav-home>
+    <a href="/" class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg" data-nav-home>
       <span class="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded-md border border-border/70 bg-white">
         <img src="/dpanibra0.svg" alt="dPanibra0 logo" class="h-full w-full object-cover" loading="eager" decoding="async" />
       </span>
@@ -92,82 +87,11 @@ const contactHref = initialLang === "es" ? "#contacto" : "#contact";
 </nav>
 
 <script>
-  const navHeader = document.querySelector("[data-nav-header]");
-  const navEsRaw = navHeader?.getAttribute("data-nav-es") ?? "[]";
-  const navEnRaw = navHeader?.getAttribute("data-nav-en") ?? "[]";
-  const parsedNavEs = JSON.parse(navEsRaw);
-  const parsedNavEn = JSON.parse(navEnRaw);
-
-  const navState = {
-    es: {
-      menuLabel: "Abrir menu",
-      languageAria: "Cambiar idioma a ingles",
-      nextLangText: "EN",
-      homeHref: "/talento",
-      nav: { items: parsedNavEs },
-    },
-    en: {
-      menuLabel: "Open menu",
-      languageAria: "Switch language to Spanish",
-      nextLangText: "ES",
-      homeHref: "/talento",
-      nav: { items: parsedNavEn },
-    },
-  };
-
-  const readStoredLang = (fallback) => {
-    const raw = localStorage.getItem("site-lang");
-    if (raw === "es" || raw === "en") return raw;
-    return fallback;
-  };
-
-  const emitLangChange = (lang) => {
-    localStorage.setItem("site-lang", lang);
-    window.dispatchEvent(new CustomEvent("site-language:change", { detail: { lang } }));
-  };
-
   const header = document.querySelector("[data-nav-header]");
   const toggle = document.querySelector("[data-menu-toggle]");
   const panel = document.querySelector("[data-menu-panel]");
   const links = document.querySelectorAll("[data-mobile-link]");
-  const desktopLinks = document.querySelectorAll("[data-nav-link]");
-  const languageToggles = document.querySelectorAll("[data-language-toggle]");
-  const homeLink = document.querySelector("[data-nav-home]");
   let lastScrollY = window.scrollY;
-
-  const applyLanguageUi = (lang) => {
-    const config = navState[lang];
-    const items = config.nav.items;
-
-    if (homeLink) {
-      homeLink.setAttribute("href", config.homeHref);
-    }
-
-    desktopLinks.forEach((link) => {
-      const index = Number(link.getAttribute("data-nav-index") ?? "-1");
-      const item = items[index];
-      if (!item) return;
-      link.textContent = item.label;
-      link.setAttribute("href", item.href);
-    });
-
-    links.forEach((link) => {
-      const index = Number(link.getAttribute("data-nav-index") ?? "-1");
-      const item = items[index];
-      if (!item) return;
-      link.textContent = item.label;
-      link.setAttribute("href", item.href);
-    });
-
-    languageToggles.forEach((button) => {
-      button.textContent = config.nextLangText;
-      button.setAttribute("aria-label", config.languageAria);
-    });
-
-    if (toggle) {
-      toggle.setAttribute("aria-label", config.menuLabel);
-    }
-  };
 
   const closeMenu = () => {
     if (!toggle || !panel) return;
@@ -194,24 +118,6 @@ const contactHref = initialLang === "es" ? "#contacto" : "#contact";
       if (event.key === "Escape") closeMenu();
     });
   }
-
-  languageToggles.forEach((button) => {
-    button.addEventListener("click", () => {
-      const current = readStoredLang("es");
-      const next = current === "es" ? "en" : "es";
-      emitLangChange(next);
-    });
-  });
-
-  const initial = readStoredLang("es");
-  applyLanguageUi(initial);
-
-  window.addEventListener("site-language:change", (event) => {
-    const custom = event as CustomEvent<{ lang?: string }>;
-    const lang = custom?.detail?.lang;
-    if (lang !== "es" && lang !== "en") return;
-    applyLanguageUi(lang);
-  });
 
   if (header) {
     window.addEventListener(

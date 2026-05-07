@@ -2,29 +2,20 @@
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  lang: "es" | "en";
+  lang: "es";
 }
 
 const { lang } = Astro.props;
 
-const labels =
-  lang === "es"
-    ? {
-        linkedin: "Abrir perfil de LinkedIn",
-        github: "Abrir perfil de GitHub",
-        email: "Enviar correo",
-        contact: "Ir a contacto",
-        scrollTop: "Volver arriba",
-      }
-    : {
-        linkedin: "Open LinkedIn profile",
-        github: "Open GitHub profile",
-        email: "Send email",
-        contact: "Go to contact section",
-        scrollTop: "Back to top",
-      };
+const labels = {
+  linkedin: "Abrir perfil de LinkedIn",
+  github: "Abrir perfil de GitHub",
+  email: "Enviar correo",
+  contact: "Ir a contacto",
+  scrollTop: "Volver arriba",
+};
 
-const contactHref = lang === "es" ? "#contacto" : "#contact";
+const contactHref = "#contacto";
 ---
 
 <aside
@@ -170,45 +161,10 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   const contactAction = floatingActions?.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
   const footer = document.querySelector("footer") as HTMLElement | null;
 
-  const langLabels = {
-    es: {
-      nextText: "EN",
-      languageAria: "Cambiar idioma a ingles",
-      contactAria: "Ir a contacto",
-      contactHref: "#contacto",
-    },
-    en: {
-      nextText: "ES",
-      languageAria: "Switch language to Spanish",
-      contactAria: "Go to contact section",
-      contactHref: "#contact",
-    },
-  } as const;
-
-  const readStoredLang = (fallback: "es" | "en") => {
-    const raw = localStorage.getItem("site-lang");
-    if (raw === "es" || raw === "en") return raw;
-    return fallback;
-  };
-
-  const applyLanguageUi = (nextLang: "es" | "en") => {
-    const state = langLabels[nextLang];
-
-    if (contactAction) {
-      contactAction.setAttribute("href", state.contactHref);
-      contactAction.setAttribute("aria-label", state.contactAria);
-    }
-
-    document.documentElement.lang = nextLang;
-  };
-
-  const applyLanguageBlocks = (nextLang: "es" | "en") => {
-    document.querySelectorAll("[data-lang-block]").forEach((block) => {
-      const matches = block.getAttribute("data-lang-block") === nextLang;
-      block.toggleAttribute("hidden", !matches);
-      block.setAttribute("aria-hidden", String(!matches));
-    });
-  };
+  if (contactAction) {
+    contactAction.setAttribute("href", "#contacto");
+    contactAction.setAttribute("aria-label", "Ir a contacto");
+  }
 
   const setPanelVisible = (visible: boolean) => {
     if (!floatingActionsPanel) return;
@@ -253,17 +209,4 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     });
   }
 
-  const initialLang = floatingActions?.dataset.initialLang === "en" ? "en" : "es";
-  const activeLang = readStoredLang(initialLang);
-  applyLanguageUi(activeLang);
-  applyLanguageBlocks(activeLang);
-
-  window.addEventListener("site-language:change", (event) => {
-    const custom = event as CustomEvent<{ lang?: string }>;
-    const nextLang = custom.detail?.lang;
-    if (nextLang !== "es" && nextLang !== "en") return;
-    localStorage.setItem("site-lang", nextLang);
-    applyLanguageUi(nextLang);
-    applyLanguageBlocks(nextLang);
-  });
 </script>

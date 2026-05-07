@@ -16,14 +16,11 @@ export const esContent: PortfolioContent = {
     { label: "Contacto", href: "#contacto" },
   ],
   overlines: {
-    about: "SOBRE MI",
     microservices: "01 // MICROSERVICIOS",
     hexagonal: "02 // ARQUITECTURA_HEXAGONAL",
     stack: "05 // STACK_TÉCNICO",
     projects: "04 // PROYECTOS_DESTACADOS",
     experience: "03 // EXPERIENCIA_PROFESIONAL",
-    process: "06 // PROCESO_DE_TRABAJO",
-    philosophy: "07 // FILOSOFÍA_DE_INGENIERÍA",
     contact: "06 // CONTACTO",
   },
   hero: {
@@ -75,39 +72,6 @@ export const esContent: PortfolioContent = {
       "Dominio protegido del framework y de detalles de infraestructura.",
       "Adaptadores para APIs, persistencia e integraciones externas.",
       "Pruebas más directas sobre casos de uso y reglas críticas.",
-    ],
-  },
-  about: {
-    title: "Sobre mí",
-    headingPrimary: "Ingeniería de software para",
-    headingSecondary: "sistemas empresariales complejos",
-    paragraphs: [
-      "Ingeniero de software enfocado en comprender cómo funciona el negocio, sus procesos y reglas, para traducirlos en sistemas que resuelvan problemas reales de forma clara y mantenible.",
-      "Diseño soluciones de extremo a extremo, considerando todo el flujo del sistema: desde la interacción del usuario con la aplicación hasta la forma en que los datos son procesados y almacenados.",
-      "Mi especialización está en backend con Java y microservicios, construyendo servicios que procesan información crítica, se integran con otros sistemas y mantienen la consistencia de los datos en entornos empresariales.",
-    ],
-
-    cards: [
-      {
-        title: "Análisis de Dominio",
-        subtitle: "Procesos · Reglas · Modelado",
-        icon: "globe",
-      },
-      {
-        title: "Arquitectura de Sistemas",
-        subtitle: "Microservices · APIs · Integración",
-        icon: "database",
-      },
-      {
-        title: "Backend Resiliente",
-        subtitle: "Java · Spring Boot · Oracle",
-        icon: "shield",
-      },
-      {
-        title: "Sistemas Empresariales",
-        subtitle: "Consistencia · Escalabilidad · Mantenibilidad",
-        icon: "backend",
-      },
     ],
   },
   stack: {
@@ -288,84 +252,6 @@ export const esContent: PortfolioContent = {
           "Adaptación de soluciones tecnológicas para permitir la continuidad operativa de negocios durante el confinamiento.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
-      },
-    ],
-  },
-  process: {
-    title: "Proceso de Trabajo",
-    headingPrimary: "Del análisis al sistema",
-    headingSecondary: "en producción",
-    intro:
-      "Forma de trabajo enfocada en entender el negocio, diseñar soluciones coherentes y llevarlas a producción de forma controlada y mantenible.",
-    steps: [
-      {
-        step: "Paso 1",
-        title: "Comprensión del dominio",
-        description:
-          "Análisis de cómo funciona el negocio, sus procesos, actores y reglas, para entender qué problema se debe resolver antes de proponer una solución técnica.",
-      },
-      {
-        step: "Paso 2",
-        title: "Diseño del sistema",
-        description:
-          "Definición de la arquitectura considerando todo el flujo: interacción del usuario, servicios backend, integraciones y modelo de datos.",
-      },
-      {
-        step: "Paso 3",
-        title: "Implementación del sistema",
-        description:
-          "Desarrollo de servicios y componentes con foco en claridad, pruebas y mantenibilidad, asegurando que la solución refleje correctamente la lógica del negocio.",
-      },
-      {
-        step: "Paso 4",
-        title: "Evolución en producción",
-        description:
-          "Monitoreo y mejora continua del sistema, ajustando rendimiento, corrigiendo problemas y permitiendo su evolución sin afectar la estabilidad.",
-      },
-    ],
-  },
-  philosophy: {
-    title: "Filosofía de Ingeniería",
-    headingPrimary: "Principios para diseñar",
-    headingSecondary: "sistemas empresariales",
-    intro:
-      "Principios que guían cómo analizo, diseño e implemento sistemas que deben ser confiables, mantenibles y alineados al negocio.",
-    principles: [
-      {
-        icon: "domain",
-        title: "El sistema refleja el negocio",
-        description:
-          "El software debe representar correctamente los procesos y reglas del negocio. Un mal modelo de dominio genera complejidad y errores a largo plazo.",
-      },
-      {
-        icon: "global",
-        title: "Pensar en el sistema completo",
-        description:
-          "Cada decisión considera todo el flujo: usuario, servicios, integraciones y datos. No se diseñan piezas aisladas, sino soluciones completas.",
-      },
-      {
-        icon: "code",
-        title: "Claridad sobre complejidad",
-        description:
-          "El código debe ser entendible y mantenible. La simplicidad bien aplicada reduce errores y facilita la evolución del sistema.",
-      },
-      {
-        icon: "shield",
-        title: "Consistencia de datos como prioridad",
-        description:
-          "En sistemas empresariales, los datos deben ser correctos y confiables. Se prioriza la integridad sobre soluciones rápidas o incompletas.",
-      },
-      {
-        icon: "resilience",
-        title: "Diseñar para fallos",
-        description:
-          "Los sistemas deben seguir funcionando incluso cuando algo falla. Se consideran errores, reintentos y recuperación desde el diseño.",
-      },
-      {
-        icon: "scale",
-        title: "Preparado para crecer",
-        description:
-          "Las soluciones se diseñan para evolucionar con el negocio, evitando rediseños completos cuando aumentan la carga o la complejidad.",
       },
     ],
   },

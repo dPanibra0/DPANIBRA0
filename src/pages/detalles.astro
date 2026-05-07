@@ -3,16 +3,6 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
 import { esContent } from "../content/talento/es";
-import { enContent } from "../content/talento/en";
-import type { PortfolioContent } from "../content/types";
-
-interface Props {
-  id: string;
-  experience: PortfolioContent["experience"];
-  overline: string;
-}
-
-const { id, experience, overline } = Astro.props;
 const content = esContent;
 ---
 
@@ -21,7 +11,7 @@ const content = esContent;
   description="Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra."
   lang="es"
 >
-  <Navbar navEs={esContent.nav} navEn={enContent.nav} initialLang="es" />
+  <Navbar nav={esContent.nav} />
 
   <main class="section-space border-t border-border/50">
     <div class="container-shell pt-8 md:pt-12">
@@ -34,9 +24,9 @@ const content = esContent;
         <br />
         <span class="text-muted">experiencia, proyectos y blog</span>
       </h1>
-      <section id={id} class="section-space border-t border-border/50">
+      <section id="experiencia" class="section-space border-t border-border/50">
         <div class="container-shell pt-8 md:pt-12">
-          <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+          <p class="micro-label mb-5" data-reveal="up">{content.overlines.experience}</p>
           <h2
             class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]"
             data-reveal="up"
@@ -58,7 +48,7 @@ const content = esContent;
 
             <div class="space-y-16 md:space-y-24 lg:space-y-28">
               {
-                content.experience.items.map((item, index) => {
+                content.experience.items.map((item) => {
                   const context = (item as { context?: string }).context ?? "";
                   const technologies =
                     (item as { technologies?: string[] }).technologies ?? [];
@@ -122,7 +112,7 @@ const content = esContent;
         </div>
       </section>
       <a
-        href="/talento#experiencia"
+        href="/#experiencia"
         class="back-link"
         data-reveal="up"
         data-reveal-delay="180"
@@ -137,25 +127,6 @@ const content = esContent;
 </MainLayout>
 
 <style>
-  .detail-block {
-    margin-top: 2rem;
-    border: 1px solid rgba(86, 97, 108, 0.5);
-    background: linear-gradient(
-      180deg,
-      rgba(19, 23, 29, 0.72),
-      rgba(13, 16, 21, 0.92)
-    );
-    padding: 1rem;
-  }
-
-  .detail-copy {
-    margin-top: 0.85rem;
-    max-width: 70ch;
-    font-size: 0.92rem;
-    line-height: 1.72;
-    color: rgba(197, 208, 218, 0.86);
-  }
-
   .back-link {
     margin-top: 2rem;
     display: inline-flex;
@@ -173,12 +144,6 @@ const content = esContent;
     text-decoration-color: rgba(226, 235, 246, 0.95);
   }
 
-  @media (min-width: 768px) {
-    .detail-block {
-      margin-top: 2.3rem;
-      padding: 1.35rem 1.4rem;
-    }
-  }
 </style>
 
 --- ---

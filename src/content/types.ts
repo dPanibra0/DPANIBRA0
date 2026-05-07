@@ -17,18 +17,6 @@ export interface HeroContent {
   }>;
 }
 
-export interface AboutContent {
-  title: string;
-  headingPrimary: string;
-  headingSecondary: string;
-  paragraphs: string[];
-  cards: Array<{
-    title: string;
-    subtitle: string;
-    icon: "backend" | "database" | "globe" | "shield";
-  }>;
-}
-
 export interface StackCategory {
   category: string;
   icon: "code" | "db" | "gear" | "shield";
@@ -58,18 +46,6 @@ export interface ExperienceItem {
   technologies: string[];
 }
 
-export interface ProcessStep {
-  step: string;
-  title: string;
-  description: string;
-}
-
-export interface PhilosophyPrinciple {
-  icon: "domain" | "code" | "shield" | "scale" | "resilience" | "global";
-  title: string;
-  description: string;
-}
-
 export interface ContactLink {
   label: string;
   value: string;
@@ -78,21 +54,18 @@ export interface ContactLink {
 }
 
 export interface PortfolioContent {
-  locale: "es" | "en";
+  locale: "es";
   meta: {
     title: string;
     description: string;
   };
   nav: NavItem[];
   overlines: {
-    about: string;
     microservices: string;
     hexagonal: string;
     stack: string;
     projects: string;
     experience: string;
-    process: string;
-    philosophy: string;
     contact: string;
   };
   hero: HeroContent;
@@ -111,7 +84,6 @@ export interface PortfolioContent {
     intro: string;
     points: string[];
   };
-  about: AboutContent;
   stack: {
     title: string;
     headingPrimary: string;
@@ -129,20 +101,6 @@ export interface PortfolioContent {
     headingPrimary: string;
     headingSecondary: string;
     items: ExperienceItem[];
-  };
-  process: {
-    title: string;
-    headingPrimary: string;
-    headingSecondary: string;
-    intro: string;
-    steps: ProcessStep[];
-  };
-  philosophy: {
-    title: string;
-    headingPrimary: string;
-    headingSecondary: string;
-    intro: string;
-    principles: PhilosophyPrinciple[];
   };
   contact: {
     title: string;
