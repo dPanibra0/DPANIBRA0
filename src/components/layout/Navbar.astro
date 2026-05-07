@@ -1,13 +1,14 @@
 ---
-import type { NavItem } from "../../content/types";
+import type { NavItem, PortfolioUiTranslations } from "../../content/types";
 import { Icon } from "astro-icon/components";
 
 interface Props {
   nav: NavItem[];
+  ui: PortfolioUiTranslations["navbar"];
 }
 
-const { nav } = Astro.props;
-const menuLabel = "Abrir menu";
+const { nav, ui } = Astro.props;
+const menuLabel = ui.menuLabel;
 const contactHref = "#contacto";
 ---
 
@@ -18,7 +19,7 @@ const contactHref = "#contacto";
   <div class="container-shell flex items-center py-3 lg:py-4">
     <a href="/" class="inline-flex items-center gap-2 text-base font-semibold tracking-[0.03em] text-text md:text-lg" data-nav-home>
       <span class="inline-flex h-6 w-6 items-center justify-center overflow-hidden rounded-md border border-border/70 bg-white">
-        <img src="/dpanibra0.svg" alt="dPanibra0 logo" class="h-full w-full object-cover" loading="eager" decoding="async" />
+        <img src="/dpanibra0.svg" alt={ui.logoAlt} class="h-full w-full object-cover" loading="eager" decoding="async" />
       </span>
       David Panibra
     </a>

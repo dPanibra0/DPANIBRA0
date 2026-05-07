@@ -1,5 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
+import type { PortfolioUiTranslations } from "../../content/types";
+
+interface Props {
+  ui: PortfolioUiTranslations["techCarousel"];
+}
+
+const { ui } = Astro.props;
 
 const marqueeTechnologies = [
   { label: "Java", icon: "simple-icons:openjdk" },
@@ -29,7 +36,7 @@ const marqueeTechnologies = [
 ];
 ---
 
-<div class="tech-marquee" data-reveal="up" aria-label="Technology icons carousel">
+<div class="tech-marquee" data-reveal="up" aria-label={ui.ariaLabel}>
   <div class="tech-marquee__viewport">
     <div class="tech-marquee__track" role="list">
       {

@@ -1,5 +1,5 @@
 ---
-import type { PortfolioContent } from "../../content/types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 import TechnologyCarousel from "../ui/TechnologyCarousel.astro";
 import { Icon } from "astro-icon/components";
 
@@ -7,9 +7,10 @@ interface Props {
   id: string;
   stack: PortfolioContent["stack"];
   overline: string;
+  ui: PortfolioUiTranslations["techCarousel"];
 }
 
-const { id, stack, overline } = Astro.props;
+const { id, stack, overline, ui } = Astro.props;
 
 const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon"], string> = {
   code: "lucide:code-2",
@@ -75,6 +76,6 @@ const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon
   
 
     <div class="mt-12 md:mt-16 -mb-8 lg:-mb-16" data-reveal="up">
-      <TechnologyCarousel />
+      <TechnologyCarousel ui={ui} />
     </div>
 </section>

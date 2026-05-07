@@ -1,28 +1,20 @@
 ---
 import { Icon } from "astro-icon/components";
+import type { PortfolioUiTranslations } from "../../content/types";
 
 interface Props {
-  lang: "es";
+  ui: PortfolioUiTranslations["floatingActions"];
 }
 
-const { lang } = Astro.props;
-
-const labels = {
-  linkedin: "Abrir perfil de LinkedIn",
-  github: "Abrir perfil de GitHub",
-  email: "Enviar correo",
-  contact: "Ir a contacto",
-  scrollTop: "Volver arriba",
-};
+const { ui } = Astro.props;
 
 const contactHref = "#contacto";
 ---
 
 <aside
   class="pointer-events-none fixed bottom-5 right-4 z-50 sm:bottom-6 sm:right-6"
-  aria-label="Quick actions"
+  aria-label={ui.ariaLabel}
   data-floating-actions
-  data-initial-lang={lang}
 >
   <div
     class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md transition duration-300  shadow-md"
@@ -34,7 +26,7 @@ const contactHref = "#contacto";
       target="_blank"
       rel="noopener noreferrer"
       class="fq-action rounded-full"
-      aria-label={labels.linkedin}
+      aria-label={ui.linkedin}
     >
       <Icon name="simple-icons:linkedin" class="h-4 w-4" aria-hidden="true" />
     </a>
@@ -43,21 +35,21 @@ const contactHref = "#contacto";
       target="_blank"
       rel="noopener noreferrer"
       class="fq-action rounded-full"
-      aria-label={labels.github}
+      aria-label={ui.github}
     >
       <Icon name="simple-icons:github" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href="mailto:dpanibra0@gmail.com" class="fq-action rounded-full" aria-label={labels.email}>
+    <a href="mailto:dpanibra0@gmail.com" class="fq-action rounded-full" aria-label={ui.email}>
       <Icon name="simple-icons:gmail" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href={contactHref} class="fq-action rounded-full" data-contact-action aria-label={labels.contact}>
+    <a href={contactHref} class="fq-action rounded-full" data-contact-action aria-label={ui.contact}>
       <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
     </a>
     <button
       type="button"
       class="fq-action fq-action-scroll border border-white/10 rounded-full"
       data-scroll-top
-      aria-label={labels.scrollTop}
+      aria-label={ui.scrollTop}
     >
       <span class="fq-scroll-icon-wrap" aria-hidden="true">
         <span class="fq-scroll-icon fq-scroll-icon-primary">
@@ -154,19 +146,19 @@ const contactHref = "#contacto";
   }
 </style>
 
-<script>
-  const floatingActions = document.querySelector("[data-floating-actions]") as HTMLElement | null;
-  const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
-  const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
-  const contactAction = floatingActions?.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
-  const footer = document.querySelector("footer") as HTMLElement | null;
+<script is:inline define:vars={{ contactLabel: ui.contact }}>
+  const floatingActions = document.querySelector("[data-floating-actions]");
+  const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]");
+  const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]");
+  const contactAction = floatingActions?.querySelector("[data-contact-action]");
+  const footer = document.querySelector("footer");
 
   if (contactAction) {
     contactAction.setAttribute("href", "#contacto");
-    contactAction.setAttribute("aria-label", "Ir a contacto");
+    contactAction.setAttribute("aria-label", contactLabel);
   }
 
-  const setPanelVisible = (visible: boolean) => {
+  const setPanelVisible = (visible) => {
     if (!floatingActionsPanel) return;
     floatingActionsPanel.classList.toggle("opacity-0", !visible);
     floatingActionsPanel.classList.toggle("translate-y-2", !visible);

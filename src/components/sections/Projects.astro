@@ -1,29 +1,20 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { PortfolioContent } from "../../content/types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 
 interface Props {
   id: string;
   projects: PortfolioContent["projects"];
   overline: string;
+  ui: PortfolioUiTranslations["projects"];
 }
 
-const { id, projects, overline } = Astro.props;
-const isEnglish = projects.title.toLowerCase().includes("featured");
-
-const headlineTop = isEnglish ? "Featured" : "Decisiones técnicas con";
-const headlineBottom = isEnglish ? "enterprise project architecture" : "impacto empresarial real";
-
-const sectionTags = isEnglish
-  ? ["Logistics · Microservices", "Finance · Batch"]
-  : ["Logistica · Microservicios", "Finanzas · Batch"];
+const { id, projects, overline, ui } = Astro.props;
 
 const fallbackProject: (typeof projects.items)[number] = {
-  title: isEnglish ? "More enterprise case studies" : "Mas casos empresariales",
-  impact: isEnglish
-    ? "Explore additional architecture decisions, constraints, and measurable outcomes in the detailed projects page."
-    : "Explora decisiones de arquitectura, restricciones y resultados medibles en la pagina de detalle.",
-  stack: isEnglish ? "Architecture, Resilience, Delivery" : "Arquitectura, Resiliencia, Delivery",
+  title: ui.fallbackProject.title,
+  impact: ui.fallbackProject.impact,
+  stack: ui.fallbackProject.stack,
   problem: "",
   architecture: "",
   challenges: "",
@@ -42,10 +33,10 @@ const projectIcons = ["lucide:boxes", "lucide:shield-check", "lucide:compass"];
 <section id={id} class="section-space border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5" data-reveal="up">{overline}</p>
-    <h2 class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
-      {headlineTop}
+      <h2 class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
+      {ui.headingTop}
       <br />
-      <span class="text-muted">{headlineBottom}</span>
+      <span class="text-muted">{ui.headingBottom}</span>
     </h2>
     <p class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{projects.intro}</p>
 
@@ -78,14 +69,14 @@ const projectIcons = ["lucide:boxes", "lucide:shield-check", "lucide:compass"];
             </div>
 
             <div class="footer-card-proyect-background mt-auto flex w-full items-center justify-between gap-4 border-t border-border/50 bg-surface/80 px-5 py-4 md:px-6">
-              <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
-                {sectionTags[index] ?? sectionTags[0]}
+                <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
+                {ui.sectionTags[index] ?? ui.sectionTags[0]}
               </span>
               <a
                 href={detailsHref}
                 class="inline-cta text-[11px] text-white/96 group-hover:text-white md:text-xs"
               >
-                Ver mas detalle →
+                {ui.detailsLabel} →
               </a>
             </div>
           </article>

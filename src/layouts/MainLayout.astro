@@ -1,10 +1,11 @@
 ---
 import "../styles/global.css";
+import type { Language } from "../content/types";
 
 interface Props {
   title: string;
   description: string;
-  lang: "es" | "en";
+  lang: Language;
 }
 
 const { title, description, lang } = Astro.props;

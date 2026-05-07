@@ -8,9 +8,6 @@ export interface HeroContent {
   availability: string;
   title: string;
   subtitle: string;
-  message: string;
-  ctaPrimary: string;
-  ctaSecondary: string;
   stats: Array<{
     value: string;
     label: string;
@@ -54,7 +51,7 @@ export interface ContactLink {
 }
 
 export interface PortfolioContent {
-  locale: "es";
+  locale: "es" | "en";
   meta: {
     title: string;
     description: string;
@@ -103,12 +100,9 @@ export interface PortfolioContent {
     items: ExperienceItem[];
   };
   contact: {
-    title: string;
     headlineTop: string;
     headlineBottom: string;
     subtitle: string;
-    supportTitle: string;
-    supportText: string;
     links: ContactLink[];
     availability: string;
   };
@@ -117,4 +111,59 @@ export interface PortfolioContent {
     githubUrl: string;
     linkedinUrl: string;
   };
+}
+
+export type Language = "es" | "en";
+
+export interface PortfolioUiTranslations {
+  navbar: {
+    menuLabel: string;
+    logoAlt: string;
+  };
+  experience: {
+    detailsLabel: string;
+  };
+  projects: {
+    headingTop: string;
+    headingBottom: string;
+    sectionTags: [string, string];
+    fallbackProject: {
+      title: string;
+      impact: string;
+      stack: string;
+    };
+    detailsLabel: string;
+  };
+  contact: {
+    formAriaLabel: string;
+    projectInputLabel: string;
+    placeholders: [string, string, string];
+    submitLabel: string;
+    emailSubject: string;
+    emailBodyTemplate: string;
+  };
+  floatingActions: {
+    ariaLabel: string;
+    linkedin: string;
+    github: string;
+    email: string;
+    contact: string;
+    scrollTop: string;
+  };
+  techCarousel: {
+    ariaLabel: string;
+  };
+  detalles: {
+    overline: string;
+    titleTop: string;
+    titleBottom: string;
+    backLabel: string;
+    pageTitle: string;
+    pageDescription: string;
+  };
+}
+
+export interface PortfolioTranslations {
+  content: PortfolioContent;
+  ui: PortfolioUiTranslations;
 }

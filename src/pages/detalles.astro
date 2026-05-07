@@ -2,27 +2,29 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Footer from "../components/layout/Footer.astro";
-import { esContent } from "../content/talento/es";
-const content = esContent;
+import { getTranslations } from "../content/talento/i18n";
+
+const lang = "es" as const;
+const { content, ui } = getTranslations(lang);
 ---
 
 <MainLayout
-  title="Detalles profesionales | David Panibra"
-  description="Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra."
-  lang="es"
+  title={ui.detalles.pageTitle}
+  description={ui.detalles.pageDescription}
+  lang={lang}
 >
-  <Navbar nav={esContent.nav} />
+  <Navbar nav={content.nav} ui={ui.navbar} />
 
   <main class="section-space border-t border-border/50">
     <div class="container-shell pt-8 md:pt-12">
-      <p class="micro-label mb-5" data-reveal="up">DETALLE</p>
+      <p class="micro-label mb-5" data-reveal="up">{ui.detalles.overline}</p>
       <h1
         class="max-w-[900px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[48px]"
         data-reveal="up"
       >
-        Pagina de detalle
+        {ui.detalles.titleTop}
         <br />
-        <span class="text-muted">experiencia, proyectos y blog</span>
+        <span class="text-muted">{ui.detalles.titleBottom}</span>
       </h1>
       <section id="experiencia" class="section-space border-t border-border/50">
         <div class="container-shell pt-8 md:pt-12">
@@ -118,7 +120,7 @@ const content = esContent;
         data-reveal-delay="180"
       >
         <span aria-hidden="true">←</span>
-        <span>Volver a experiencia</span>
+        <span>{ui.detalles.backLabel}</span>
       </a>
     </div>
   </main>

@@ -1,22 +1,19 @@
 ---
-import type { PortfolioContent } from "../../content/types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 import { Icon } from "astro-icon/components";
 
 interface Props {
   id: string;
   contact: PortfolioContent["contact"];
   overline: string;
+  ui: PortfolioUiTranslations["contact"];
 }
 
-const { id, contact, overline } = Astro.props;
+const { id, contact, overline, ui } = Astro.props;
 
 const primaryEmailLink = contact.links.find((link) => link.href.startsWith("mailto:")) ?? contact.links[0];
 const contactEmail = (primaryEmailLink?.href ?? "mailto:").replace("mailto:", "");
-const contactPlaceholders = [
-  "Veamos tu próximo proyecto",
-  "Cuéntame sobre tu negocio",
-  "¿Qué estás construyendo hoy?",
-];
+const contactPlaceholders = ui.placeholders;
 ---
 
 <section id={id} class="section-space border-t border-[#cfd8e3] bg-[#f4f7fb] text-[#0b0f14]">
@@ -58,10 +55,10 @@ const contactPlaceholders = [
       class="contact-form mt-9 md:mt-11"
       data-contact-form
       data-contact-email={contactEmail}
-      aria-label="Formulario de contacto por email"
+      aria-label={ui.formAriaLabel}
       data-reveal="up"
     >
-      <label class="sr-only" for="contact-project-input">Cuéntame sobre tu proyecto</label>
+      <label class="sr-only" for="contact-project-input">{ui.projectInputLabel}</label>
       <div class="contact-field-wrap">
         <input
           id="contact-project-input"
@@ -75,7 +72,7 @@ const contactPlaceholders = [
           data-rotating-placeholder
         />
         <button type="submit" class="contact-submit-button">
-          <span class="technical-accent">Enviar</span>
+          <span class="technical-accent">{ui.submitLabel}</span>
           <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
@@ -83,7 +80,7 @@ const contactPlaceholders = [
   </div>
 </section>
 
-<script define:vars={{ contactPlaceholders }}>
+<script define:vars={{ contactPlaceholders, emailSubject: ui.emailSubject, emailBodyTemplate: ui.emailBodyTemplate }}>
   const form = document.querySelector("[data-contact-form]");
   const input = form?.querySelector("[data-rotating-placeholder]");
   const email = form?.getAttribute("data-contact-email") ?? "";
@@ -143,8 +140,8 @@ const contactPlaceholders = [
       const projectBrief = input.value.trim();
       if (!projectBrief || !email) return;
 
-      const subject = encodeURIComponent("Nuevo proyecto desde dpanibra.com");
-      const body = encodeURIComponent(`Hola David,%0D%0A%0D%0A${projectBrief}%0D%0A%0D%0AGracias.`);
+      const subject = encodeURIComponent(emailSubject);
+      const body = emailBodyTemplate.replace("{{projectBrief}}", encodeURIComponent(projectBrief));
       window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     });
   }

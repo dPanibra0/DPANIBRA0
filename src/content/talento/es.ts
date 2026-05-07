@@ -1,4 +1,4 @@
-import type { PortfolioContent } from "../types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../types";
 
 export const esContent: PortfolioContent = {
   locale: "es",
@@ -29,10 +29,6 @@ export const esContent: PortfolioContent = {
     title: "Backend Java para Microservicios Empresariales",
     subtitle:
       "Construyo y evoluciono APIs y microservicios con Java/Spring Boot para procesos críticos, priorizando consistencia de datos, integración confiable y entregas listas para producción.",
-    message:
-      "Especializado en backend con Java y microservicios, construyendo sistemas confiables que procesan información crítica, se integran con otras plataformas y evolucionan sin comprometer la consistencia de los datos.",
-    ctaPrimary: "Contactar",
-    ctaSecondary: "Descargar CV",
     stats: [
       { value: "5+", label: "Años desarrollando software empresarial" },
       { value: "4", label: "Empresas tecnológicas" },
@@ -256,17 +252,11 @@ export const esContent: PortfolioContent = {
     ],
   },
   contact: {
-    title: "Contacto",
-
     headlineTop: "Conversemos sobre",
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
       "Trabajemos juntos. Si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
-    supportTitle: "Trabajo remoto internacional",
-    supportText:
-      "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
-
     links: [
       {
         label: "Email",
@@ -284,5 +274,59 @@ export const esContent: PortfolioContent = {
     copyright: "© 2026 David Panibra — Software Engineer",
     githubUrl: "https://github.com/dPanibra0",
     linkedinUrl: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
+  },
+};
+
+export const esUi: PortfolioUiTranslations = {
+  navbar: {
+    menuLabel: "Abrir menu",
+    logoAlt: "dPanibra0 logo",
+  },
+  experience: {
+    detailsLabel: "Ver mas detalle",
+  },
+  projects: {
+    headingTop: "Decisiones tecnicas con",
+    headingBottom: "impacto empresarial real",
+    sectionTags: ["Logistica · Microservicios", "Finanzas · Batch"],
+    fallbackProject: {
+      title: "Mas casos empresariales",
+      impact:
+        "Explora decisiones de arquitectura, restricciones y resultados medibles en la pagina de detalle.",
+      stack: "Arquitectura, Resiliencia, Delivery",
+    },
+    detailsLabel: "Ver mas detalle",
+  },
+  contact: {
+    formAriaLabel: "Formulario de contacto por email",
+    projectInputLabel: "Cuentame sobre tu proyecto",
+    placeholders: [
+      "Veamos tu proximo proyecto",
+      "Cuentame sobre tu negocio",
+      "Que estas construyendo hoy?",
+    ],
+    submitLabel: "Enviar",
+    emailSubject: "Nuevo proyecto desde dpanibra.com",
+    emailBodyTemplate: "Hola David,%0D%0A%0D%0A{{projectBrief}}%0D%0A%0D%0AGracias.",
+  },
+  floatingActions: {
+    ariaLabel: "Quick actions",
+    linkedin: "Abrir perfil de LinkedIn",
+    github: "Abrir perfil de GitHub",
+    email: "Enviar correo",
+    contact: "Ir a contacto",
+    scrollTop: "Volver arriba",
+  },
+  techCarousel: {
+    ariaLabel: "Technology icons carousel",
+  },
+  detalles: {
+    overline: "DETALLE",
+    titleTop: "Pagina de detalle",
+    titleBottom: "experiencia, proyectos y blog",
+    backLabel: "Volver a experiencia",
+    pageTitle: "Detalles profesionales | David Panibra",
+    pageDescription:
+      "Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra.",
   },
 };

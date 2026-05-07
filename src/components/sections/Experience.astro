@@ -1,15 +1,16 @@
 ---
-import type { PortfolioContent } from "../../content/types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 
 interface Props {
   id: string;
   experience: PortfolioContent["experience"];
   overline: string;
+  ui: PortfolioUiTranslations["experience"];
 }
 
-const { id, experience, overline } = Astro.props;
+const { id, experience, overline, ui } = Astro.props;
 const detailsHref = "/detalles";
-const detailsLabel = "Ver mas detalle";
+const detailsLabel = ui.detailsLabel;
 
 const getFinalDate = (period: string) => {
   const fragments = period

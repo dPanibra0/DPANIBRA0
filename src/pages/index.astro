@@ -10,22 +10,23 @@ import Experience from "../components/sections/Experience.astro";
 import Projects from "../components/sections/Projects.astro";
 import Contact from "../components/sections/Contact.astro";
 import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
-import { esContent } from "../content/talento/es";
+import { getTranslations } from "../content/talento/i18n";
 
-const content = esContent;
+const lang = "es" as const;
+const { content, ui } = getTranslations(lang);
 ---
 
-<MainLayout title={content.meta.title} description={content.meta.description} lang="es">
-  <Navbar nav={content.nav} />
+<MainLayout title={content.meta.title} description={content.meta.description} lang={lang}>
+  <Navbar nav={content.nav} ui={ui.navbar} />
   <main>
     <Hero id="inicio" hero={content.hero} />
     <Microservices id="microservicios" microservices={content.microservices} overline={content.overlines.microservices} />
     <HexagonalArchitecture id="arquitectura" hexagonal={content.hexagonal} overline={content.overlines.hexagonal} />
-    <Experience id="experiencia" experience={content.experience} overline={content.overlines.experience} />
-    <Projects id="proyectos" projects={content.projects} overline={content.overlines.projects} />
-    <TechStackCompact id="stack" stack={content.stack} overline={content.overlines.stack} />
-    <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} />
+    <Experience id="experiencia" experience={content.experience} overline={content.overlines.experience} ui={ui.experience} />
+    <Projects id="proyectos" projects={content.projects} overline={content.overlines.projects} ui={ui.projects} />
+    <TechStackCompact id="stack" stack={content.stack} overline={content.overlines.stack} ui={ui.techCarousel} />
+    <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} ui={ui.contact} />
   </main>
-  <FloatingQuickActions lang="es" />
+  <FloatingQuickActions ui={ui.floatingActions} />
   <Footer footer={content.footer} nav={content.nav} />
 </MainLayout>
