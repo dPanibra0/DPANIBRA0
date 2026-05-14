@@ -2,3 +2,4 @@ node_modules
 favicon_io
 dist
 .local/
+.atl/

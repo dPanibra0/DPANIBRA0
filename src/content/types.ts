@@ -157,9 +157,40 @@ export interface PortfolioUiTranslations {
     overline: string;
     titleTop: string;
     titleBottom: string;
+    tabsAriaLabel: string;
+    tabPanelsAriaLabel: string;
+    tabs: {
+      experiencia: string;
+      proyectos: string;
+      blog: string;
+    };
     backLabel: string;
+    backToTopLabel: string;
     pageTitle: string;
     pageDescription: string;
+    experienceTitle: string;
+    experienceIntro: string;
+    projectsOverline: string;
+    projectsTitle: string;
+    projectsIntro: string;
+    projectLabels: {
+      problem: string;
+      architecture: string;
+      challenges: string;
+      solution: string;
+      impact: string;
+      stack: string;
+    };
+    blogOverline: string;
+    blogTitle: string;
+    blogIntro: string;
+    blogPosts: Array<{
+      title: string;
+      excerpt: string;
+      href: string;
+      tag: string;
+      status: string;
+    }>;
   };
 }
 

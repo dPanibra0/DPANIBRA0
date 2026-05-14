@@ -151,7 +151,11 @@ const contactHref = "#contacto";
   const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]");
   const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]");
   const contactAction = floatingActions?.querySelector("[data-contact-action]");
+  const contactSection = document.getElementById("contacto");
+  const contactForm = document.querySelector("[data-contact-form]");
   const footer = document.querySelector("footer");
+  let lastScrollY = window.scrollY;
+  let isPanelVisible = false;
 
   if (contactAction) {
     contactAction.setAttribute("href", "#contacto");
@@ -160,6 +164,7 @@ const contactHref = "#contacto";
 
   const setPanelVisible = (visible) => {
     if (!floatingActionsPanel) return;
+    isPanelVisible = visible;
     floatingActionsPanel.classList.toggle("opacity-0", !visible);
     floatingActionsPanel.classList.toggle("translate-y-2", !visible);
     floatingActionsPanel.classList.toggle("pointer-events-none", !visible);
@@ -170,23 +175,55 @@ const contactHref = "#contacto";
   const updateFloatingVisibility = () => {
     if (!floatingActions || !floatingActionsPanel) return;
 
+    const currentScrollY = window.scrollY;
+    const deltaY = currentScrollY - lastScrollY;
     const viewportHeight = window.innerHeight;
     const maxScroll = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
-    const progress = window.scrollY / maxScroll;
+    const progress = currentScrollY / maxScroll;
+    const scrollingUp = deltaY <= -6;
+    const scrollingDown = deltaY >= 6;
+    const scrolledPastIntro = currentScrollY > 120;
     const nearPageEnd = progress >= 0.86;
-    setPanelVisible(nearPageEnd);
+    const contactRect = contactSection?.getBoundingClientRect();
+    const inContactZone =
+      !!contactRect &&
+      contactRect.top < viewportHeight * 0.94 &&
+      contactRect.bottom > viewportHeight * 0.22;
+
+    let shouldShow = isPanelVisible;
+    if (!scrolledPastIntro) {
+      shouldShow = false;
+    } else if (nearPageEnd || inContactZone) {
+      shouldShow = true;
+    } else if (scrollingUp) {
+      shouldShow = true;
+    } else if (scrollingDown) {
+      shouldShow = false;
+    }
+
+    setPanelVisible(shouldShow);
 
     const baseOffset = window.matchMedia("(min-width: 640px)").matches ? 24 : 20;
     let extraOffset = 0;
 
+    if (contactForm) {
+      const formRect = contactForm.getBoundingClientRect();
+      const mobile = window.matchMedia("(max-width: 639px)").matches;
+      const avoidLine = viewportHeight - (mobile ? 124 : 148);
+      if (formRect.top < avoidLine && formRect.bottom > 0) {
+        extraOffset = Math.max(extraOffset, avoidLine - formRect.top + 18);
+      }
+    }
+
     if (footer) {
       const footerTop = footer.getBoundingClientRect().top;
       if (footerTop < viewportHeight) {
-        extraOffset = viewportHeight - footerTop + 16;
+        extraOffset = Math.max(extraOffset, viewportHeight - footerTop + 16);
       }
     }
 
     floatingActions.style.bottom = `${baseOffset + extraOffset}px`;
+    lastScrollY = currentScrollY;
   };
 
 

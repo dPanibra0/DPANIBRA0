@@ -16,19 +16,19 @@ export const esContent: PortfolioContent = {
     { label: "Contacto", href: "#contacto" },
   ],
   overlines: {
-    microservices: "01 // MICROSERVICIOS",
-    hexagonal: "02 // ARQUITECTURA_HEXAGONAL",
-    stack: "05 // STACK_TÉCNICO",
-    projects: "04 // PROYECTOS_DESTACADOS",
-    experience: "03 // EXPERIENCIA_PROFESIONAL",
-    contact: "06 // CONTACTO",
+    microservices: "01//FILOSOFIA_DE_INGENIERÍA",
+    hexagonal: "02//NÚCLEO_HEXAGONAL",
+    experience: "03//TRAYECTORIA_PROFESIONAL",
+    projects: "04//BITACORA_DE_CONSTRUCCION",
+    stack: "05//STACK_TÉCNICO",
+    contact: "06//CONTACTO",
   },
   hero: {
-    eyebrow: "Ingeniería de software orientada al dominio",
+    eyebrow: "Backend Java Microservices Developer",
     availability: "Disponible para proyectos - Remote",
-    title: "Backend Java para Microservicios Empresariales",
+    title: "Ingeniería Backend para Plataformas Empresariales",
     subtitle:
-      "Construyo y evoluciono APIs y microservicios con Java/Spring Boot para procesos críticos, priorizando consistencia de datos, integración confiable y entregas listas para producción.",
+      "Transformo necesidades de negocio en servicios robustos: lógica de negocio bien definida, integraciones confiables y entregas mantenibles para entornos empresariales.",
     stats: [
       { value: "5+", label: "Años desarrollando software empresarial" },
       { value: "4", label: "Empresas tecnológicas" },
@@ -41,33 +41,36 @@ export const esContent: PortfolioContent = {
   },
   microservices: {
     headingPrimary: "Microservicios",
-    headingSecondary: "escalables, resilientes y observables",
+    headingSecondary: "con criterios de negocio",
     intro:
-      "Diseño servicios desacoplados para dominios críticos, con comunicación clara, control operacional y evolución segura en producción.",
+      "Mi enfoque de ingeniería es simple: un sistema empresarial debe crecer sin fricción, resistir fallos sin detener la operación y ofrecer visibilidad completa para decidir rápido.",
     pillars: [
       {
         title: "Escalable",
-        description: "Si crece la demanda, escalamos solo la parte que lo necesita.",
+        description:
+          "Escala solo el servicio que lo necesita, sin agrandar todo el sistema.",
       },
       {
         title: "Resiliente",
-        description: "Si algo falla, el resto sigue funcionando sin caerse todo.",
+        description:
+          "Si un servicio falla, el resto sigue operando y el negocio no se detiene.",
       },
       {
         title: "Observable",
-        description: "Vemos qué pasa en tiempo real con métricas, logs y trazas.",
+        description:
+          "Métricas, logs y trazas para entender que pasa y resolver rápido.",
       },
     ],
   },
   hexagonal: {
     headingPrimary: "Arquitectura hexagonal",
-    headingSecondary: "enfocada en dominio y mantenibilidad",
+    headingSecondary: "diseñada para evolucionar",
     intro:
-      "Estructuro casos de uso con puertos y adaptadores para aislar reglas de negocio y facilitar pruebas e integración.",
+      "Para lograrlo, divido la arquitectura en tres elementos que trabajan juntos: dominio, aplicación e infraestructura.",
     points: [
-      "Dominio protegido del framework y de detalles de infraestructura.",
-      "Adaptadores para APIs, persistencia e integraciones externas.",
-      "Pruebas más directas sobre casos de uso y reglas críticas.",
+      "Define las reglas del negocio; que debe pasar, que no, y por que.",
+      "Coordina los casos de uso: toma una necesidad del negocio y la ejecuta paso a paso con orden.",
+      "Conecta el sistema con base de datos, APIs, colas y servicios externos.",
     ],
   },
   stack: {
@@ -162,8 +165,8 @@ export const esContent: PortfolioContent = {
   },
   experience: {
     title: "Experiencia Profesional",
-    headingPrimary: "Historial en entornos",
-    headingSecondary: "corporativos de alto impacto",
+    headingPrimary: "Experiencia profesional ",
+    headingSecondary: "en entornos corporativos",
     items: [
       {
         role: "Backend Engineer",
@@ -256,7 +259,7 @@ export const esContent: PortfolioContent = {
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Trabajemos juntos. Si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
+      "Si estás construyendo, modernizando o escalando una plataforma, te ayudo a definir una solución técnica clara y llevarla a producción con confianza.",
     links: [
       {
         label: "Email",
@@ -264,10 +267,9 @@ export const esContent: PortfolioContent = {
         href: "mailto:dpanibra0@gmail.com",
         sublabel: "Respuesta en menos de 24h",
       },
-     
     ],
 
-    availability: "Disponible para proyectos internacionales — Remote",
+    availability: "Disponible para proyectos — Remoto",
   },
 
   footer: {
@@ -301,13 +303,14 @@ export const esUi: PortfolioUiTranslations = {
     formAriaLabel: "Formulario de contacto por email",
     projectInputLabel: "Cuentame sobre tu proyecto",
     placeholders: [
-      "Veamos tu proximo proyecto",
+      "Veamos tu próximo proyecto",
       "Cuentame sobre tu negocio",
-      "Que estas construyendo hoy?",
+      "Qué estas construyendo hoy?",
     ],
     submitLabel: "Enviar",
     emailSubject: "Nuevo proyecto desde dpanibra.com",
-    emailBodyTemplate: "Hola David,%0D%0A%0D%0A{{projectBrief}}%0D%0A%0D%0AGracias.",
+    emailBodyTemplate:
+      "Hola David,%0D%0A%0D%0A{{projectBrief}}%0D%0A%0D%0AGracias.",
   },
   floatingActions: {
     ariaLabel: "Quick actions",
@@ -324,9 +327,62 @@ export const esUi: PortfolioUiTranslations = {
     overline: "DETALLE",
     titleTop: "Pagina de detalle",
     titleBottom: "experiencia, proyectos y blog",
+    tabsAriaLabel: "Secciones de detalle",
+    tabPanelsAriaLabel: "Contenido de detalle",
+    tabs: {
+      experiencia: "Experiencia laboral",
+      proyectos: "Proyectos",
+      blog: "Blog tecnico",
+    },
     backLabel: "Volver a experiencia",
+    backToTopLabel: "Ir al inicio",
     pageTitle: "Detalles profesionales | David Panibra",
     pageDescription:
       "Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra.",
+    experienceTitle: "Experiencia extendida",
+    experienceIntro:
+      "Recorrido completo por roles, decisiones tecnicas y contexto de negocio en cada etapa profesional.",
+    projectsOverline: "PROYECTOS_EXTENDIDOS",
+    projectsTitle: "Arquitectura, ejecucion e impacto",
+    projectsIntro:
+      "Detalle de problemas, restricciones y decisiones aplicadas para convertir requerimientos criticos en sistemas operativos confiables.",
+    projectLabels: {
+      problem: "Problema",
+      architecture: "Arquitectura",
+      challenges: "Retos",
+      solution: "Solucion",
+      impact: "Impacto",
+      stack: "Stack aplicado",
+    },
+    blogOverline: "BLOG_TECNICO",
+    blogTitle: "Notas sobre backend y arquitectura",
+    blogIntro:
+      "Espacio para compartir aprendizajes practicos sobre microservicios, integraciones y decisiones de arquitectura en produccion.",
+    blogPosts: [
+      {
+        title: "Patrones de idempotencia para integraciones empresariales",
+        excerpt:
+          "Estrategias para evitar duplicidad de eventos y mantener consistencia cuando existen reintentos y sistemas externos inestables.",
+        href: "/#contacto",
+        tag: "Integraciones",
+        status: "Proximo articulo",
+      },
+      {
+        title: "Como modularizar un microservicio con arquitectura hexagonal",
+        excerpt:
+          "Separacion de dominio, puertos y adaptadores para mejorar mantenibilidad y pruebas en sistemas de negocio reales.",
+        href: "/#arquitectura",
+        tag: "Arquitectura",
+        status: "Borrador avanzado",
+      },
+      {
+        title: "Checklist de observabilidad para APIs Spring Boot",
+        excerpt:
+          "Metricas, logs y trazas minimas para detectar incidentes antes de que impacten operaciones criticas.",
+        href: "/#microservicios",
+        tag: "Observabilidad",
+        status: "En preparacion",
+      },
+    ],
   },
 };
