@@ -28,6 +28,8 @@ export const initObservableAnimation = () => {
   centerHex.style.transformOrigin = "center";
   centerHex.style.cursor = "pointer";
   centerHex.style.pointerEvents = "all";
+  centerHex.style.outline = "none";
+  centerHex.style.boxShadow = "none";
   innerHexA.style.transformBox = "fill-box";
   innerHexA.style.transformOrigin = "center";
   innerHexB.style.transformBox = "fill-box";
@@ -102,51 +104,53 @@ export const initObservableAnimation = () => {
     let centerPulse = 0;
     let innerWave = 0;
     let spokeWave = 0;
-    const ringWave = [0, 0, 0];
+    const ringWave = rings.map(() => 0);
 
     fsm.activeRipples.forEach((ripple) => {
       const age = now - ripple.startedAt;
       const progress = Math.min(1, Math.max(0, age / pulseDuration));
       const fade = 1 - smoothstep(progress);
-      centerPulse += fade * 0.5;
-      innerWave += fade * 0.62;
-      spokeWave += fade * 0.5;
+      centerPulse += fade * 0.62;
+      innerWave += fade * 0.76;
+      spokeWave += fade * 0.56;
 
       ringWave.forEach((_, index) => {
-        const offset = index * 0.16;
-        const local = (progress - offset) / 0.9;
+        const offset = index * 0.13;
+        const local = (progress - offset) / 0.82;
         const ringStrength = Math.max(0, Math.min(1, local));
-        ringWave[index] += smoothstep(ringStrength) * fade * 1.12;
+        const hierarchy = Math.max(0.52, 1 - index * 0.24);
+        ringWave[index] += smoothstep(ringStrength) * fade * 1.24 * hierarchy;
       });
     });
 
-    const centerScale = 1 + hoverBoost + centerPulse * (shouldReduce ? 0.014 : 0.04);
+    const centerScale = 1 + hoverBoost + centerPulse * (shouldReduce ? 0.02 : 0.056);
     centerHex.style.opacity = "1";
     centerHex.style.transform = `scale(${centerScale.toFixed(4)})`;
 
-    const innerABaseOpacity = shouldReduce ? 0.28 : 0.26;
-    const innerBBaseOpacity = shouldReduce ? 0.22 : 0.2;
+    const innerABaseOpacity = shouldReduce ? 0.3 : 0.28;
+    const innerBBaseOpacity = shouldReduce ? 0.24 : 0.22;
     const innerAOpacity = fsm.hoverActive
       ? 1
-      : Math.min(0.68, innerABaseOpacity + innerWave * 0.42);
+      : Math.min(0.76, innerABaseOpacity + innerWave * 0.5);
     const innerBOpacity = fsm.hoverActive
       ? 1
-      : Math.min(0.64, innerBBaseOpacity + innerWave * 0.38);
+      : Math.min(0.7, innerBBaseOpacity + innerWave * 0.44);
     innerHexA.style.opacity = innerAOpacity.toFixed(3);
-    innerHexA.style.strokeOpacity = Math.min(0.94, 0.66 + innerWave * 0.34).toFixed(3);
-    innerHexA.style.transform = `scale(${(1 + innerWave * (shouldReduce ? 0.012 : 0.03)).toFixed(4)})`;
+    innerHexA.style.strokeOpacity = Math.min(1, 0.68 + innerWave * 0.38).toFixed(3);
+    innerHexA.style.transform = `scale(${(1 + innerWave * (shouldReduce ? 0.016 : 0.038)).toFixed(4)})`;
     innerHexB.style.opacity = innerBOpacity.toFixed(3);
-    innerHexB.style.strokeOpacity = Math.min(0.9, 0.62 + innerWave * 0.3).toFixed(3);
-    innerHexB.style.transform = `scale(${(0.996 + innerWave * (shouldReduce ? 0.01 : 0.024)).toFixed(4)})`;
+    innerHexB.style.strokeOpacity = Math.min(0.96, 0.64 + innerWave * 0.34).toFixed(3);
+    innerHexB.style.transform = `scale(${(0.996 + innerWave * (shouldReduce ? 0.012 : 0.03)).toFixed(4)})`;
 
     rings.forEach((ring, index) => {
       if (!(ring instanceof SVGGraphicsElement)) return;
-      const wave = Math.min(1.28, ringWave[index]);
-      const baseOpacity = 0.92;
-      const opacity = fsm.hoverActive ? 1 : Math.min(1, baseOpacity + wave * (shouldReduce ? 0.12 : 0.2));
-      const strokeOpacity = Math.min(1, 0.92 + wave * (shouldReduce ? 0.1 : 0.18));
-      const scale = 1 + wave * (shouldReduce ? 0.016 : 0.05 + index * 0.011);
-      const strokeWidth = ringBaseStroke[index] + wave * (shouldReduce ? 0.1 : 0.24 - index * 0.02);
+      const wave = Math.min(1.34, ringWave[index]);
+      const tier = Math.max(0.58, 1 - index * 0.2);
+      const baseOpacity = 0.9;
+      const opacity = fsm.hoverActive ? 1 : Math.min(1, baseOpacity + wave * tier * (shouldReduce ? 0.16 : 0.28));
+      const strokeOpacity = Math.min(1, 0.9 + wave * tier * (shouldReduce ? 0.14 : 0.24));
+      const scale = 1 + wave * tier * (shouldReduce ? 0.024 : 0.064 + index * 0.014);
+      const strokeWidth = ringBaseStroke[index] + wave * tier * (shouldReduce ? 0.12 : 0.28 - index * 0.024);
       ring.style.opacity = opacity.toFixed(3);
       ring.style.strokeOpacity = strokeOpacity.toFixed(3);
       ring.style.strokeWidth = strokeWidth.toFixed(3);
@@ -155,7 +159,7 @@ export const initObservableAnimation = () => {
 
     spokes.forEach((spoke) => {
       if (!(spoke instanceof SVGGraphicsElement)) return;
-      const opacity = fsm.hoverActive ? 1 : Math.min(0.99, 0.8 + spokeWave * (shouldReduce ? 0.12 : 0.22));
+      const opacity = fsm.hoverActive ? 1 : Math.min(1, 0.78 + spokeWave * (shouldReduce ? 0.16 : 0.28));
       spoke.style.opacity = opacity.toFixed(3);
     });
 

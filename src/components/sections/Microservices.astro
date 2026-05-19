@@ -64,7 +64,6 @@ const figureConcepts = ["scalable", "resilient", "observable"] as const;
                 motionConfig={motionConfig}
                 animCard={isResilient ? "resilient" : isScalable ? "scalability" : isObservable ? "observable" : undefined}
                 animFigure={isScalable ? "scalability" : undefined}
-                isScalability={isScalable}
               >
                 {isScalable && <ScalabilityFigure slot="figure" />}
                 {isResilient && <ResilientFigure slot="figure" />}
@@ -85,12 +84,49 @@ const figureConcepts = ["scalable", "resilient", "observable"] as const;
 </script>
 
 <style>
-  [data-trigger-id]:focus,
-  [data-trigger-id]:focus-visible,
-  [data-resilient-node]:focus,
-  [data-resilient-node]:focus-visible,
-  [data-observable-center]:focus,
-  [data-observable-center]:focus-visible {
+  :global([data-trigger-id]),
+  :global([data-resilient-node]),
+  :global([data-observable-center]),
+  :global([data-anim-svg="resilient"]),
+  :global([data-anim-svg="observable"]),
+  :global([data-anim-svg="scalability"]),
+  :global([data-anim-card="scalability"]),
+  :global([data-anim-card="resilient"]),
+  :global([data-anim-card][tabindex]) {
     outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :global([data-trigger-id]:focus),
+  :global([data-trigger-id]:focus-visible),
+  :global([data-trigger-id]:-moz-focusring),
+  :global([data-resilient-node]:focus),
+  :global([data-resilient-node]:focus-visible),
+  :global([data-resilient-node]:-moz-focusring),
+  :global([data-observable-center]:focus),
+  :global([data-observable-center]:focus-visible),
+  :global([data-observable-center]:-moz-focusring),
+  :global([data-anim-svg="resilient"]:focus),
+  :global([data-anim-svg="resilient"]:focus-visible),
+  :global([data-anim-svg="resilient"]:-moz-focusring),
+  :global([data-anim-svg="observable"]:focus),
+  :global([data-anim-svg="observable"]:focus-visible),
+  :global([data-anim-svg="observable"]:-moz-focusring),
+  :global([data-anim-svg="scalability"]:focus),
+  :global([data-anim-svg="scalability"]:focus-visible),
+  :global([data-anim-svg="scalability"]:-moz-focusring),
+  :global([data-anim-card="scalability"]:focus),
+  :global([data-anim-card="scalability"]:focus-visible),
+  :global([data-anim-card="scalability"]:-moz-focusring),
+  :global([data-anim-card="resilient"]:focus),
+  :global([data-anim-card="resilient"]:focus-visible),
+  :global([data-anim-card="resilient"]:-moz-focusring),
+  :global([data-anim-card][tabindex]:focus),
+  :global([data-anim-card][tabindex]:focus-visible),
+  :global([data-anim-card][tabindex]:-moz-focusring) {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
   }
 </style>

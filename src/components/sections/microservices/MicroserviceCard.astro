@@ -6,10 +6,9 @@ interface Props {
   motionConfig?: string;
   animCard?: "scalability" | "resilient" | "observable";
   animFigure?: "scalability";
-  isScalability?: boolean;
 }
 
-const { figureLabel, title, description, motionConfig, animCard, animFigure, isScalability = false } = Astro.props as Props;
+const { figureLabel, title, description, motionConfig, animCard, animFigure } = Astro.props as Props;
 ---
 
 <article
@@ -17,10 +16,6 @@ const { figureLabel, title, description, motionConfig, animCard, animFigure, isS
   data-reveal="up"
   data-motion-config={motionConfig}
   data-anim-card={animCard}
-  data-anim-focus-target={isScalability ? "true" : undefined}
-  tabindex={isScalability ? "0" : undefined}
-  role={isScalability ? "group" : undefined}
-  aria-label={isScalability ? "Escalabilidad: diagrama de microservicios preparado para animacion" : undefined}
 >
   <p class="micro-card-label text-[12px] uppercase tracking-[0.12em] text-muted/60">{figureLabel}</p>
   <div class="micro-figure mt-4" aria-hidden="true" data-anim-figure={animFigure}>

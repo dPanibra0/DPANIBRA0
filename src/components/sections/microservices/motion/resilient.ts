@@ -11,6 +11,8 @@ export const initResilientAnimation = () => {
 
   const figure = configNode.querySelector('[data-anim-svg="resilient"]');
   if (!(figure instanceof SVGElement)) return;
+  figure.setAttribute("tabindex", "-1");
+  figure.setAttribute("focusable", "false");
 
   const nodes = new Map<string, SVGGraphicsElement>();
   figure.querySelectorAll("[data-resilient-node]").forEach((node) => {
@@ -21,11 +23,13 @@ export const initResilientAnimation = () => {
     node.style.transformOrigin = "center";
     node.setAttribute("tabindex", "0");
     node.setAttribute("role", "button");
-    node.setAttribute("focusable", "true");
+    node.setAttribute("focusable", "false");
     node.setAttribute("aria-pressed", "false");
     node.setAttribute("aria-label", `Provocar incidente en ${key.replace("node_", "nodo ")}`);
     node.style.cursor = "pointer";
     node.style.pointerEvents = "all";
+    node.style.outline = "none";
+    node.style.boxShadow = "none";
   });
 
   const links = new Map<string, SVGLineElement>();
@@ -303,6 +307,12 @@ export const initResilientAnimation = () => {
     const nodeId = getNodeIdFromEvent(event.target);
     if (!nodeId) return;
     beginIncident(nodeId);
+  });
+
+  figure.addEventListener("pointerdown", (event) => {
+    const nodeId = getNodeIdFromEvent(event.target);
+    if (!nodeId) return;
+    event.preventDefault();
   });
 
   figure.addEventListener("keydown", (event) => {

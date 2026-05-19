@@ -58,8 +58,8 @@ const getFinalDate = (period: string) => {
       </div>
     </div>
 
-    <div class="mt-10 md:mt-12" data-reveal="up" data-reveal-delay="120">
-      <a href={detailsHref} class="inline-cta text-xs md:text-sm">
+    <div class="exp-footer mt-10 md:mt-12" data-reveal="up" data-reveal-delay="120">
+      <a href={detailsHref} class="inline-cta exp-cta text-xs md:text-sm">
         <span>{detailsLabel}</span>
         <span aria-hidden="true">→</span>
       </a>
@@ -129,6 +129,17 @@ const getFinalDate = (period: string) => {
   .exp-list:hover .exp-item:hover,
   .exp-list:hover .exp-item:focus-within {
     opacity: 1;
+  }
+
+  .exp-timeline:hover + .exp-footer .exp-cta,
+  .exp-timeline:focus-within + .exp-footer .exp-cta {
+    color: color-mix(in oklab, var(--color-text) 88%, white);
+  }
+
+  .exp-timeline:hover + .exp-footer .exp-cta::after,
+  .exp-timeline:focus-within + .exp-footer .exp-cta::after {
+    transform: scaleX(1);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
   }
 
   @media (min-width: 768px) {

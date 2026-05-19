@@ -11,6 +11,22 @@ interface Props {
 
 const { id, projects, overline, ui } = Astro.props;
 
+const deriveTeaser = (project: (typeof projects.items)[number]) => {
+  const source = project.problem || project.impact || project.solution;
+  if (!source) {
+    return "Caso empresarial con foco en continuidad operativa.";
+  }
+
+  const clean = source.replace(/\s+/g, " ").trim();
+  const sentence = clean.split(".")[0]?.trim() || clean;
+
+  if (sentence.length <= 110) {
+    return sentence.endsWith(".") ? sentence : `${sentence}.`;
+  }
+
+  return `${sentence.slice(0, 107).trimEnd()}...`;
+};
+
 const fallbackProject: (typeof projects.items)[number] = {
   title: ui.fallbackProject.title,
   impact: ui.fallbackProject.impact,
@@ -27,7 +43,6 @@ while (visibleProjects.length < 3) {
 }
 
 const projectImages = ["/images/proyecto-01.png", "/images/proyecto-02.jpg", "/images/proyecto-03.jpg"];
-const projectIcons = ["lucide:boxes", "lucide:shield-check", "lucide:compass"];
 ---
 
 <section id={id} class="section-space border-t border-border/50">
@@ -40,43 +55,52 @@ const projectIcons = ["lucide:boxes", "lucide:shield-check", "lucide:compass"];
     </h2>
     <p class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{projects.intro}</p>
 
-    <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="72" data-reveal-stagger-desktop="54">
+    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="72" data-reveal-stagger-desktop="54">
       {
         visibleProjects.map((project, index) => {
           const isFallbackCard = index >= projects.items.length;
-          const detailsHref = isFallbackCard ? "/detalles" : `/detalles#proyecto-${index + 1}`;
+          const detailsHref = isFallbackCard ? "/detalles#proyectos" : `/detalles#proyecto-${index + 1}`;
           const imageSrc = projectImages[index] ?? projectImages[projectImages.length - 1];
-          const iconName = projectIcons[index] ?? "lucide:folder-open-dot";
+          const teaser = deriveTeaser(project);
+          const stackItems = project.stack
+            .split(",")
+            .map((tech) => tech.trim())
+            .filter(Boolean)
+            .slice(0, 3);
 
           return (
-          <article class="group flex h-full flex-col overflow-hidden border border-border/60 bg-surface/95" data-reveal="up">
-            <div class="relative h-[220px] overflow-hidden">
-              <img src={imageSrc} alt={project.title} class="h-full w-full object-cover object-center opacity-55" loading="lazy" />
-              <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(77,131,166,0.32),transparent_35%)]"></div>
-              <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent via-surface/90 to-[#0a0a0a]"></div>
-              <span class="absolute left-4 top-4 inline-flex max-w-[88%] items-center gap-2 border border-border/70 bg-surface/75 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-text/90 backdrop-blur-sm md:text-[11px]">
-                <Icon name={iconName} class="h-3.5 w-3.5 shrink-0 text-[#ffffff]" aria-hidden="true" />
-                <span class="truncate">{project.title}</span>
-              </span>
+          <article class="project-card group flex h-full flex-col overflow-hidden rounded-sm border border-border/65" data-reveal="up">
+            <div class="relative h-[210px] overflow-hidden border-b border-border/50">
+              <img src={imageSrc} alt={project.title} class="project-image h-full w-full object-cover object-center" loading="lazy" />
+              <div class="project-image-overlay absolute inset-0"></div>
             </div>
 
-            <div class="flex grow flex-col p-5 md:p-6 ">
-              <p class="text-[15px] font-medium leading-relaxed text-text/92 md:text-base">{project.impact}</p>
+            <div class="project-card-body flex grow flex-col p-5 md:p-6">
+              <h3 class="text-lg font-semibold leading-tight text-text">{project.title}</h3>
+              <p class="mt-3 text-[15px] leading-relaxed text-text/88">{teaser}</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">{project.impact}</p>
 
               <div class="mt-5 flex flex-wrap gap-2">
-                {project.stack.split(",").slice(0, 4).map((tech) => <span class="border border-border/80 bg-surface/35 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-muted/95 md:text-[11px]">{tech.trim()}</span>)}
+                {
+                  stackItems.map((tech) => (
+                    <span class="stack-chip border border-border/80 bg-surface/35 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-muted/95 md:text-[11px]">
+                      {tech}
+                    </span>
+                  ))
+                }
               </div>
             </div>
 
-            <div class="footer-card-proyect-background mt-auto flex w-full items-center justify-between gap-4 border-t border-border/50 bg-surface/80 px-5 py-4 md:px-6">
-                <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
+            <div class="project-card-footer mt-auto flex w-full items-center justify-between gap-4 border-t border-border/50 px-5 py-4 md:px-6">
+              <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
                 {ui.sectionTags[index] ?? ui.sectionTags[0]}
               </span>
               <a
                 href={detailsHref}
-                class="inline-cta text-[11px] text-white/96 group-hover:text-white md:text-xs"
+                class="inline-cta project-link text-[11px] md:text-xs"
               >
-                {ui.detailsLabel} →
+                <span>{ui.detailsLabel}</span>
+                <Icon name="lucide:arrow-right" class="h-3.5 w-3.5" aria-hidden="true" />
               </a>
             </div>
           </article>
@@ -86,3 +110,48 @@ const projectIcons = ["lucide:boxes", "lucide:shield-check", "lucide:compass"];
     </div>
   </div>
 </section>
+
+<style>
+  .project-card-body,
+  .project-card-footer {
+    background: transparent;
+  }
+
+  .project-image {
+    transition: transform 420ms ease;
+  }
+
+  .project-card:hover .project-image {
+    transform: scale(1.03);
+  }
+
+  .project-image-overlay {
+    background: linear-gradient(to top, rgba(10, 10, 10, 0.38), rgba(10, 10, 10, 0.1));
+  }
+
+  .project-link:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .project-card:hover .project-link,
+  .project-card:focus-within .project-link {
+    color: color-mix(in oklab, var(--color-text) 88%, white);
+  }
+
+  .project-card:hover .project-link::after,
+  .project-card:focus-within .project-link::after {
+    transform: scaleX(1);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-image,
+    .project-link {
+      transition: none;
+    }
+
+    .project-card:hover .project-image {
+      transform: none;
+    }
+  }
+</style>

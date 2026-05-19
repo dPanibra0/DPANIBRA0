@@ -15,6 +15,8 @@ export const initScalabilityAnimation = () => {
   if (!(figure instanceof SVGElement)) {
     return;
   }
+  figure.setAttribute("tabindex", "-1");
+  figure.setAttribute("focusable", "false");
 
   const parts = new Map();
   figure.querySelectorAll("[data-anim-part]").forEach((node) => {
@@ -71,10 +73,11 @@ export const initScalabilityAnimation = () => {
     node.setAttribute("role", "button");
     node.setAttribute("aria-pressed", "false");
     node.setAttribute("aria-label", groupAriaLabel[groupId] ?? "Activar grupo");
-    node.setAttribute("focusable", "true");
+    node.setAttribute("focusable", "false");
     node.style.cursor = "pointer";
     node.style.pointerEvents = "all";
     node.style.outline = "none";
+    node.style.boxShadow = "none";
     triggerNodes.push(node);
   });
 
@@ -95,7 +98,7 @@ export const initScalabilityAnimation = () => {
     timeoutId: null as number | null,
     hoveredTrigger: null as string | null,
     focusedTrigger: null as string | null,
-    lockedTrigger: null as string | null,
+    lockedGroupId: null as string | null,
     lastAppliedStateKey: null as string | null,
     hasRevealed: false
   };
@@ -109,6 +112,11 @@ export const initScalabilityAnimation = () => {
     const triggerId = triggerNode.getAttribute("data-trigger-id");
     if (!triggerId || !allTriggerIds.has(triggerId)) return null;
     return triggerId;
+  };
+
+  const getGroupIdFromTrigger = (triggerId: string | null) => {
+    if (!triggerId) return null;
+    return triggerPartToGroup.get(triggerId) ?? null;
   };
 
   const getActiveParts = (triggerId: string) => {
@@ -141,12 +149,13 @@ export const initScalabilityAnimation = () => {
     }
     fsm.lastAppliedStateKey = stateKey;
 
-    const duration = stateName === "reset_transition" ? durationMs.quick : durationMs.medium;
+    const duration = stateName === "reset_transition" ? durationMs.quick : stateName === "hover" ? Math.max(durationMs.quick, 210) : durationMs.medium;
     const ease = stateName === "reset_transition" ? moveEasing : enterEasing;
 
     Object.keys(targets).forEach((partName) => {
       const node = parts.get(partName) as SVGGraphicsElement | undefined;
       let styleTarget = targets[partName];
+      const idleTarget = idleTargets?.[partName];
       if (activeParts && idleTargets?.[partName]) {
         styleTarget = activeParts.has(partName) ? targets[partName] : idleTargets[partName];
       }
@@ -157,7 +166,12 @@ export const initScalabilityAnimation = () => {
       node.style.transitionTimingFunction = ease;
 
       if (typeof styleTarget.opacity === "number") {
-        node.style.opacity = String(styleTarget.opacity);
+        let nextOpacity = styleTarget.opacity;
+        if (activeParts && !activeParts.has(partName) && typeof idleTarget?.opacity === "number") {
+          const dimFactor = stateName === "active_locked" ? 0.42 : 0.58;
+          nextOpacity = Math.max(0.04, idleTarget.opacity * dimFactor);
+        }
+        node.style.opacity = String(nextOpacity);
       }
       if (typeof styleTarget.transform === "string") {
         node.style.transform = styleTarget.transform;
@@ -180,7 +194,7 @@ export const initScalabilityAnimation = () => {
     if (next === "reset_transition") {
       fsm.timeoutId = window.setTimeout(() => {
         fsm.current = "idle";
-        fsm.lockedTrigger = null;
+        fsm.lockedGroupId = null;
         fsm.hoveredTrigger = null;
         fsm.lastAppliedStateKey = null;
         syncTriggerAriaState(null);
@@ -191,12 +205,21 @@ export const initScalabilityAnimation = () => {
   };
 
   const resolveVisualState = () => {
-    if (fsm.lockedTrigger && allTriggerIds.has(fsm.lockedTrigger)) {
-      transitionTo("active_locked", fsm.lockedTrigger);
+    const hoveredPreview = fsm.hoveredTrigger;
+    if (hoveredPreview && allTriggerIds.has(hoveredPreview)) {
+      transitionTo("hover", hoveredPreview);
       return;
     }
 
-    const previewTrigger = fsm.hoveredTrigger ?? fsm.focusedTrigger;
+    if (fsm.lockedGroupId) {
+      const lockedTrigger = triggerPartNames.find((triggerId) => getGroupIdFromTrigger(triggerId) === fsm.lockedGroupId) ?? null;
+      if (lockedTrigger) {
+        transitionTo("active_locked", lockedTrigger);
+        return;
+      }
+    }
+
+    const previewTrigger = fsm.focusedTrigger;
     if (previewTrigger && allTriggerIds.has(previewTrigger)) {
       transitionTo("hover", previewTrigger);
       return;
@@ -259,13 +282,14 @@ export const initScalabilityAnimation = () => {
   configNode.addEventListener("pointerenter", revealRemainingParts, { once: true });
 
   const lock = (triggerId: string | null) => {
-    if (!triggerId || !allTriggerIds.has(triggerId)) return;
-    fsm.lockedTrigger = triggerId;
+    const groupId = getGroupIdFromTrigger(triggerId);
+    if (!triggerId || !groupId || !allTriggerIds.has(triggerId)) return;
+    fsm.lockedGroupId = groupId;
     syncTriggerAriaState(triggerId);
     resolveVisualState();
   };
   const unlock = () => {
-    fsm.lockedTrigger = null;
+    fsm.lockedGroupId = null;
     syncTriggerAriaState(null);
     resolveVisualState();
   };
@@ -273,7 +297,6 @@ export const initScalabilityAnimation = () => {
   figure.addEventListener("pointerenter", (event) => {
     const triggerId = getTriggerFromEvent(event.target);
     if (!triggerId) return;
-    if (fsm.lockedTrigger && triggerId !== fsm.lockedTrigger) return;
     fsm.hoveredTrigger = triggerId;
     resolveVisualState();
   });
@@ -281,24 +304,20 @@ export const initScalabilityAnimation = () => {
   figure.addEventListener("pointerover", (event) => {
     const triggerId = getTriggerFromEvent(event.target);
     if (!triggerId || triggerId === fsm.hoveredTrigger) return;
-    if (fsm.lockedTrigger && triggerId !== fsm.lockedTrigger) return;
     fsm.hoveredTrigger = triggerId;
     resolveVisualState();
   });
 
   figure.addEventListener("pointerleave", () => {
-    if (fsm.lockedTrigger) return;
     fsm.hoveredTrigger = null;
     resolveVisualState();
   });
 
   const toggleLockForTrigger = (triggerId: string | null) => {
-    if (!triggerId) return;
-    if (fsm.lockedTrigger === triggerId) {
+    const groupId = getGroupIdFromTrigger(triggerId);
+    if (!triggerId || !groupId) return;
+    if (fsm.lockedGroupId === groupId) {
       unlock();
-      return;
-    }
-    if (fsm.lockedTrigger && fsm.lockedTrigger !== triggerId) {
       return;
     }
     lock(triggerId);
@@ -309,19 +328,21 @@ export const initScalabilityAnimation = () => {
     toggleLockForTrigger(triggerId);
   });
 
+  figure.addEventListener("pointerdown", (event) => {
+    const triggerId = getTriggerFromEvent(event.target);
+    if (!triggerId) return;
+    event.preventDefault();
+  });
+
   figure.addEventListener("focusin", (event) => {
     const triggerId = getTriggerFromEvent(event.target);
     if (!triggerId) return;
-    if (fsm.lockedTrigger && triggerId !== fsm.lockedTrigger) return;
     fsm.focusedTrigger = triggerId;
     resolveVisualState();
   });
 
   figure.addEventListener("focusout", (event) => {
     const nextTriggerId = getTriggerFromEvent(event.relatedTarget);
-    if (fsm.lockedTrigger && nextTriggerId && nextTriggerId !== fsm.lockedTrigger) {
-      return;
-    }
     fsm.focusedTrigger = nextTriggerId;
     resolveVisualState();
   });
@@ -334,7 +355,7 @@ export const initScalabilityAnimation = () => {
       event.preventDefault();
       toggleLockForTrigger(triggerId);
     }
-    if (key === "Escape" && fsm.lockedTrigger) {
+    if (key === "Escape" && fsm.lockedGroupId) {
       event.preventDefault();
       unlock();
     }

@@ -292,12 +292,12 @@ export const esUi: PortfolioUiTranslations = {
     headingBottom: "impacto empresarial real",
     sectionTags: ["Logistica · Microservicios", "Finanzas · Batch"],
     fallbackProject: {
-      title: "Mas casos empresariales",
+      title: "Ver mas proyectos empresariales",
       impact:
-        "Explora decisiones de arquitectura, restricciones y resultados medibles en la pagina de detalle.",
+        "Accede a la seccion de detalle para explorar mas casos, decisiones tecnicas y resultados de proyectos.",
       stack: "Arquitectura, Resiliencia, Delivery",
     },
-    detailsLabel: "Ver mas detalle",
+    detailsLabel: "VER DETALLE",
   },
   contact: {
     formAriaLabel: "Formulario de contacto por email",
