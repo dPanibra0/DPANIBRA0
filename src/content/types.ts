@@ -39,6 +39,10 @@ export interface ExperienceItem {
   period: string;
   workMode: string;
   context: string;
+  cover: {
+    src: string;
+    alt: string;
+  };
   highlights: string[];
   technologies: string[];
 }
@@ -154,9 +158,6 @@ export interface PortfolioUiTranslations {
     ariaLabel: string;
   };
   detalles: {
-    overline: string;
-    titleTop: string;
-    titleBottom: string;
     tabsAriaLabel: string;
     tabPanelsAriaLabel: string;
     tabs: {
@@ -168,8 +169,6 @@ export interface PortfolioUiTranslations {
     backToTopLabel: string;
     pageTitle: string;
     pageDescription: string;
-    experienceTitle: string;
-    experienceIntro: string;
     projectsOverline: string;
     projectsTitle: string;
     projectsIntro: string;

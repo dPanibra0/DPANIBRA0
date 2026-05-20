@@ -207,6 +207,11 @@ export const initScalabilityAnimation = () => {
   const resolveVisualState = () => {
     const hoveredPreview = fsm.hoveredTrigger;
     if (hoveredPreview && allTriggerIds.has(hoveredPreview)) {
+      const hoveredGroupId = getGroupIdFromTrigger(hoveredPreview);
+      if (fsm.lockedGroupId && hoveredGroupId === fsm.lockedGroupId) {
+        transitionTo("active_locked", hoveredPreview);
+        return;
+      }
       transitionTo("hover", hoveredPreview);
       return;
     }

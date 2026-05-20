@@ -174,6 +174,10 @@ export const esContent: PortfolioContent = {
         period: "2025 - 2026",
         workMode: "Full-time · Remoto",
         context: "Integración logística internacional — Olva Courier",
+        cover: {
+          src: "/images/proyecto-01.png",
+          alt: "Vista de dashboard logístico con trazabilidad de envíos y eventos en tiempo real",
+        },
         highlights: [
           "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la integración entre una plataforma externa y el sistema CORE de la empresa.",
           "Diseño y desarrollo desde cero de dos microservicios en Java 21 bajo arquitectura hexagonal para procesar eventos logísticos y sincronizar información crítica del negocio.",
@@ -200,6 +204,10 @@ export const esContent: PortfolioContent = {
         workMode: "Full-time · Hibrido",
         context:
           "Proyectos internacionales — Cepsa (España) · Habitat AFP (Chile)",
+        cover: {
+          src: "/images/proyecto-02.jpg",
+          alt: "Panel corporativo con métricas de negocio e integración entre sistemas empresariales",
+        },
         highlights: [
           "Inicio como desarrollador fullstack construyendo interfaces y servicios backend para plataformas corporativas utilizadas por usuarios de negocio.",
           "Evolución a liderazgo técnico frontend en el proyecto Cepsa, coordinando el desarrollo de componentes en React integrados en la plataforma corporativa de la empresa.",
@@ -226,6 +234,10 @@ export const esContent: PortfolioContent = {
         period: "2020",
         workMode: "Full-time · Remoto",
         context: "Desarrollo de landing page corporativa",
+        cover: {
+          src: "/images/proyecto-03.jpg",
+          alt: "Composición visual de landing corporativa con módulos de contenido y llamada a la acción",
+        },
         highlights: [
           "Implementación de componentes visuales y animaciones para la página institucional, mejorando la interacción del usuario con el sitio.",
           "Desarrollo de secciones interactivas orientadas a presentar contenido de forma clara y atractiva.",
@@ -245,6 +257,10 @@ export const esContent: PortfolioContent = {
         period: "2019 - 2020",
         workMode: "Full-time · Remoto",
         context: "Desarrollo de soluciones e-commerce durante la pandemia",
+        cover: {
+          src: "/images/dpanibra0_2d_isometric_voxel_art-banner.png",
+          alt: "Ilustración isométrica de una plataforma digital para operaciones de comercio electrónico",
+        },
         highlights: [
           "Desarrollo de tiendas online para negocios que necesitaban migrar rápidamente al canal digital.",
           "Implementación de funcionalidades de catálogo, pedidos y gestión de productos para operaciones comerciales básicas.",
@@ -324,9 +340,6 @@ export const esUi: PortfolioUiTranslations = {
     ariaLabel: "Technology icons carousel",
   },
   detalles: {
-    overline: "DETALLE",
-    titleTop: "Pagina de detalle",
-    titleBottom: "experiencia, proyectos y blog",
     tabsAriaLabel: "Secciones de detalle",
     tabPanelsAriaLabel: "Contenido de detalle",
     tabs: {
@@ -339,9 +352,6 @@ export const esUi: PortfolioUiTranslations = {
     pageTitle: "Detalles profesionales | David Panibra",
     pageDescription:
       "Seccion de detalle para experiencia, proyectos y blog tecnico de David Panibra.",
-    experienceTitle: "Experiencia extendida",
-    experienceIntro:
-      "Recorrido completo por roles, decisiones tecnicas y contexto de negocio en cada etapa profesional.",
     projectsOverline: "PROYECTOS_EXTENDIDOS",
     projectsTitle: "Arquitectura, ejecucion e impacto",
     projectsIntro:

@@ -1,11 +1,18 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
+import Contact from "../components/sections/Contact.astro";
 import Footer from "../components/layout/Footer.astro";
+import DetailsTabs from "../components/details/DetailsTabs.astro";
+import DetailsExperiencePanel from "../components/details/DetailsExperiencePanel.astro";
+import DetailsProjectsPanel from "../components/details/DetailsProjectsPanel.astro";
+import DetailsBlogPanel from "../components/details/DetailsBlogPanel.astro";
 import { getTranslations } from "../content/talento/i18n";
+import { resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
 
 const lang = "es" as const;
 const { content, ui } = getTranslations(lang);
+const detailNav = content.nav.filter((item) => item.href === "#contacto");
 ---
 
 <MainLayout
@@ -13,384 +20,53 @@ const { content, ui } = getTranslations(lang);
   description={ui.detalles.pageDescription}
   lang={lang}
 >
-  <Navbar nav={content.nav} ui={ui.navbar} />
+  <Navbar nav={detailNav} ui={ui.navbar} />
 
-  <main class="section-space border-t border-border/50">
-    <div class="container-shell pt-8 md:pt-12">
-      <p class="micro-label mb-5" data-reveal="up">{ui.detalles.overline}</p>
-      <h1
-        class="max-w-[900px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[48px]"
-        data-reveal="up"
-      >
-        {ui.detalles.titleTop}
-        <br />
-        <span class="text-muted">{ui.detalles.titleBottom}</span>
-      </h1>
+  <main class="details-main pt-8 border-t border-border/50">
+    <DetailsTabs tabsAriaLabel={ui.detalles.tabsAriaLabel} tabs={ui.detalles.tabs} />
 
-      <div class="details-tabs-wrap mt-8" data-reveal="up" data-reveal-delay="80">
-        <div
-          class="details-tabs"
-          role="tablist"
-          aria-label={ui.detalles.tabsAriaLabel}
-          data-details-tabs
-        >
-          <button
-            id="tab-experiencia"
-            class="details-tab"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            aria-controls="panel-experiencia"
-            data-tab="experiencia"
-            tabindex="0"
-          >
-            <span class="details-tab-index">01 //</span>
-            <span>{ui.detalles.tabs.experiencia}</span>
-          </button>
-          <button
-            id="tab-proyectos"
-            class="details-tab"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-proyectos"
-            data-tab="proyectos"
-            tabindex="-1"
-          >
-            <span class="details-tab-index">02 //</span>
-            <span>{ui.detalles.tabs.proyectos}</span>
-          </button>
-          <button
-            id="tab-blog"
-            class="details-tab"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-blog"
-            data-tab="blog"
-            tabindex="-1"
-          >
-            <span class="details-tab-index">03 //</span>
-            <span>{ui.detalles.tabs.blog}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div aria-label={ui.detalles.tabPanelsAriaLabel}>
-    <section id="panel-experiencia" role="tabpanel" aria-labelledby="tab-experiencia" class="details-panel section-space border-t border-border/50" data-tab-panel="experiencia">
-      <div class="container-shell pt-8 md:pt-12">
-        <p class="micro-label mb-5" data-reveal="up">{content.overlines.experience}</p>
-        <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
-          {ui.detalles.experienceTitle}
-        </h2>
-        <p class="mt-6 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up" data-reveal-delay="70">
-          {ui.detalles.experienceIntro}
-        </p>
-
-        <div class="relative mt-12 md:mt-16" data-reveal="up" data-reveal-delay="90">
-          <div class="absolute bottom-2 left-[10px] top-2 w-px bg-gradient-to-b from-accent/70 via-accent-strong/45 to-accent/70"></div>
-
-          <div class="space-y-16 md:space-y-24 lg:space-y-28">
-            {
-              content.experience.items.map((item) => (
-                <article class="exp-item relative grid gap-8 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-14" data-exp-item>
-                  <span class="exp-segment pointer-events-none absolute bottom-2 left-[10px] top-2 w-px" />
-                  <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]" />
-
-                  <div class="space-y-2">
-                    <h3 class="text-lg font-semibold tracking-[-0.01em] text-text md:text-[28px]">{item.company}</h3>
-                    <p class="text-sm text-[#bcc6d1] md:text-[15px]">{item.period}</p>
-                    <p class="text-sm text-muted/80 md:text-base">{item.workMode}</p>
-                  </div>
-
-                  <div class="max-w-[920px]">
-                    <h4 class="text-[22px] font-semibold tracking-[-0.02em] text-text md:text-3xl">{item.role}</h4>
-                    <p class="mt-3 text-base leading-relaxed text-muted">{item.context}</p>
-
-                    <ul class="mt-6 space-y-3">
-                      {item.highlights.map((highlight) => (
-                        <li class="flex gap-3 text-[15px] leading-relaxed text-muted md:text-base">
-                          <span class="mt-[1px] text-muted">&#8250;</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div class="mt-6 flex flex-wrap gap-2">
-                      {item.technologies.map((tech) => (
-                        <span
-                          class="rounded-md border px-2.5 py-1 text-xs text-[#c1c9d2] md:text-sm"
-                          style="background:#161616;border-color:#2a2a2a;"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="panel-proyectos" role="tabpanel" aria-labelledby="tab-proyectos" class="details-panel section-space border-t border-border/50" data-tab-panel="proyectos" hidden>
-      <div class="container-shell pt-8 md:pt-12">
-        <p class="micro-label mb-5" data-reveal="up">{ui.detalles.projectsOverline}</p>
-        <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
-          {ui.detalles.projectsTitle}
-        </h2>
-        <p class="mt-6 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up" data-reveal-delay="70">
-          {ui.detalles.projectsIntro}
-        </p>
-
-        <div class="mt-10 grid gap-5 md:gap-6" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="54">
-          {
-            content.projects.items.map((project, index) => (
-              <article id={`proyecto-${index + 1}`} class="project-details card-surface border border-border/70 p-5 md:p-7" data-reveal="up">
-                <div class="flex flex-wrap items-start justify-between gap-4">
-                  <h3 class="max-w-[900px] text-xl font-semibold tracking-[-0.02em] text-text md:text-[30px]">{project.title}</h3>
-                  <span class="micro-label">0{index + 1}</span>
-                </div>
-
-                <dl class="mt-6 grid gap-4 md:gap-5">
-                  <div>
-                    <dt class="micro-label">{ui.detalles.projectLabels.problem}</dt>
-                    <dd class="mt-1 text-[15px] leading-relaxed text-muted md:text-base">{project.problem}</dd>
-                  </div>
-                  <div>
-                    <dt class="micro-label">{ui.detalles.projectLabels.architecture}</dt>
-                    <dd class="mt-1 text-[15px] leading-relaxed text-muted md:text-base">{project.architecture}</dd>
-                  </div>
-                  <div>
-                    <dt class="micro-label">{ui.detalles.projectLabels.challenges}</dt>
-                    <dd class="mt-1 text-[15px] leading-relaxed text-muted md:text-base">{project.challenges}</dd>
-                  </div>
-                  <div>
-                    <dt class="micro-label">{ui.detalles.projectLabels.solution}</dt>
-                    <dd class="mt-1 text-[15px] leading-relaxed text-muted md:text-base">{project.solution}</dd>
-                  </div>
-                  <div>
-                    <dt class="micro-label">{ui.detalles.projectLabels.impact}</dt>
-                    <dd class="mt-1 text-[15px] leading-relaxed text-muted md:text-base">{project.impact}</dd>
-                  </div>
-                </dl>
-
-                <div class="mt-6 border-t border-border/60 pt-4">
-                  <p class="micro-label">{ui.detalles.projectLabels.stack}</p>
-                  <div class="mt-2 flex flex-wrap gap-2">
-                    {project.stack.split(",").map((tech) => (
-                      <span class="rounded-md border border-border/80 bg-surface/35 px-2.5 py-1 text-xs text-muted md:text-sm">
-                        {tech.trim()}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section id="panel-blog" role="tabpanel" aria-labelledby="tab-blog" class="details-panel section-space border-t border-border/50" data-tab-panel="blog" hidden>
-      <div class="container-shell pt-8 md:pt-12">
-        <p class="micro-label mb-5" data-reveal="up">{ui.detalles.blogOverline}</p>
-        <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
-          {ui.detalles.blogTitle}
-        </h2>
-        <p class="mt-6 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up" data-reveal-delay="70">
-          {ui.detalles.blogIntro}
-        </p>
-
-        <div class="mt-10 grid gap-5 md:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="60" data-reveal-stagger-desktop="50">
-          {
-            ui.detalles.blogPosts.map((post) => (
-              <article class="card-surface border border-border/70 p-5 md:p-6" data-reveal="up">
-                <p class="micro-label">{post.tag}</p>
-                <h3 class="mt-3 text-[20px] font-semibold leading-tight tracking-[-0.02em] text-text md:text-2xl">{post.title}</h3>
-                <p class="mt-3 text-[15px] leading-relaxed text-muted md:text-base">{post.excerpt}</p>
-                <div class="mt-6 flex items-center justify-between gap-4 border-t border-border/60 pt-4">
-                  <span class="text-xs text-muted/90">{post.status}</span>
-                  <a href={post.href} class="inline-cta text-[11px] md:text-xs">Explorar contexto</a>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-
-        <div class="mt-12 flex flex-wrap gap-4" data-reveal="up" data-reveal-delay="140">
-          <a href="/#experiencia" class="inline-cta text-xs md:text-sm">
-            <span aria-hidden="true">&larr;</span>
-            <span>{ui.detalles.backLabel}</span>
-          </a>
-          <a href="/#inicio" class="inline-cta text-xs md:text-sm">{ui.detalles.backToTopLabel}</a>
-        </div>
-      </div>
-    </section>
+    <div class="details-panels-shell" aria-label={ui.detalles.tabPanelsAriaLabel}>
+      <DetailsExperiencePanel items={content.experience.items} />
+      <DetailsProjectsPanel
+        items={content.projects.items}
+        projectLabels={ui.detalles.projectLabels}
+        resolveTechIcon={resolveTechIcon}
+        resolveProjectCover={resolveProjectCover}
+      />
+      <DetailsBlogPanel
+        blogOverline={ui.detalles.blogOverline}
+        blogTitle={ui.detalles.blogTitle}
+        blogIntro={ui.detalles.blogIntro}
+        blogPosts={ui.detalles.blogPosts}
+        backLabel={ui.detalles.backLabel}
+        backToTopLabel={ui.detalles.backToTopLabel}
+      />
     </div>
   </main>
+
+  <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} ui={ui.contact} />
 
   <Footer footer={content.footer} nav={content.nav} />
 </MainLayout>
 
 <style>
-  .details-tabs-wrap {
-    position: sticky;
-    top: 74px;
-    z-index: 30;
-    margin-left: -0.4rem;
-    margin-right: -0.4rem;
-    padding: 0.4rem;
-    background: linear-gradient(to bottom, rgba(8, 10, 13, 0.92), rgba(8, 10, 13, 0.8));
-    backdrop-filter: blur(10px);
+  .details-main {
+    --details-sticky-offset: 74px;
+    padding-bottom: clamp(3.2rem, 8vw, 6.2rem);
   }
 
-  .details-tabs {
-    display: flex;
-    gap: 0.3rem;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.24);
-  }
-
-  .details-tab {
-    position: relative;
-    display: inline-flex;
-    flex: 0 0 auto;
-    align-items: baseline;
-    gap: 0.45rem;
-    padding: 0.72rem 0.78rem;
-    color: #95a4b7;
-    font-size: 0.8rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    transition:
-      color 180ms ease,
-      opacity 180ms ease;
-  }
-
-  .details-tab::after {
-    content: "";
-    position: absolute;
-    left: 0.78rem;
-    right: 0.78rem;
-    bottom: 0;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(179, 209, 234, 0.9), rgba(109, 156, 194, 0.7));
-    transform: scaleX(0.3);
-    transform-origin: left;
-    opacity: 0;
-    transition:
-      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 180ms ease;
-  }
-
-  .details-tab:hover,
-  .details-tab:focus-visible {
-    color: #d6deea;
-  }
-
-  .details-tab[aria-selected="true"] {
-    color: #f2f6fb;
-  }
-
-  .details-tab[aria-selected="true"]::after {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .details-tab-index {
-    font-size: 0.68rem;
-    letter-spacing: 0.09em;
-    color: #7996b3;
-  }
-
-  .details-panel {
-    animation: details-panel-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .details-panel[hidden] {
-    display: none;
-  }
-
-  .exp-item {
-    opacity: 0.45;
-    transition: opacity 260ms ease;
-  }
-
-  .exp-node {
-    border-color: #9aa8b8;
-    background: #cdd4db;
-    transition:
-      transform 180ms ease,
-      background-color 180ms ease,
-      border-color 180ms ease;
-  }
-
-  .exp-segment {
-    background: rgba(77, 131, 166, 0.55);
-    opacity: 0;
-    transition: opacity 180ms ease;
-  }
-
-  .exp-item:hover,
-  .exp-item.is-active {
-    opacity: 1;
-  }
-
-  .exp-item:hover .exp-segment,
-  .exp-item.is-active .exp-segment {
-    opacity: 1;
-  }
-
-  .exp-item:hover .exp-node,
-  .exp-item.is-active .exp-node {
-    transform: scale(1.1);
-    border-color: #d8e3ee;
-    background: #f6f8fb;
-  }
-
-  @keyframes details-panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .details-panels-shell {
+    margin-top: 0.7rem;
   }
 
   @media (max-width: 767px) {
-    .details-tabs-wrap {
-      top: 66px;
+    .details-main {
+      --details-sticky-offset: 66px;
+      padding-bottom: clamp(2.8rem, 10vw, 4.8rem);
     }
 
-    .details-tab {
-      font-size: 0.74rem;
-      white-space: nowrap;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .details-tab,
-    .details-tab::after,
-    .details-panel,
-    .exp-item,
-    .exp-node,
-    .exp-segment {
-      animation: none;
-      transition: none;
-    }
-
-    .details-tabs {
-      scroll-behavior: auto;
+    .details-panels-shell {
+      margin-top: 0.6rem;
     }
   }
 </style>
@@ -433,7 +109,10 @@ const { content, ui } = getTranslations(lang);
       }
 
       for (const panel of panels) {
-        panel.hidden = panel !== nextPanel;
+        const isActivePanel = panel === nextPanel;
+        panel.hidden = !isActivePanel;
+        panel.setAttribute("data-panel-state", isActivePanel ? "active" : "inactive");
+        panel.setAttribute("aria-hidden", isActivePanel ? "false" : "true");
       }
 
       if (options?.focus) {
@@ -523,9 +202,7 @@ const { content, ui } = getTranslations(lang);
           }
         }
 
-        items.forEach((item) =>
-          item.classList.toggle("is-active", item === activeItem),
-        );
+        items.forEach((item) => item.classList.toggle("is-active", item === activeItem));
         ticking = false;
       };
 
