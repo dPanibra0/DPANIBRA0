@@ -1,5 +1,6 @@
 ---
 import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   id: string;
@@ -61,7 +62,7 @@ const getFinalDate = (period: string) => {
     <div class="exp-footer mt-10 md:mt-12" data-reveal="up" data-reveal-delay="120">
       <a href={detailsHref} class="inline-cta exp-cta text-xs md:text-sm">
         <span>{detailsLabel}</span>
-        <span aria-hidden="true">→</span>
+        <Icon name="lucide:arrow-right" class="h-3.5 w-3.5" aria-hidden="true" />
       </a>
     </div>
   </div>

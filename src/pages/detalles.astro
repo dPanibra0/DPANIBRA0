@@ -3,12 +3,13 @@ import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/layout/Navbar.astro";
 import Contact from "../components/sections/Contact.astro";
 import Footer from "../components/layout/Footer.astro";
+import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
 import DetailsTabs from "../components/details/DetailsTabs.astro";
 import DetailsExperiencePanel from "../components/details/DetailsExperiencePanel.astro";
 import DetailsProjectsPanel from "../components/details/DetailsProjectsPanel.astro";
 import DetailsBlogPanel from "../components/details/DetailsBlogPanel.astro";
 import { getTranslations } from "../content/talento/i18n";
-import { resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
+import { resolveBlogCover, resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
 
 const lang = "es" as const;
 const { content, ui } = getTranslations(lang);
@@ -38,6 +39,7 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
         blogTitle={ui.detalles.blogTitle}
         blogIntro={ui.detalles.blogIntro}
         blogPosts={ui.detalles.blogPosts}
+        resolveBlogCover={resolveBlogCover}
         backLabel={ui.detalles.backLabel}
         backToTopLabel={ui.detalles.backToTopLabel}
       />
@@ -45,6 +47,8 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
   </main>
 
   <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} ui={ui.contact} />
+
+  <FloatingQuickActions ui={ui.floatingActions} />
 
   <Footer footer={content.footer} nav={content.nav} />
 </MainLayout>
@@ -57,6 +61,105 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
 
   .details-panels-shell {
     margin-top: 0.7rem;
+    position: relative;
+    overflow-x: clip;
+  }
+
+  :global(.details-panel[hidden]) {
+    display: none;
+  }
+
+  :global(.details-panel[data-panel-state="active"]:not([data-panel-transition])) {
+    animation: details-panel-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(.details-panel[data-panel-transition]) {
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  :global(.details-panel[data-panel-transition="in-forward"]) {
+    animation: details-panel-in-forward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+  }
+
+  :global(.details-panel[data-panel-transition="out-forward"]) {
+    animation: details-panel-out-forward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+  }
+
+  :global(.details-panel[data-panel-transition="in-backward"]) {
+    animation: details-panel-in-backward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+  }
+
+  :global(.details-panel[data-panel-transition="out-backward"]) {
+    animation: details-panel-out-backward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+  }
+
+  :global(.details-panel[data-panel-transition] [data-reveal]),
+  :global(.details-panel[data-panel-transition] [data-reveal].is-revealed) {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  @keyframes details-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes details-panel-in-forward {
+    from {
+      opacity: 0.78;
+      transform: translateX(42px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes details-panel-out-forward {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    to {
+      opacity: 0.72;
+      transform: translateX(-42px);
+    }
+  }
+
+  @keyframes details-panel-in-backward {
+    from {
+      opacity: 0.78;
+      transform: translateX(-42px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes details-panel-out-backward {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    to {
+      opacity: 0.72;
+      transform: translateX(42px);
+    }
   }
 
   @media (max-width: 767px) {
@@ -69,153 +172,19 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
       margin-top: 0.6rem;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.details-panel[data-panel-transition]),
+    :global(.details-panel[data-panel-state="active"]) {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
 </style>
 
 <script>
-  if ((window as Window & { __detailsTabsInit?: boolean }).__detailsTabsInit) {
-    // no-op
-  } else {
-    (window as Window & { __detailsTabsInit?: boolean }).__detailsTabsInit = true;
-    const tabIds = ["experiencia", "proyectos", "blog"] as const;
-    const hashAliases: Record<string, (typeof tabIds)[number]> = {
-      "#experiencia": "experiencia",
-      "#experiencia-detalle": "experiencia",
-      "#proyectos": "proyectos",
-      "#proyectos-detalle": "proyectos",
-      "#blog": "blog",
-    };
+  import { initDetailsTabs } from "../scripts/details-tabs";
 
-    const tabs = Array.from(document.querySelectorAll<HTMLElement>("[role='tab'][data-tab]"));
-    const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-tab-panel]"));
-    const tabsById = new Map(tabs.map((tab) => [tab.dataset.tab ?? "", tab]));
-    const panelsById = new Map(panels.map((panel) => [panel.dataset.tabPanel ?? "", panel]));
-
-    const toTabId = (value: string | null | undefined): (typeof tabIds)[number] => {
-      const candidate = value ? hashAliases[value.toLowerCase()] : undefined;
-      return candidate ?? "experiencia";
-    };
-
-    const setActiveTab = (targetId: (typeof tabIds)[number], options?: { focus?: boolean; updateHash?: boolean }) => {
-      const nextTab = tabsById.get(targetId);
-      const nextPanel = panelsById.get(targetId);
-      if (!nextTab || !nextPanel) {
-        return;
-      }
-
-      for (const tab of tabs) {
-        const selected = tab === nextTab;
-        tab.setAttribute("aria-selected", selected ? "true" : "false");
-        tab.tabIndex = selected ? 0 : -1;
-      }
-
-      for (const panel of panels) {
-        const isActivePanel = panel === nextPanel;
-        panel.hidden = !isActivePanel;
-        panel.setAttribute("data-panel-state", isActivePanel ? "active" : "inactive");
-        panel.setAttribute("aria-hidden", isActivePanel ? "false" : "true");
-      }
-
-      if (options?.focus) {
-        nextTab.focus();
-      }
-
-      if (options?.updateHash) {
-        history.replaceState(null, "", `#${targetId}`);
-      }
-    };
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const tabId = toTabId(`#${tab.dataset.tab ?? ""}`);
-        setActiveTab(tabId, { updateHash: true });
-      });
-    });
-
-    const tablist = document.querySelector<HTMLElement>("[role='tablist']");
-    tablist?.addEventListener("keydown", (event) => {
-      const activeIndex = tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true");
-      if (activeIndex < 0) {
-        return;
-      }
-
-      let nextIndex = activeIndex;
-      if (event.key === "ArrowRight") {
-        nextIndex = (activeIndex + 1) % tabs.length;
-      } else if (event.key === "ArrowLeft") {
-        nextIndex = (activeIndex - 1 + tabs.length) % tabs.length;
-      } else if (event.key === "Home") {
-        nextIndex = 0;
-      } else if (event.key === "End") {
-        nextIndex = tabs.length - 1;
-      } else if (event.key === "Enter" || event.key === " ") {
-        const activeTab = tabs[activeIndex];
-        const activeTabId = toTabId(`#${activeTab.dataset.tab ?? ""}`);
-        setActiveTab(activeTabId, { updateHash: true });
-        event.preventDefault();
-        return;
-      } else {
-        return;
-      }
-
-      const nextTab = tabs[nextIndex];
-      const nextTabId = toTabId(`#${nextTab.dataset.tab ?? ""}`);
-      setActiveTab(nextTabId, { focus: true, updateHash: true });
-      event.preventDefault();
-    });
-
-    setActiveTab(toTabId(window.location.hash), { updateHash: true });
-
-    const items = Array.from(document.querySelectorAll("[data-exp-item]"));
-
-    if (items.length) {
-      let ticking = false;
-
-      const updateActiveItem = () => {
-        const experienciaPanel = panelsById.get("experiencia");
-        if (!experienciaPanel || experienciaPanel.hidden) {
-          items.forEach((item) => item.classList.remove("is-active"));
-          ticking = false;
-          return;
-        }
-
-        const triggerY =
-          window.innerWidth < 768
-            ? window.innerHeight * 0.62
-            : window.innerHeight * 0.45;
-        let activeItem = null;
-        let nearest = Number.POSITIVE_INFINITY;
-
-        for (const item of items) {
-          const rect = item.getBoundingClientRect();
-          const containsTrigger = rect.top <= triggerY && rect.bottom >= triggerY;
-
-          if (containsTrigger) {
-            activeItem = item;
-            break;
-          }
-
-          const center = rect.top + rect.height / 2;
-          const distance = Math.abs(center - triggerY);
-          if (distance < nearest) {
-            nearest = distance;
-            activeItem = item;
-          }
-        }
-
-        items.forEach((item) => item.classList.toggle("is-active", item === activeItem));
-        ticking = false;
-      };
-
-      const onScroll = () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateActiveItem);
-          ticking = true;
-        }
-      };
-
-      updateActiveItem();
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll);
-    }
-  }
+  initDetailsTabs();
 </script>

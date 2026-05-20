@@ -7,16 +7,22 @@ interface BlogPost {
   href: string;
 }
 
+interface BlogCover {
+  src: string;
+  alt: string;
+}
+
 interface Props {
   blogOverline: string;
   blogTitle: string;
   blogIntro: string;
   blogPosts: BlogPost[];
+  resolveBlogCover: (index: number) => BlogCover;
   backLabel: string;
   backToTopLabel: string;
 }
 
-const { blogOverline, blogTitle, blogIntro, blogPosts, backLabel, backToTopLabel } = Astro.props;
+const { blogPosts, resolveBlogCover, backToTopLabel } = Astro.props;
 ---
 
 <section
@@ -29,35 +35,31 @@ const { blogOverline, blogTitle, blogIntro, blogPosts, backLabel, backToTopLabel
   hidden
 >
   <div class="container-shell details-panel-inner">
-    <p class="micro-label mb-5" data-reveal="up">{blogOverline}</p>
-    <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
-      {blogTitle}
-    </h2>
-    <p class="mt-6 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up" data-reveal-delay="70">
-      {blogIntro}
-    </p>
-
-    <div class="mt-10 grid gap-5 md:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="60" data-reveal-stagger-desktop="50">
+    <div class="grid gap-6 md:grid-cols-2" data-reveal-group data-reveal-stagger-mobile="60" data-reveal-stagger-desktop="50">
       {
-        blogPosts.map((post) => (
-          <article class="card-surface border border-border/70 p-5 md:p-6" data-reveal="up">
-            <p class="micro-label">{post.tag}</p>
-            <h3 class="mt-3 text-[20px] font-semibold leading-tight tracking-[-0.02em] text-text md:text-2xl">{post.title}</h3>
-            <p class="mt-3 text-[15px] leading-relaxed text-muted md:text-base">{post.excerpt}</p>
-            <div class="mt-6 flex items-center justify-between gap-4 border-t border-border/60 pt-4">
-              <span class="text-xs text-muted/90">{post.status}</span>
+        blogPosts.map((post, index) => {
+          const cover = resolveBlogCover(index);
+
+          return (
+          <article class="blog-card card-surface border border-border/65 p-6 md:p-7" data-reveal="up">
+            <figure class="blog-card-cover" aria-hidden="true">
+              <img src={cover.src} alt={cover.alt} loading="lazy" decoding="async" class="blog-card-cover-media" />
+              <span class="blog-card-cover-wash"></span>
+            </figure>
+            <p class="micro-label blog-card-tag">{post.tag}</p>
+            <h3 class="blog-card-title mt-3">{post.title}</h3>
+            <p class="blog-card-excerpt mt-3">{post.excerpt}</p>
+            <div class="mt-auto flex items-center justify-between gap-4 border-t border-border/65 pt-6">
+              <span class="blog-card-status text-xs text-muted/90">{post.status}</span>
               <a href={post.href} class="inline-cta text-[11px] md:text-xs">Explorar contexto</a>
             </div>
           </article>
-        ))
+        );
+        })
       }
     </div>
 
-    <div class="mt-12 flex flex-wrap gap-4" data-reveal="up" data-reveal-delay="140">
-      <a href="/#experiencia" class="inline-cta text-xs md:text-sm">
-        <span aria-hidden="true">&larr;</span>
-        <span>{backLabel}</span>
-      </a>
+    <div class="mt-10 flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="140">
       <a href="/#inicio" class="inline-cta text-xs md:text-sm">{backToTopLabel}</a>
     </div>
   </div>
@@ -68,23 +70,85 @@ const { blogOverline, blogTitle, blogIntro, blogPosts, backLabel, backToTopLabel
     display: none;
   }
 
-  .details-panel[data-panel-state="active"] {
-    animation: details-panel-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
   .details-panel-inner {
     padding-top: 1.9rem;
   }
 
-  @keyframes details-panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
+  .blog-card {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: 0.95rem;
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .blog-card-cover {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+    border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+    border-radius: 0.72rem;
+    aspect-ratio: 16 / 8;
+    background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
+  }
+
+  .blog-card-cover-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.82) contrast(0.92);
+    transform: scale(1.02);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), filter 300ms ease;
+  }
+
+  .blog-card-cover-wash {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(8, 12, 18, 0.08) 0%, rgba(8, 12, 18, 0.44) 100%),
+      linear-gradient(120deg, rgba(77, 131, 166, 0.16) 0%, rgba(77, 131, 166, 0) 58%);
+    pointer-events: none;
+  }
+
+  .blog-card-tag {
+    letter-spacing: 0.1em;
+  }
+
+  .blog-card-title {
+    font-size: clamp(1.2rem, 0.96rem + 0.75vw, 1.7rem);
+    font-weight: 620;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    text-wrap: balance;
+  }
+
+  .blog-card-excerpt {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .blog-card-status {
+    letter-spacing: 0.02em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .blog-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--color-border) 70%, var(--color-text) 30%);
+      box-shadow: 0 16px 32px -24px rgba(0, 0, 0, 0.35);
     }
 
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    .blog-card:hover .blog-card-cover-media {
+      transform: scale(1.05);
+      filter: saturate(0.92) contrast(0.96);
+    }
+
+    .blog-card:hover .blog-card-title {
+      color: color-mix(in srgb, var(--color-text) 88%, black 12%);
     }
   }
 
@@ -92,12 +156,30 @@ const { blogOverline, blogTitle, blogIntro, blogPosts, backLabel, backToTopLabel
     .details-panel-inner {
       padding-top: 1.25rem;
     }
+
+    .blog-card {
+      padding: 1.15rem;
+    }
+
+    .blog-card-cover {
+      aspect-ratio: 16 / 9;
+    }
+
+    .blog-card-excerpt {
+      font-size: 0.93rem;
+      line-height: 1.58;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .details-panel {
       animation: none;
       transition: none;
+    }
+
+    .blog-card {
+      transition: none;
+      transform: none;
     }
   }
 </style>

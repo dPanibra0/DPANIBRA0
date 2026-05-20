@@ -41,3 +41,21 @@ export const projectCovers = [
 
 export const resolveProjectCover = (index: number) =>
   projectCovers[index] ?? projectCovers[index % projectCovers.length];
+
+export const blogCovers = [
+  {
+    src: "/images/proyecto-01.png",
+    alt: "Imagen editorial de arquitectura de sistemas empresariales",
+  },
+  {
+    src: "/images/proyecto-02.jpg",
+    alt: "Imagen editorial de procesos y observabilidad operativa",
+  },
+  {
+    src: "/images/proyecto-03.jpg",
+    alt: "Imagen editorial de automatizacion y plataforma corporativa",
+  },
+] as const;
+
+export const resolveBlogCover = (index: number) =>
+  blogCovers[index] ?? blogCovers[index % blogCovers.length];

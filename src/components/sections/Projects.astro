@@ -58,8 +58,7 @@ const projectImages = ["/images/proyecto-01.png", "/images/proyecto-02.jpg", "/i
     <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="72" data-reveal-stagger-desktop="54">
       {
         visibleProjects.map((project, index) => {
-          const isFallbackCard = index >= projects.items.length;
-          const detailsHref = isFallbackCard ? "/detalles#proyectos" : `/detalles#proyecto-${index + 1}`;
+          const detailsHref = "/detalles#proyectos";
           const imageSrc = projectImages[index] ?? projectImages[projectImages.length - 1];
           const teaser = deriveTeaser(project);
           const stackItems = project.stack
@@ -96,7 +95,7 @@ const projectImages = ["/images/proyecto-01.png", "/images/proyecto-02.jpg", "/i
                 {ui.sectionTags[index] ?? ui.sectionTags[0]}
               </span>
               <a
-                href={detailsHref}
+                href="/detalles#proyectos"
                 class="inline-cta project-link text-[11px] md:text-xs"
               >
                 <span>{ui.detailsLabel}</span>
