@@ -31,6 +31,8 @@ export function initDetailsTabs(): void {
 
   let activeTabId: DetailsTabId = "experiencia";
   let transitionToken = 0;
+  let refreshViewportActiveState = () => {};
+  let refreshParallaxState = () => {};
 
   const toTabId = (value: string | null | undefined): DetailsTabId => {
     const candidate = value ? hashAliases[value.toLowerCase()] : undefined;
@@ -131,6 +133,9 @@ export function initDetailsTabs(): void {
     if (options?.updateHash) {
       history.replaceState(null, "", `#${targetId}`);
     }
+
+    refreshViewportActiveState();
+    refreshParallaxState();
   };
 
   tabs.forEach((tab) => {
@@ -175,19 +180,24 @@ export function initDetailsTabs(): void {
   activeTabId = toTabId(window.location.hash);
   setActiveTab(activeTabId, { updateHash: true });
 
-  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-exp-item]"));
+  type FocusGroup = {
+    panelId: DetailsTabId;
+    selector: string;
+  };
 
-  if (items.length) {
+  const focusGroups: FocusGroup[] = [
+    { panelId: "experiencia", selector: "[data-exp-item]" },
+    { panelId: "proyectos", selector: "[data-project-item]" },
+  ];
+
+  const panelFocusItems = focusGroups
+    .map(({ panelId, selector }) => ({ panelId, items: Array.from(document.querySelectorAll<HTMLElement>(selector)) }))
+    .filter((group) => group.items.length > 0);
+
+  if (panelFocusItems.length) {
     let ticking = false;
 
-    const updateActiveItem = () => {
-      const experienciaPanel = panelsById.get("experiencia");
-      if (!experienciaPanel || experienciaPanel.hidden) {
-        items.forEach((item) => item.classList.remove("is-active"));
-        ticking = false;
-        return;
-      }
-
+    const updateGroupActiveItem = (items: HTMLElement[]) => {
       const triggerY = window.innerWidth < 768 ? window.innerHeight * 0.62 : window.innerHeight * 0.45;
       let activeItem: HTMLElement | null = null;
       let nearest = Number.POSITIVE_INFINITY;
@@ -210,6 +220,19 @@ export function initDetailsTabs(): void {
       }
 
       items.forEach((item) => item.classList.toggle("is-active", item === activeItem));
+    };
+
+    const updateActiveItem = () => {
+      panelFocusItems.forEach(({ panelId, items }) => {
+        const panel = panelsById.get(panelId);
+        if (!panel || panel.hidden) {
+          items.forEach((item) => item.classList.remove("is-active"));
+          return;
+        }
+
+        updateGroupActiveItem(items);
+      });
+
       ticking = false;
     };
 
@@ -220,8 +243,117 @@ export function initDetailsTabs(): void {
       }
     };
 
+    const scheduleActiveItemUpdate = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveItem);
+        ticking = true;
+      }
+    };
+
+    refreshViewportActiveState = scheduleActiveItemUpdate;
+
     updateActiveItem();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+  }
+
+  if (!prefersReducedMotion.matches) {
+    const parallaxItems = Array.from(document.querySelectorAll<HTMLElement>("[data-exp-item] .exp-cover-media"));
+
+    if (parallaxItems.length) {
+      const parallaxTargetByMedia = new WeakMap<HTMLElement, number>();
+      const parallaxCurrentByMedia = new WeakMap<HTMLElement, number>();
+      let parallaxRaf = 0;
+
+      const resetParallax = () => {
+        for (const media of parallaxItems) {
+          media.style.setProperty("--exp-parallax-y", "0px");
+          parallaxTargetByMedia.set(media, 0);
+          parallaxCurrentByMedia.set(media, 0);
+        }
+      };
+
+      const updateParallaxTargets = () => {
+        const experienciaPanel = panelsById.get("experiencia");
+        const panelIsVisible = Boolean(experienciaPanel && !experienciaPanel.hidden);
+
+        if (!panelIsVisible) {
+          resetParallax();
+          return false;
+        }
+
+        parallaxItems.forEach((media) => {
+          const rect = media.getBoundingClientRect();
+          const viewportCenter = window.innerHeight * 0.5;
+          const itemCenter = rect.top + rect.height * 0.5;
+          const rawProgress = (itemCenter - viewportCenter) / window.innerHeight;
+          const clampedProgress = Math.max(-1, Math.min(1, rawProgress));
+          const depth = window.innerWidth < 768 ? 16 : 22;
+          const translateY = clampedProgress * -depth;
+
+          parallaxTargetByMedia.set(media, translateY);
+          if (parallaxCurrentByMedia.get(media) === undefined) {
+            parallaxCurrentByMedia.set(media, translateY);
+          }
+        });
+
+        return true;
+      };
+
+      const renderParallax = () => {
+        const experienciaPanel = panelsById.get("experiencia");
+        const panelIsVisible = Boolean(experienciaPanel && !experienciaPanel.hidden);
+
+        if (!panelIsVisible) {
+          resetParallax();
+          parallaxRaf = 0;
+          return;
+        }
+
+        let shouldContinue = false;
+
+        for (const media of parallaxItems) {
+          const target = parallaxTargetByMedia.get(media) ?? 0;
+          const current = parallaxCurrentByMedia.get(media) ?? 0;
+          const next = current + (target - current) * 0.16;
+
+          media.style.setProperty("--exp-parallax-y", `${next.toFixed(2)}px`);
+          parallaxCurrentByMedia.set(media, next);
+
+          if (Math.abs(target - next) > 0.06) {
+            shouldContinue = true;
+          }
+        }
+
+        if (shouldContinue) {
+          parallaxRaf = window.requestAnimationFrame(renderParallax);
+          return;
+        }
+
+        parallaxRaf = 0;
+      };
+
+      const scheduleParallaxUpdate = () => {
+        if (!updateParallaxTargets()) {
+          if (parallaxRaf) {
+            window.cancelAnimationFrame(parallaxRaf);
+            parallaxRaf = 0;
+          }
+          return;
+        }
+
+        if (!parallaxRaf) {
+          parallaxRaf = window.requestAnimationFrame(renderParallax);
+        }
+      };
+
+      const onParallaxScroll = () => scheduleParallaxUpdate();
+
+      refreshParallaxState = scheduleParallaxUpdate;
+
+      scheduleParallaxUpdate();
+      window.addEventListener("scroll", onParallaxScroll, { passive: true });
+      window.addEventListener("resize", onParallaxScroll);
+    }
   }
 }
