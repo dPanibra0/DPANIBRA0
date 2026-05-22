@@ -4,7 +4,7 @@ type DetailsTabId = (typeof tabIds)[number];
 type DetailsWindow = Window & { __detailsTabsInit?: boolean };
 type NavigationDirection = "forward" | "backward";
 
-const PANEL_TRANSITION_MS = 380;
+const PANEL_TRANSITION_MS = 320;
 
 export function initDetailsTabs(): void {
   const detailsWindow = window as DetailsWindow;
@@ -90,6 +90,7 @@ export function initDetailsTabs(): void {
       currentPanel &&
       currentPanel !== nextPanel &&
       !prefersReducedMotion.matches;
+    const deferStateRefresh = Boolean(shouldAnimate);
 
     transitionToken += 1;
     const currentTransitionToken = transitionToken;
@@ -121,6 +122,8 @@ export function initDetailsTabs(): void {
 
         setPanelState(currentPanel, false);
         clearPanelTransitionState(nextPanel);
+        refreshViewportActiveState();
+        refreshParallaxState();
       }, PANEL_TRANSITION_MS);
     }
 
@@ -134,8 +137,10 @@ export function initDetailsTabs(): void {
       history.replaceState(null, "", `#${targetId}`);
     }
 
-    refreshViewportActiveState();
-    refreshParallaxState();
+    if (!deferStateRefresh) {
+      refreshViewportActiveState();
+      refreshParallaxState();
+    }
   };
 
   tabs.forEach((tab) => {

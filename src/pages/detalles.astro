@@ -54,6 +54,8 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
 <style>
   .details-main {
     --details-sticky-offset: 74px;
+    --details-panel-transition-ms: 320ms;
+    --details-panel-transition-easing: cubic-bezier(0.22, 0.88, 0.28, 1);
     padding-bottom: clamp(3.2rem, 8vw, 6.2rem);
   }
 
@@ -67,29 +69,25 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
     display: none;
   }
 
-  :global(.details-panel[data-panel-state="active"]:not([data-panel-transition])) {
-    animation: details-panel-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
   :global(.details-panel[data-panel-transition]) {
     will-change: transform, opacity;
     pointer-events: none;
   }
 
   :global(.details-panel[data-panel-transition="in-forward"]) {
-    animation: details-panel-in-forward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+    animation: details-panel-in-forward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
   }
 
   :global(.details-panel[data-panel-transition="out-forward"]) {
-    animation: details-panel-out-forward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+    animation: details-panel-out-forward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
   }
 
   :global(.details-panel[data-panel-transition="in-backward"]) {
-    animation: details-panel-in-backward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+    animation: details-panel-in-backward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
   }
 
   :global(.details-panel[data-panel-transition="out-backward"]) {
-    animation: details-panel-out-backward 380ms cubic-bezier(0.2, 0.82, 0.26, 1);
+    animation: details-panel-out-backward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
   }
 
   :global(.details-panel[data-panel-transition] [data-reveal]),
@@ -98,18 +96,6 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
     transition: none !important;
     transform: none !important;
     opacity: 1 !important;
-  }
-
-  @keyframes details-panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   @keyframes details-panel-in-forward {
