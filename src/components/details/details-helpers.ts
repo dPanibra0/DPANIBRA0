@@ -26,15 +26,15 @@ export const resolveTechIcon = (tech: string) => {
 
 export const projectCovers = [
   {
-    src: "/images/proyecto-01.png",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-01.png",
     alt: "Dashboard logistico corporativo con trazabilidad operativa",
   },
   {
-    src: "/images/proyecto-02.jpg",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-02.jpg",
     alt: "Panel corporativo con metricas y estado de procesos",
   },
   {
-    src: "/images/proyecto-03.jpg",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-03.jpg",
     alt: "Visual de plataforma corporativa con modulos de negocio",
   },
 ] as const;
@@ -44,15 +44,15 @@ export const resolveProjectCover = (index: number) =>
 
 export const blogCovers = [
   {
-    src: "/images/proyecto-01.png",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-latamtech.png",
     alt: "Imagen editorial de arquitectura de sistemas empresariales",
   },
   {
-    src: "/images/proyecto-02.jpg",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-nttdata.png",
     alt: "Imagen editorial de procesos y observabilidad operativa",
   },
   {
-    src: "/images/proyecto-03.jpg",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-multiplica.png",
     alt: "Imagen editorial de automatizacion y plataforma corporativa",
   },
 ] as const;

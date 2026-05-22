@@ -185,8 +185,8 @@ export interface PortfolioUiTranslations {
     blogIntro: string;
     blogPosts: Array<{
       title: string;
-      excerpt: string;
-      href: string;
+      context: string;
+      content: string;
       tag: string;
       status: string;
     }>;

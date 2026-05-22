@@ -175,7 +175,7 @@ export const esContent: PortfolioContent = {
         workMode: "Full-time · Remoto",
         context: "Integración logística internacional — Olva Courier",
         cover: {
-          src: "/images/proyecto-01.png",
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-latamtech.png",
           alt: "Vista de dashboard logístico con trazabilidad de envíos y eventos en tiempo real",
         },
         highlights: [
@@ -205,7 +205,7 @@ export const esContent: PortfolioContent = {
         context:
           "Proyectos internacionales — Cepsa (España) · Habitat AFP (Chile)",
         cover: {
-          src: "/images/proyecto-02.jpg",
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-nttdata.png",
           alt: "Panel corporativo con métricas de negocio e integración entre sistemas empresariales",
         },
         highlights: [
@@ -235,7 +235,7 @@ export const esContent: PortfolioContent = {
         workMode: "Full-time · Remoto",
         context: "Desarrollo de landing page corporativa",
         cover: {
-          src: "/images/proyecto-03.jpg",
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-multiplica.png",
           alt: "Composición visual de landing corporativa con módulos de contenido y llamada a la acción",
         },
         highlights: [
@@ -258,7 +258,7 @@ export const esContent: PortfolioContent = {
         workMode: "Full-time · Remoto",
         context: "Desarrollo de soluciones e-commerce durante la pandemia",
         cover: {
-          src: "/images/dpanibra0_2d_isometric_voxel_art-banner.png",
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-alma.png",
           alt: "Ilustración isométrica de una plataforma digital para operaciones de comercio electrónico",
         },
         highlights: [
@@ -370,28 +370,40 @@ export const esUi: PortfolioUiTranslations = {
       "Espacio para compartir aprendizajes practicos sobre microservicios, integraciones y decisiones de arquitectura en produccion.",
     blogPosts: [
       {
-        title: "Patrones de idempotencia para integraciones empresariales",
-        excerpt:
-          "Estrategias para evitar duplicidad de eventos y mantener consistencia cuando existen reintentos y sistemas externos inestables.",
-        href: "/#contacto",
-        tag: "Integraciones",
-        status: "Proximo articulo",
+        title: "Sistemas de diseno que escalan sin romper consistencia",
+        context:
+          "Practicas reales para alinear producto, UX y desarrollo con reglas operables, accesibilidad y gobierno de componentes.",
+        content:
+          "Un sistema de diseno solido combina tres capas: fundamentos (tipografia, color, espaciado), componentes reutilizables con API estable y documentacion de patrones de uso. En equipos grandes, el punto critico no es solo disenar botones, sino definir ownership, versionado y politicas de adopcion para evitar forks de componentes. A nivel operativo, integrar tokens de diseno al pipeline reduce divergencias entre Figma y codigo y facilita auditorias de accesibilidad (contraste, foco visible, navegacion por teclado). Conclusion: el valor real aparece cuando el sistema de diseno se gestiona como producto interno con metricas de adopcion y calidad, no como biblioteca estatica.",
+        tag: "Sistemas de diseno",
+        status: "Nota completa",
       },
       {
-        title: "Como modularizar un microservicio con arquitectura hexagonal",
-        excerpt:
-          "Separacion de dominio, puertos y adaptadores para mejorar mantenibilidad y pruebas en sistemas de negocio reales.",
-        href: "/#arquitectura",
+        title: "Arquitecturas evolutivas para plataformas de negocio",
+        context:
+          "Uso practico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y tiempos de entrega.",
+        content:
+          "La arquitectura hexagonal y clean architecture ayudan a proteger el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Esta separacion mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: aumenta la cantidad de capas, contratos y codigo de ensamblaje, lo que puede frenar equipos pequenos o productos en fase temprana. En contextos enterprise con integraciones multiples y vida util larga, el costo inicial suele compensarse por mantenibilidad y menor acoplamiento. Conclusion: conviene aplicar el patron de forma selectiva, priorizando modulos criticos de negocio y evitando sobrearquitectura en flujos simples.",
         tag: "Arquitectura",
-        status: "Borrador avanzado",
+        status: "Nota completa",
       },
       {
-        title: "Checklist de observabilidad para APIs Spring Boot",
-        excerpt:
-          "Metricas, logs y trazas minimas para detectar incidentes antes de que impacten operaciones criticas.",
-        href: "/#microservicios",
-        tag: "Observabilidad",
-        status: "En preparacion",
+        title: "Contexto real sobre Spring Framework 4 y Spring Boot",
+        context:
+          "Aclaracion de versionado para evitar confusiones: que aporto Spring 4 historicamente y donde estan hoy las novedades relevantes.",
+        content:
+          "Spring Framework 4 fue lanzado en 2013 y su soporte activo termino hace varios anos; por eso no corresponde presentarlo como novedad actual. En su momento introdujo mejoras como soporte para Java 8, refinamientos en configuracion y una base mas madura para aplicaciones empresariales. Hoy, las novedades que impactan proyectos nuevos suelen venir por Spring Framework 6 y Spring Boot 3 (alineados con Jakarta EE 9+, Java 17+, AOT y soporte para runtime nativo con GraalVM). Para equipos enterprise, la decision practica es actualizar por seguridad, compatibilidad y performance operativa, no por seguir una etiqueta de version antigua. Conclusion: si el objetivo es modernizar, la conversacion correcta es Spring 6/Boot 3; Spring 4 es contexto historico.",
+        tag: "Spring",
+        status: "Nota completa",
+      },
+      {
+        title: "Spring vs Quarkus: comparacion tecnica para decidir",
+        context:
+          "Comparativa veridica de arranque, memoria, experiencia de desarrollo y ecosistema para elegir segun contexto.",
+        content:
+          "En JVM tradicional, Spring Boot ofrece un ecosistema mas amplio (Spring Data, Security, Batch, Cloud) y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, especialmente cuando se usa compilacion nativa con GraalVM, ventaja util en serverless y alta densidad de contenedores. Como tradeoff, build nativo puede aumentar complejidad de pipeline y tiempos de compilacion, y algunas librerias Java requieren validacion adicional en modo nativo. En DX, ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en disponibilidad de ejemplos corporativos y talento en mercado. Conclusion: Spring Boot encaja mejor para plataformas empresariales amplias y estables; Quarkus destaca cuando startup rapido y ahorro de memoria son objetivos de primer orden.",
+        tag: "Spring vs Quarkus",
+        status: "Nota completa",
       },
     ],
   },

@@ -3,3 +3,6 @@ favicon_io
 dist
 .local/
 .atl/
+.docs/
+.vscode/
+.idea/

@@ -98,7 +98,7 @@ export const initScalabilityAnimation = () => {
     timeoutId: null as number | null,
     hoveredTrigger: null as string | null,
     focusedTrigger: null as string | null,
-    lockedGroupId: null as string | null,
+    lockedGroupIds: new Set<string>(),
     lastAppliedStateKey: null as string | null,
     hasRevealed: false
   };
@@ -127,13 +127,12 @@ export const initScalabilityAnimation = () => {
     return new Set([...members, ...supportParts]);
   };
 
-  const syncTriggerAriaState = (activeTrigger: string | null) => {
-    const activeGroupId = activeTrigger ? triggerPartToGroup.get(activeTrigger) : null;
+  const syncTriggerAriaState = () => {
     triggerNodes.forEach((node) => {
       if (!(node instanceof Element)) return;
       const triggerId = node.getAttribute("data-trigger-id");
       const triggerGroupId = triggerId ? triggerPartToGroup.get(triggerId) : null;
-      node.setAttribute("aria-pressed", activeGroupId && triggerGroupId === activeGroupId ? "true" : "false");
+      node.setAttribute("aria-pressed", triggerGroupId && fsm.lockedGroupIds.has(triggerGroupId) ? "true" : "false");
     });
   };
 
@@ -143,14 +142,15 @@ export const initScalabilityAnimation = () => {
     const activeParts = triggerId ? getActiveParts(triggerId) : null;
     if (!targets) return;
 
-    const stateKey = `${stateName}:${triggerPartToGroup.get(triggerId ?? "") ?? "none"}`;
+    const lockedState = Array.from(fsm.lockedGroupIds).sort().join("|") || "none";
+    const stateKey = `${stateName}:${triggerPartToGroup.get(triggerId ?? "") ?? "none"}:${lockedState}`;
     if (fsm.lastAppliedStateKey === stateKey) {
       return;
     }
     fsm.lastAppliedStateKey = stateKey;
 
-    const duration = stateName === "reset_transition" ? durationMs.quick : stateName === "hover" ? Math.max(durationMs.quick, 210) : durationMs.medium;
-    const ease = stateName === "reset_transition" ? moveEasing : enterEasing;
+    const duration = stateName === "reset_transition" ? durationMs.quick : stateName === "hover" ? Math.max(durationMs.medium, 260) : durationMs.medium;
+    const ease = stateName === "reset_transition" || stateName === "hover" ? moveEasing : enterEasing;
 
     Object.keys(targets).forEach((partName) => {
       const node = parts.get(partName) as SVGGraphicsElement | undefined;
@@ -168,8 +168,8 @@ export const initScalabilityAnimation = () => {
       if (typeof styleTarget.opacity === "number") {
         let nextOpacity = styleTarget.opacity;
         if (activeParts && !activeParts.has(partName) && typeof idleTarget?.opacity === "number") {
-          const dimFactor = stateName === "active_locked" ? 0.42 : 0.58;
-          nextOpacity = Math.max(0.04, idleTarget.opacity * dimFactor);
+          const dimFactor = stateName === "active_locked" ? 0.68 : 0.78;
+          nextOpacity = Math.max(0.12, idleTarget.opacity * dimFactor);
         }
         node.style.opacity = String(nextOpacity);
       }
@@ -194,34 +194,125 @@ export const initScalabilityAnimation = () => {
     if (next === "reset_transition") {
       fsm.timeoutId = window.setTimeout(() => {
         fsm.current = "idle";
-        fsm.lockedGroupId = null;
+        fsm.lockedGroupIds.clear();
         fsm.hoveredTrigger = null;
         fsm.lastAppliedStateKey = null;
-        syncTriggerAriaState(null);
+        syncTriggerAriaState();
         applyState("idle");
         fsm.timeoutId = null;
       }, durationMs.quick);
     }
   };
 
+  const getCombinedActiveParts = () => {
+    const active = new Set<string>();
+    fsm.lockedGroupIds.forEach((groupId) => {
+      const members = userGroupMembers[groupId as keyof typeof userGroupMembers] ?? [];
+      const supports = groupSupportParts[groupId as keyof typeof groupSupportParts] ?? [];
+      members.forEach((partName) => active.add(partName));
+      supports.forEach((partName) => active.add(partName));
+    });
+    return active;
+  };
+
+  const applyMultiGroupLockedState = () => {
+    const targets = config?.targets?.active_locked;
+    const idleTargets = config?.targets?.idle;
+    if (!targets || !idleTargets) return;
+
+    const activeParts = getCombinedActiveParts();
+    if (!activeParts.size) {
+      applyState("idle");
+      return;
+    }
+
+    const duration = durationMs.medium;
+    Object.keys(targets).forEach((partName) => {
+      const node = parts.get(partName) as SVGGraphicsElement | undefined;
+      if (!node) return;
+      const activeTarget = targets[partName];
+      const idleTarget = idleTargets[partName];
+      if (!activeTarget || !idleTarget) return;
+
+      const isActive = activeParts.has(partName);
+      const styleTarget = isActive ? activeTarget : idleTarget;
+      node.style.transitionProperty = "transform, opacity";
+      node.style.transitionDuration = `${duration}ms`;
+      node.style.transitionTimingFunction = enterEasing;
+
+      if (typeof styleTarget.opacity === "number") {
+        node.style.opacity = String(isActive ? styleTarget.opacity : Math.max(0.14, styleTarget.opacity * 0.7));
+      }
+      if (typeof styleTarget.transform === "string") {
+        node.style.transform = styleTarget.transform;
+      }
+    });
+  };
+
+  const applyLockedWithPreviewState = (previewTriggerId: string) => {
+    const hoverTargets = config?.targets?.hover;
+    const lockedTargets = config?.targets?.active_locked;
+    const idleTargets = config?.targets?.idle;
+    const previewActiveParts = getActiveParts(previewTriggerId);
+    if (!hoverTargets || !lockedTargets || !idleTargets || !previewActiveParts) return;
+
+    const lockedActiveParts = getCombinedActiveParts();
+    if (!lockedActiveParts.size) {
+      transitionTo("hover", previewTriggerId);
+      return;
+    }
+
+    Object.keys(idleTargets).forEach((partName) => {
+      const node = parts.get(partName) as SVGGraphicsElement | undefined;
+      if (!node) return;
+
+      const idleTarget = idleTargets[partName];
+      const lockedTarget = lockedTargets[partName] ?? idleTarget;
+      const hoverTarget = hoverTargets[partName] ?? idleTarget;
+      if (!idleTarget || !lockedTarget || !hoverTarget) return;
+
+      const inLocked = lockedActiveParts.has(partName);
+      const inPreview = previewActiveParts.has(partName);
+      const styleTarget = inLocked ? lockedTarget : inPreview ? hoverTarget : idleTarget;
+
+      node.style.transitionProperty = "transform, opacity";
+      node.style.transitionDuration = `${Math.max(durationMs.medium, 260)}ms`;
+      node.style.transitionTimingFunction = moveEasing;
+
+      if (typeof styleTarget.opacity === "number") {
+        if (inLocked) {
+          node.style.opacity = String(styleTarget.opacity);
+        } else if (inPreview) {
+          node.style.opacity = String(styleTarget.opacity);
+        } else {
+          node.style.opacity = String(Math.max(0.14, styleTarget.opacity * 0.7));
+        }
+      }
+      if (typeof styleTarget.transform === "string") {
+        node.style.transform = styleTarget.transform;
+      }
+    });
+  };
+
   const resolveVisualState = () => {
     const hoveredPreview = fsm.hoveredTrigger;
     if (hoveredPreview && allTriggerIds.has(hoveredPreview)) {
       const hoveredGroupId = getGroupIdFromTrigger(hoveredPreview);
-      if (fsm.lockedGroupId && hoveredGroupId === fsm.lockedGroupId) {
+      if (hoveredGroupId && fsm.lockedGroupIds.has(hoveredGroupId)) {
         transitionTo("active_locked", hoveredPreview);
+        return;
+      }
+      if (fsm.lockedGroupIds.size > 0) {
+        applyLockedWithPreviewState(hoveredPreview);
         return;
       }
       transitionTo("hover", hoveredPreview);
       return;
     }
 
-    if (fsm.lockedGroupId) {
-      const lockedTrigger = triggerPartNames.find((triggerId) => getGroupIdFromTrigger(triggerId) === fsm.lockedGroupId) ?? null;
-      if (lockedTrigger) {
-        transitionTo("active_locked", lockedTrigger);
-        return;
-      }
+    if (fsm.lockedGroupIds.size > 0) {
+      applyMultiGroupLockedState();
+      return;
     }
 
     const previewTrigger = fsm.focusedTrigger;
@@ -289,13 +380,23 @@ export const initScalabilityAnimation = () => {
   const lock = (triggerId: string | null) => {
     const groupId = getGroupIdFromTrigger(triggerId);
     if (!triggerId || !groupId || !allTriggerIds.has(triggerId)) return;
-    fsm.lockedGroupId = groupId;
-    syncTriggerAriaState(triggerId);
-    resolveVisualState();
+    fsm.lockedGroupIds.add(groupId);
+    fsm.hoveredTrigger = triggerId;
+    fsm.focusedTrigger = triggerId;
+    syncTriggerAriaState();
+    if (fsm.lockedGroupIds.size > 1) {
+      applyMultiGroupLockedState();
+      return;
+    }
+    transitionTo("active_locked", triggerId);
   };
-  const unlock = () => {
-    fsm.lockedGroupId = null;
-    syncTriggerAriaState(null);
+  const unlock = (groupId: string | null = null) => {
+    if (groupId) {
+      fsm.lockedGroupIds.delete(groupId);
+    } else {
+      fsm.lockedGroupIds.clear();
+    }
+    syncTriggerAriaState();
     resolveVisualState();
   };
 
@@ -321,8 +422,8 @@ export const initScalabilityAnimation = () => {
   const toggleLockForTrigger = (triggerId: string | null) => {
     const groupId = getGroupIdFromTrigger(triggerId);
     if (!triggerId || !groupId) return;
-    if (fsm.lockedGroupId === groupId) {
-      unlock();
+    if (fsm.lockedGroupIds.has(groupId)) {
+      unlock(groupId);
       return;
     }
     lock(triggerId);
@@ -360,7 +461,7 @@ export const initScalabilityAnimation = () => {
       event.preventDefault();
       toggleLockForTrigger(triggerId);
     }
-    if (key === "Escape" && fsm.lockedGroupId) {
+    if (key === "Escape" && fsm.lockedGroupIds.size > 0) {
       event.preventDefault();
       unlock();
     }

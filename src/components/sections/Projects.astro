@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
+import { imagenesBlob } from "../../content/imagenes-blob";
 
 interface Props {
   id: string;
@@ -42,7 +43,7 @@ while (visibleProjects.length < 3) {
   visibleProjects.push(fallbackProject);
 }
 
-const projectImages = ["/images/proyecto-01.png", "/images/proyecto-02.jpg", "/images/proyecto-03.jpg"];
+const projectImages = [...imagenesBlob.proyectos];
 ---
 
 <section id={id} class="section-space border-t border-border/50">
