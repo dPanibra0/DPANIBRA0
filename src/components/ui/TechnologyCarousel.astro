@@ -4,36 +4,13 @@ import type { PortfolioUiTranslations } from "../../content/types";
 
 interface Props {
   ui: PortfolioUiTranslations["techCarousel"];
+  technologies: Array<{
+    label: string;
+    icon: string;
+  }>;
 }
 
-const { ui } = Astro.props;
-
-const marqueeTechnologies = [
-  { label: "Java", icon: "simple-icons:openjdk" },
-  { label: "Spring", icon: "simple-icons:spring" },
-  { label: "Spring Boot", icon: "simple-icons:springboot" },
-  { label: "Hibernate", icon: "simple-icons:hibernate" },
-  { label: "Oracle", icon: "simple-icons:oracle" },
-  { label: "PostgreSQL", icon: "simple-icons:postgresql" },
-  { label: "MySQL", icon: "simple-icons:mysql" },
-  { label: "MongoDB", icon: "simple-icons:mongodb" },
-  { label: "Redis", icon: "simple-icons:redis" },
-  { label: "Docker", icon: "simple-icons:docker" },
-  { label: "Kubernetes", icon: "simple-icons:kubernetes" },
-  { label: "Git", icon: "simple-icons:git" },
-  { label: "GitHub", icon: "simple-icons:github" },
-  { label: "GitLab", icon: "simple-icons:gitlab" },
-  { label: "Jenkins", icon: "simple-icons:jenkins" },
-  { label: "Azure", icon: "simple-icons:microsoftazure" },
-  { label: "AWS", icon: "simple-icons:amazonwebservices" },
-  { label: "JUnit", icon: "simple-icons:junit5" },
-  { label: "SonarQube", icon: "simple-icons:sonarqube" },
-  { label: "Linux", icon: "simple-icons:linux" },
-  { label: "Apache Kafka", icon: "simple-icons:apachekafka" },
-  { label: "RabbitMQ", icon: "simple-icons:rabbitmq" },
-  { label: "Maven", icon: "simple-icons:apachemaven" },
-  { label: "Gradle", icon: "simple-icons:gradle" },
-];
+const { ui, technologies } = Astro.props;
 ---
 
 <div class="tech-marquee" data-reveal="up" aria-label={ui.ariaLabel}>
@@ -42,7 +19,7 @@ const marqueeTechnologies = [
       {
         [0, 1].map((groupIndex) => (
           <div class="tech-marquee__group" aria-hidden={groupIndex === 1 ? "true" : undefined}>
-            {marqueeTechnologies.map((technology) => (
+            {technologies.map((technology) => (
               <div class="tech-hex" role="listitem" aria-label={technology.label} title={technology.label}>
                 <Icon name={technology.icon} class="tech-hex__icon" aria-hidden="true" />
               </div>

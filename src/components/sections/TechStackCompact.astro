@@ -12,12 +12,21 @@ interface Props {
 
 const { id, stack, overline, ui } = Astro.props;
 
-const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon"], string> = {
-  code: "lucide:code-2",
-  db: "lucide:database-zap",
-  gear: "lucide:settings-2",
-  shield: "lucide:shield-check",
-};
+const technologySet = new Set<string>();
+const marqueeTechnologies = stack.categories
+  .flatMap((category) => category.items)
+  .filter((item) => {
+    if (technologySet.has(item.name)) {
+      return false;
+    }
+
+    technologySet.add(item.name);
+    return true;
+  })
+  .map((item) => ({
+    label: item.name,
+    icon: item.icon,
+  }));
 
 ---
 
@@ -40,35 +49,50 @@ const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon
     >
       {
         stack.categories.map((category) => (
-          <article class="group border border-border/60 bg-surface/35 p-5 transition hover:border-border/85 hover:bg-surface/50 md:p-6" data-reveal="up">
-            <div class="mb-4 flex items-center gap-2.5">
-              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-black/30 text-[#b5c0cc]">
-                <Icon name={stackIconMap[category.icon]} class="h-4 w-4" aria-hidden="true" />
+          <details class="stack-card group border border-border/60 bg-surface/35 p-5 hover:border-border/85 hover:bg-surface/50 md:p-6" data-reveal="up" data-stack-card>
+            <summary class="stack-card__summary mb-0 flex cursor-pointer list-none items-center justify-between gap-3 md:cursor-default">
+              <div class="flex items-center gap-2.5">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-black/30 text-[#b5c0cc]">
+                  <Icon name={category.icon} class="h-4 w-4" aria-hidden="true" />
+                </span>
+                <h3 class="text-[15px] font-semibold tracking-[-0.01em] text-text md:text-base">{category.category}</h3>
+              </div>
+
+              <span class="stack-card__chevron inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-black/20 text-muted md:hidden">
+                <Icon name="lucide:chevron-down" class="h-4 w-4" aria-hidden="true" />
               </span>
-              <h3 class="text-[15px] font-semibold tracking-[-0.01em] text-text md:text-base">{category.category}</h3>
-            </div>
+            </summary>
 
-            <ul class="space-y-3">
-              {
-                category.items.slice(0, 3).map((item) => (
-                  <li>
-                    <p class="text-sm font-semibold leading-tight tracking-[-0.01em] text-text md:text-[15px]">{item.name}</p>
-                    <p class="mt-1 text-xs leading-snug text-muted/80 md:text-[13px]">{item.hint}</p>
-                  </li>
-                ))
-              }
-            </ul>
+            <div class="stack-card__body pt-4">
+              
+              {/* <ul class="space-y-3.5">
+                {
+                  category.items.map((item) => (
+                    <li class="grid grid-cols-[2rem,1fr] gap-3">
+                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-black/25 text-[#d8e0e8]">
+                        <Icon name={item.icon} class="h-4 w-4" aria-hidden="true" />
+                      </span>
+                      <div>
+                        <p class="text-sm font-semibold leading-tight tracking-[-0.01em] text-text md:text-[15px]">{item.name}</p>
+                        <p class="mt-1 text-xs leading-snug text-muted/80 md:text-[13px]">{item.hint}</p>
+                      </div>
+                    </li>
+                  ))
+                }
+              </ul> */}
 
-            <div class="mt-4 flex flex-wrap gap-1.5">
-              {
-                category.items.slice(0, 4).map((item) => (
-                  <span class="border border-border/70 bg-black/30 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted/95">
-                    {item.name}
-                  </span>
-                ))
-              }
+              <div class="mt-4 flex flex-wrap gap-1.5">
+                {
+                  category.items.map((item) => (
+                    <span class="inline-flex items-center gap-1.5 border border-border/70 bg-black/30 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted/95">
+                      <Icon name={item.icon} class="h-3.5 w-3.5" aria-hidden="true" />
+                      {item.name}
+                    </span>
+                  ))
+                }
+              </div>
             </div>
-          </article>
+          </details>
         ))
       }
     </div>
@@ -76,6 +100,84 @@ const stackIconMap: Record<PortfolioContent["stack"]["categories"][number]["icon
   
 
     <div class="mt-12 md:mt-16 -mb-8 lg:-mb-16" data-reveal="up">
-      <TechnologyCarousel ui={ui} />
+      <TechnologyCarousel ui={ui} technologies={marqueeTechnologies} />
     </div>
 </section>
+
+<script>
+  const desktopStackQuery = window.matchMedia("(min-width: 48rem)");
+  const stackCards = Array.from(document.querySelectorAll("[data-stack-card]"));
+
+  const syncStackCards = () => {
+    stackCards.forEach((card) => {
+      if (!(card instanceof HTMLDetailsElement)) {
+        return;
+      }
+
+      if (desktopStackQuery.matches) {
+        card.open = true;
+        return;
+      }
+
+      card.open = false;
+    });
+  };
+
+  syncStackCards();
+  desktopStackQuery.addEventListener("change", syncStackCards);
+
+  stackCards.forEach((card) => {
+    if (!(card instanceof HTMLDetailsElement)) {
+      return;
+    }
+
+    card.addEventListener("toggle", () => {
+      if (desktopStackQuery.matches && !card.open) {
+        card.open = true;
+      }
+    });
+  });
+</script>
+
+<style>
+  .stack-card {
+    transition: border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .stack-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .stack-card__body {
+    display: none;
+  }
+
+  .stack-card[open] .stack-card__body {
+    display: block;
+  }
+
+  .stack-card__chevron {
+    transition: transform 180ms ease;
+  }
+
+  .stack-card[open] .stack-card__chevron {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 48rem) {
+    .stack-card__summary {
+      pointer-events: none;
+    }
+
+    .stack-card__body {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stack-card,
+    .stack-card__chevron {
+      transition: none;
+    }
+  }
+</style>

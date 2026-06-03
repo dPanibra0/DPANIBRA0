@@ -397,7 +397,20 @@ a {
 }
 
 .hero-mobile-fade {
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0.75) 0%, rgba(10, 10, 10, 0.2) 32%, rgba(10, 10, 10, 0.02) 55%);
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.96) 0%, rgba(10, 10, 10, 0.82) 16%, rgba(10, 10, 10, 0.42) 38%, rgba(10, 10, 10, 0.1) 60%, rgba(10, 10, 10, 0) 78%),
+    linear-gradient(180deg, rgba(10, 10, 10, 0.08) 0%, rgba(10, 10, 10, 0) 100%);
+}
+
+.hero-mobile-parallax-shell {
+  overflow: hidden;
+}
+
+.hero-mobile-parallax-image {
+  transform: translate3d(0, var(--hero-mobile-parallax, 0px), 0) scale(1.04);
+  transform-origin: center top;
+  transition: transform 80ms linear;
+  will-change: transform;
 }
 
 .hero-image-frame {
@@ -555,6 +568,18 @@ a {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .hero-mobile-parallax-image {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  [data-hero-section].section-space {
+    padding-top: calc(var(--section-py) / 2);
   }
 }
 

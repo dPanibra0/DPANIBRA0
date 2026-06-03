@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import { getProjectDetailId } from "../../utils/project-detail";
 
 interface ProjectCover {
   src: string;
@@ -60,11 +61,13 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
 
           return (
             <article
-              id={`proyecto-${index + 1}`}
+              id={getProjectDetailId(project, index)}
               class={`project-details p-5 md:p-7 ${index % 2 === 1 ? "project-details--reversed" : ""}`}
               data-reveal="up"
               data-project-item
+              data-project-detail-anchor
               data-project-summary={projectSummary}
+              tabindex="-1"
             >
               <div class="project-details-grid">
                 <header class="project-hero">

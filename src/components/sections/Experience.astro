@@ -12,6 +12,12 @@ interface Props {
 const { id, experience, overline, ui } = Astro.props;
 const detailsHref = "/detalles";
 const detailsLabel = ui.detailsLabel;
+const companyAccentMap: Record<string, string> = {
+  LATAMTECH: "#eef4fb",
+  "NTT DATA": "#6eb6ff",
+  MULTIPLICA: "#ffb06b",
+  "ALMA SOFTWARE": "#8bd3a7",
+};
 
 const getFinalDate = (period: string) => {
   const fragments = period
@@ -44,11 +50,14 @@ const getFinalDate = (period: string) => {
             <article
               class="exp-item"
               data-exp-item
+              style={`--exp-company-color: ${companyAccentMap[item.company] ?? "#eef4fb"};`}
             >
               <span class="exp-node" aria-hidden="true"></span>
               <div class="exp-meta pr-2">
                 <h3 class="text-[18px] font-semibold tracking-[-0.015em] text-text md:text-[20px]">{item.role}</h3>
-                <p class="mt-1 text-sm uppercase tracking-[0.1em] text-muted/80">{item.company}</p>
+                <p class="mt-1 text-sm uppercase tracking-[0.1em] text-muted/80">
+                  <span class="exp-company-name">{item.company}</span>
+                </p>
                 {context && <p class="mt-2 text-xs leading-relaxed text-muted/85 md:text-sm">{context}</p>}
                 <p class="micro-label mt-3 text-xs font-medium uppercase tracking-[0.12em] text-muted/70">{getFinalDate(item.period)}</p>
               </div>
@@ -96,8 +105,9 @@ const getFinalDate = (period: string) => {
     transition: transform 180ms ease, opacity 180ms ease;
   }
 
-  .exp-item:first-child {
-    opacity: 1;
+  .exp-company-name {
+    color: rgba(167, 176, 187, 0.8);
+    transition: color 180ms ease;
   }
 
   .exp-node {
@@ -113,34 +123,30 @@ const getFinalDate = (period: string) => {
     transition: transform 180ms ease;
   }
 
-  .exp-item:hover,
-  .exp-item:focus-within {
-    opacity: 1;
+  .exp-item[data-mobile-active="true"] .exp-company-name {
+    color: var(--exp-company-color, #eef4fb);
   }
 
-  .exp-item:hover .exp-node,
-  .exp-item:focus-within .exp-node {
+  .exp-item[data-mobile-active="true"] .exp-node {
     transform: scale(1.08);
   }
 
-  .exp-list:hover .exp-item {
-    opacity: 0.34;
-  }
-
-  .exp-list:hover .exp-item:hover,
-  .exp-list:hover .exp-item:focus-within {
+  .exp-item[data-mobile-active="true"] {
     opacity: 1;
   }
 
-  .exp-timeline:hover + .exp-footer .exp-cta,
-  .exp-timeline:focus-within + .exp-footer .exp-cta {
-    color: color-mix(in oklab, var(--color-text) 88%, white);
-  }
+  @media (min-width: 768px) {
+    .exp-item:first-child {
+      opacity: 1;
+    }
 
-  .exp-timeline:hover + .exp-footer .exp-cta::after,
-  .exp-timeline:focus-within + .exp-footer .exp-cta::after {
-    transform: scaleX(1);
-    background: color-mix(in oklab, var(--color-text) 90%, white);
+    .exp-item:first-child .exp-company-name {
+      color: var(--exp-company-color, #eef4fb);
+    }
+
+    .exp-item:first-child .exp-node {
+      transform: scale(1.08);
+    }
   }
 
   @media (min-width: 768px) {
@@ -152,6 +158,43 @@ const getFinalDate = (period: string) => {
     .exp-item {
       min-height: 170px;
       padding-right: 0.8rem;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .exp-item:hover,
+    .exp-item:focus-within {
+      opacity: 1;
+    }
+
+    .exp-item:hover .exp-company-name,
+    .exp-item:focus-within .exp-company-name {
+      color: var(--exp-company-color, #eef4fb);
+    }
+
+    .exp-item:hover .exp-node,
+    .exp-item:focus-within .exp-node {
+      transform: scale(1.08);
+    }
+
+    .exp-list:hover .exp-item {
+      opacity: 0.34;
+    }
+
+    .exp-list:hover .exp-item:hover,
+    .exp-list:hover .exp-item:focus-within {
+      opacity: 1;
+    }
+
+    .exp-timeline:hover + .exp-footer .exp-cta,
+    .exp-timeline:focus-within + .exp-footer .exp-cta {
+      color: color-mix(in oklab, var(--color-text) 88%, white);
+    }
+
+    .exp-timeline:hover + .exp-footer .exp-cta::after,
+    .exp-timeline:focus-within + .exp-footer .exp-cta::after {
+      transform: scaleX(1);
+      background: color-mix(in oklab, var(--color-text) 90%, white);
     }
   }
 
@@ -183,8 +226,92 @@ const getFinalDate = (period: string) => {
 
   @media (prefers-reduced-motion: reduce) {
     .exp-item,
-    .exp-node {
+    .exp-node,
+    .exp-company-name {
       transition: none;
     }
   }
 </style>
+
+<script>
+  (() => {
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const items = Array.from(document.querySelectorAll("[data-exp-item]"));
+
+    if (!items.length) return;
+
+    let ticking = false;
+
+    const clearActive = () => {
+      items.forEach((item) => item.removeAttribute("data-mobile-active"));
+    };
+
+    const setActive = (nextItem) => {
+      items.forEach((item) => {
+        if (item === nextItem) {
+          item.setAttribute("data-mobile-active", "true");
+        } else {
+          item.removeAttribute("data-mobile-active");
+        }
+      });
+    };
+
+    const getMidpointItem = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportMidpoint = viewportHeight / 2;
+      const activationRadius = Math.min(viewportHeight * 0.12, 88);
+
+      let closestItem = null;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      items.forEach((item) => {
+        if (!(item instanceof HTMLElement)) return;
+
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(itemCenter - viewportMidpoint);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestItem = item;
+        }
+      });
+
+      if (!(closestItem instanceof HTMLElement) || closestDistance > activationRadius) {
+        return null;
+      }
+
+      return closestItem;
+    };
+
+    const updateActive = () => {
+      ticking = false;
+
+      if (!mobileViewport.matches || reducedMotion.matches) {
+        clearActive();
+        return;
+      }
+
+      const nextItem = getMidpointItem();
+      if (!nextItem) {
+        clearActive();
+        return;
+      }
+
+      setActive(nextItem);
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateActive);
+    };
+
+    updateActive();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", requestUpdate);
+    reducedMotion.addEventListener("change", requestUpdate);
+  })();
+</script>

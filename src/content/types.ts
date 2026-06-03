@@ -14,13 +14,16 @@ export interface HeroContent {
   }>;
 }
 
+export interface StackItem {
+  name: string;
+  hint: string;
+  icon: string;
+}
+
 export interface StackCategory {
   category: string;
-  icon: "code" | "db" | "gear" | "shield";
-  items: Array<{
-    name: string;
-    hint: string;
-  }>;
+  icon: string;
+  items: StackItem[];
 }
 
 export interface ProjectContent {

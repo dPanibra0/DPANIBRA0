@@ -154,6 +154,10 @@ const { id, hexagonal, overline } = Astro.props;
     transition: opacity 280ms ease, filter 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  [data-hex-architecture] .hex-zone polygon {
+    transition: fill 280ms ease, stroke 280ms ease;
+  }
+
   [data-hex-architecture] .hex-hit-zone {
     pointer-events: all;
     cursor: pointer;
@@ -174,12 +178,35 @@ const { id, hexagonal, overline } = Astro.props;
     transform: translateY(-5px) scale(1.028);
   }
 
+  [data-hex-architecture] .hex-zone[data-active="true"] polygon {
+    fill: rgba(158, 201, 242, 0.14);
+  }
+
   [data-hex-architecture] .hex-zone[data-hex-concept="aplicacion"] {
     opacity: 0.88;
   }
 
   [data-hex-architecture] .hex-zone[data-hex-concept="infraestructura"] {
     opacity: 0.72;
+  }
+
+  @media (max-width: 1023px) {
+    [data-hex-architecture] .hex-concept-item {
+      cursor: default;
+    }
+
+    [data-hex-architecture] .hex-hit-zone {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-hex-architecture]::before,
+    [data-hex-architecture] .hex-concept-item,
+    [data-hex-architecture] .hex-zone {
+      transition: none;
+    }
   }
 </style>
 
@@ -190,6 +217,12 @@ const { id, hexagonal, overline } = Astro.props;
 
     const targets = Array.from(section.querySelectorAll("[data-hex-concept]"));
     const interactiveElements = Array.from(section.querySelectorAll("[data-hex-trigger]"));
+    const mobileItems = Array.from(section.querySelectorAll(".hex-concept-item"));
+    const concepts = ["dominio", "aplicacion", "infraestructura"];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 1023px)");
+
+    let ticking = false;
 
     const setActive = (concept) => {
       const hasActive = Boolean(concept);
@@ -205,22 +238,80 @@ const { id, hexagonal, overline } = Astro.props;
       });
     };
 
+    const getScrollConcept = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportActivationLine = viewportHeight * 0.42;
+
+      let closestConcept = null;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      mobileItems.forEach((item) => {
+        if (!(item instanceof HTMLElement)) return;
+
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(itemCenter - viewportActivationLine);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestConcept = item.getAttribute("data-hex-concept");
+        }
+      });
+
+      if (!closestConcept) return null;
+
+      const activationRadius = Math.min(viewportHeight * 0.12, 88);
+      return closestDistance <= activationRadius ? closestConcept : null;
+    };
+
+    const updateActiveConcept = () => {
+      ticking = false;
+
+      if (!mobileViewport.matches) {
+        setActive(concepts[0]);
+        return;
+      }
+
+      if (reducedMotion.matches) {
+        setActive(null);
+        return;
+      }
+
+      setActive(getScrollConcept());
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateActiveConcept);
+    };
+
     interactiveElements.forEach((element) => {
       element.addEventListener("pointerenter", () => {
+        if (mobileViewport.matches) return;
         setActive(element.getAttribute("data-hex-concept"));
       });
 
       element.addEventListener("pointerleave", () => {
-        setActive(null);
+        if (mobileViewport.matches) return;
+        setActive(concepts[0]);
       });
 
       element.addEventListener("focusin", () => {
+        if (mobileViewport.matches) return;
         setActive(element.getAttribute("data-hex-concept"));
       });
 
       element.addEventListener("focusout", () => {
-        setActive(null);
+        if (mobileViewport.matches) return;
+        setActive(concepts[0]);
       });
     });
+
+    updateActiveConcept();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", requestUpdate);
+    reducedMotion.addEventListener("change", requestUpdate);
   })();
 </script>

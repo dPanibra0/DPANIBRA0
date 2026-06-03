@@ -1,7 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
-import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
+import type {
+  PortfolioContent,
+  PortfolioUiTranslations,
+} from "../../content/types";
 import { imagenesBlob } from "../../content/imagenes-blob";
+import { getProjectDetailHref } from "../../utils/project-detail";
 
 interface Props {
   id: string;
@@ -46,21 +50,42 @@ while (visibleProjects.length < 3) {
 const projectImages = [...imagenesBlob.proyectos];
 ---
 
-<section id={id} class="section-space border-t border-border/50">
+<section
+  id={id}
+  class="section-space border-t border-border/50"
+  data-projects-section
+>
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5" data-reveal="up">{overline}</p>
-      <h2 class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
+    <h2
+      class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]"
+      data-reveal="up"
+    >
       {ui.headingTop}
       <br />
       <span class="text-muted">{ui.headingBottom}</span>
     </h2>
-    <p class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{projects.intro}</p>
+    <p
+      class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg"
+      data-reveal="up"
+    >
+      {projects.intro}
+    </p>
 
-    <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="72" data-reveal-stagger-desktop="54">
+    <div
+      class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+      data-reveal-group
+      data-reveal-stagger-mobile="72"
+      data-reveal-stagger-desktop="54"
+    >
       {
         visibleProjects.map((project, index) => {
-          const detailsHref = "/detalles#proyectos";
-          const imageSrc = projectImages[index] ?? projectImages[projectImages.length - 1];
+          const hasProjectDetails = project !== fallbackProject;
+          const detailsHref = hasProjectDetails
+            ? getProjectDetailHref(project, index)
+            : "/detalles#proyectos";
+          const imageSrc =
+            projectImages[index] ?? projectImages[projectImages.length - 1];
           const teaser = deriveTeaser(project);
           const stackItems = project.stack
             .split(",")
@@ -69,41 +94,60 @@ const projectImages = [...imagenesBlob.proyectos];
             .slice(0, 3);
 
           return (
-          <article class="project-card group flex h-full flex-col overflow-hidden rounded-sm border border-border/65" data-reveal="up">
-            <div class="relative h-[210px] overflow-hidden border-b border-border/50">
-              <img src={imageSrc} alt={project.title} class="project-image h-full w-full object-cover object-center" loading="lazy" />
-              <div class="project-image-overlay absolute inset-0"></div>
-            </div>
-
-            <div class="project-card-body flex grow flex-col p-5 md:p-6">
-              <h3 class="text-lg font-semibold leading-tight text-text">{project.title}</h3>
-              <p class="mt-3 text-[15px] leading-relaxed text-text/88">{teaser}</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted">{project.impact}</p>
-
-              <div class="mt-5 flex flex-wrap gap-2">
-                {
-                  stackItems.map((tech) => (
-                    <span class="stack-chip border border-border/80 bg-surface/35 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-muted/95 md:text-[11px]">
-                      {tech}
-                    </span>
-                  ))
-                }
-              </div>
-            </div>
-
-            <div class="project-card-footer mt-auto flex w-full items-center justify-between gap-4 border-t border-border/50 px-5 py-4 md:px-6">
-              <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
-                {ui.sectionTags[index] ?? ui.sectionTags[0]}
-              </span>
+            <article class="project-card-shell" data-reveal="up">
               <a
-                href="/detalles#proyectos"
-                class="inline-cta project-link text-[11px] md:text-xs"
+                href={detailsHref}
+                class="project-card group flex h-full flex-col overflow-hidden rounded-sm border border-border/65"
+                data-project-card
+                aria-label={`Ver detalle del proyecto ${project.title}`}
               >
-                <span>{ui.detailsLabel}</span>
-                <Icon name="lucide:arrow-right" class="h-3.5 w-3.5" aria-hidden="true" />
+                <div
+                  class="project-mobile-parallax-shell relative h-[180px] md:h-[210px] overflow-hidden border-b border-border/50"
+                  data-project-mobile-media
+                >
+                  <img
+                    src={imageSrc}
+                    alt={project.title}
+                    class="project-image project-mobile-parallax-image h-full w-full object-cover object-center"
+                    loading="lazy"
+                  />
+                  <div class="project-image-overlay absolute inset-0" />
+                </div>
+                <div class="project-card-body flex grow flex-col p-5 md:p-6">
+                  <h3 class="project-card-title text-text">{project.title}</h3>
+                  <p class="project-card-teaser mt-3 text-[15px] leading-relaxed text-text/88 md:block">
+                    {teaser}
+                  </p>
+                  <p class="project-card-impact mt-4 text-sm leading-relaxed text-muted md:block">
+                    {project.impact}
+                  </p>
+
+                  <div class="mt-5 flex flex-wrap gap-2">
+                    {stackItems.map((tech) => (
+                      <span class="stack-chip border border-border/80 bg-surface/35 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-muted/95 md:text-[11px]">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="grow"></div>
+                  <div class="project-card-footer mt-5 flex w-full items-center justify-between border-t border-border/50 pt-4 md:pb-0 md:pt-4">
+                    <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
+                      {ui.sectionTags[index] ?? ui.sectionTags[0]}
+                    </span>
+                    <span class="inline-cta project-link" aria-hidden="true">
+                      <span class="text-[8px] md:text-[11px]">
+                        {ui.detailsLabel}
+                      </span>
+                      <Icon
+                        name="lucide:arrow-right"
+                        class="project-link-icon h-3.5 w-3.5"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
+                </div>
               </a>
-            </div>
-          </article>
+            </article>
           );
         })
       }
@@ -112,46 +156,276 @@ const projectImages = [...imagenesBlob.proyectos];
 </section>
 
 <style>
+  .project-card-shell {
+    min-width: 0;
+  }
+
   .project-card-body,
   .project-card-footer {
     background: transparent;
+  }
+
+  .project-card {
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      border-color 220ms ease,
+      background-color 220ms ease,
+      box-shadow 240ms ease;
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.72);
+    outline-offset: 4px;
+  }
+
+  .project-card-title {
+    max-width: 14ch;
+    font-size: clamp(1.55rem, 4vw, 1.82rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
   }
 
   .project-image {
     transition: transform 420ms ease;
   }
 
-  .project-card:hover .project-image {
-    transform: scale(1.03);
+  .project-link-icon {
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .project-image-overlay {
-    background: linear-gradient(to top, rgba(10, 10, 10, 0.38), rgba(10, 10, 10, 0.1));
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.38),
+      rgba(10, 10, 10, 0.1)
+    );
   }
 
-  .project-link:focus-visible {
-    outline-offset: 4px;
-  }
-
-  .project-card:hover .project-link,
-  .project-card:focus-within .project-link {
+  .project-card:focus-visible .project-link {
     color: color-mix(in oklab, var(--color-text) 88%, white);
   }
 
-  .project-card:hover .project-link::after,
-  .project-card:focus-within .project-link::after {
+  .project-card:focus-visible .project-link::after {
     transform: scaleX(1);
     background: color-mix(in oklab, var(--color-text) 90%, white);
   }
 
+  .project-card:focus-visible .project-link-icon {
+    transform: translateX(3px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .project-card:hover {
+      border-color: color-mix(in oklab, var(--color-border) 44%, rgba(231, 241, 251, 0.72));
+      background: color-mix(in oklab, var(--color-surface) 84%, transparent);
+      box-shadow: 0 18px 36px -28px rgba(214, 229, 242, 0.46);
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.03);
+    }
+
+    .project-card:hover .project-link,
+    .project-card:focus-visible .project-link {
+      color: color-mix(in oklab, var(--color-text) 88%, white);
+    }
+
+    .project-card:hover .project-link::after,
+    .project-card:focus-visible .project-link::after {
+      transform: scaleX(1);
+      background: color-mix(in oklab, var(--color-text) 90%, white);
+    }
+
+    .project-card:hover .project-link-icon,
+    .project-card:focus-visible .project-link-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .project-card-teaser,
+    .project-card-impact {
+      display: none;
+    }
+
+    .project-mobile-parallax-shell {
+      overflow: hidden;
+    }
+
+    .project-mobile-parallax-image {
+      transform: translate3d(0, var(--project-mobile-parallax, 0px), 0)
+        scale(1.05);
+      transform-origin: center top;
+      transition: transform 80ms linear;
+      will-change: transform;
+    }
+
+    .project-card.is-mobile-visible .project-link,
+    .project-card:active .project-link,
+    .project-card:focus-visible .project-link {
+      color: color-mix(in oklab, var(--color-text) 88%, white);
+    }
+
+    .project-card.is-mobile-visible .project-link::after,
+    .project-card:active .project-link::after,
+    .project-card:focus-visible .project-link::after {
+      transform: scaleX(1);
+      background: color-mix(in oklab, var(--color-text) 90%, white);
+    }
+
+    .project-card.is-mobile-visible .project-link-icon,
+    .project-card:active .project-link-icon,
+    .project-card:focus-visible .project-link-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .project-card-title {
+      max-width: none;
+      font-size: 1.125rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      text-wrap: initial;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .project-image,
-    .project-link {
+    .project-link,
+    .project-link-icon,
+    .project-card {
       transition: none;
     }
 
     .project-card:hover .project-image {
       transform: none;
     }
+
+    .project-mobile-parallax-image {
+      transform: none;
+      will-change: auto;
+    }
   }
 </style>
+
+<script>
+  (() => {
+    const section = document.querySelector("[data-projects-section]");
+    if (!(section instanceof HTMLElement)) return;
+
+    const mediaItems = Array.from(
+      section.querySelectorAll("[data-project-mobile-media]"),
+    );
+    const projectCards = Array.from(
+      section.querySelectorAll("[data-project-card]"),
+    );
+
+    if (!mediaItems.length && !projectCards.length) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
+    let revealObserver: IntersectionObserver | null = null;
+
+    let ticking = false;
+
+    const resetParallax = () => {
+      mediaItems.forEach((media) => {
+        if (media instanceof HTMLElement) {
+          media.style.setProperty("--project-mobile-parallax", "0px");
+        }
+      });
+    };
+
+    const updateParallax = () => {
+      ticking = false;
+
+      if (reducedMotion.matches || !mobileViewport.matches) {
+        resetParallax();
+        return;
+      }
+
+      const viewportHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      const viewportCenter = viewportHeight / 2;
+
+      mediaItems.forEach((media) => {
+        if (!(media instanceof HTMLElement)) return;
+
+        const rect = media.getBoundingClientRect();
+        const mediaCenter = rect.top + rect.height / 2;
+        const rawOffset = (viewportCenter - mediaCenter) * 0.032;
+        const clampedOffset = Math.max(-10, Math.min(10, rawOffset));
+
+        media.style.setProperty(
+          "--project-mobile-parallax",
+          `${clampedOffset.toFixed(2)}px`,
+        );
+      });
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateParallax);
+    };
+
+    const syncMobileCardReveal = () => {
+      projectCards.forEach((card) => {
+        if (card instanceof HTMLElement) {
+          card.classList.remove("is-mobile-visible");
+        }
+      });
+
+      revealObserver?.disconnect();
+      revealObserver = null;
+
+      if (
+        reducedMotion.matches ||
+        !mobileViewport.matches ||
+        !projectCards.length ||
+        !("IntersectionObserver" in window)
+      ) {
+        return;
+      }
+
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.target instanceof HTMLElement) {
+              entry.target.classList.toggle(
+                "is-mobile-visible",
+                entry.isIntersecting && entry.intersectionRatio >= 0.45,
+              );
+            }
+          });
+        },
+        {
+          threshold: [0.45, 0.7],
+        },
+      );
+
+      projectCards.forEach((card) => {
+        if (card instanceof HTMLElement) {
+          revealObserver?.observe(card);
+        }
+      });
+    };
+
+    updateParallax();
+    syncMobileCardReveal();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", () => {
+      requestUpdate();
+      syncMobileCardReveal();
+    });
+    reducedMotion.addEventListener("change", () => {
+      requestUpdate();
+      syncMobileCardReveal();
+    });
+  })();
+</script>

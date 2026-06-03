@@ -3,6 +3,10 @@ const tabIds = ["experiencia", "proyectos", "blog"] as const;
 type DetailsTabId = (typeof tabIds)[number];
 type DetailsWindow = Window & { __detailsTabsInit?: boolean };
 type NavigationDirection = "forward" | "backward";
+type HashTarget = {
+  tabId: DetailsTabId;
+  detailId?: string;
+};
 
 const PANEL_TRANSITION_MS = 320;
 
@@ -34,9 +38,43 @@ export function initDetailsTabs(): void {
   let refreshViewportActiveState = () => {};
   let refreshParallaxState = () => {};
 
-  const toTabId = (value: string | null | undefined): DetailsTabId => {
-    const candidate = value ? hashAliases[value.toLowerCase()] : undefined;
-    return candidate ?? "experiencia";
+  const scrollToProjectDetail = (detailId: string) => {
+    const target = document.getElementById(detailId);
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "start",
+      });
+      target.focus({ preventScroll: true });
+    });
+  };
+
+  const resolveHashTarget = (value: string | null | undefined): HashTarget => {
+    const normalizedValue = value?.toLowerCase();
+    const candidate = normalizedValue ? hashAliases[normalizedValue] : undefined;
+
+    if (candidate) {
+      return { tabId: candidate };
+    }
+
+    const detailId = value?.startsWith("#") ? decodeURIComponent(value.slice(1)) : "";
+    const detailTarget = detailId ? document.getElementById(detailId) : null;
+
+    if (
+      detailTarget instanceof HTMLElement &&
+      detailTarget.matches("[data-project-detail-anchor]")
+    ) {
+      return {
+        tabId: "proyectos",
+        detailId,
+      };
+    }
+
+    return { tabId: "experiencia" };
   };
 
   const clearPanelTransitionState = (panel: HTMLElement) => {
@@ -72,7 +110,10 @@ export function initDetailsTabs(): void {
     return targetIndex >= currentIndex ? "forward" : "backward";
   };
 
-  const setActiveTab = (targetId: DetailsTabId, options?: { focus?: boolean; updateHash?: boolean }) => {
+  const setActiveTab = (
+    targetId: DetailsTabId,
+    options?: { focus?: boolean; updateHash?: boolean; detailId?: string },
+  ) => {
     const nextTab = tabsById.get(targetId);
     const nextPanel = panelsById.get(targetId);
     if (!nextTab || !nextPanel) {
@@ -124,6 +165,10 @@ export function initDetailsTabs(): void {
         clearPanelTransitionState(nextPanel);
         refreshViewportActiveState();
         refreshParallaxState();
+
+        if (options?.detailId) {
+          scrollToProjectDetail(options.detailId);
+        }
       }, PANEL_TRANSITION_MS);
     }
 
@@ -134,18 +179,26 @@ export function initDetailsTabs(): void {
     }
 
     if (options?.updateHash) {
-      history.replaceState(null, "", `#${targetId}`);
+      history.replaceState(
+        null,
+        "",
+        options.detailId ? `#${options.detailId}` : `#${targetId}`,
+      );
     }
 
     if (!deferStateRefresh) {
       refreshViewportActiveState();
       refreshParallaxState();
+
+      if (options?.detailId) {
+        scrollToProjectDetail(options.detailId);
+      }
     }
   };
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      const tabId = toTabId(`#${tab.dataset.tab ?? ""}`);
+      const tabId = resolveHashTarget(`#${tab.dataset.tab ?? ""}`).tabId;
       setActiveTab(tabId, { updateHash: true });
     });
   });
@@ -168,7 +221,7 @@ export function initDetailsTabs(): void {
       nextIndex = tabs.length - 1;
     } else if (event.key === "Enter" || event.key === " ") {
       const activeTab = tabs[activeIndex];
-      const activeTabId = toTabId(`#${activeTab.dataset.tab ?? ""}`);
+      const activeTabId = resolveHashTarget(`#${activeTab.dataset.tab ?? ""}`).tabId;
       setActiveTab(activeTabId, { updateHash: true });
       event.preventDefault();
       return;
@@ -177,13 +230,27 @@ export function initDetailsTabs(): void {
     }
 
     const nextTab = tabs[nextIndex];
-    const nextTabId = toTabId(`#${nextTab.dataset.tab ?? ""}`);
+    const nextTabId = resolveHashTarget(`#${nextTab.dataset.tab ?? ""}`).tabId;
     setActiveTab(nextTabId, { focus: true, updateHash: true });
     event.preventDefault();
   });
 
-  activeTabId = toTabId(window.location.hash);
-  setActiveTab(activeTabId, { updateHash: true });
+  const applyHashTarget = (
+    hashValue: string,
+    options?: { updateHash?: boolean },
+  ) => {
+    const hashTarget = resolveHashTarget(hashValue);
+    setActiveTab(hashTarget.tabId, {
+      updateHash: options?.updateHash,
+      detailId: hashTarget.detailId,
+    });
+  };
+
+  applyHashTarget(window.location.hash, { updateHash: true });
+
+  window.addEventListener("hashchange", () => {
+    applyHashTarget(window.location.hash, { updateHash: false });
+  });
 
   type FocusGroup = {
     panelId: DetailsTabId;
