@@ -85,9 +85,11 @@ export const esContent: PortfolioContent = {
         icon: "lucide:monitor-smartphone",
         items: [
           { name: "React", hint: "Interfaces modulares · Producto", icon: "simple-icons:react" },
+          { name: "React Native", hint: "Apps moviles compartiendo logica React", icon: "simple-icons:react" },
           { name: "Angular", hint: "Frontends enterprise · Dashboards", icon: "simple-icons:angular" },
           { name: "Vue", hint: "Experiencias ligeras · Landing UX", icon: "simple-icons:vuedotjs" },
           { name: "Astro", hint: "Landing pages · Performance", icon: "simple-icons:astro" },
+          { name: "Flutter", hint: "Interfaces moviles multiplataforma", icon: "simple-icons:flutter" },
           { name: "TypeScript", hint: "Typesafe UI engineering", icon: "simple-icons:typescript" },
           { name: "Tailwind CSS", hint: "Design systems · Velocity", icon: "simple-icons:tailwindcss" },
           { name: "Firebase", hint: "BaaS · Auth · Realtime flows", icon: "simple-icons:firebase" },

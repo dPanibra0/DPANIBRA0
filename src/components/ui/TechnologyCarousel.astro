@@ -8,19 +8,48 @@ interface Props {
     label: string;
     icon: string;
   }>;
+  direction?: "forward" | "reverse";
+  emphasis?: "primary" | "secondary";
+  compact?: boolean;
+  mobileOnly?: boolean;
+  decorative?: boolean;
 }
 
-const { ui, technologies } = Astro.props;
+const {
+  ui,
+  technologies,
+  direction = "forward",
+  emphasis = "primary",
+  compact = false,
+  mobileOnly = false,
+  decorative = false,
+} = Astro.props as Props;
 ---
 
-<div class="tech-marquee" data-reveal="up" aria-label={ui.ariaLabel}>
+<div
+  class:list={[
+    "tech-marquee",
+    direction === "reverse" && "tech-marquee--reverse",
+    emphasis === "secondary" && "tech-marquee--secondary",
+    compact && "tech-marquee--compact",
+    mobileOnly && "tech-marquee--mobile-only",
+  ]}
+  data-reveal="up"
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={decorative ? undefined : ui.ariaLabel}
+>
   <div class="tech-marquee__viewport">
     <div class="tech-marquee__track" role="list">
       {
         [0, 1].map((groupIndex) => (
           <div class="tech-marquee__group" aria-hidden={groupIndex === 1 ? "true" : undefined}>
             {technologies.map((technology) => (
-              <div class="tech-hex" role="listitem" aria-label={technology.label} title={technology.label}>
+              <div
+                class="tech-hex"
+                role={decorative ? undefined : "listitem"}
+                aria-label={decorative ? undefined : technology.label}
+                title={decorative ? undefined : technology.label}
+              >
                 <Icon name={technology.icon} class="tech-hex__icon" aria-hidden="true" />
               </div>
             ))}
@@ -34,6 +63,13 @@ const { ui, technologies } = Astro.props;
 <style>
   .tech-marquee {
     --tech-gap: 1.2rem;
+    --tech-duration: 44s;
+    --tech-hex-width: 4.5rem;
+    --tech-hex-height: 3.95rem;
+    --tech-icon-size: 1.45rem;
+    --tech-border: rgba(255, 255, 255, 0.78);
+    --tech-surface: rgba(255, 255, 255, 0.02);
+    --tech-icon-color: #ffffff;
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -49,8 +85,32 @@ const { ui, technologies } = Astro.props;
     display: flex;
     width: max-content;
     align-items: center;
-    animation: stack-marquee 44s linear infinite;
+    animation: stack-marquee var(--tech-duration) linear infinite;
     will-change: transform;
+  }
+
+  .tech-marquee--reverse .tech-marquee__track {
+    animation-direction: reverse;
+  }
+
+  .tech-marquee--secondary {
+    --tech-duration: 68s;
+    --tech-border: rgba(167, 176, 187, 0.18);
+    --tech-surface: rgba(255, 255, 255, 0.01);
+    --tech-icon-color: rgba(190, 199, 209, 0.48);
+    filter: saturate(0.82);
+    opacity: 0.72;
+  }
+
+  .tech-marquee--compact {
+    --tech-gap: 0.7rem;
+    --tech-hex-width: 3rem;
+    --tech-hex-height: 2.62rem;
+    --tech-icon-size: 0.98rem;
+  }
+
+  .tech-marquee--mobile-only {
+    display: block;
   }
 
   .tech-marquee__group {
@@ -65,18 +125,18 @@ const { ui, technologies } = Astro.props;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 4.5rem;
-    height: 3.95rem;
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    background: rgba(255, 255, 255, 0.02);
+    width: var(--tech-hex-width);
+    height: var(--tech-hex-height);
+    border: 1px solid var(--tech-border);
+    background: var(--tech-surface);
     clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
     flex: 0 0 auto;
   }
 
   .tech-hex__icon {
-    width: 1.45rem;
-    height: 1.45rem;
-    color: #ffffff;
+    width: var(--tech-icon-size);
+    height: var(--tech-icon-size);
+    color: var(--tech-icon-color);
   }
 
   @keyframes stack-marquee {
@@ -91,17 +151,27 @@ const { ui, technologies } = Astro.props;
 
   @media (max-width: 48rem) {
     .tech-hex {
-      width: 3.8rem;
-      height: 3.3rem;
+      width: calc(var(--tech-hex-width) * 0.8444);
+      height: calc(var(--tech-hex-height) * 0.8354);
     }
 
     .tech-marquee {
       --tech-gap: 0.9rem;
     }
 
+    .tech-marquee--compact {
+      --tech-gap: 0.55rem;
+    }
+
     .tech-hex__icon {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: calc(var(--tech-icon-size) * 0.8621);
+      height: calc(var(--tech-icon-size) * 0.8621);
+    }
+  }
+
+  @media (min-width: 48.001rem) {
+    .tech-marquee--mobile-only {
+      display: none;
     }
   }
 
@@ -123,6 +193,10 @@ const { ui, technologies } = Astro.props;
     }
 
     .tech-marquee__group:last-child {
+      display: none;
+    }
+
+    .tech-marquee--secondary {
       display: none;
     }
   }

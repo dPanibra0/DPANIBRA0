@@ -10,11 +10,17 @@ interface Props {
   ui: PortfolioUiTranslations["techCarousel"];
 }
 
-const { id, stack, overline, ui } = Astro.props;
+interface StackTechnology {
+  name: string;
+  hint: string;
+  icon: string;
+}
+
+const { id, stack, overline, ui } = Astro.props as Props;
 
 const technologySet = new Set<string>();
 const marqueeTechnologies = stack.categories
-  .flatMap((category) => category.items)
+  .flatMap((category) => category.items as StackTechnology[])
   .filter((item) => {
     if (technologySet.has(item.name)) {
       return false;
@@ -28,9 +34,14 @@ const marqueeTechnologies = stack.categories
     icon: item.icon,
   }));
 
+const atmosphericSlice = marqueeTechnologies.filter((_, index) => index % 2 === 0);
+const atmosphericTechnologies = atmosphericSlice.length > 5
+  ? [...atmosphericSlice.slice(2), ...atmosphericSlice.slice(0, 2)]
+  : marqueeTechnologies;
+
 ---
 
-<section id={id} class="section-space border-t border-border/50">
+<section id={id} class="section-space overflow-x-hidden border-t border-border/50">
   <div class="container-shell pt-8 md:pt-12">
     <p class="micro-label mb-5" data-reveal="up">{overline}</p>
     <h2 class="max-w-[760px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
@@ -48,7 +59,10 @@ const marqueeTechnologies = stack.categories
       data-reveal-stagger-desktop="48"
     >
       {
-        stack.categories.map((category) => (
+        stack.categories.map((category) => {
+          const items = category.items as StackTechnology[];
+
+          return (
           <details class="stack-card group border border-border/60 bg-surface/35 p-5 hover:border-border/85 hover:bg-surface/50 md:p-6" data-reveal="up" data-stack-card>
             <summary class="stack-card__summary mb-0 flex cursor-pointer list-none items-center justify-between gap-3 md:cursor-default">
               <div class="flex items-center gap-2.5">
@@ -64,49 +78,126 @@ const marqueeTechnologies = stack.categories
             </summary>
 
             <div class="stack-card__body pt-4">
-              
-              {/* <ul class="space-y-3.5">
-                {
-                  category.items.map((item) => (
-                    <li class="grid grid-cols-[2rem,1fr] gap-3">
-                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-black/25 text-[#d8e0e8]">
-                        <Icon name={item.icon} class="h-4 w-4" aria-hidden="true" />
-                      </span>
-                      <div>
-                        <p class="text-sm font-semibold leading-tight tracking-[-0.01em] text-text md:text-[15px]">{item.name}</p>
-                        <p class="mt-1 text-xs leading-snug text-muted/80 md:text-[13px]">{item.hint}</p>
-                      </div>
-                    </li>
-                  ))
-                }
-              </ul> */}
+              <div class="grid grid-cols-[2rem,1fr] gap-3" data-stack-preview>
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-black/25 text-[#d8e0e8]">
+                  <Icon name={items[0].icon} class="h-4 w-4" aria-hidden="true" data-stack-preview-icon />
+                </span>
+                <div>
+                  <p class="text-sm font-semibold leading-tight tracking-[-0.01em] text-text md:text-[15px]" data-stack-preview-name>{items[0].name}</p>
+                  <p class="mt-1 text-xs leading-snug text-muted/80 md:text-[13px]" data-stack-preview-hint>{items[0].hint}</p>
+                </div>
+              </div>
 
               <div class="mt-4 flex flex-wrap gap-1.5">
                 {
-                  category.items.map((item) => (
-                    <span class="inline-flex items-center gap-1.5 border border-border/70 bg-black/30 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted/95">
+                  items.map((item, itemIndex) => (
+                    <button
+                      type="button"
+                      class:list={[
+                        "stack-card__chip inline-flex items-center gap-1.5 border border-border/70 bg-black/30 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted/95",
+                        itemIndex === 0 && "is-active",
+                      ]}
+                      data-stack-chip
+                      data-icon={item.icon}
+                      data-name={item.name}
+                      data-hint={item.hint}
+                      aria-pressed={itemIndex === 0 ? "true" : "false"}
+                    >
                       <Icon name={item.icon} class="h-3.5 w-3.5" aria-hidden="true" />
                       {item.name}
-                    </span>
+                    </button>
                   ))
                 }
               </div>
             </div>
           </details>
-        ))
+          );
+        })
       }
     </div>
   </div>
   
 
     <div class="mt-12 md:mt-16 -mb-8 lg:-mb-16" data-reveal="up">
-      <TechnologyCarousel ui={ui} technologies={marqueeTechnologies} />
+      <div class="stack-carousel-shell">
+        <TechnologyCarousel ui={ui} technologies={marqueeTechnologies} />
+        <div class="stack-carousel-shell__secondary" aria-hidden="true">
+          <TechnologyCarousel
+            ui={ui}
+            technologies={atmosphericTechnologies}
+            direction="reverse"
+            emphasis="secondary"
+            compact={true}
+            mobileOnly={true}
+            decorative={true}
+          />
+        </div>
+      </div>
     </div>
 </section>
 
 <script>
   const desktopStackQuery = window.matchMedia("(min-width: 48rem)");
   const stackCards = Array.from(document.querySelectorAll("[data-stack-card]"));
+
+  const syncPreviewIcon = (currentPreviewIcon: Element | null, activeChip: HTMLButtonElement) => {
+    if (!(currentPreviewIcon instanceof SVGElement)) {
+      return currentPreviewIcon;
+    }
+
+    const iconName = activeChip.dataset.icon;
+
+    if (!iconName) {
+      return currentPreviewIcon;
+    }
+
+    const previewUse = currentPreviewIcon.querySelector("use");
+
+    if (!(previewUse instanceof SVGUseElement)) {
+      return currentPreviewIcon;
+    }
+
+    const iconHref = `#ai:${iconName}`;
+
+    currentPreviewIcon.setAttribute("data-icon", iconName);
+    previewUse.setAttribute("href", iconHref);
+    previewUse.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", iconHref);
+
+    return currentPreviewIcon;
+  };
+
+  const setActiveChip = (card: HTMLDetailsElement, activeChip: HTMLButtonElement) => {
+    const previewIcon = card.querySelector("[data-stack-preview-icon]");
+    const previewName = card.querySelector("[data-stack-preview-name]");
+    const previewHint = card.querySelector("[data-stack-preview-hint]");
+
+    if (!(previewName instanceof HTMLElement) || !(previewHint instanceof HTMLElement)) {
+      return;
+    }
+
+    const icon = activeChip.dataset.icon;
+    const name = activeChip.dataset.name;
+    const hint = activeChip.dataset.hint;
+
+    if (!icon || !name || !hint) {
+      return;
+    }
+
+    syncPreviewIcon(previewIcon, activeChip);
+    previewName.textContent = name;
+    previewHint.textContent = hint;
+
+    const chips = Array.from(card.querySelectorAll("[data-stack-chip]"));
+    chips.forEach((chip) => {
+      if (!(chip instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const isActive = chip === activeChip;
+      chip.classList.toggle("is-active", isActive);
+      chip.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
 
   const syncStackCards = () => {
     stackCards.forEach((card) => {
@@ -132,9 +223,34 @@ const marqueeTechnologies = stack.categories
     }
 
     card.addEventListener("toggle", () => {
+      if (!desktopStackQuery.matches && card.open) {
+        stackCards.forEach((otherCard) => {
+          if (otherCard !== card && otherCard instanceof HTMLDetailsElement) {
+            otherCard.open = false;
+          }
+        });
+      }
+
       if (desktopStackQuery.matches && !card.open) {
         card.open = true;
       }
+    });
+
+    const chips = Array.from(card.querySelectorAll("[data-stack-chip]"));
+    const initialChip = chips.find((chip) => chip.classList.contains("is-active")) ?? chips[0];
+
+    if (initialChip instanceof HTMLButtonElement) {
+      setActiveChip(card, initialChip);
+    }
+
+    chips.forEach((chip) => {
+      if (!(chip instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      chip.addEventListener("click", () => {
+        setActiveChip(card, chip);
+      });
     });
   });
 </script>
@@ -142,6 +258,25 @@ const marqueeTechnologies = stack.categories
 <style>
   .stack-card {
     transition: border-color 180ms ease, background-color 180ms ease;
+  }
+
+  .stack-carousel-shell {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .stack-carousel-shell__secondary {
+    pointer-events: none;
+  }
+
+  .stack-card__chip {
+    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+  }
+
+  .stack-card__chip.is-active {
+    border-color: color-mix(in oklab, var(--color-text) 40%, var(--color-border) 60%);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
+    color: var(--color-bg);
   }
 
   .stack-card__summary::-webkit-details-marker {
@@ -165,6 +300,10 @@ const marqueeTechnologies = stack.categories
   }
 
   @media (min-width: 48rem) {
+    .stack-carousel-shell {
+      gap: 0;
+    }
+
     .stack-card__summary {
       pointer-events: none;
     }
@@ -176,7 +315,8 @@ const marqueeTechnologies = stack.categories
 
   @media (prefers-reduced-motion: reduce) {
     .stack-card,
-    .stack-card__chevron {
+    .stack-card__chevron,
+    .stack-card__chip {
       transition: none;
     }
   }
