@@ -36,7 +36,7 @@ const contactPlaceholders = ui.placeholders;
         </div>
       </div>
 
-      <div class="pt-1">
+      <div class="pt-1 contact-image-wrap">
         <img
           src="/images/dpanibra0_contactme.png"
           alt="Portrait of David Panibra ready for contact"
@@ -54,7 +54,7 @@ const contactPlaceholders = ui.placeholders;
     </div>
 
     <form
-      class="contact-form mt-9 md:mt-11"
+      class="contact-form mt-0 md:mt-11"
       data-contact-form
       data-contact-email={contactEmail}
       aria-label={ui.formAriaLabel}
@@ -92,7 +92,64 @@ const contactPlaceholders = ui.placeholders;
   const form = document.querySelector("[data-contact-form]");
   const input = form?.querySelector("[data-rotating-placeholder]");
   const email = form?.getAttribute("data-contact-email") ?? "";
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const contactZone = document.querySelector("[data-contact-zone]");
+  const contactImageWrap = contactZone?.querySelector(".contact-image-wrap");
+  const contactImage = contactZone?.querySelector(".contact-image");
+  const mobileMedia = window.matchMedia("(max-width: 767px)");
+  const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const reduceMotion = () => reducedMotionMedia.matches;
+
+  if (contactImageWrap instanceof HTMLElement && contactImage instanceof HTMLImageElement) {
+    let frameId = 0;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const updateContactImageScale = () => {
+      frameId = 0;
+
+      if (reduceMotion() || !mobileMedia.matches) {
+        contactImage.style.removeProperty("--contact-image-scroll-scale");
+        return;
+      }
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const imageRect = contactImageWrap.getBoundingClientRect();
+      const travelDistance = viewportHeight + imageRect.height;
+      const scrolledDistance = viewportHeight - imageRect.top;
+      const progress = clamp(scrolledDistance / Math.max(travelDistance, 1), 0, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 1.35);
+      const scale = 1 + easedProgress * 0.55;
+
+      contactImage.style.setProperty("--contact-image-scroll-scale", scale.toFixed(3));
+    };
+
+    const requestScaleUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateContactImageScale);
+    };
+
+    const teardownScrollScale = () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      contactImage.style.removeProperty("--contact-image-scroll-scale");
+      window.removeEventListener("scroll", requestScaleUpdate);
+      window.removeEventListener("resize", requestScaleUpdate);
+      mobileMedia.removeEventListener("change", requestScaleUpdate);
+      reducedMotionMedia.removeEventListener("change", requestScaleUpdate);
+      window.removeEventListener("pagehide", teardownScrollScale);
+    };
+
+    if (!reduceMotion()) {
+      requestScaleUpdate();
+      window.addEventListener("scroll", requestScaleUpdate, { passive: true });
+      window.addEventListener("resize", requestScaleUpdate);
+      mobileMedia.addEventListener("change", requestScaleUpdate);
+      reducedMotionMedia.addEventListener("change", requestScaleUpdate);
+      window.addEventListener("pagehide", teardownScrollScale);
+    }
+  }
 
   if (form instanceof HTMLFormElement && input instanceof HTMLInputElement) {
     let placeholderIndex = 0;
@@ -136,7 +193,7 @@ const contactPlaceholders = ui.placeholders;
       window.removeEventListener("pagehide", onPageHide);
     };
 
-    if (!reduceMotion) {
+    if (!reduceMotion()) {
       startRotation();
       input.addEventListener("focus", onFocus);
       input.addEventListener("blur", onBlur);
@@ -180,6 +237,10 @@ const contactPlaceholders = ui.placeholders;
     position: relative;
   }
 
+  .contact-image-wrap {
+    overflow: clip;
+  }
+
   .contact-separator {
     display: flex;
     align-items: center;
@@ -217,6 +278,8 @@ const contactPlaceholders = ui.placeholders;
     display: block;
     height: auto;
     max-width: 100%;
+    transform: scale(var(--contact-image-scroll-scale, 1));
+    transform-origin: center top;
   }
 
   .contact-input {
@@ -297,6 +360,10 @@ const contactPlaceholders = ui.placeholders;
   }
 
   @media (max-width: 767px) {
+    .contact-separator {
+      display: none;
+    }
+
     .contact-mobile-actions-shell {
       display: block;
       margin-top: 1rem;
@@ -330,12 +397,17 @@ const contactPlaceholders = ui.placeholders;
       width: 100%;
       transform: none;
     }
+
+    .contact-image {
+      transition: transform 120ms linear;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .contact-field-wrap,
     .contact-input::placeholder,
-    .contact-submit-button {
+    .contact-submit-button,
+    .contact-image {
       transition: none;
     }
 
