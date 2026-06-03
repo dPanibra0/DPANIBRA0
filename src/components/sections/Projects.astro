@@ -14,9 +14,12 @@ interface Props {
   ui: PortfolioUiTranslations["projects"];
 }
 
-const { id, projects, overline, ui } = Astro.props;
+type ProjectItem = Props["projects"]["items"][number];
+type ProjectCardItem = ProjectItem & { summary?: string };
 
-const deriveTeaser = (project: (typeof projects.items)[number]) => {
+const { id, projects, overline, ui } = Astro.props as Props;
+
+const deriveTeaser = (project: ProjectItem) => {
   const source = project.problem || project.impact || project.solution;
   if (!source) {
     return "Caso empresarial con foco en continuidad operativa.";
@@ -32,7 +35,7 @@ const deriveTeaser = (project: (typeof projects.items)[number]) => {
   return `${sentence.slice(0, 107).trimEnd()}...`;
 };
 
-const fallbackProject: (typeof projects.items)[number] = {
+const fallbackProject: ProjectItem = {
   title: ui.fallbackProject.title,
   impact: ui.fallbackProject.impact,
   stack: ui.fallbackProject.stack,
@@ -80,6 +83,7 @@ const projectImages = [...imagenesBlob.proyectos];
     >
       {
         visibleProjects.map((project, index) => {
+          const projectCard = project as ProjectCardItem;
           const hasProjectDetails = project !== fallbackProject;
           const detailsHref = hasProjectDetails
             ? getProjectDetailHref(project, index)
@@ -87,6 +91,7 @@ const projectImages = [...imagenesBlob.proyectos];
           const imageSrc =
             projectImages[index] ?? projectImages[projectImages.length - 1];
           const teaser = deriveTeaser(project);
+          const projectSummary = projectCard.summary || teaser;
           const stackItems = project.stack
             .split(",")
             .map((tech) => tech.trim())
@@ -115,11 +120,8 @@ const projectImages = [...imagenesBlob.proyectos];
                 </div>
                 <div class="project-card-body flex grow flex-col p-5 md:p-6">
                   <h3 class="project-card-title text-text">{project.title}</h3>
-                  <p class="project-card-teaser mt-3 text-[15px] leading-relaxed text-text/88 md:block">
-                    {teaser}
-                  </p>
-                  <p class="project-card-impact mt-4 text-sm leading-relaxed text-muted md:block">
-                    {project.impact}
+                  <p class="project-card-summary mt-3 text-sm leading-relaxed text-muted md:block">
+                    {projectSummary}
                   </p>
 
                   <div class="mt-5 flex flex-wrap gap-2">
@@ -246,8 +248,7 @@ const projectImages = [...imagenesBlob.proyectos];
   }
 
   @media (max-width: 767px) {
-    .project-card-teaser,
-    .project-card-impact {
+    .project-card-summary {
       display: none;
     }
 
@@ -286,10 +287,14 @@ const projectImages = [...imagenesBlob.proyectos];
   @media (min-width: 768px) {
     .project-card-title {
       max-width: none;
-      font-size: 1.125rem;
-      line-height: 1.1;
+      font-size: 1.32rem;
+      line-height: 1.02;
       letter-spacing: -0.03em;
-      text-wrap: initial;
+      text-wrap: balance;
+    }
+
+    .project-card-summary {
+      max-width: 32ch;
     }
   }
 

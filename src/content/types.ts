@@ -28,6 +28,7 @@ export interface StackCategory {
 
 export interface ProjectContent {
   title: string;
+  summary?: string;
   problem: string;
   architecture: string;
   stack: string;
