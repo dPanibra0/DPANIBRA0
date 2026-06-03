@@ -44,7 +44,13 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
     </div>
   </main>
 
-  <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} ui={ui.contact} />
+  <Contact
+    id="contacto"
+    contact={content.contact}
+    overline={content.overlines.contact}
+    ui={ui.contact}
+    floatingActionsUi={ui.floatingActions}
+  />
 
   <FloatingQuickActions ui={ui.floatingActions} />
 

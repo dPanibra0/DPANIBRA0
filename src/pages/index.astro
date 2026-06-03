@@ -25,7 +25,13 @@ const { content, ui } = getTranslations(lang);
     <Experience id="experiencia" experience={content.experience} overline={content.overlines.experience} ui={ui.experience} />
     <Projects id="proyectos" projects={content.projects} overline={content.overlines.projects} ui={ui.projects} />
     <TechStackCompact id="stack" stack={content.stack} overline={content.overlines.stack} ui={ui.techCarousel} />
-    <Contact id="contacto" contact={content.contact} overline={content.overlines.contact} ui={ui.contact} />
+    <Contact
+      id="contacto"
+      contact={content.contact}
+      overline={content.overlines.contact}
+      ui={ui.contact}
+      floatingActionsUi={ui.floatingActions}
+    />
   </main>
   <FloatingQuickActions ui={ui.floatingActions} />
   <Footer footer={content.footer} nav={content.nav} />

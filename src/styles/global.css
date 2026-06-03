@@ -581,6 +581,9 @@ a {
   [data-hero-section].section-space {
     padding-top: calc(var(--section-py) / 2);
   }
+  [data-contact-zone].section-space {
+    padding-bottom: calc(var(--section-py) / 2);
+  }
 }
 
 @media (min-width: 768px) {

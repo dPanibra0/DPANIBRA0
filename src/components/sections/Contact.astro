@@ -1,22 +1,24 @@
 ---
 import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 import { Icon } from "astro-icon/components";
+import FloatingQuickActions from "../ui/FloatingQuickActions.astro";
 
 interface Props {
   id: string;
   contact: PortfolioContent["contact"];
   overline: string;
   ui: PortfolioUiTranslations["contact"];
+  floatingActionsUi: PortfolioUiTranslations["floatingActions"];
 }
 
-const { id, contact, overline, ui } = Astro.props;
+const { id, contact, overline, ui, floatingActionsUi } = Astro.props;
 
 const primaryEmailLink = contact.links.find((link) => link.href.startsWith("mailto:")) ?? contact.links[0];
 const contactEmail = (primaryEmailLink?.href ?? "mailto:").replace("mailto:", "");
 const contactPlaceholders = ui.placeholders;
 ---
 
-<section id={id} class="section-space border-t border-[#cfd8e3] bg-[#f4f7fb] text-[#0b0f14]">
+<section id={id} class="section-space border-t border-[#cfd8e3] bg-[#f4f7fb] text-[#0b0f14]" data-contact-zone>
   <div class="container-shell pt-8 md:pt-12" data-reveal-group data-reveal-stagger-mobile="88" data-reveal-stagger-desktop="70">
     <div class="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14" data-reveal="up">
       <div>
@@ -45,7 +47,7 @@ const contactPlaceholders = ui.placeholders;
       </div>
     </div>
 
-    <div class="contact-separator" aria-hidden="true" data-reveal="up">
+    <div class="hidden md:block contact-separator" aria-hidden="true" data-reveal="up">
       <span class="contact-separator-line"></span>
       <img src="/android-chrome-192x192.png" alt="" class="contact-separator-logo rounded-full" loading="lazy" decoding="async" />
       <span class="contact-separator-line"></span>
@@ -59,24 +61,30 @@ const contactPlaceholders = ui.placeholders;
       data-reveal="up"
     >
       <label class="sr-only" for="contact-project-input">{ui.projectInputLabel}</label>
-      <div class="contact-field-wrap">
-        <input
-          id="contact-project-input"
-          name="contactProject"
-          type="text"
-          required
-          autocomplete="off"
-          maxlength="180"
-          class="contact-input"
-          placeholder={contactPlaceholders[0]}
-          data-rotating-placeholder
-        />
-        <button type="submit" class="contact-submit-button">
+      <div class="contact-form-layout">
+        <div class="contact-field-wrap">
+          <input
+            id="contact-project-input"
+            name="contactProject"
+            type="text"
+            required
+            autocomplete="off"
+            maxlength="180"
+            class="contact-input"
+            placeholder={contactPlaceholders[0]}
+            data-rotating-placeholder
+          />
+        </div>
+        <button type="submit" class="contact-submit-button" data-contact-submit-area>
           <span class="technical-accent">{ui.submitLabel}</span>
           <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     </form>
+
+    <div class="contact-mobile-actions-shell" data-reveal="up">
+      <FloatingQuickActions ui={floatingActionsUi} variant="contact-mobile" />
+    </div>
   </div>
 </section>
 
@@ -168,6 +176,10 @@ const contactPlaceholders = ui.placeholders;
     width: 100%;
   }
 
+  .contact-form-layout {
+    position: relative;
+  }
+
   .contact-separator {
     display: flex;
     align-items: center;
@@ -192,8 +204,7 @@ const contactPlaceholders = ui.placeholders;
     overflow: hidden;
     border: 1px solid #cfd8e3;
     background: linear-gradient(180deg, #ffffff, #f6f9fc);
-    padding: 8px;
-    padding-left: 14px;
+    padding: 8px 152px 8px 18px;
     box-shadow: 0 16px 34px -30px rgba(14, 28, 43, 0.34);
     transition:
       box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1) 60ms,
@@ -210,10 +221,10 @@ const contactPlaceholders = ui.placeholders;
 
   .contact-input {
     width: 100%;
-    min-height: 58px;
+    min-height: 60px;
     border: 0;
     background: transparent;
-    padding: 0 140px 0 0;
+    padding: 0;
     color: #0b0f14;
     font-size: 16px;
     line-height: 1.2;
@@ -233,6 +244,10 @@ const contactPlaceholders = ui.placeholders;
 
   .contact-input:focus {
     outline: none;
+  }
+
+  .contact-mobile-actions-shell {
+    display: none;
   }
 
   .contact-submit-button {
@@ -282,21 +297,36 @@ const contactPlaceholders = ui.placeholders;
   }
 
   @media (max-width: 767px) {
+    .contact-mobile-actions-shell {
+      display: block;
+      margin-top: 1rem;
+      padding-bottom: calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .contact-form-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .contact-field-wrap {
-      padding: 8px;
-      padding-top: 10px;
-      padding-left: 14px;
+      padding: 0 18px;
+      box-shadow: 0 18px 34px -30px rgba(14, 28, 43, 0.38);
     }
 
     .contact-input {
-      min-height: 48px;
-      padding-right: 0;
+      min-height: 62px;
+      font-size: 17px;
+    }
+
+    .contact-input::placeholder {
+      font-size: 17px;
     }
 
     .contact-submit-button {
       position: static;
-      margin-top: 8px;
-      min-height: 44px;
+      margin-top: 0;
+      min-height: 56px;
       width: 100%;
       transform: none;
     }
