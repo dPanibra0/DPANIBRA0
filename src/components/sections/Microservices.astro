@@ -1,0 +1,132 @@
+---
+import MicroserviceCard from "./microservices/MicroserviceCard.astro";
+import ObservableFigure from "./microservices/figures/ObservableFigure.astro";
+import ResilientFigure from "./microservices/figures/ResilientFigure.astro";
+import ScalabilityFigure from "./microservices/figures/ScalabilityFigure.astro";
+import {
+  observableMotionTokens,
+  resilientMotionTokens,
+  scalabilityMotionTokens
+} from "./microservices/motion/tokens";
+
+interface Props {
+  id: string;
+  microservices: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    pillars: Array<{
+      title: string;
+      description: string;
+    }>;
+  };
+  overline: string;
+}
+
+const { id, microservices, overline } = Astro.props as Props;
+
+const figureLabels = ["FIG 0.2", "FIG 0.3", "FIG 0.4"];
+const figureConcepts = ["scalable", "resilient", "observable"] as const;
+---
+
+<section id={id} class="section-space border-t border-border/50">
+  <div class="container-shell pt-8 md:pt-12">
+    <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+    <h2 class="max-w-[860px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]" data-reveal="up">
+      {microservices.headingPrimary}
+      <br />
+      <span class="text-muted">{microservices.headingSecondary}</span>
+    </h2>
+    <p class="mt-6 max-w-[760px] text-base leading-relaxed text-muted md:text-lg" data-reveal="up">{microservices.intro}</p>
+
+    <div class="mt-9 md:mt-10">
+      <div class="micro-grid md:grid md:grid-cols-3" data-reveal-group data-reveal-stagger-mobile="66" data-reveal-stagger-desktop="52">
+        {
+          microservices.pillars.map((pillar, index) => {
+            const concept = figureConcepts[index] ?? "";
+            const isScalable = concept === "scalable";
+            const isResilient = concept === "resilient";
+            const isObservable = concept === "observable";
+
+            const motionConfig = isScalable
+              ? JSON.stringify(scalabilityMotionTokens)
+              : isResilient
+                ? JSON.stringify(resilientMotionTokens)
+                : isObservable
+                  ? JSON.stringify(observableMotionTokens)
+                  : undefined;
+
+            return (
+              <MicroserviceCard
+                figureLabel={figureLabels[index] ?? "FIG"}
+                title={pillar.title}
+                description={pillar.description}
+                motionConfig={motionConfig}
+                animCard={isResilient ? "resilient" : isScalable ? "scalability" : isObservable ? "observable" : undefined}
+                animFigure={isScalable ? "scalability" : undefined}
+              >
+                {isScalable && <ScalabilityFigure slot="figure" />}
+                {isResilient && <ResilientFigure slot="figure" />}
+                {isObservable && <ObservableFigure slot="figure" />}
+              </MicroserviceCard>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initMicroservicesAnimations } from "./microservices/motion";
+
+  initMicroservicesAnimations();
+</script>
+
+<style>
+  :global([data-trigger-id]),
+  :global([data-resilient-node]),
+  :global([data-observable-center]),
+  :global([data-anim-svg="resilient"]),
+  :global([data-anim-svg="observable"]),
+  :global([data-anim-svg="scalability"]),
+  :global([data-anim-card="scalability"]),
+  :global([data-anim-card="resilient"]),
+  :global([data-anim-card][tabindex]) {
+    outline: none;
+    box-shadow: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :global([data-trigger-id]:focus),
+  :global([data-trigger-id]:focus-visible),
+  :global([data-trigger-id]:-moz-focusring),
+  :global([data-resilient-node]:focus),
+  :global([data-resilient-node]:focus-visible),
+  :global([data-resilient-node]:-moz-focusring),
+  :global([data-observable-center]:focus),
+  :global([data-observable-center]:focus-visible),
+  :global([data-observable-center]:-moz-focusring),
+  :global([data-anim-svg="resilient"]:focus),
+  :global([data-anim-svg="resilient"]:focus-visible),
+  :global([data-anim-svg="resilient"]:-moz-focusring),
+  :global([data-anim-svg="observable"]:focus),
+  :global([data-anim-svg="observable"]:focus-visible),
+  :global([data-anim-svg="observable"]:-moz-focusring),
+  :global([data-anim-svg="scalability"]:focus),
+  :global([data-anim-svg="scalability"]:focus-visible),
+  :global([data-anim-svg="scalability"]:-moz-focusring),
+  :global([data-anim-card="scalability"]:focus),
+  :global([data-anim-card="scalability"]:focus-visible),
+  :global([data-anim-card="scalability"]:-moz-focusring),
+  :global([data-anim-card="resilient"]:focus),
+  :global([data-anim-card="resilient"]:focus-visible),
+  :global([data-anim-card="resilient"]:-moz-focusring),
+  :global([data-anim-card][tabindex]:focus),
+  :global([data-anim-card][tabindex]:focus-visible),
+  :global([data-anim-card][tabindex]:-moz-focusring) {
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+</style>

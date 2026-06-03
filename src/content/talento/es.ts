@@ -1,40 +1,34 @@
-import type { PortfolioContent } from "../types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../types";
 
 export const esContent: PortfolioContent = {
   locale: "es",
   meta: {
-    title: "David Panibra | Software Engineer",
+    title: "David Panibra | Backend Java Microservices Engineer",
     description:
-      "Ingeniero de software especializado en backend y arquitectura de microservicios. Diseño sistemas empresariales end-to-end a partir del análisis del dominio del negocio, desde la interacción del usuario hasta la persistencia de datos.",
+      "Backend Java orientado a microservicios e integraciones empresariales. Construyo servicios con Spring Boot, reglas de negocio claras y consistencia de datos para operaciones criticas en produccion.",
   },
   nav: [
-    { label: "Sobre mí", href: "#sobre-mi" },
-    { label: "Stack", href: "#stack" },
-    //{ label: "Proyectos", href: "#proyectos" },
+    { label: "Microservicios", href: "#microservicios" },
+    { label: "Arquitectura", href: "#arquitectura" },
     { label: "Experiencia", href: "#experiencia" },
-    { label: "Proceso", href: "#proceso" },
-    { label: "Filosofia", href: "#filosofia" },
+    { label: "Proyectos", href: "#proyectos" },
+    { label: "Stack", href: "#stack" },
     { label: "Contacto", href: "#contacto" },
   ],
   overlines: {
-    about: "SOBRE MI",
-    stack: "STACK TÉCNICO",
-    projects: "PROYECTOS DESTACADOS",
-    experience: "EXPERIENCIA PROFESIONAL",
-    process: "PROCESO DE TRABAJO",
-    philosophy: "FILOSOFÍA DE INGENIERÍA",
-    contact: "CONTACTO",
+    microservices: "01//FILOSOFIA_DE_INGENIERÍA",
+    hexagonal: "02//NÚCLEO_HEXAGONAL",
+    experience: "03//TRAYECTORIA_PROFESIONAL",
+    projects: "04//CASOS_REALES_EN_PRODUCCION",
+    stack: "05//STACK_TÉCNICO",
+    contact: "06//CONTACTO",
   },
   hero: {
-    eyebrow: "Ingeniería de software orientada al dominio",
+    eyebrow: "Backend Java Microservices Engineer",
     availability: "Disponible para proyectos - Remote",
-    title: "Diseño de Sistemas Empresariales Escalables",
+    title: "Backend Java y microservicios para sistemas empresariales",
     subtitle:
-      "Ingeniero de software enfocado en analizar el negocio y diseñar sistemas completos, desde la experiencia del usuario hasta la lógica que procesa la información y la almacena de forma consistente.",
-    message:
-      "Especializado en backend con Java y microservicios, construyendo sistemas confiables que procesan información crítica, se integran con otras plataformas y evolucionan sin comprometer la consistencia de los datos.",
-    ctaPrimary: "Contactar",
-    ctaSecondary: "Descargar CV",
+      "Construyo servicios en Java y Spring Boot para integraciones, procesamiento de datos y flujos criticos donde importan la consistencia operativa, las reglas de negocio y la estabilidad en produccion.",
     stats: [
       { value: "5+", label: "Años desarrollando software empresarial" },
       { value: "4", label: "Empresas tecnológicas" },
@@ -45,90 +39,99 @@ export const esContent: PortfolioContent = {
       { value: "2", label: "Sistemas empresariales internacionales" },
     ],
   },
-  about: {
-    title: "Sobre mí",
-    headingPrimary: "Ingeniería de software para",
-    headingSecondary: "sistemas empresariales complejos",
-    paragraphs: [
-      "Ingeniero de software enfocado en comprender cómo funciona el negocio, sus procesos y reglas, para traducirlos en sistemas que resuelvan problemas reales de forma clara y mantenible.",
-      "Diseño soluciones de extremo a extremo, considerando todo el flujo del sistema: desde la interacción del usuario con la aplicación hasta la forma en que los datos son procesados y almacenados.",
-      "Mi especialización está en backend con Java y microservicios, construyendo servicios que procesan información crítica, se integran con otros sistemas y mantienen la consistencia de los datos en entornos empresariales.",
-    ],
-
-    cards: [
+  microservices: {
+    headingPrimary: "Microservicios",
+    headingSecondary: "con criterios de negocio",
+    intro:
+      "Trabajo con microservicios cuando ayudan a separar reglas de negocio, integrar plataformas y sostener operaciones criticas sin perder trazabilidad ni consistencia de datos.",
+    pillars: [
       {
-        title: "Análisis de Dominio",
-        subtitle: "Procesos · Reglas · Modelado",
-        icon: "globe",
+        title: "Escalable",
+        description:
+          "Escala solo el servicio que lo necesita, sin agrandar todo el sistema.",
       },
       {
-        title: "Arquitectura de Sistemas",
-        subtitle: "Microservices · APIs · Integración",
-        icon: "database",
+        title: "Resiliente",
+        description:
+          "Si un servicio falla, el resto sigue operando y el negocio no se detiene.",
       },
       {
-        title: "Backend Resiliente",
-        subtitle: "Java · Spring Boot · Oracle",
-        icon: "shield",
-      },
-      {
-        title: "Sistemas Empresariales",
-        subtitle: "Consistencia · Escalabilidad · Mantenibilidad",
-        icon: "backend",
+        title: "Observable",
+        description:
+          "Métricas, logs y trazas para entender que pasa y resolver rápido.",
       },
     ],
   },
-  stack: {
-    title: "Capacidades Técnicas",
-    headingPrimary: "Tecnologías aplicadas a",
-    headingSecondary: "sistemas empresariales reales",
+  hexagonal: {
+    headingPrimary: "Arquitectura hexagonal",
+    headingSecondary: "diseñada para evolucionar",
     intro:
-      "Herramientas, frameworks y prácticas que utilizo para analizar, diseñar y construir sistemas empresariales end-to-end, desde la lógica de negocio hasta la persistencia y operación en producción.",
+      "La uso cuando conviene separar con claridad que parte del sistema resuelve negocio y que parte solo conecta con tecnologia, para poder cambiar integraciones sin romper reglas criticas.",
+    points: [
+      "Dominio: aqui viven las reglas del negocio, validaciones y decisiones que el sistema debe respetar siempre.",
+      "Aplicacion: aqui se orquestan los casos de uso paso a paso, sin mezclar la logica del negocio con detalles tecnicos.",
+      "Infraestructura: aqui se conectan Oracle, APIs, colas, schedulers y servicios externos para ejecutar el flujo real.",
+    ],
+  },
+  stack: {
+    title: "Stack principal",
+    headingPrimary: "Tecnologias aplicadas a",
+    headingSecondary: "backend Java en produccion",
+    intro:
+      "Stack orientado a servicios backend, integraciones corporativas, procesamiento batch y calidad sobre flujos de negocio con datos criticos.",
     categories: [
       {
-        category: "Backend y arquitectura",
-        icon: "code",
+        category: "Backend Java + datos",
+        icon: "lucide:server",
         items: [
-          { name: "Java 8–21", hint: "Enterprise · LTS" },
-          { name: "Spring Boot", hint: "Microservices · REST APIs" },
-          { name: "JPA / Hibernate", hint: "Persistence · ORM" },
-          { name: "APIs REST", hint: "Design · Integration" },
-          { name: "Spring Batch", hint: "High-volume processing" },
-        ],
-      },
-      {
-        category: "Datos y persistencia",
-        icon: "db",
-        items: [
-          { name: "Oracle", hint: "Enterprise database" },
-          { name: "SQL avanzado", hint: "Queries · Performance" },
-          { name: "Modelado relacional", hint: "Domain-driven structures" },
           {
-            name: "Optimización de consultas",
-            hint: "Indexes · Execution plans",
+            name: "Java 21",
+            hint: "Servicios empresariales · LTS",
+            icon: "simple-icons:openjdk",
           },
+          { name: "Spring Boot", hint: "Microservicios · APIs REST", icon: "simple-icons:springboot" },
+          { name: "Quarkus", hint: "Backend JVM liviano", icon: "simple-icons:quarkus" },
+          { name: "Spring Batch", hint: "Procesos de alto volumen", icon: "simple-icons:spring" },
+          { name: "Hibernate", hint: "Persistencia ORM", icon: "simple-icons:hibernate" },
+          { name: "APIs REST", hint: "Contratos e integracion", icon: "lucide:waypoints" },
+          { name: "Oracle", hint: "Persistencia transaccional", icon: "simple-icons:oracle" },
+          { name: "SQL avanzado", hint: "Consultas y validacion", icon: "lucide:database" },
+          { name: "Apache Kafka", hint: "Eventos distribuidos", icon: "simple-icons:apachekafka" },
+          { name: "RabbitMQ", hint: "Mensajeria confiable", icon: "simple-icons:rabbitmq" },
+          { name: "SAP Integration", hint: "Integracion con sistemas enterprise", icon: "lucide:plug-zap" },
         ],
       },
       {
-        category: "Entrega e infraestructura",
-        icon: "gear",
+        category: "Arquitectura + calidad",
+        icon: "lucide:shield-check",
         items: [
-          { name: "Docker", hint: "Containers · Deployment" },
-          { name: "Git", hint: "Version control" },
-          { name: "Jenkins", hint: "Pipelines · Automation" },
-          { name: "CI/CD", hint: "Build · Delivery" },
-          { name: "Azure", hint: "Cloud environments" },
+          { name: "Arquitectura hexagonal", hint: "Puertos y adaptadores", icon: "lucide:hexagon" },
+          { name: "Clean Architecture", hint: "Capas desacopladas", icon: "lucide:layers-3" },
+          { name: "JUnit", hint: "Testing unitario", icon: "simple-icons:junit5" },
+          { name: "Spock", hint: "Pruebas sobre flujos de negocio", icon: "lucide:flask-conical" },
+          { name: "Pruebas de integracion", hint: "Cobertura de escenarios criticos", icon: "lucide:test-tube-diagonal" },
+          { name: "SonarQube", hint: "Control de calidad", icon: "simple-icons:sonarqube" },
         ],
       },
       {
-        category: "Testing y calidad",
-        icon: "shield",
+        category: "Entrega y operacion",
+        icon: "lucide:rocket",
         items: [
-          { name: "JUnit", hint: "Unit testing" },
-          { name: "Spock", hint: "BDD · Groovy" },
-          { name: "Pruebas unitarias", hint: "Validation · Coverage" },
-          { name: "Pruebas de integración", hint: "Flows · Services" },
-          { name: "SonarQube", hint: "Code quality" },
+          { name: "Docker", hint: "Contenedores para despliegue", icon: "simple-icons:docker" },
+          { name: "Kubernetes", hint: "Orquestacion y escalado", icon: "simple-icons:kubernetes" },
+          { name: "Jenkins", hint: "Pipelines de integracion", icon: "simple-icons:jenkins" },
+          { name: "Azure", hint: "Entornos cloud corporativos", icon: "simple-icons:microsoftazure" },
+        ],
+      },
+      {
+        category: "Soporte frontend",
+        icon: "lucide:monitor-smartphone",
+        items: [
+          { name: "React", hint: "Consumo de APIs y BFF", icon: "simple-icons:react" },
+          { name: "TypeScript", hint: "Interfaces tipadas", icon: "simple-icons:typescript" },
+          { name: "Astro", hint: "Sitios rapidos de presentacion", icon: "simple-icons:astro" },
+          { name: "Vue", hint: "Implementacion de interfaces", icon: "simple-icons:vuedotjs" },
+          { name: "Angular", hint: "Frontends corporativos", icon: "simple-icons:angular" },
         ],
       },
     ],
@@ -136,54 +139,83 @@ export const esContent: PortfolioContent = {
   projects: {
     title: "Proyectos Destacados",
     intro:
-      "Cada proyecto refleja decisiones técnicas orientadas a continuidad operativa, control de riesgo y resultados medibles para el negocio.",
+      "Casos donde el foco estuvo en traducir procesos de negocio complejos a servicios backend mantenibles, integraciones claras y datos consistentes en produccion.",
     items: [
       {
-        title: "Plataforma de tracking logistico corporativo",
+        title: "Integración logistica internacional entre dos plataformas",
+        summary:
+          "Dos microservicios para que la operacion logistica no dependa de cruces manuales entre plataformas.",
         problem:
-          "El negocio necesitaba trazabilidad confiable de eventos logísticos entre multiples actores y sistemas externos con estados asíncronos.",
+          "Habia que sincronizar personas, envios, guias y eventos entre Olva Courier y un receptor en EE.UU. sin romper la operacion.",
         architecture:
-          "Arquitectura modular basada en servicios Spring Boot, persistencia Oracle y orquestación de flujos transaccionales con confirmaciones por etapa.",
-        stack: "Java 21, Spring Boot, JPA/Hibernate, Oracle, APIs REST, Docker",
+          "Dos microservicios en Java 21 con Spring Boot, arquitectura hexagonal y Oracle para aislar reglas de negocio, contratos y persistencia.",
+        stack: "Java 21, Spring Boot, Arquitectura hexagonal, Oracle, APIs REST, Spock",
         challenges:
-          "Consistencia entre eventos distribuidos, idempotencia de operaciones y tolerancia a fallos de integraciones externas.",
+          "Lo delicado estuvo en los estados asincronicos, la deduplicacion y la trazabilidad entre plataformas.",
         solution:
-          "Se implementaron políticas de reintentos con backoff, registros de correlación y mecanismos de confirmación para evitar duplicidad y perdida de eventos.",
+          "Se definieron contratos claros, confirmaciones por etapa y pruebas sobre escenarios de negocio antes del pase a produccion.",
         impact:
-          "Aumento de estabilidad operativa y reducción de incidencias en seguimiento logístico en ciclos de alta demanda.",
+          "La integracion quedo lista para operar con mas trazabilidad y menos validacion manual.",
       },
       {
-        title: "Sistema batch financiero de alto volumen",
+        title: "Desarrollo del sistema de pago de pensiones a gran escala",
+        summary:
+          "Procesamiento financiero masivo con reglas distintas por operacion y ventanas de ejecucion exigentes.",
         problem:
-          "La operacion financiera requeria procesar grandes volumenes nocturnos dentro de ventanas de tiempo estrictas.",
+          "El sistema debia procesar archivos masivos de pensiones dentro de ventanas operativas exigentes y con reglas distintas segun la operacion.",
         architecture:
-          "Pipeline batch con Spring Batch, particionamiento por lotes, control transaccional robusto y trazabilidad de ejecución por job/step.",
+          "Microservicios en Java y procesos Spring Batch sobre Oracle para separar validacion, procesamiento y persistencia.",
         stack: "Java 17, Spring Batch, Oracle, SQL avanzado, Linux, CI/CD",
         challenges:
-          "Control de integridad en re-procesos, manejo de errores por lote y cuellos de botella en consultas de alto costo.",
+          "El punto critico era controlar errores por lote, sostener reprocesos confiables y no perder consistencia financiera.",
         solution:
-          "Se optimizaron queries críticas, se mejoraron estrategias de commit/rollback y se incorporo validación de consistencia previa/post proceso.",
+          "Se trabajaron servicios especializados, SQL orientado al volumen y validaciones de consistencia para ejecuciones recurrentes.",
         impact:
-          "Mejora en tiempos de ejecución y disminución de errores operativos en cierres financieros recurrentes.",
+          "El flujo quedo mas estable para volumen alto, con mejor control operativo sobre reprocesos.",
+      },
+      {
+        title: "Pastoral Universitaria UNSA",
+        summary:
+          "Ecosistema digital de punta a punta: landing ya publicada y producto interno definido con app operativa y backend en Quarkus.",
+        liveUrl: "https://www.pastoraluniversitariaunsa.org/",
+        statusBadge: {
+          label: "En Produccion",
+          tone: "blue",
+        },
+        problem:
+          "La Pastoral Universitaria UNSA necesitaba comunicar actividades, noticias y contacto desde un solo punto, sin separar ese frente publico del sistema interno de asistencia y gestion.",
+        architecture:
+          "Landing en Astro con Tailwind y Decap CMS para el frente publico; aplicacion interna en Angular y backend en Quarkus sobre Oracle para asistencia, roles y trazabilidad operativa.",
+        stack: "Astro, Tailwind CSS, Decap CMS, Angular, Quarkus, Oracle",
+        challenges:
+          "Lo delicado fue lanzar una experiencia publica clara y mantenible sin romper la coherencia de un producto mas amplio con flujos administrativos, permisos y control de asistencia.",
+        solution:
+          "Se estructuro como un ecosistema de producto: landing institucional para comunicacion y captacion, aplicacion interna para gestion y un backend en Quarkus para reglas de negocio, permisos y persistencia.",
+        impact:
+          "La pastoral ya cuenta con presencia digital publicada y con una base de producto coherente para evolucionar su plataforma interna sin rehacer decisiones clave.",
       },
     ],
   },
   experience: {
     title: "Experiencia Profesional",
-    headingPrimary: "Historial en entornos",
-    headingSecondary: "corporativos de alto impacto",
+    headingPrimary: "Experiencia profesional ",
+    headingSecondary: "en entornos corporativos",
     items: [
       {
-        role: "Backend Engineer",
+        role: "Backend Developer",
         company: "LATAMTECH",
         period: "2025 - 2026",
         workMode: "Full-time · Remoto",
         context: "Integración logística internacional — Olva Courier",
+        cover: {
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-latamtech.png",
+          alt: "Vista de dashboard logístico con trazabilidad de envíos y eventos en tiempo real",
+        },
         highlights: [
-          "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la integración entre una plataforma externa y el sistema CORE de la empresa.",
-          "Diseño y desarrollo desde cero de dos microservicios en Java 21 bajo arquitectura hexagonal para procesar eventos logísticos y sincronizar información crítica del negocio.",
-          "Coordinación técnica entre equipos de ambas plataformas para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de su paso a producción.",
-          "Diseño y evolución del modelo de datos en Oracle, asegurando que la información de envíos se registre de forma consistente y alineada con la lógica del negocio.",
+          "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la **integración entre una plataforma externa y el sistema CORE** de la empresa.",
+          "Diseño y desarrollo desde cero de **dos microservicios en Java 21** bajo **arquitectura hexagonal** para procesar eventos logísticos y sincronizar información crítica del negocio.",
+          "**Coordinación técnica entre equipos de ambas plataformas** para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de su paso a producción.",
+          "Diseño y evolución del **modelo de datos en Oracle**, incluyendo tablas y ajustes en procedimientos almacenados para registrar la información de forma consistente con la lógica del negocio.",
         ],
         technologies: [
           "Java 21",
@@ -199,17 +231,21 @@ export const esContent: PortfolioContent = {
         ],
       },
       {
-        role: "Center Developer",
+        role: "Full Stack Developer",
         company: "NTT DATA",
-        period: "2020 - 2025",
+        period: "2021 - 2025",
         workMode: "Full-time · Hibrido",
         context:
           "Proyectos internacionales — Cepsa (España) · Habitat AFP (Chile)",
+        cover: {
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-nttdata.png",
+          alt: "Panel corporativo con métricas de negocio e integración entre sistemas empresariales",
+        },
         highlights: [
-          "Inicio como desarrollador fullstack construyendo interfaces y servicios backend para plataformas corporativas utilizadas por usuarios de negocio.",
-          "Evolución a liderazgo técnico frontend en el proyecto Cepsa, coordinando el desarrollo de componentes en React integrados en la plataforma corporativa de la empresa.",
-          "Diseño e implementación de APIs en Java y Spring Boot para exponer información proveniente de sistemas empresariales SAP hacia aplicaciones del negocio.",
-          "Desarrollo de microservicios backend para el sistema de pensiones de Habitat AFP, procesando grandes volúmenes de información financiera y aplicando reglas de negocio para su validación.",
+          "Desarrollo de **microservicios backend en Java y Spring Boot** para Habitat AFP, procesando archivos masivos y aplicando reglas de negocio sobre información financiera en Oracle.",
+          "Participación en **procesos batch con Spring Batch** para el sistema de pago de pensiones, diferenciando flujos según operaciones como bonos, descuentos y haberes.",
+          "Diseño e implementación de **APIs BFF en Java y Spring Boot** para exponer información proveniente de sistemas SAP hacia aplicaciones del negocio en Cepsa.",
+          "Experiencia previa fullstack y **coordinación técnica frontend en React**, útil para alinear contratos entre consumo de interfaz y servicios backend.",
         ],
         technologies: [
           "Java",
@@ -231,10 +267,14 @@ export const esContent: PortfolioContent = {
         period: "2020",
         workMode: "Full-time · Remoto",
         context: "Desarrollo de landing page corporativa",
+        cover: {
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-multiplica.png",
+          alt: "Composición visual de landing corporativa con módulos de contenido y llamada a la acción",
+        },
         highlights: [
-          "Implementación de componentes visuales y animaciones para la página institucional, mejorando la interacción del usuario con el sitio.",
-          "Desarrollo de secciones interactivas orientadas a presentar contenido de forma clara y atractiva.",
-          "Colaboración con el equipo de diseño para construir interfaces modernas, responsivas y alineadas con la identidad visual de la marca.",
+          "Implementación de **componentes visuales y animaciones** para la página institucional, mejorando la interacción del usuario con el sitio.",
+          "Desarrollo de **secciones interactivas** orientadas a presentar contenido de forma clara y atractiva.",
+          "Colaboración con el equipo de diseño para construir **interfaces modernas, responsivas y alineadas con la identidad visual** de la marca.",
         ],
         technologies: [
           "HTML",
@@ -250,133 +290,155 @@ export const esContent: PortfolioContent = {
         period: "2019 - 2020",
         workMode: "Full-time · Remoto",
         context: "Desarrollo de soluciones e-commerce durante la pandemia",
+        cover: {
+          src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-alma.png",
+          alt: "Ilustración isométrica de una plataforma digital para operaciones de comercio electrónico",
+        },
         highlights: [
-          "Desarrollo de tiendas online para negocios que necesitaban migrar rápidamente al canal digital.",
-          "Implementación de funcionalidades de catálogo, pedidos y gestión de productos para operaciones comerciales básicas.",
-          "Adaptación de soluciones tecnológicas para permitir la continuidad operativa de negocios durante el confinamiento.",
+          "Desarrollo de **tiendas online** para negocios que necesitaban migrar rápidamente al canal digital.",
+          "Implementación de funcionalidades de **catálogo, pedidos y gestión de productos** para operaciones comerciales básicas.",
+          "Adaptación de soluciones tecnológicas para permitir la **continuidad operativa de negocios durante el confinamiento**.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },
     ],
   },
-  process: {
-    title: "Proceso de Trabajo",
-    headingPrimary: "Del análisis al sistema",
-    headingSecondary: "en producción",
-    intro:
-      "Forma de trabajo enfocada en entender el negocio, diseñar soluciones coherentes y llevarlas a producción de forma controlada y mantenible.",
-    steps: [
-      {
-        step: "Paso 1",
-        title: "Comprensión del dominio",
-        description:
-          "Análisis de cómo funciona el negocio, sus procesos, actores y reglas, para entender qué problema se debe resolver antes de proponer una solución técnica.",
-      },
-      {
-        step: "Paso 2",
-        title: "Diseño del sistema",
-        description:
-          "Definición de la arquitectura considerando todo el flujo: interacción del usuario, servicios backend, integraciones y modelo de datos.",
-      },
-      {
-        step: "Paso 3",
-        title: "Implementación del sistema",
-        description:
-          "Desarrollo de servicios y componentes con foco en claridad, pruebas y mantenibilidad, asegurando que la solución refleje correctamente la lógica del negocio.",
-      },
-      {
-        step: "Paso 4",
-        title: "Evolución en producción",
-        description:
-          "Monitoreo y mejora continua del sistema, ajustando rendimiento, corrigiendo problemas y permitiendo su evolución sin afectar la estabilidad.",
-      },
-    ],
-  },
-  philosophy: {
-    title: "Filosofía de Ingeniería",
-    headingPrimary: "Principios para diseñar",
-    headingSecondary: "sistemas empresariales",
-    intro:
-      "Principios que guían cómo analizo, diseño e implemento sistemas que deben ser confiables, mantenibles y alineados al negocio.",
-    principles: [
-      {
-        icon: "domain",
-        title: "El sistema refleja el negocio",
-        description:
-          "El software debe representar correctamente los procesos y reglas del negocio. Un mal modelo de dominio genera complejidad y errores a largo plazo.",
-      },
-      {
-        icon: "global",
-        title: "Pensar en el sistema completo",
-        description:
-          "Cada decisión considera todo el flujo: usuario, servicios, integraciones y datos. No se diseñan piezas aisladas, sino soluciones completas.",
-      },
-      {
-        icon: "code",
-        title: "Claridad sobre complejidad",
-        description:
-          "El código debe ser entendible y mantenible. La simplicidad bien aplicada reduce errores y facilita la evolución del sistema.",
-      },
-      {
-        icon: "shield",
-        title: "Consistencia de datos como prioridad",
-        description:
-          "En sistemas empresariales, los datos deben ser correctos y confiables. Se prioriza la integridad sobre soluciones rápidas o incompletas.",
-      },
-      {
-        icon: "resilience",
-        title: "Diseñar para fallos",
-        description:
-          "Los sistemas deben seguir funcionando incluso cuando algo falla. Se consideran errores, reintentos y recuperación desde el diseño.",
-      },
-      {
-        icon: "scale",
-        title: "Preparado para crecer",
-        description:
-          "Las soluciones se diseñan para evolucionar con el negocio, evitando rediseños completos cuando aumentan la carga o la complejidad.",
-      },
-    ],
-  },
   contact: {
-    title: "Contacto",
-
     headlineTop: "Conversemos sobre",
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Trabajemos juntos. Si estás construyendo o mejorando un sistema, puedo aportar en el análisis, diseño y desarrollo para llevarlo a producción de forma confiable.",
-    supportTitle: "Trabajo remoto internacional",
-    supportText:
-      "Experiencia trabajando con equipos distribuidos y sistemas empresariales, adaptándome a distintos contextos técnicos, zonas horarias y necesidades del negocio.",
-
+      "Si estas construyendo o modernizando una plataforma empresarial, puedo aportar en servicios Java, integraciones entre sistemas y flujos de datos que necesitan llegar a produccion con confianza.",
     links: [
-      {
-        label: "LinkedIn",
-        value: "linkedin.com/in/david-panibra",
-        href: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
-        sublabel: "Experiencia profesional",
-      },
-       {
-        label: "GitHub",
-        value: "github.com/dPanibra0",
-        href: "https://github.com/dPanibra0",
-        sublabel: "Código y proyectos",
-      },
       {
         label: "Email",
         value: "dpanibra0@gmail.com",
         href: "mailto:dpanibra0@gmail.com",
         sublabel: "Respuesta en menos de 24h",
       },
-     
     ],
 
-    availability: "Disponible para proyectos internacionales — Remote",
+    availability: "Disponible para proyectos — Remoto",
   },
 
   footer: {
-    copyright: "© 2026 David Panibra — Software Engineer",
+    copyright: "© 2026 David Panibra — Backend Java Microservices",
     githubUrl: "https://github.com/dPanibra0",
     linkedinUrl: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
+  },
+};
+
+export const esUi: PortfolioUiTranslations = {
+  navbar: {
+    menuLabel: "Abrir menu",
+    logoAlt: "dPanibra0 logo",
+  },
+  experience: {
+    detailsLabel: "Ver mas detalle",
+  },
+  projects: {
+    headingTop: "Decisiones tecnicas con",
+    headingBottom: "impacto empresarial real",
+    sectionTags: ["Logistica · Microservicios", "Finanzas · Batch", "Comunidad · Ecosistema"],
+    fallbackProject: {
+      title: "Ver mas proyectos empresariales",
+      impact:
+        "Accede a la seccion de detalle para explorar mas casos, decisiones tecnicas y resultados de proyectos.",
+      stack: "Arquitectura, Resiliencia, Delivery",
+    },
+    detailsLabel: "VER DETALLE",
+  },
+  contact: {
+    formAriaLabel: "Formulario de contacto por email",
+    projectInputLabel: "Cuentame sobre tu proyecto",
+    placeholders: [
+      "Veamos tu próximo proyecto",
+      "Cuentame sobre tu negocio",
+      "Qué estas construyendo hoy?",
+    ],
+    submitLabel: "Enviar",
+    emailSubject: "Nuevo proyecto desde dpanibra.com",
+    emailBodyTemplate:
+      "Hola David,%0D%0A%0D%0A{{projectBrief}}%0D%0A%0D%0AGracias.",
+  },
+  floatingActions: {
+    ariaLabel: "Quick actions",
+    linkedin: "Abrir perfil de LinkedIn",
+    github: "Abrir perfil de GitHub",
+    email: "Enviar correo",
+    contact: "Ir a contacto",
+    scrollTop: "Volver arriba",
+  },
+  techCarousel: {
+    ariaLabel: "Technology icons carousel",
+  },
+  detalles: {
+    tabsAriaLabel: "Secciones de detalle",
+    tabPanelsAriaLabel: "Contenido de detalle",
+    tabs: {
+      experiencia: "Experiencia laboral",
+      proyectos: "Proyectos",
+      blog: "Blog tecnico",
+    },
+    backLabel: "Volver a experiencia",
+    backToTopLabel: "Ir al inicio",
+    pageTitle: "Detalles de backend Java | David Panibra",
+    pageDescription:
+      "Detalle de experiencia, proyectos y notas tecnicas sobre backend Java, microservicios e integraciones empresariales.",
+    projectsOverline: "PROYECTOS_EXTENDIDOS",
+    projectsTitle: "Casos donde el backend mueve la operacion",
+    projectsIntro:
+      "Una lectura mas corta y directa de proyectos reales: que habia en juego, como se resolvio y donde estuvo la complejidad tecnica.",
+    projectLabels: {
+      problem: "Lo que estaba en juego",
+      architecture: "Base tecnica",
+      challenges: "Lo delicado",
+      solution: "Como se resolvio",
+      impact: "Lo que habilito",
+      stack: "Stack aplicado",
+      liveSite: "Sitio activo",
+    },
+    blogOverline: "BLOG_TECNICO",
+    blogTitle: "Notas sobre backend y arquitectura",
+    blogIntro:
+      "Notas breves sobre microservicios, integraciones y decisiones de arquitectura tomadas en contexto real.",
+    blogPosts: [
+      {
+        title: "Pruebas de integracion para flujos de negocio en microservicios",
+        context:
+          "Donde poner el foco cuando el riesgo real esta en validaciones, ramas de negocio y sincronizacion entre servicios.",
+        content:
+          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo aparece en validaciones por tipo de operacion, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Conviene modelar pruebas alrededor del flujo de negocio: que entra, que decision toma el servicio, que se persiste y que salida se publica o devuelve. Herramientas como Spock ayudan a cubrir ramas con claridad. Conclusion: la prueba vale mas cuando verifica decisiones criticas del negocio y no solo la respuesta HTTP.",
+        tag: "Testing backend",
+        status: "Nota completa",
+      },
+      {
+        title: "Arquitecturas evolutivas para plataformas de negocio",
+        context:
+          "Uso practico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.",
+        content:
+          "La arquitectura hexagonal y clean architecture protegen el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Eso mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: suma capas, contratos y codigo de ensamblaje, algo que puede frenar equipos pequenos o productos tempranos. En contextos enterprise con integraciones multiples y vida util larga, el costo inicial suele compensarse. Conclusion: conviene aplicarla de forma selectiva, priorizando modulos criticos y evitando sobrearquitectura en flujos simples.",
+        tag: "Arquitectura",
+        status: "Nota completa",
+      },
+      {
+        title: "Contexto real sobre Spring Framework 4 y Spring Boot",
+        context:
+          "Aclaracion de versionado para evitar confusiones entre contexto historico y stack vigente.",
+        content:
+          "Spring Framework 4 fue lanzado en 2013 y su soporte activo termino hace anos; por eso no corresponde presentarlo como novedad actual. En su momento aporto soporte para Java 8 y una base mas madura para aplicaciones empresariales. Hoy, las novedades relevantes llegan por Spring Framework 6 y Spring Boot 3, alineados con Jakarta EE 9+, Java 17+, AOT y runtime nativo con GraalVM. Para equipos enterprise, actualizar responde a seguridad, compatibilidad y performance operativa. Conclusion: si el objetivo es modernizar, la conversacion correcta es Spring 6/Boot 3; Spring 4 queda como contexto historico.",
+        tag: "Spring",
+        status: "Nota completa",
+      },
+      {
+        title: "Spring vs Quarkus: comparacion tecnica para decidir",
+        context:
+          "Comparativa de arranque, memoria, experiencia de desarrollo y ecosistema para elegir segun contexto.",
+        content:
+          "En JVM tradicional, Spring Boot ofrece un ecosistema mas amplio y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, sobre todo con compilacion nativa en GraalVM, algo util en serverless y alta densidad de contenedores. El tradeoff es una mayor complejidad de pipeline y validaciones extra para algunas librerias en modo nativo. Ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en ejemplos corporativos y talento disponible. Conclusion: Spring Boot encaja mejor en plataformas empresariales amplias; Quarkus destaca cuando startup rapido y ahorro de memoria pesan mas.",
+        tag: "Spring vs Quarkus",
+        status: "Nota completa",
+      },
+    ],
   },
 };

@@ -8,38 +8,32 @@ export interface HeroContent {
   availability: string;
   title: string;
   subtitle: string;
-  message: string;
-  ctaPrimary: string;
-  ctaSecondary: string;
   stats: Array<{
     value: string;
     label: string;
   }>;
 }
 
-export interface AboutContent {
-  title: string;
-  headingPrimary: string;
-  headingSecondary: string;
-  paragraphs: string[];
-  cards: Array<{
-    title: string;
-    subtitle: string;
-    icon: "backend" | "database" | "globe" | "shield";
-  }>;
+export interface StackItem {
+  name: string;
+  hint: string;
+  icon: string;
 }
 
 export interface StackCategory {
   category: string;
-  icon: "code" | "db" | "gear" | "shield";
-  items: Array<{
-    name: string;
-    hint: string;
-  }>;
+  icon: string;
+  items: StackItem[];
 }
 
 export interface ProjectContent {
   title: string;
+  summary?: string;
+  liveUrl?: string;
+  statusBadge?: {
+    label: string;
+    tone?: "blue" | "neutral";
+  };
   problem: string;
   architecture: string;
   stack: string;
@@ -54,20 +48,12 @@ export interface ExperienceItem {
   period: string;
   workMode: string;
   context: string;
+  cover: {
+    src: string;
+    alt: string;
+  };
   highlights: string[];
   technologies: string[];
-}
-
-export interface ProcessStep {
-  step: string;
-  title: string;
-  description: string;
-}
-
-export interface PhilosophyPrinciple {
-  icon: "domain" | "code" | "shield" | "scale" | "resilience" | "global";
-  title: string;
-  description: string;
 }
 
 export interface ContactLink {
@@ -85,16 +71,29 @@ export interface PortfolioContent {
   };
   nav: NavItem[];
   overlines: {
-    about: string;
+    microservices: string;
+    hexagonal: string;
     stack: string;
     projects: string;
     experience: string;
-    process: string;
-    philosophy: string;
     contact: string;
   };
   hero: HeroContent;
-  about: AboutContent;
+  microservices: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    pillars: Array<{
+      title: string;
+      description: string;
+    }>;
+  };
+  hexagonal: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    points: string[];
+  };
   stack: {
     title: string;
     headingPrimary: string;
@@ -113,27 +112,10 @@ export interface PortfolioContent {
     headingSecondary: string;
     items: ExperienceItem[];
   };
-  process: {
-    title: string;
-    headingPrimary: string;
-    headingSecondary: string;
-    intro: string;
-    steps: ProcessStep[];
-  };
-  philosophy: {
-    title: string;
-    headingPrimary: string;
-    headingSecondary: string;
-    intro: string;
-    principles: PhilosophyPrinciple[];
-  };
   contact: {
-    title: string;
     headlineTop: string;
     headlineBottom: string;
     subtitle: string;
-    supportTitle: string;
-    supportText: string;
     links: ContactLink[];
     availability: string;
   };
@@ -142,4 +124,86 @@ export interface PortfolioContent {
     githubUrl: string;
     linkedinUrl: string;
   };
+}
+
+export type Language = "es" | "en";
+
+export interface PortfolioUiTranslations {
+  navbar: {
+    menuLabel: string;
+    logoAlt: string;
+  };
+  experience: {
+    detailsLabel: string;
+  };
+  projects: {
+    headingTop: string;
+    headingBottom: string;
+    sectionTags: string[];
+    fallbackProject: {
+      title: string;
+      impact: string;
+      stack: string;
+    };
+    detailsLabel: string;
+  };
+  contact: {
+    formAriaLabel: string;
+    projectInputLabel: string;
+    placeholders: [string, string, string];
+    submitLabel: string;
+    emailSubject: string;
+    emailBodyTemplate: string;
+  };
+  floatingActions: {
+    ariaLabel: string;
+    linkedin: string;
+    github: string;
+    email: string;
+    contact: string;
+    scrollTop: string;
+  };
+  techCarousel: {
+    ariaLabel: string;
+  };
+  detalles: {
+    tabsAriaLabel: string;
+    tabPanelsAriaLabel: string;
+    tabs: {
+      experiencia: string;
+      proyectos: string;
+      blog: string;
+    };
+    backLabel: string;
+    backToTopLabel: string;
+    pageTitle: string;
+    pageDescription: string;
+    projectsOverline: string;
+    projectsTitle: string;
+    projectsIntro: string;
+    projectLabels: {
+      problem: string;
+      architecture: string;
+      challenges: string;
+      solution: string;
+      impact: string;
+      stack: string;
+      liveSite: string;
+    };
+    blogOverline: string;
+    blogTitle: string;
+    blogIntro: string;
+    blogPosts: Array<{
+      title: string;
+      context: string;
+      content: string;
+      tag: string;
+      status: string;
+    }>;
+  };
+}
+
+export interface PortfolioTranslations {
+  content: PortfolioContent;
+  ui: PortfolioUiTranslations;
 }

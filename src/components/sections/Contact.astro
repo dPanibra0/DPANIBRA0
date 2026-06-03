@@ -1,327 +1,422 @@
 ---
-import type { PortfolioContent } from "../../content/types";
+import type { PortfolioContent, PortfolioUiTranslations } from "../../content/types";
 import { Icon } from "astro-icon/components";
+import FloatingQuickActions from "../ui/FloatingQuickActions.astro";
 
 interface Props {
   id: string;
   contact: PortfolioContent["contact"];
   overline: string;
+  ui: PortfolioUiTranslations["contact"];
+  floatingActionsUi: PortfolioUiTranslations["floatingActions"];
 }
 
-const { id, contact, overline } = Astro.props;
+const { id, contact, overline, ui, floatingActionsUi } = Astro.props;
 
-const resolveContactIcon = (label: string) => {
-  const lowerLabel = label.toLowerCase();
-
-  if (lowerLabel.includes("email")) {
-    return { name: "simple-icons:gmail", key: "gmail" };
-  }
-
-  if (lowerLabel.includes("linkedin")) {
-    return { name: "simple-icons:linkedin", key: "linkedin" };
-  }
-
-  if (lowerLabel.includes("github")) {
-    return { name: "simple-icons:github", key: "github" };
-  }
-
-  return { name: "lucide:link", key: "default" };
-};
+const primaryEmailLink = contact.links.find((link) => link.href.startsWith("mailto:")) ?? contact.links[0];
+const contactEmail = (primaryEmailLink?.href ?? "mailto:").replace("mailto:", "");
+const contactPlaceholders = ui.placeholders;
 ---
 
-<section id={id} class="section-space border-t border-border/50">
-  <div class="container-shell pt-8 md:pt-12">
-    <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+<section id={id} class="section-space border-t border-[#cfd8e3] bg-[#f4f7fb] text-[#0b0f14]" data-contact-zone>
+  <div class="container-shell pt-8 md:pt-12" data-reveal-group data-reveal-stagger-mobile="88" data-reveal-stagger-desktop="70">
+    <div class="grid gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14" data-reveal="up">
       <div>
-        <p class="micro-label mb-5">{overline}</p>
-        <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+        <p class="micro-label micro-label-contact mb-5">{overline}</p>
+        <h2 class="max-w-[640px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-[#0b0f14] md:text-[44px]">
           {contact.headlineTop}
           <br />
-          <span class="text-muted">{contact.headlineBottom}</span>
+          <span class="text-[#425062]">{contact.headlineBottom}</span>
         </h2>
-        <p class="mt-7 max-w-[620px] text-base leading-relaxed text-muted md:text-lg">{contact.subtitle}</p>
+        <p class="mt-7 max-w-[620px] text-base leading-relaxed text-[#445364] md:text-lg">{contact.subtitle}</p>
 
-        <div class="availability-badge mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted">
+        <div class="availability-badge mt-8 inline-flex items-center gap-2 border border-[#c3d0dd] bg-white px-3 py-1.5 text-xs text-[#4b5a69]">
           <span class="availability-dot"></span>
           <span>{contact.availability}</span>
         </div>
-
-        {/* <article class="mt-10 rounded-2xl bg-black/15 p-7 md:p-8">
-          <div class="flex items-start gap-4">
-            <span class="mt-1 h-10 w-10 text-[#9ea8b4]">
-              <Icon name="lucide:globe" class="h-6 w-6" aria-hidden="true" />
-            </span>
-            <div>
-              <h3 class="text-lg font-semibold tracking-[-0.02em] text-text md:text-xl">{contact.supportTitle}</h3>
-              <p class="mt-2.5 text-sm leading-relaxed text-muted md:text-base">{contact.supportText}</p>
-            </div>
-          </div>
-        </article>
-      
-*/}
-
-
       </div>
 
-      <div class="space-y-4 pt-2">
-        {
-          contact.links.map((link) => {
-            const icon = resolveContactIcon(link.label);
-
-            return (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                data-contact-link
-                data-channel={icon.key}
-                class="contact-link-card group block rounded-2xl border border-white/60 bg-[#f7f9fc] p-6 text-[#0b0f14] md:p-7"
-              >
-                <div class="flex items-start justify-between gap-4">
-                  <div class="flex items-start gap-4">
-                    <span
-                      class="contact-link-icon-chip inline-flex h-12 w-12 items-center justify-center rounded-xl"
-                      data-icon={icon.key}
-                    >
-                      <Icon name={icon.name} class="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p class="text-base font-semibold tracking-[-0.02em] text-[#0b0f14] md:text-lg">{link.value}</p>
-                      <p class="mt-2 text-sm text-[#4b5a69] md:text-base">{link.sublabel}</p>
-                    </div>
-                  </div>
-                  <span class="contact-link-arrow mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#e8edf3] text-[#4f5e6d]">
-                    <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </div>
-              </a>
-            );
-          })
-        }
+      <div class="pt-1 contact-image-wrap">
+        <img
+          src="/images/dpanibra0_contactme.png"
+          alt="Portrait of David Panibra ready for contact"
+          loading="lazy"
+          decoding="async"
+          class="contact-image w-full"
+        />
       </div>
+    </div>
+
+    <div class="hidden md:block contact-separator" aria-hidden="true" data-reveal="up">
+      <span class="contact-separator-line"></span>
+      <img src="/android-chrome-192x192.png" alt="" class="contact-separator-logo rounded-full" loading="lazy" decoding="async" />
+      <span class="contact-separator-line"></span>
+    </div>
+
+    <form
+      class="contact-form mt-0 md:mt-11"
+      data-contact-form
+      data-contact-email={contactEmail}
+      aria-label={ui.formAriaLabel}
+      data-reveal="up"
+    >
+      <label class="sr-only" for="contact-project-input">{ui.projectInputLabel}</label>
+      <div class="contact-form-layout">
+        <div class="contact-field-wrap">
+          <input
+            id="contact-project-input"
+            name="contactProject"
+            type="text"
+            required
+            autocomplete="off"
+            maxlength="180"
+            class="contact-input"
+            placeholder={contactPlaceholders[0]}
+            data-rotating-placeholder
+          />
+        </div>
+        <button type="submit" class="contact-submit-button" data-contact-submit-area>
+          <span class="technical-accent">{ui.submitLabel}</span>
+          <Icon name="lucide:arrow-up-right" class="h-4 w-4" aria-hidden="true" />
+        </button>
+      </div>
+    </form>
+
+    <div class="contact-mobile-actions-shell" data-reveal="up">
+      <FloatingQuickActions ui={floatingActionsUi} variant="contact-mobile" />
     </div>
   </div>
 </section>
 
+<script define:vars={{ contactPlaceholders, emailSubject: ui.emailSubject, emailBodyTemplate: ui.emailBodyTemplate }}>
+  const form = document.querySelector("[data-contact-form]");
+  const input = form?.querySelector("[data-rotating-placeholder]");
+  const email = form?.getAttribute("data-contact-email") ?? "";
+  const contactZone = document.querySelector("[data-contact-zone]");
+  const contactImageWrap = contactZone?.querySelector(".contact-image-wrap");
+  const contactImage = contactZone?.querySelector(".contact-image");
+  const mobileMedia = window.matchMedia("(max-width: 767px)");
+  const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const reduceMotion = () => reducedMotionMedia.matches;
+
+  if (contactImageWrap instanceof HTMLElement && contactImage instanceof HTMLImageElement) {
+    let frameId = 0;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const updateContactImageScale = () => {
+      frameId = 0;
+
+      if (reduceMotion() || !mobileMedia.matches) {
+        contactImage.style.removeProperty("--contact-image-scroll-scale");
+        return;
+      }
+
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const imageRect = contactImageWrap.getBoundingClientRect();
+      const travelDistance = viewportHeight + imageRect.height;
+      const scrolledDistance = viewportHeight - imageRect.top;
+      const progress = clamp(scrolledDistance / Math.max(travelDistance, 1), 0, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 1.35);
+      const scale = 1 + easedProgress * 0.55;
+
+      contactImage.style.setProperty("--contact-image-scroll-scale", scale.toFixed(3));
+    };
+
+    const requestScaleUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateContactImageScale);
+    };
+
+    const teardownScrollScale = () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+
+      contactImage.style.removeProperty("--contact-image-scroll-scale");
+      window.removeEventListener("scroll", requestScaleUpdate);
+      window.removeEventListener("resize", requestScaleUpdate);
+      mobileMedia.removeEventListener("change", requestScaleUpdate);
+      reducedMotionMedia.removeEventListener("change", requestScaleUpdate);
+      window.removeEventListener("pagehide", teardownScrollScale);
+    };
+
+    if (!reduceMotion()) {
+      requestScaleUpdate();
+      window.addEventListener("scroll", requestScaleUpdate, { passive: true });
+      window.addEventListener("resize", requestScaleUpdate);
+      mobileMedia.addEventListener("change", requestScaleUpdate);
+      reducedMotionMedia.addEventListener("change", requestScaleUpdate);
+      window.addEventListener("pagehide", teardownScrollScale);
+    }
+  }
+
+  if (form instanceof HTMLFormElement && input instanceof HTMLInputElement) {
+    let placeholderIndex = 0;
+    let rotationTimer = 0;
+    let fadeTimer = 0;
+
+    const rotatePlaceholder = () => {
+      input.classList.add("is-placeholder-fading");
+      window.clearTimeout(fadeTimer);
+
+      fadeTimer = window.setTimeout(() => {
+        placeholderIndex = (placeholderIndex + 1) % contactPlaceholders.length;
+        input.placeholder = contactPlaceholders[placeholderIndex];
+        input.classList.remove("is-placeholder-fading");
+      }, 170);
+    };
+
+    const stopRotation = () => {
+      window.clearInterval(rotationTimer);
+      window.clearTimeout(fadeTimer);
+      input.classList.remove("is-placeholder-fading");
+    };
+
+    const startRotation = () => {
+      stopRotation();
+      rotationTimer = window.setInterval(rotatePlaceholder, 5000);
+    };
+
+    const onFocus = () => {
+      stopRotation();
+    };
+
+    const onBlur = () => {
+      startRotation();
+    };
+
+    const onPageHide = () => {
+      stopRotation();
+      input.removeEventListener("focus", onFocus);
+      input.removeEventListener("blur", onBlur);
+      window.removeEventListener("pagehide", onPageHide);
+    };
+
+    if (!reduceMotion()) {
+      startRotation();
+      input.addEventListener("focus", onFocus);
+      input.addEventListener("blur", onBlur);
+      window.addEventListener("pagehide", onPageHide);
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const projectBrief = input.value.trim();
+      if (!projectBrief || !email) return;
+
+      const subject = encodeURIComponent(emailSubject);
+      const body = emailBodyTemplate.replace("{{projectBrief}}", encodeURIComponent(projectBrief));
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    });
+  }
+</script>
+
 <style>
-  .contact-link-card {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .micro-label-contact {
+    color: #5d6c7b;
+  }
+
+  .contact-form {
+    width: 100%;
+  }
+
+  .contact-form-layout {
+    position: relative;
+  }
+
+  .contact-image-wrap {
+    overflow: clip;
+  }
+
+  .contact-separator {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 34px;
+  }
+
+  .contact-separator-line {
+    height: 1px;
+    flex: 1;
+    background: #cfd8e3;
+  }
+
+  .contact-separator-logo {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+  }
+
+  .contact-field-wrap {
     position: relative;
     overflow: hidden;
-    --channel-color: #8ea0b3;
-    transform: translateY(0);
-    box-shadow: 0 10px 22px -20px rgba(255, 255, 255, 0.78);
+    border: 1px solid #cfd8e3;
+    background: linear-gradient(180deg, #ffffff, #f6f9fc);
+    padding: 8px 152px 8px 18px;
+    box-shadow: 0 16px 34px -30px rgba(14, 28, 43, 0.34);
     transition:
-      transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 60ms,
       box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1) 60ms,
       background-color 300ms ease 40ms,
       border-color 300ms ease 40ms,
       outline-color 300ms ease 40ms;
-    will-change: transform, box-shadow;
   }
 
-  .contact-link-card::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 3px;
-    background: linear-gradient(180deg, color-mix(in oklab, var(--channel-color), white 12%), color-mix(in oklab, var(--channel-color), black 16%));
-    opacity: 0.52;
-    transition: opacity 300ms ease;
+  .contact-image {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    transform: scale(var(--contact-image-scroll-scale, 1));
+    transform-origin: center top;
   }
 
-  .contact-link-card[data-channel="gmail"] {
-    --channel-color: #ea4335;
-  }
-
-  .contact-link-card[data-channel="linkedin"] {
-    --channel-color: #0a66c2;
-  }
-
-  .contact-link-card[data-channel="github"] {
-    --channel-color: #9fb3c8;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .contact-link-card:hover,
-    .contact-link-card:focus-visible {
-      transform: translateY(-6px);
-      border-color: rgba(255, 255, 255, 0.95);
-      background-color: #ffffff;
-      box-shadow:
-        0 18px 36px -22px rgba(255, 255, 255, 0.88),
-        0 0 0 1px color-mix(in oklab, var(--channel-color), white 64%);
-    }
-
-    .contact-link-card:hover::before,
-    .contact-link-card:focus-visible::before {
-      opacity: 0.9;
-    }
-  }
-
-  .contact-link-card:focus-visible {
-    transform: translateY(-6px);
-    border-color: rgba(255, 255, 255, 0.95);
-    background-color: #ffffff;
-    box-shadow:
-      0 18px 36px -22px rgba(255, 255, 255, 0.88),
-      0 0 0 1px color-mix(in oklab, var(--channel-color), white 64%);
-  }
-
-  .contact-link-card:active,
-  .contact-link-card.is-pressing {
-    transform: translateY(-0.35px) scale(0.994);
-    transition-duration: 190ms;
-    transition-delay: 0ms;
-    box-shadow: 0 12px 28px -20px rgba(255, 255, 255, 0.85);
-  }
-
-  @media (hover: none), (pointer: coarse) {
-    .contact-link-card:active,
-    .contact-link-card.is-pressing {
-      border-color: rgba(255, 255, 255, 0.95);
-      background-color: #ffffff;
-      box-shadow:
-        0 16px 30px -22px rgba(255, 255, 255, 0.84),
-        0 0 0 1px color-mix(in oklab, var(--channel-color), white 64%);
-    }
-
-    .contact-link-card:active::before,
-    .contact-link-card.is-pressing::before {
-      opacity: 0.9;
-    }
-
-    .contact-link-card:active .contact-link-icon-chip,
-    .contact-link-card.is-pressing .contact-link-icon-chip {
-      background-color: color-mix(in oklab, var(--channel-color), white 90%);
-      border-color: color-mix(in oklab, var(--channel-color), white 68%);
-    }
-
-    .contact-link-card:active .contact-link-arrow,
-    .contact-link-card.is-pressing .contact-link-arrow {
-      transform: translate3d(3px, -1px, 0);
-      background-color: #dce5ef;
-      color: #0b0f14;
-    }
-  }
-
-  .contact-link-icon-chip {
-    background-color: #eef3f8;
-    border: 1px solid #d8e0e9;
-    color: #445467;
-    transition:
-      background-color 260ms ease 70ms,
-      transform 260ms ease 70ms,
-      border-color 260ms ease 70ms;
-  }
-
-  .contact-link-icon-chip[data-icon="gmail"] {
-    color: #ea4335;
-  }
-
-  .contact-link-icon-chip[data-icon="linkedin"] {
-    color: #0a66c2;
-  }
-
-  .contact-link-icon-chip[data-icon="github"] {
-    color: #111827;
-  }
-
-  .contact-link-arrow {
-    transition:
-      transform 300ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
-      background-color 260ms ease 80ms,
-      color 260ms ease 80ms;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .contact-link-card:hover .contact-link-icon-chip,
-    .contact-link-card:focus-visible .contact-link-icon-chip {
-      background-color: color-mix(in oklab, var(--channel-color), white 90%);
-      border-color: color-mix(in oklab, var(--channel-color), white 68%);
-      transform: translateY(-1px);
-    }
-
-    .contact-link-card:hover .contact-link-arrow,
-    .contact-link-card:focus-visible .contact-link-arrow {
-      transform: translate3d(3px, -1px, 0);
-      background-color: #dce5ef;
-      color: #0b0f14;
-    }
-  }
-
-  .contact-link-card:focus-visible .contact-link-icon-chip {
-    background-color: #111b27;
-    transform: translateY(-1px);
-  }
-
-  .contact-link-card:focus-visible .contact-link-arrow {
-    transform: translate3d(3px, -1px, 0);
-    background-color: #dce5ef;
+  .contact-input {
+    width: 100%;
+    min-height: 60px;
+    border: 0;
+    background: transparent;
+    padding: 0;
     color: #0b0f14;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .contact-input::placeholder {
+    color: #697a8c;
+    opacity: 1;
+    font-size: 18px;
+    transition: opacity 260ms ease;
+  }
+
+  .contact-input.is-placeholder-fading::placeholder {
+    opacity: 0;
+  }
+
+  .contact-input:focus {
+    outline: none;
+  }
+
+  .contact-mobile-actions-shell {
+    display: none;
+  }
+
+  .contact-submit-button {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    bottom: 8px;
+    display: inline-flex;
+    min-width: 120px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #cfd8e3;
+    background: linear-gradient(140deg, #36495d, #0b0f14);
+    color: #f7fbff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition:
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 240ms ease;
+  }
+
+  .contact-field-wrap:focus-within {
+    border-color: #aebfd0;
+    box-shadow:
+      0 24px 46px -34px rgba(20, 38, 56, 0.42),
+      0 0 0 2px rgba(47, 85, 118, 0.26);
+  }
+
+  .contact-submit-button:focus-visible {
+    outline: 2px solid #2f5576;
+    outline-offset: -2px;
+  }
+
+  .contact-submit-button:hover,
+  .contact-submit-button:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px -20px rgba(10, 16, 24, 0.78);
+    filter: brightness(1.06);
+  }
+
+  .contact-submit-button:active {
+    transform: translateY(0) scale(0.995);
+  }
+
+  @media (max-width: 767px) {
+    .contact-separator {
+      display: none;
+    }
+
+    .contact-mobile-actions-shell {
+      display: block;
+      margin-top: 1rem;
+      padding-bottom: calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .contact-form-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-field-wrap {
+      padding: 0 18px;
+      box-shadow: 0 18px 34px -30px rgba(14, 28, 43, 0.38);
+    }
+
+    .contact-input {
+      min-height: 62px;
+      font-size: 17px;
+    }
+
+    .contact-input::placeholder {
+      font-size: 17px;
+    }
+
+    .contact-submit-button {
+      position: static;
+      margin-top: 0;
+      min-height: 56px;
+      width: 100%;
+      transform: none;
+    }
+
+    .contact-image {
+      transition: transform 120ms linear;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .contact-link-card,
-    .contact-link-icon-chip,
-    .contact-link-arrow {
+    .contact-field-wrap,
+    .contact-input::placeholder,
+    .contact-submit-button,
+    .contact-image {
       transition: none;
+    }
+
+    .contact-field-wrap:hover,
+    .contact-field-wrap:focus-within,
+    .contact-submit-button:hover,
+    .contact-submit-button:focus-visible,
+    .contact-submit-button:active {
+      transform: none;
     }
   }
 </style>
-
-<script>
-  if ((window as Window & { __contactLinksInit?: boolean }).__contactLinksInit) {
-    // no-op
-  } else {
-    (window as Window & { __contactLinksInit?: boolean }).__contactLinksInit = true;
-  const contactLinks = document.querySelectorAll<HTMLAnchorElement>("[data-contact-link]");
-
-  const openExternalAfterPress = (href: string) => {
-    const pendingTab = window.open("", "_blank");
-
-    if (pendingTab) {
-      pendingTab.opener = null;
-      pendingTab.location.assign(href);
-      return;
-    }
-
-    window.open(href, "_blank");
-  };
-
-  contactLinks.forEach((link) => {
-    link.addEventListener("click", (event: MouseEvent) => {
-      if (
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey ||
-        link.dataset.animating === "true"
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      link.dataset.animating = "true";
-      link.classList.add("is-pressing");
-
-      const href = link.getAttribute("href");
-      const isEmailLink = href?.startsWith("mailto:") ?? false;
-
-      window.setTimeout(() => {
-        if (href) {
-          if (isEmailLink) {
-            window.location.href = href;
-          } else {
-            openExternalAfterPress(href);
-          }
-        }
-
-        link.classList.remove("is-pressing");
-        delete link.dataset.animating;
-      }, 210);
-    });
-  });
-  }
-</script>
