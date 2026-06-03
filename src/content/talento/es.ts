@@ -191,10 +191,10 @@ export const esContent: PortfolioContent = {
           alt: "Vista de dashboard logístico con trazabilidad de envíos y eventos en tiempo real",
         },
         highlights: [
-          "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la integración entre una plataforma externa y el sistema CORE de la empresa.",
-          "Diseño y desarrollo desde cero de dos microservicios en Java 21 bajo arquitectura hexagonal para procesar eventos logísticos y sincronizar información crítica del negocio.",
-          "Coordinación técnica entre equipos de ambas plataformas para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de su paso a producción.",
-          "Diseño y evolucion del modelo de datos en Oracle, incluyendo tablas y ajustes en procedimientos almacenados para registrar la informacion de forma consistente con la logica del negocio.",
+          "Análisis del dominio logístico para entender cómo se registran y procesan los envíos, definiendo la **integración entre una plataforma externa y el sistema CORE** de la empresa.",
+          "Diseño y desarrollo desde cero de **dos microservicios en Java 21** bajo **arquitectura hexagonal** para procesar eventos logísticos y sincronizar información crítica del negocio.",
+          "**Coordinación técnica entre equipos de ambas plataformas** para definir flujos de datos, contratos de integración y validar el comportamiento del sistema antes de su paso a producción.",
+          "Diseño y evolución del **modelo de datos en Oracle**, incluyendo tablas y ajustes en procedimientos almacenados para registrar la información de forma consistente con la lógica del negocio.",
         ],
         technologies: [
           "Java 21",
@@ -221,10 +221,10 @@ export const esContent: PortfolioContent = {
           alt: "Panel corporativo con métricas de negocio e integración entre sistemas empresariales",
         },
         highlights: [
-          "Desarrollo de microservicios backend en Java y Spring Boot para Habitat AFP, procesando archivos masivos y aplicando reglas de negocio sobre informacion financiera en Oracle.",
-          "Participacion en procesos batch con Spring Batch para el sistema de pago de pensiones, diferenciando flujos segun operaciones como bonos, descuentos y haberes.",
-          "Diseno e implementacion de APIs BFF en Java y Spring Boot para exponer informacion proveniente de sistemas SAP hacia aplicaciones del negocio en Cepsa.",
-          "Experiencia previa fullstack y coordinacion tecnica frontend en React, util para alinear contratos entre consumo de interfaz y servicios backend.",
+          "Desarrollo de **microservicios backend en Java y Spring Boot** para Habitat AFP, procesando archivos masivos y aplicando reglas de negocio sobre información financiera en Oracle.",
+          "Participación en **procesos batch con Spring Batch** para el sistema de pago de pensiones, diferenciando flujos según operaciones como bonos, descuentos y haberes.",
+          "Diseño e implementación de **APIs BFF en Java y Spring Boot** para exponer información proveniente de sistemas SAP hacia aplicaciones del negocio en Cepsa.",
+          "Experiencia previa fullstack y **coordinación técnica frontend en React**, útil para alinear contratos entre consumo de interfaz y servicios backend.",
         ],
         technologies: [
           "Java",
@@ -251,9 +251,9 @@ export const esContent: PortfolioContent = {
           alt: "Composición visual de landing corporativa con módulos de contenido y llamada a la acción",
         },
         highlights: [
-          "Implementación de componentes visuales y animaciones para la página institucional, mejorando la interacción del usuario con el sitio.",
-          "Desarrollo de secciones interactivas orientadas a presentar contenido de forma clara y atractiva.",
-          "Colaboración con el equipo de diseño para construir interfaces modernas, responsivas y alineadas con la identidad visual de la marca.",
+          "Implementación de **componentes visuales y animaciones** para la página institucional, mejorando la interacción del usuario con el sitio.",
+          "Desarrollo de **secciones interactivas** orientadas a presentar contenido de forma clara y atractiva.",
+          "Colaboración con el equipo de diseño para construir **interfaces modernas, responsivas y alineadas con la identidad visual** de la marca.",
         ],
         technologies: [
           "HTML",
@@ -274,9 +274,9 @@ export const esContent: PortfolioContent = {
           alt: "Ilustración isométrica de una plataforma digital para operaciones de comercio electrónico",
         },
         highlights: [
-          "Desarrollo de tiendas online para negocios que necesitaban migrar rápidamente al canal digital.",
-          "Implementación de funcionalidades de catálogo, pedidos y gestión de productos para operaciones comerciales básicas.",
-          "Adaptación de soluciones tecnológicas para permitir la continuidad operativa de negocios durante el confinamiento.",
+          "Desarrollo de **tiendas online** para negocios que necesitaban migrar rápidamente al canal digital.",
+          "Implementación de funcionalidades de **catálogo, pedidos y gestión de productos** para operaciones comerciales básicas.",
+          "Adaptación de soluciones tecnológicas para permitir la **continuidad operativa de negocios durante el confinamiento**.",
         ],
         technologies: ["Laravel", "Angular", "MySQL", "Bootstrap"],
       },

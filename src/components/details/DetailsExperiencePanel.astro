@@ -12,9 +12,28 @@ interface Props {
     technologies: string[];
     cover: { src: string; alt: string };
   }>;
+  resolveTechIcon: (tech: string) => string;
 }
 
-const { items } = Astro.props;
+const { items, resolveTechIcon } = Astro.props as Props;
+
+interface EmphasisSegment {
+  text: string;
+  emphasized: boolean;
+}
+
+const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
+  text
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter(Boolean)
+    .map((segment) => {
+      const emphasized = segment.startsWith("**") && segment.endsWith("**");
+
+      return {
+        text: emphasized ? segment.slice(2, -2) : segment,
+        emphasized,
+      };
+    });
 ---
 
 <section
@@ -34,6 +53,7 @@ const { items } = Astro.props;
           items.map((item) => (
             <article
               class="exp-item relative grid gap-7 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-12"
+              data-exp-card
               data-exp-item
             >
               <span class="exp-node absolute left-[3px] top-2 h-3.5 w-3.5 rounded-full border shadow-[0_0_0_2px_rgba(10,10,10,0.95)] md:left-[3px]" />
@@ -57,13 +77,21 @@ const { items } = Astro.props;
                 </figure>
 
                 <h4 class="text-[21px] font-semibold leading-[1.08] tracking-[-0.02em] text-text md:text-[31px]">{item.role}</h4>
-                <p class="mt-2.5 text-[15px] leading-relaxed text-muted md:text-[17px]">{item.context}</p>
+                <p class="exp-rich-text mt-2.5 text-[15px] leading-relaxed text-muted md:text-[17px]">
+                  {parseInlineEmphasis(item.context).map((segment) =>
+                    segment.emphasized ? <strong class="exp-emphasis">{segment.text}</strong> : segment.text,
+                  )}
+                </p>
 
                 <ul class="mt-5 space-y-2.5 md:mt-6">
                   {item.highlights.map((highlight) => (
                     <li class="flex gap-3 text-[14.5px] leading-relaxed text-muted md:text-[15.5px]">
                       <span class="mt-[1px] text-muted">&#8250;</span>
-                      <span>{highlight}</span>
+                      <span class="exp-rich-text">
+                        {parseInlineEmphasis(highlight).map((segment) =>
+                          segment.emphasized ? <strong class="exp-emphasis">{segment.text}</strong> : segment.text,
+                        )}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -71,9 +99,10 @@ const { items } = Astro.props;
                 <div class="mt-5 flex flex-wrap gap-2 md:mt-6">
                   {item.technologies.map((tech) => (
                     <span
-                      class="rounded-md border px-2.5 py-1 text-xs text-[#c1c9d2] md:text-sm"
-                      style="background:#161616;border-color:#2a2a2a;"
+                      class="stack-card__chip selectable-chip px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] exp-tech-chip"
+                      aria-label={tech}
                     >
+                      <Icon name={resolveTechIcon(tech)} class="h-3.5 w-3.5" aria-hidden="true" />
                       {tech}
                     </span>
                   ))}
@@ -85,7 +114,7 @@ const { items } = Astro.props;
       </div>
     </div>
 
-    <div class="mt-24 flex flex-wrap gap-3 -mb-10" data-reveal="up" data-reveal-delay="130">
+    <div class="mt-10 flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="130">
       <Icon name="lucide:arrow-left" class="h-3.5 w-3.5" aria-hidden="true" />
       <a href="/#experiencia" class="inline-cta text-xs md:text-sm">Ir a experiencia</a>
     </div>
@@ -158,6 +187,27 @@ const { items } = Astro.props;
       transform 180ms ease,
       background-color 180ms ease,
       border-color 180ms ease;
+  }
+
+  .exp-rich-text {
+    color: inherit;
+  }
+
+  .exp-emphasis {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .exp-tech-chip {
+    border-color: color-mix(in oklab, var(--color-border) 76%, transparent);
+    background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
+    color: color-mix(in oklab, var(--color-muted) 92%, white 8%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: none;
   }
 
   .exp-item:hover,

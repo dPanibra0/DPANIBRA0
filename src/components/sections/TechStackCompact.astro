@@ -94,7 +94,7 @@ const atmosphericTechnologies = atmosphericSlice.length > 5
                     <button
                       type="button"
                       class:list={[
-                        "stack-card__chip inline-flex items-center gap-1.5 border border-border/70 bg-black/30 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-muted/95",
+                        "stack-card__chip selectable-chip px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em]",
                         itemIndex === 0 && "is-active",
                       ]}
                       data-stack-chip
@@ -267,16 +267,6 @@ const atmosphericTechnologies = atmosphericSlice.length > 5
 
   .stack-carousel-shell__secondary {
     pointer-events: none;
-  }
-
-  .stack-card__chip {
-    transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
-  }
-
-  .stack-card__chip.is-active {
-    border-color: color-mix(in oklab, var(--color-text) 40%, var(--color-border) 60%);
-    background: color-mix(in oklab, var(--color-text) 90%, white);
-    color: var(--color-bg);
   }
 
   .stack-card__summary::-webkit-details-marker {

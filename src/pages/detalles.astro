@@ -27,7 +27,7 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
     <DetailsTabs tabsAriaLabel={ui.detalles.tabsAriaLabel} tabs={ui.detalles.tabs} />
 
     <div class="details-panels-shell" aria-label={ui.detalles.tabPanelsAriaLabel}>
-      <DetailsExperiencePanel items={content.experience.items} />
+      <DetailsExperiencePanel items={content.experience.items} resolveTechIcon={resolveTechIcon} />
       <DetailsProjectsPanel
         items={content.projects.items}
         projectLabels={ui.detalles.projectLabels}
