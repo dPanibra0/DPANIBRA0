@@ -30,6 +30,9 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
       <DetailsExperiencePanel items={content.experience.items} resolveTechIcon={resolveTechIcon} />
       <DetailsProjectsPanel
         items={content.projects.items}
+        overline={ui.detalles.projectsOverline}
+        title={ui.detalles.projectsTitle}
+        intro={ui.detalles.projectsIntro}
         projectLabels={ui.detalles.projectLabels}
         resolveTechIcon={resolveTechIcon}
         resolveProjectCover={resolveProjectCover}

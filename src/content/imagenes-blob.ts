@@ -2,7 +2,7 @@ const basePublico = "";
 
 const blobProyecto01Url = "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-01.png";
 const blobProyecto02Url = "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-02.jpg";
-const blobProyecto03Url = "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-03.jpg";
+const blobProyecto03Url = "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto03-pastoralunsa.png";
 
 const resolverRutaImagen = (rutaLocal: string): string => {
   if (!basePublico) return rutaLocal;

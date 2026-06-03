@@ -15,7 +15,18 @@ interface Props {
 }
 
 type ProjectItem = Props["projects"]["items"][number];
-type ProjectCardItem = ProjectItem & { summary?: string };
+type ProjectCardItem = ProjectItem & {
+  summary?: string;
+  liveUrl?: string;
+  statusBadge?: {
+    label: string;
+    tone?: "blue" | "neutral";
+  };
+};
+
+const getBadgeToneClass = (tone?: "blue" | "neutral") => {
+  return tone === "blue" ? "project-card-badge--blue" : "project-card-badge--neutral";
+};
 
 const { id, projects, overline, ui } = Astro.props as Props;
 
@@ -82,7 +93,7 @@ const projectImages = [...imagenesBlob.proyectos];
       data-reveal-stagger-desktop="54"
     >
       {
-        visibleProjects.map((project, index) => {
+        visibleProjects.map((project: ProjectCardItem, index: number) => {
           const projectCard = project as ProjectCardItem;
           const hasProjectDetails = project !== fallbackProject;
           const detailsHref = hasProjectDetails
@@ -117,6 +128,11 @@ const projectImages = [...imagenesBlob.proyectos];
                     loading="lazy"
                   />
                   <div class="project-image-overlay absolute inset-0" />
+                  {projectCard.statusBadge ? (
+                    <span class={`project-card-badge ${getBadgeToneClass(projectCard.statusBadge.tone)}`}>
+                      {projectCard.statusBadge.label}
+                    </span>
+                  ) : null}
                 </div>
                 <div class="project-card-body flex grow flex-col p-5 md:p-6">
                   <h3 class="project-card-title text-text">{project.title}</h3>
@@ -204,6 +220,53 @@ const projectImages = [...imagenesBlob.proyectos];
       rgba(10, 10, 10, 0.38),
       rgba(10, 10, 10, 0.1)
     );
+  }
+
+  .project-card-badge {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.36rem 0.72rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-border) 56%, rgba(255, 255, 255, 0.22));
+    backdrop-filter: blur(10px);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .project-card-badge::before {
+    content: "";
+    width: 0.36rem;
+    height: 0.36rem;
+    border-radius: 999px;
+  }
+
+  .project-card-badge--blue {
+    color: #eff7ff;
+    background: linear-gradient(135deg, rgba(41, 109, 186, 0.9), rgba(25, 86, 156, 0.82));
+    border-color: rgba(173, 216, 255, 0.44);
+    box-shadow: 0 14px 28px -18px rgba(24, 84, 152, 0.88);
+  }
+
+  .project-card-badge--blue::before {
+    background: #a9d5ff;
+    box-shadow: 0 0 10px rgba(169, 213, 255, 0.82);
+  }
+
+  .project-card-badge--neutral {
+    color: color-mix(in oklab, var(--color-text) 90%, #f3f8ff);
+    background: rgba(9, 15, 23, 0.58);
+  }
+
+  .project-card-badge--neutral::before {
+    background: rgba(231, 240, 249, 0.86);
+    box-shadow: 0 0 8px rgba(231, 240, 249, 0.46);
   }
 
   .project-card:focus-visible .project-link {

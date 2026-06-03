@@ -9,6 +9,12 @@ interface ProjectCover {
 
 interface ProjectItem {
   title: string;
+  summary?: string;
+  liveUrl?: string;
+  statusBadge?: {
+    label: string;
+    tone?: "blue" | "neutral";
+  };
   architecture: string;
   stack: string;
   problem: string;
@@ -19,27 +25,36 @@ interface ProjectItem {
 
 interface Props {
   items: ProjectItem[];
+  overline: string;
+  title: string;
+  intro: string;
   projectLabels: {
     problem: string;
+    architecture: string;
     solution: string;
     challenges: string;
     impact: string;
+    liveSite: string;
   };
   resolveTechIcon: (tech: string) => string;
   resolveProjectCover: (index: number) => ProjectCover;
 }
 
-const { items, projectLabels, resolveTechIcon, resolveProjectCover } = Astro.props;
+const { items, overline, title, intro, projectLabels, resolveTechIcon, resolveProjectCover } = Astro.props as Props;
 
 const projectSummariesByIndex = [
   "Integracion de Sistemas",
   "Procesamiento masivo",
-  "Automatizacion operativa",
+  "Landing + app + backend",
   "Trazabilidad en tiempo real",
 ] as const;
 
 const resolveProjectSummary = (project: ProjectItem, index: number) => {
   return projectSummariesByIndex[index] ?? project.architecture;
+};
+
+const getBadgeToneClass = (tone?: "blue" | "neutral") => {
+  return tone === "blue" ? "project-kind-badge--blue" : "project-kind-badge--neutral";
 };
 ---
 
@@ -53,11 +68,20 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
   hidden
 >
   <div class="container-shell details-panel-inner">
+    <header class="projects-intro" data-reveal="up">
+      <p class="micro-label">{overline}</p>
+      <h2 class="projects-title">{title}</h2>
+      <p class="projects-copy">{intro}</p>
+    </header>
+
     <div class="project-list grid gap-6 md:gap-7" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="54">
       {
-        items.map((project, index) => {
+        items.map((project: ProjectItem, index: number) => {
           const cover = resolveProjectCover(index);
           const projectSummary = resolveProjectSummary(project, index);
+          const liveSiteLabel = project.liveUrl
+            ? new URL(project.liveUrl).hostname.replace(/^www\./, "")
+            : null;
 
           return (
             <article
@@ -73,7 +97,14 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
                 <header class="project-hero">
                   <div class="project-heading-row">
                     <h3 class="project-title">{project.title}</h3>
-                    <span class="project-kind-badge">Caso aplicado</span>
+                    <div class="project-heading-actions">
+                      <span class="project-kind-badge project-kind-badge--neutral">Caso aplicado</span>
+                      {project.statusBadge ? (
+                        <span class={`project-kind-badge ${getBadgeToneClass(project.statusBadge.tone)}`}>
+                          {project.statusBadge.label}
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
                   <figure class="project-cover" aria-hidden="true">
                     <img
@@ -85,26 +116,45 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
                     />
                     <span class="project-cover-wash" aria-hidden="true"></span>
                   </figure>
-                  <p class="project-architecture">{project.architecture}</p>
+                  {project.summary ? <p class="project-summary">{project.summary}</p> : null}
+                  <div class="project-architecture-block">
+                    <span class="micro-label project-architecture-label">{projectLabels.architecture}</span>
+                    <p class="project-architecture">{project.architecture}</p>
+                  </div>
+                  {project.liveUrl ? (
+                    <div class="project-links-row">
+                      <span class="micro-label project-link-label">{projectLabels.liveSite}</span>
+                      <a
+                        href={project.liveUrl}
+                        class="project-live-link"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>{liveSiteLabel}</span>
+                        <Icon name="lucide:arrow-up-right" class="project-live-link-icon" aria-hidden="true" />
+                      </a>
+                    </div>
+                  ) : null}
                 </header>
 
                 <div class="project-side">
+                  <div class="project-impact-callout">
+                    <span class="micro-label project-impact-label">{projectLabels.impact}</span>
+                    <p class="project-impact-copy">{project.impact}</p>
+                  </div>
+
                   <dl class="project-facts">
                     <div>
                       <dt class="micro-label project-fact-label">{projectLabels.problem}</dt>
                       <dd class="project-fact-value">{project.problem}</dd>
                     </div>
                     <div>
-                      <dt class="micro-label project-fact-label">{projectLabels.solution}</dt>
-                      <dd class="project-fact-value">{project.solution}</dd>
-                    </div>
-                    <div>
                       <dt class="micro-label project-fact-label">{projectLabels.challenges}</dt>
                       <dd class="project-fact-value">{project.challenges}</dd>
                     </div>
                     <div>
-                      <dt class="micro-label project-fact-label">{projectLabels.impact}</dt>
-                      <dd class="project-fact-value">{project.impact}</dd>
+                      <dt class="micro-label project-fact-label">{projectLabels.solution}</dt>
+                      <dd class="project-fact-value">{project.solution}</dd>
                     </div>
                   </dl>
 
@@ -116,7 +166,7 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
                       <span class="project-tech-summary" data-tech-label>{projectSummary}</span>
                     </div>
                     <ul class="project-tech-list" role="list">
-                      {project.stack.split(",").map((tech) => {
+                      {project.stack.split(",").map((tech: string) => {
                         const label = tech.trim();
 
                         return (
@@ -162,13 +212,39 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     padding-top: 0.9rem;
   }
 
+  .projects-intro {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 74ch;
+    margin-bottom: 1.55rem;
+  }
+
+  .projects-title {
+    margin: 0;
+    text-wrap: balance;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    font-weight: 620;
+    line-height: 1.04;
+    letter-spacing: -0.038em;
+    color: var(--color-text);
+  }
+
+  .projects-copy {
+    margin: 0;
+    max-width: 62ch;
+    text-wrap: pretty;
+    font-size: clamp(0.98rem, 1.7vw, 1.08rem);
+    line-height: 1.68;
+    color: var(--color-muted);
+  }
+
   .project-details {
     position: relative;
     overflow: hidden;
     background: transparent;
     display: grid;
     gap: 1.1rem;
-    opacity: 0.68;
+    opacity: 0.8;
     transition: opacity 260ms ease;
   }
 
@@ -182,14 +258,11 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     align-items: center;
     gap: 0.38rem;
     padding: 0.34rem 0.68rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 58%, rgba(232, 241, 249, 0.48));
     border-radius: 999px;
     font-size: 0.6rem;
     font-weight: 600;
     letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: color-mix(in oklab, var(--color-text) 90%, #e5eef8);
-    background: transparent;
   }
 
   .project-kind-badge::before {
@@ -197,18 +270,59 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     width: 0.34rem;
     height: 0.34rem;
     border-radius: 999px;
+  }
+
+  .project-kind-badge--neutral {
+    border: 1px solid color-mix(in oklab, var(--color-border) 58%, rgba(232, 241, 249, 0.48));
+    color: color-mix(in oklab, var(--color-text) 90%, #e5eef8);
+    background: transparent;
+  }
+
+  .project-kind-badge--neutral::before {
     background: rgba(231, 240, 249, 0.86);
     box-shadow: 0 0 8px rgba(231, 240, 249, 0.46);
   }
 
+  .project-kind-badge--blue {
+    border: 1px solid rgba(143, 202, 255, 0.42);
+    color: #edf7ff;
+    background: linear-gradient(135deg, rgba(35, 105, 184, 0.92), rgba(25, 84, 152, 0.84));
+    box-shadow: 0 18px 28px -20px rgba(26, 88, 157, 0.9);
+  }
+
+  .project-kind-badge--blue::before {
+    background: #a9d5ff;
+    box-shadow: 0 0 10px rgba(169, 213, 255, 0.8);
+  }
+
   .project-details-grid {
     display: grid;
-    gap: 1.8rem;
+    gap: 1.95rem;
   }
 
   .project-hero {
     display: grid;
     gap: 1rem;
+  }
+
+  .project-summary {
+    margin: 0;
+    max-width: 58ch;
+    text-wrap: pretty;
+    font-size: clamp(1rem, 1.9vw, 1.14rem);
+    font-weight: 500;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--color-text) 92%, #eaf2fb);
+  }
+
+  .project-architecture-block {
+    display: grid;
+    gap: 0.38rem;
+  }
+
+  .project-architecture-label,
+  .project-impact-label {
+    letter-spacing: 0.085em;
   }
 
   .project-heading-row {
@@ -217,6 +331,13 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.9rem 1.15rem;
+  }
+
+  .project-heading-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.55rem;
   }
 
   .project-title {
@@ -233,7 +354,7 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
 
   .project-architecture {
     margin: 0;
-    max-width: 72ch;
+    max-width: 66ch;
     text-wrap: pretty;
     font-size: clamp(0.96rem, 1.65vw, 1.04rem);
     font-weight: 430;
@@ -243,9 +364,37 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     transition: color 240ms ease;
   }
 
+  .project-links-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .project-link-label {
+    letter-spacing: 0.085em;
+  }
+
+  .project-live-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    color: color-mix(in oklab, var(--color-text) 90%, #eef6ff);
+    font-size: 0.92rem;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color 220ms ease, transform 220ms ease;
+  }
+
+  .project-live-link-icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   .project-side {
     display: grid;
-    gap: 1rem;
+    gap: 1.08rem;
     align-content: start;
   }
 
@@ -289,6 +438,26 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
     gap: 1.08rem;
   }
 
+  .project-impact-callout {
+    display: grid;
+    gap: 0.45rem;
+    padding: 1rem 1.05rem;
+    border: 1px solid color-mix(in oklab, var(--color-border) 64%, rgba(233, 243, 252, 0.26));
+    border-radius: 0.85rem;
+    background:
+      linear-gradient(135deg, rgba(230, 239, 248, 0.06), rgba(230, 239, 248, 0.01)),
+      color-mix(in oklab, var(--color-surface) 88%, black 12%);
+  }
+
+  .project-impact-copy {
+    margin: 0;
+    max-width: 34ch;
+    text-wrap: pretty;
+    font-size: clamp(0.94rem, 1.55vw, 1.02rem);
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--color-text) 88%, #e6effa);
+  }
+
   .project-facts > div {
     border-left: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
     padding-left: 0.92rem;
@@ -303,6 +472,7 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
 
   .project-fact-value {
     margin: 0;
+    max-width: 52ch;
     text-wrap: pretty;
     font-size: clamp(0.92rem, 1.5vw, 1rem);
     line-height: 1.66;
@@ -419,13 +589,29 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
 
   .project-details.is-active .project-kind-badge,
   .project-details.is-active .project-fact-label,
-  .project-details.is-active .project-tech-summary {
+  .project-details.is-active .project-tech-summary,
+  .project-details.is-active .project-architecture-label,
+  .project-details.is-active .project-impact-label,
+  .project-details.is-active .project-link-label,
+  .project-details.is-active .project-live-link {
     color: color-mix(in oklab, var(--color-text) 98%, #f2f8ff);
   }
 
+  .project-details.is-active .project-summary,
   .project-details.is-active .project-architecture,
   .project-details.is-active .project-fact-value {
     color: color-mix(in oklab, var(--color-muted) 58%, #e4eefb);
+  }
+
+  .project-details.is-active .project-impact-copy {
+    color: color-mix(in oklab, var(--color-text) 90%, #f3f8ff);
+  }
+
+  .project-details.is-active .project-impact-callout {
+    border-color: color-mix(in oklab, var(--color-border) 34%, rgba(233, 243, 252, 0.82));
+    background:
+      linear-gradient(135deg, rgba(236, 244, 251, 0.1), rgba(236, 244, 251, 0.02)),
+      color-mix(in oklab, var(--color-surface) 82%, black 18%);
   }
 
   .project-details.is-active .project-facts > div {
@@ -478,6 +664,22 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
       transform: translateY(-1px);
       border-color: rgba(241, 248, 255, 0.98);
     }
+
+    .project-live-link:hover,
+    .project-live-link:focus-visible {
+      color: #f5faff;
+    }
+
+    .project-live-link:hover .project-live-link-icon,
+    .project-live-link:focus-visible .project-live-link-icon {
+      transform: translate3d(2px, -2px, 0);
+    }
+  }
+
+  .project-live-link:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.72);
+    outline-offset: 4px;
+    border-radius: 0.35rem;
   }
 
   .hex-tech-badge:focus-within {
@@ -524,8 +726,14 @@ const resolveProjectSummary = (project: ProjectItem, index: number) => {
       padding-top: 1.25rem;
     }
 
+    .projects-intro {
+      gap: 0.62rem;
+      margin-bottom: 1rem;
+    }
+
     .project-details {
       padding: 1.08rem;
+      opacity: 0.9;
     }
 
     .project-facts > div {

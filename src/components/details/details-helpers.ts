@@ -1,10 +1,12 @@
 export const techIconMap: Record<string, string> = {
+  astro: "simple-icons:astro",
   java: "simple-icons:openjdk",
   "java 17": "simple-icons:openjdk",
   "java 21": "simple-icons:openjdk",
   spring: "simple-icons:spring",
   "spring boot": "simple-icons:springboot",
   "spring batch": "simple-icons:spring",
+  quarkus: "simple-icons:quarkus",
   microservices: "lucide:blocks",
   "hexagonal architecture": "lucide:hexagon",
   hibernate: "simple-icons:hibernate",
@@ -23,6 +25,9 @@ export const techIconMap: Record<string, string> = {
   react: "simple-icons:react",
   vue: "simple-icons:vuedotjs",
   angular: "simple-icons:angular",
+  "tailwind css": "simple-icons:tailwindcss",
+  tailwind: "simple-icons:tailwindcss",
+  "decap cms": "simple-icons:decapcms",
   laravel: "simple-icons:laravel",
   bootstrap: "simple-icons:bootstrap",
   html: "simple-icons:html5",
@@ -48,8 +53,8 @@ export const projectCovers = [
     alt: "Panel corporativo con metricas y estado de procesos",
   },
   {
-    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto-03.jpg",
-    alt: "Visual de plataforma corporativa con modulos de negocio",
+    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/proyectos/proyecto03-pastoralunsa.png",
+    alt: "Landing institucional de Pastoral Universitaria UNSA con agenda, actividades y comunidad estudiantil",
   },
 ] as const;
 

@@ -29,6 +29,11 @@ export interface StackCategory {
 export interface ProjectContent {
   title: string;
   summary?: string;
+  liveUrl?: string;
+  statusBadge?: {
+    label: string;
+    tone?: "blue" | "neutral";
+  };
   problem: string;
   architecture: string;
   stack: string;
@@ -134,7 +139,7 @@ export interface PortfolioUiTranslations {
   projects: {
     headingTop: string;
     headingBottom: string;
-    sectionTags: [string, string];
+    sectionTags: string[];
     fallbackProject: {
       title: string;
       impact: string;
@@ -183,6 +188,7 @@ export interface PortfolioUiTranslations {
       solution: string;
       impact: string;
       stack: string;
+      liveSite: string;
     };
     blogOverline: string;
     blogTitle: string;

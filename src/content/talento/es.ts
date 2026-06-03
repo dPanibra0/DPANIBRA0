@@ -144,34 +144,55 @@ export const esContent: PortfolioContent = {
       {
         title: "Integración logistica internacional entre dos plataformas",
         summary:
-          "Integración de la plataforma de Olva Courier con un sistema externo de recepcion de envios en EE.UU.",
+          "Dos microservicios para que la operacion logistica no dependa de cruces manuales entre plataformas.",
         problem:
-          "La operacion necesitaba registrar eventos logisticos y sincronizar informacion entre la plataforma de Olva Courier y un sistema externo de recepcion de envios en EE.UU. sin depender de controles manuales.",
+          "Habia que sincronizar personas, envios, guias y eventos entre Olva Courier y un receptor en EE.UU. sin romper la operacion.",
         architecture:
-          "Dos microservicios en Java 21 con Spring Boot y arquitectura hexagonal para separar reglas de negocio, contratos de integracion y persistencia sobre Oracle.",
+          "Dos microservicios en Java 21 con Spring Boot, arquitectura hexagonal y Oracle para aislar reglas de negocio, contratos y persistencia.",
         stack: "Java 21, Spring Boot, Arquitectura hexagonal, Oracle, APIs REST, Spock",
         challenges:
-          "Mantener consistencia entre personas, envios, guias y transacciones, evitando duplicidades y validando contratos entre dos plataformas con estados asincronicos.",
+          "Lo delicado estuvo en los estados asincronicos, la deduplicacion y la trazabilidad entre plataformas.",
         solution:
-          "Se definieron flujos de integracion con confirmaciones por etapa, evolucion del modelo de datos en Oracle y pruebas sobre escenarios de negocio para validar el comportamiento antes de produccion.",
+          "Se definieron contratos claros, confirmaciones por etapa y pruebas sobre escenarios de negocio antes del pase a produccion.",
         impact:
-          "La integracion quedo preparada para registrar y sincronizar informacion critica del negocio con mayor trazabilidad y menos dependencia de validaciones manuales.",
+          "La integracion quedo lista para operar con mas trazabilidad y menos validacion manual.",
       },
       {
         title: "Desarrollo del sistema de pago de pensiones a gran escala",
         summary:
-          "Microservicios y Spring Batch para procesar archivos masivos con reglas de negocio distintas segun tipo de operacion.",
+          "Procesamiento financiero masivo con reglas distintas por operacion y ventanas de ejecucion exigentes.",
         problem:
-          "El sistema de pago de pensiones requeria procesar archivos masivos con reglas distintas por tipo de operacion dentro de ventanas operativas exigentes.",
+          "El sistema debia procesar archivos masivos de pensiones dentro de ventanas operativas exigentes y con reglas distintas segun la operacion.",
         architecture:
-          "Microservicios backend en Java y procesos Spring Batch conectados a Oracle para separar validacion, procesamiento y persistencia segun el flujo financiero.",
+          "Microservicios en Java y procesos Spring Batch sobre Oracle para separar validacion, procesamiento y persistencia.",
         stack: "Java 17, Spring Batch, Oracle, SQL avanzado, Linux, CI/CD",
         challenges:
-          "Controlar errores por lote, sostener re-procesos confiables y aplicar reglas de negocio distintas para bonos, descuentos y haberes.",
+          "El punto critico era controlar errores por lote, sostener reprocesos confiables y no perder consistencia financiera.",
         solution:
-          "Se trabajaron microservicios especializados por operacion, consultas SQL orientadas al volumen y validaciones de consistencia para reducir fallas en ejecuciones recurrentes.",
+          "Se trabajaron servicios especializados, SQL orientado al volumen y validaciones de consistencia para ejecuciones recurrentes.",
         impact:
-          "El flujo quedo mas ordenado para procesar informacion financiera de alto volumen con mejor control operativo y mayor confianza en re-procesos.",
+          "El flujo quedo mas estable para volumen alto, con mejor control operativo sobre reprocesos.",
+      },
+      {
+        title: "Pastoral Universitaria UNSA",
+        summary:
+          "Ecosistema digital de punta a punta: landing ya publicada y producto interno definido con app operativa y backend en Quarkus.",
+        liveUrl: "https://www.pastoraluniversitariaunsa.org/",
+        statusBadge: {
+          label: "En Produccion",
+          tone: "blue",
+        },
+        problem:
+          "La Pastoral Universitaria UNSA necesitaba comunicar actividades, noticias y contacto desde un solo punto, sin separar ese frente publico del sistema interno de asistencia y gestion.",
+        architecture:
+          "Landing en Astro con Tailwind y Decap CMS para el frente publico; aplicacion interna en Angular y backend en Quarkus sobre Oracle para asistencia, roles y trazabilidad operativa.",
+        stack: "Astro, Tailwind CSS, Decap CMS, Angular, Quarkus, Oracle",
+        challenges:
+          "Lo delicado fue lanzar una experiencia publica clara y mantenible sin romper la coherencia de un producto mas amplio con flujos administrativos, permisos y control de asistencia.",
+        solution:
+          "Se estructuro como un ecosistema de producto: landing institucional para comunicacion y captacion, aplicacion interna para gestion y un backend en Quarkus para reglas de negocio, permisos y persistencia.",
+        impact:
+          "La pastoral ya cuenta con presencia digital publicada y con una base de producto coherente para evolucionar su plataforma interna sin rehacer decisiones clave.",
       },
     ],
   },
@@ -318,7 +339,7 @@ export const esUi: PortfolioUiTranslations = {
   projects: {
     headingTop: "Decisiones tecnicas con",
     headingBottom: "impacto empresarial real",
-    sectionTags: ["Logistica · Microservicios", "Finanzas · Batch"],
+    sectionTags: ["Logistica · Microservicios", "Finanzas · Batch", "Comunidad · Ecosistema"],
     fallbackProject: {
       title: "Ver mas proyectos empresariales",
       impact:
@@ -365,55 +386,56 @@ export const esUi: PortfolioUiTranslations = {
     pageDescription:
       "Detalle de experiencia, proyectos y notas tecnicas sobre backend Java, microservicios e integraciones empresariales.",
     projectsOverline: "PROYECTOS_EXTENDIDOS",
-    projectsTitle: "Arquitectura, ejecucion e impacto",
+    projectsTitle: "Casos donde el backend mueve la operacion",
     projectsIntro:
-      "Detalle de problemas, restricciones y decisiones aplicadas para convertir requerimientos criticos en sistemas operativos confiables.",
+      "Una lectura mas corta y directa de proyectos reales: que habia en juego, como se resolvio y donde estuvo la complejidad tecnica.",
     projectLabels: {
-      problem: "Problema",
-      architecture: "Arquitectura",
-      challenges: "Retos",
-      solution: "Solucion",
-      impact: "Impacto",
+      problem: "Lo que estaba en juego",
+      architecture: "Base tecnica",
+      challenges: "Lo delicado",
+      solution: "Como se resolvio",
+      impact: "Lo que habilito",
       stack: "Stack aplicado",
+      liveSite: "Sitio activo",
     },
     blogOverline: "BLOG_TECNICO",
     blogTitle: "Notas sobre backend y arquitectura",
     blogIntro:
-      "Espacio para compartir aprendizajes practicos sobre microservicios, integraciones y decisiones de arquitectura en produccion.",
+      "Notas breves sobre microservicios, integraciones y decisiones de arquitectura tomadas en contexto real.",
     blogPosts: [
       {
         title: "Pruebas de integracion para flujos de negocio en microservicios",
         context:
-          "Como enfocar pruebas cuando el riesgo real esta en validaciones, ramas de negocio y sincronizacion entre servicios.",
+          "Donde poner el foco cuando el riesgo real esta en validaciones, ramas de negocio y sincronizacion entre servicios.",
         content:
-          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo suele aparecer en validaciones por tipo de operacion, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Por eso conviene modelar pruebas alrededor del flujo de negocio: que entra, que decision toma el servicio, que se persiste y que salida se publica o devuelve. Herramientas como Spock ayudan a expresar escenarios y ramas con claridad, especialmente cuando hay que cubrir combinaciones de reglas mas que algoritmos aislados. Conclusion: la prueba aporta mas valor cuando verifica decisiones criticas del negocio y no solo la respuesta HTTP.",
+          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo aparece en validaciones por tipo de operacion, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Conviene modelar pruebas alrededor del flujo de negocio: que entra, que decision toma el servicio, que se persiste y que salida se publica o devuelve. Herramientas como Spock ayudan a cubrir ramas con claridad. Conclusion: la prueba vale mas cuando verifica decisiones criticas del negocio y no solo la respuesta HTTP.",
         tag: "Testing backend",
         status: "Nota completa",
       },
       {
         title: "Arquitecturas evolutivas para plataformas de negocio",
         context:
-          "Uso practico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y tiempos de entrega.",
+          "Uso practico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.",
         content:
-          "La arquitectura hexagonal y clean architecture ayudan a proteger el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Esta separacion mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: aumenta la cantidad de capas, contratos y codigo de ensamblaje, lo que puede frenar equipos pequenos o productos en fase temprana. En contextos enterprise con integraciones multiples y vida util larga, el costo inicial suele compensarse por mantenibilidad y menor acoplamiento. Conclusion: conviene aplicar el patron de forma selectiva, priorizando modulos criticos de negocio y evitando sobrearquitectura en flujos simples.",
+          "La arquitectura hexagonal y clean architecture protegen el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Eso mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: suma capas, contratos y codigo de ensamblaje, algo que puede frenar equipos pequenos o productos tempranos. En contextos enterprise con integraciones multiples y vida util larga, el costo inicial suele compensarse. Conclusion: conviene aplicarla de forma selectiva, priorizando modulos criticos y evitando sobrearquitectura en flujos simples.",
         tag: "Arquitectura",
         status: "Nota completa",
       },
       {
         title: "Contexto real sobre Spring Framework 4 y Spring Boot",
         context:
-          "Aclaracion de versionado para evitar confusiones: que aporto Spring 4 historicamente y donde estan hoy las novedades relevantes.",
+          "Aclaracion de versionado para evitar confusiones entre contexto historico y stack vigente.",
         content:
-          "Spring Framework 4 fue lanzado en 2013 y su soporte activo termino hace varios anos; por eso no corresponde presentarlo como novedad actual. En su momento introdujo mejoras como soporte para Java 8, refinamientos en configuracion y una base mas madura para aplicaciones empresariales. Hoy, las novedades que impactan proyectos nuevos suelen venir por Spring Framework 6 y Spring Boot 3 (alineados con Jakarta EE 9+, Java 17+, AOT y soporte para runtime nativo con GraalVM). Para equipos enterprise, la decision practica es actualizar por seguridad, compatibilidad y performance operativa, no por seguir una etiqueta de version antigua. Conclusion: si el objetivo es modernizar, la conversacion correcta es Spring 6/Boot 3; Spring 4 es contexto historico.",
+          "Spring Framework 4 fue lanzado en 2013 y su soporte activo termino hace anos; por eso no corresponde presentarlo como novedad actual. En su momento aporto soporte para Java 8 y una base mas madura para aplicaciones empresariales. Hoy, las novedades relevantes llegan por Spring Framework 6 y Spring Boot 3, alineados con Jakarta EE 9+, Java 17+, AOT y runtime nativo con GraalVM. Para equipos enterprise, actualizar responde a seguridad, compatibilidad y performance operativa. Conclusion: si el objetivo es modernizar, la conversacion correcta es Spring 6/Boot 3; Spring 4 queda como contexto historico.",
         tag: "Spring",
         status: "Nota completa",
       },
       {
         title: "Spring vs Quarkus: comparacion tecnica para decidir",
         context:
-          "Comparativa veridica de arranque, memoria, experiencia de desarrollo y ecosistema para elegir segun contexto.",
+          "Comparativa de arranque, memoria, experiencia de desarrollo y ecosistema para elegir segun contexto.",
         content:
-          "En JVM tradicional, Spring Boot ofrece un ecosistema mas amplio (Spring Data, Security, Batch, Cloud) y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, especialmente cuando se usa compilacion nativa con GraalVM, ventaja util en serverless y alta densidad de contenedores. Como tradeoff, build nativo puede aumentar complejidad de pipeline y tiempos de compilacion, y algunas librerias Java requieren validacion adicional en modo nativo. En DX, ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en disponibilidad de ejemplos corporativos y talento en mercado. Conclusion: Spring Boot encaja mejor para plataformas empresariales amplias y estables; Quarkus destaca cuando startup rapido y ahorro de memoria son objetivos de primer orden.",
+          "En JVM tradicional, Spring Boot ofrece un ecosistema mas amplio y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, sobre todo con compilacion nativa en GraalVM, algo util en serverless y alta densidad de contenedores. El tradeoff es una mayor complejidad de pipeline y validaciones extra para algunas librerias en modo nativo. Ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en ejemplos corporativos y talento disponible. Conclusion: Spring Boot encaja mejor en plataformas empresariales amplias; Quarkus destaca cuando startup rapido y ahorro de memoria pesan mas.",
         tag: "Spring vs Quarkus",
         status: "Nota completa",
       },
