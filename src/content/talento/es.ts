@@ -5,7 +5,7 @@ export const esContent: PortfolioContent = {
   meta: {
     title: "David Panibra | Backend Java Microservices Engineer",
     description:
-      "Backend Java orientado a microservicios e integraciones empresariales. Construyo servicios con Spring Boot, reglas de negocio claras y consistencia de datos para operaciones criticas en produccion.",
+      "Construyo servicios en Java y Spring Boot para integraciones, procesamiento masivo de datos y flujos críticos de negocio, priorizando consistencia operativa, trazabilidad y estabilidad en producción.",
   },
   nav: [
     { label: "Microservicios", href: "#microservicios" },
@@ -16,10 +16,10 @@ export const esContent: PortfolioContent = {
     { label: "Contacto", href: "#contacto" },
   ],
   overlines: {
-    microservices: "01//FILOSOFIA_DE_INGENIERÍA",
+    microservices: "01//FILOSOFÍA_DE_INGENIERÍA",
     hexagonal: "02//NÚCLEO_HEXAGONAL",
     experience: "03//TRAYECTORIA_PROFESIONAL",
-    projects: "04//CASOS_REALES_EN_PRODUCCION",
+    projects: "04//CASOS_REALES_EN_PRODUCCIÓN",
     stack: "05//STACK_TÉCNICO",
     contact: "06//CONTACTO",
   },
@@ -28,7 +28,7 @@ export const esContent: PortfolioContent = {
     availability: "Disponible para proyectos - Remote",
     title: "Backend Java y microservicios para sistemas empresariales",
     subtitle:
-      "Construyo servicios en Java y Spring Boot para integraciones, procesamiento de datos y flujos criticos donde importan la consistencia operativa, las reglas de negocio y la estabilidad en produccion.",
+      "Construyo servicios en Java y Spring Boot para integraciones, procesamiento masivo de datos y flujos críticos de negocio, priorizando consistencia operativa, trazabilidad y estabilidad en producción.",
     stats: [
       { value: "5+", label: "Años desarrollando software empresarial" },
       { value: "4", label: "Empresas tecnológicas" },
@@ -43,7 +43,7 @@ export const esContent: PortfolioContent = {
     headingPrimary: "Microservicios",
     headingSecondary: "con criterios de negocio",
     intro:
-      "Trabajo con microservicios cuando ayudan a separar reglas de negocio, integrar plataformas y sostener operaciones criticas sin perder trazabilidad ni consistencia de datos.",
+      "Trabajo con microservicios cuando ayudan a separar reglas de negocio, integrar plataformas y sostener operaciones críticas sin perder trazabilidad ni consistencia de datos.",
     pillars: [
       {
         title: "Escalable",
@@ -58,7 +58,7 @@ export const esContent: PortfolioContent = {
       {
         title: "Observable",
         description:
-          "Métricas, logs y trazas para entender que pasa y resolver rápido.",
+          "Métricas, logs y trazas para entender qué pasa y resolver rápido.",
       },
     ],
   },
@@ -66,19 +66,19 @@ export const esContent: PortfolioContent = {
     headingPrimary: "Arquitectura hexagonal",
     headingSecondary: "diseñada para evolucionar",
     intro:
-      "La uso cuando conviene separar con claridad que parte del sistema resuelve negocio y que parte solo conecta con tecnologia, para poder cambiar integraciones sin romper reglas criticas.",
+      "La uso cuando conviene separar con claridad qué parte del sistema resuelve negocio y qué parte solo conecta con tecnología, para poder cambiar integraciones sin romper reglas críticas.",
     points: [
-      "Dominio: aqui viven las reglas del negocio, validaciones y decisiones que el sistema debe respetar siempre.",
-      "Aplicacion: aqui se orquestan los casos de uso paso a paso, sin mezclar la logica del negocio con detalles tecnicos.",
-      "Infraestructura: aqui se conectan Oracle, APIs, colas, schedulers y servicios externos para ejecutar el flujo real.",
+      "Dominio: aquí viven las reglas del negocio, validaciones y decisiones que el sistema debe respetar siempre.",
+      "Aplicación: aquí se orquestan los casos de uso paso a paso, sin mezclar la lógica del negocio con detalles técnicos.",
+      "Infraestructura: aquí se conectan Oracle, APIs, colas, schedulers y servicios externos para ejecutar el flujo real.",
     ],
   },
   stack: {
     title: "Stack principal",
-    headingPrimary: "Tecnologias aplicadas a",
-    headingSecondary: "backend Java en produccion",
+    headingPrimary: "Tecnologías aplicadas a",
+    headingSecondary: "backend Java en producción",
     intro:
-      "Stack orientado a servicios backend, integraciones corporativas, procesamiento batch y calidad sobre flujos de negocio con datos criticos.",
+      "Stack orientado a servicios backend, integraciones corporativas, procesamiento batch y calidad sobre flujos de negocio con datos críticos.",
     categories: [
       {
         category: "Backend Java + datos",
@@ -93,12 +93,14 @@ export const esContent: PortfolioContent = {
           { name: "Quarkus", hint: "Backend JVM liviano", icon: "simple-icons:quarkus" },
           { name: "Spring Batch", hint: "Procesos de alto volumen", icon: "simple-icons:spring" },
           { name: "Hibernate", hint: "Persistencia ORM", icon: "simple-icons:hibernate" },
-          { name: "APIs REST", hint: "Contratos e integracion", icon: "lucide:waypoints" },
+          { name: "APIs REST", hint: "Contratos e integración", icon: "lucide:waypoints" },
           { name: "Oracle", hint: "Persistencia transaccional", icon: "simple-icons:oracle" },
-          { name: "SQL avanzado", hint: "Consultas y validacion", icon: "lucide:database" },
+          { name: "SQL avanzado", hint: "Consultas y validación", icon: "lucide:database" },
+          { name: "Cobol Fundamentals", hint: "Legacy backend empresarial", icon: "lucide:cpu" },
+          { name: "JCL Fundamentals", hint: "Procesos batch en mainframe", icon: "lucide:workflow" },
           { name: "Apache Kafka", hint: "Eventos distribuidos", icon: "simple-icons:apachekafka" },
-          { name: "RabbitMQ", hint: "Mensajeria confiable", icon: "simple-icons:rabbitmq" },
-          { name: "SAP Integration", hint: "Integracion con sistemas enterprise", icon: "lucide:plug-zap" },
+          { name: "RabbitMQ", hint: "Mensajería confiable", icon: "simple-icons:rabbitmq" },
+          { name: "SAP Integration", hint: "Integración con sistemas enterprise", icon: "lucide:plug-zap" },
         ],
       },
       {
@@ -109,17 +111,17 @@ export const esContent: PortfolioContent = {
           { name: "Clean Architecture", hint: "Capas desacopladas", icon: "lucide:layers-3" },
           { name: "JUnit", hint: "Testing unitario", icon: "simple-icons:junit5" },
           { name: "Spock", hint: "Pruebas sobre flujos de negocio", icon: "lucide:flask-conical" },
-          { name: "Pruebas de integracion", hint: "Cobertura de escenarios criticos", icon: "lucide:test-tube-diagonal" },
+          { name: "Pruebas de integración", hint: "Cobertura de escenarios críticos", icon: "lucide:test-tube-diagonal" },
           { name: "SonarQube", hint: "Control de calidad", icon: "simple-icons:sonarqube" },
         ],
       },
       {
-        category: "Entrega y operacion",
+        category: "Entrega y operación",
         icon: "lucide:rocket",
         items: [
           { name: "Docker", hint: "Contenedores para despliegue", icon: "simple-icons:docker" },
-          { name: "Kubernetes", hint: "Orquestacion y escalado", icon: "simple-icons:kubernetes" },
-          { name: "Jenkins", hint: "Pipelines de integracion", icon: "simple-icons:jenkins" },
+          { name: "Kubernetes", hint: "Orquestación y escalado", icon: "simple-icons:kubernetes" },
+          { name: "Jenkins", hint: "Pipelines de integración", icon: "simple-icons:jenkins" },
           { name: "Azure", hint: "Entornos cloud corporativos", icon: "simple-icons:microsoftazure" },
         ],
       },
@@ -129,8 +131,8 @@ export const esContent: PortfolioContent = {
         items: [
           { name: "React", hint: "Consumo de APIs y BFF", icon: "simple-icons:react" },
           { name: "TypeScript", hint: "Interfaces tipadas", icon: "simple-icons:typescript" },
-          { name: "Astro", hint: "Sitios rapidos de presentacion", icon: "simple-icons:astro" },
-          { name: "Vue", hint: "Implementacion de interfaces", icon: "simple-icons:vuedotjs" },
+          { name: "Astro", hint: "Sitios rápidos de presentación", icon: "simple-icons:astro" },
+          { name: "Vue", hint: "Implementación de interfaces", icon: "simple-icons:vuedotjs" },
           { name: "Angular", hint: "Frontends corporativos", icon: "simple-icons:angular" },
         ],
       },
@@ -139,39 +141,39 @@ export const esContent: PortfolioContent = {
   projects: {
     title: "Proyectos Destacados",
     intro:
-      "Casos donde el foco estuvo en traducir procesos de negocio complejos a servicios backend mantenibles, integraciones claras y datos consistentes en produccion.",
+      "Casos donde el foco estuvo en traducir procesos de negocio complejos a servicios backend mantenibles, integraciones claras y datos consistentes en producción.",
     items: [
       {
-        title: "Integración logistica internacional entre dos plataformas",
+        title: "Integración logística internacional entre dos plataformas",
         summary:
-          "Dos microservicios para que la operacion logistica no dependa de cruces manuales entre plataformas.",
+          "Dos microservicios para que la operación logística no dependa de cruces manuales entre plataformas.",
         problem:
-          "Habia que sincronizar personas, envios, guias y eventos entre Olva Courier y un receptor en EE.UU. sin romper la operacion.",
+          "Había que sincronizar personas, envíos, guías y eventos entre Olva Courier y un receptor en EE.UU. sin romper la operación.",
         architecture:
           "Dos microservicios en Java 21 con Spring Boot, arquitectura hexagonal y Oracle para aislar reglas de negocio, contratos y persistencia.",
         stack: "Java 21, Spring Boot, Arquitectura hexagonal, Oracle, APIs REST, Spock",
         challenges:
-          "Lo delicado estuvo en los estados asincronicos, la deduplicacion y la trazabilidad entre plataformas.",
+          "Lo delicado estuvo en los estados asincrónicos, la deduplicación y la trazabilidad entre plataformas.",
         solution:
-          "Se definieron contratos claros, confirmaciones por etapa y pruebas sobre escenarios de negocio antes del pase a produccion.",
+          "Se definieron contratos claros, confirmaciones por etapa y pruebas sobre escenarios de negocio antes del pase a producción.",
         impact:
-          "La integracion quedo lista para operar con mas trazabilidad y menos validacion manual.",
+          "La integración quedó lista para operar con más trazabilidad y menos validación manual.",
       },
       {
         title: "Desarrollo del sistema de pago de pensiones a gran escala",
         summary:
-          "Procesamiento financiero masivo con reglas distintas por operacion y ventanas de ejecucion exigentes.",
+          "Procesamiento financiero masivo de pensionados mediante procesos batch especializados, aplicando reglas de negocio complejas sobre grandes volúmenes de información.",
         problem:
-          "El sistema debia procesar archivos masivos de pensiones dentro de ventanas operativas exigentes y con reglas distintas segun la operacion.",
+          "El sistema debía procesar archivos masivos de pensiones dentro de ventanas operativas exigentes y con reglas distintas según la operación.",
         architecture:
-          "Microservicios en Java y procesos Spring Batch sobre Oracle para separar validacion, procesamiento y persistencia.",
+          "Microservicios en Java y procesos Spring Batch sobre Oracle para separar validación, procesamiento y persistencia.",
         stack: "Java 17, Spring Batch, Oracle, SQL avanzado, Linux, CI/CD",
         challenges:
-          "El punto critico era controlar errores por lote, sostener reprocesos confiables y no perder consistencia financiera.",
+          "El punto crítico era controlar errores por lote, sostener reprocesos confiables y no perder consistencia financiera.",
         solution:
           "Se trabajaron servicios especializados, SQL orientado al volumen y validaciones de consistencia para ejecuciones recurrentes.",
         impact:
-          "El flujo quedo mas estable para volumen alto, con mejor control operativo sobre reprocesos.",
+          "El flujo quedó más estable para volumen alto, con mejor control operativo sobre reprocesos.",
       },
       {
         title: "Pastoral Universitaria UNSA",
@@ -179,18 +181,18 @@ export const esContent: PortfolioContent = {
           "Ecosistema digital de punta a punta: landing ya publicada y producto interno definido con app operativa y backend en Quarkus.",
         liveUrl: "https://www.pastoraluniversitariaunsa.org/",
         statusBadge: {
-          label: "En Produccion",
+          label: "En Producción",
           tone: "blue",
         },
         problem:
-          "La Pastoral Universitaria UNSA necesitaba comunicar actividades, noticias y contacto desde un solo punto, sin separar ese frente publico del sistema interno de asistencia y gestion.",
+          "La Pastoral Universitaria UNSA necesitaba comunicar actividades, noticias y contacto desde un solo punto, sin separar ese frente público del sistema interno de asistencia y gestión.",
         architecture:
-          "Landing en Astro con Tailwind y Decap CMS para el frente publico; aplicacion interna en Angular y backend en Quarkus sobre Oracle para asistencia, roles y trazabilidad operativa.",
+          "Landing en Astro con Tailwind y Decap CMS para el frente público; aplicación interna en Angular y backend en Quarkus sobre Oracle para asistencia, roles y trazabilidad operativa.",
         stack: "Astro, Tailwind CSS, Decap CMS, Angular, Quarkus, Oracle",
         challenges:
-          "Lo delicado fue lanzar una experiencia publica clara y mantenible sin romper la coherencia de un producto mas amplio con flujos administrativos, permisos y control de asistencia.",
+          "Lo delicado fue lanzar una experiencia pública clara y mantenible sin romper la coherencia de un producto más amplio con flujos administrativos, permisos y control de asistencia.",
         solution:
-          "Se estructuro como un ecosistema de producto: landing institucional para comunicacion y captacion, aplicacion interna para gestion y un backend en Quarkus para reglas de negocio, permisos y persistencia.",
+          "Se estructuró como un ecosistema de producto: landing institucional para comunicación y captación, aplicación interna para gestión y un backend en Quarkus para reglas de negocio, permisos y persistencia.",
         impact:
           "La pastoral ya cuenta con presencia digital publicada y con una base de producto coherente para evolucionar su plataforma interna sin rehacer decisiones clave.",
       },
@@ -234,7 +236,7 @@ export const esContent: PortfolioContent = {
         role: "Full Stack Developer",
         company: "NTT DATA",
         period: "2021 - 2025",
-        workMode: "Full-time · Hibrido",
+        workMode: "Full-time · Híbrido",
         context:
           "Proyectos internacionales — Cepsa (España) · Habitat AFP (Chile)",
         cover: {
@@ -308,7 +310,7 @@ export const esContent: PortfolioContent = {
     headlineBottom: "tu próximo proyecto",
 
     subtitle:
-      "Si estas construyendo o modernizando una plataforma empresarial, puedo aportar en servicios Java, integraciones entre sistemas y flujos de datos que necesitan llegar a produccion con confianza.",
+      "Si estás construyendo o modernizando una plataforma empresarial, puedo aportar en servicios Java, integraciones entre sistemas y flujos de datos que necesitan llegar a producción con confianza.",
     links: [
       {
         label: "Email",
@@ -330,31 +332,31 @@ export const esContent: PortfolioContent = {
 
 export const esUi: PortfolioUiTranslations = {
   navbar: {
-    menuLabel: "Abrir menu",
+    menuLabel: "Abrir menú",
     logoAlt: "dPanibra0 logo",
   },
   experience: {
-    detailsLabel: "Ver mas detalle",
+    detailsLabel: "Ver más detalle",
   },
   projects: {
-    headingTop: "Decisiones tecnicas con",
+    headingTop: "Decisiones técnicas con",
     headingBottom: "impacto empresarial real",
-    sectionTags: ["Logistica · Microservicios", "Finanzas · Batch", "Comunidad · Ecosistema"],
+    sectionTags: ["Logística · Microservicios", "Finanzas · Batch", "Comunidad · Ecosistema"],
     fallbackProject: {
-      title: "Ver mas proyectos empresariales",
+      title: "Ver más proyectos empresariales",
       impact:
-        "Accede a la seccion de detalle para explorar mas casos, decisiones tecnicas y resultados de proyectos.",
+        "Accede a la sección de detalle para explorar más casos, decisiones técnicas y resultados de proyectos.",
       stack: "Arquitectura, Resiliencia, Delivery",
     },
     detailsLabel: "VER DETALLE",
   },
   contact: {
     formAriaLabel: "Formulario de contacto por email",
-    projectInputLabel: "Cuentame sobre tu proyecto",
+    projectInputLabel: "Cuéntame sobre tu proyecto",
     placeholders: [
       "Veamos tu próximo proyecto",
-      "Cuentame sobre tu negocio",
-      "Qué estas construyendo hoy?",
+      "Cuéntame sobre tu negocio",
+      "Qué estás construyendo hoy?",
     ],
     submitLabel: "Enviar",
     emailSubject: "Nuevo proyecto desde dpanibra.com",
@@ -378,64 +380,64 @@ export const esUi: PortfolioUiTranslations = {
     tabs: {
       experiencia: "Experiencia laboral",
       proyectos: "Proyectos",
-      blog: "Blog tecnico",
+      blog: "Blog técnico",
     },
     backLabel: "Volver a experiencia",
     backToTopLabel: "Ir al inicio",
     pageTitle: "Detalles de backend Java | David Panibra",
     pageDescription:
-      "Detalle de experiencia, proyectos y notas tecnicas sobre backend Java, microservicios e integraciones empresariales.",
+      "Detalle de experiencia, proyectos y notas técnicas sobre backend Java, microservicios e integraciones empresariales.",
     projectsOverline: "PROYECTOS_EXTENDIDOS",
-    projectsTitle: "Casos donde el backend mueve la operacion",
+    projectsTitle: "Casos donde el backend mueve la operación",
     projectsIntro:
-      "Una lectura mas corta y directa de proyectos reales: que habia en juego, como se resolvio y donde estuvo la complejidad tecnica.",
+      "Una lectura más corta y directa de proyectos reales: qué había en juego, cómo se resolvió y dónde estuvo la complejidad técnica.",
     projectLabels: {
       problem: "Lo que estaba en juego",
-      architecture: "Base tecnica",
+      architecture: "Base técnica",
       challenges: "Lo delicado",
-      solution: "Como se resolvio",
-      impact: "Lo que habilito",
+      solution: "Cómo se resolvió",
+      impact: "Lo que habilitó",
       stack: "Stack aplicado",
       liveSite: "Sitio activo",
     },
-    blogOverline: "BLOG_TECNICO",
+    blogOverline: "BLOG_TÉCNICO",
     blogTitle: "Notas sobre backend y arquitectura",
     blogIntro:
       "Notas breves sobre microservicios, integraciones y decisiones de arquitectura tomadas en contexto real.",
     blogPosts: [
       {
-        title: "Pruebas de integracion para flujos de negocio en microservicios",
+        title: "Pruebas de integración para flujos de negocio en microservicios",
         context:
-          "Donde poner el foco cuando el riesgo real esta en validaciones, ramas de negocio y sincronizacion entre servicios.",
+          "Dónde poner el foco cuando el riesgo real está en validaciones, ramas de negocio y sincronización entre servicios.",
         content:
-          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo aparece en validaciones por tipo de operacion, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Conviene modelar pruebas alrededor del flujo de negocio: que entra, que decision toma el servicio, que se persiste y que salida se publica o devuelve. Herramientas como Spock ayudan a cubrir ramas con claridad. Conclusion: la prueba vale mas cuando verifica decisiones criticas del negocio y no solo la respuesta HTTP.",
+          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo aparece en validaciones por tipo de operación, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Conviene modelar pruebas alrededor del flujo de negocio: qué entra, qué decisión toma el servicio, qué se persiste y qué salida se publica o devuelve. Herramientas como Spock ayudan a cubrir ramas con claridad. Conclusión: la prueba vale más cuando verifica decisiones críticas del negocio y no solo la respuesta HTTP.",
         tag: "Testing backend",
         status: "Nota completa",
       },
       {
         title: "Arquitecturas evolutivas para plataformas de negocio",
         context:
-          "Uso practico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.",
+          "Uso práctico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.",
         content:
-          "La arquitectura hexagonal y clean architecture protegen el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Eso mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: suma capas, contratos y codigo de ensamblaje, algo que puede frenar equipos pequenos o productos tempranos. En contextos enterprise con integraciones multiples y vida util larga, el costo inicial suele compensarse. Conclusion: conviene aplicarla de forma selectiva, priorizando modulos criticos y evitando sobrearquitectura en flujos simples.",
+          "La arquitectura hexagonal y clean architecture protegen el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Eso mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: suma capas, contratos y código de ensamblaje, algo que puede frenar equipos pequeños o productos tempranos. En contextos enterprise con integraciones múltiples y vida útil larga, el costo inicial suele compensarse. Conclusión: conviene aplicarla de forma selectiva, priorizando módulos críticos y evitando sobrearquitectura en flujos simples.",
         tag: "Arquitectura",
         status: "Nota completa",
       },
       {
         title: "Contexto real sobre Spring Framework 4 y Spring Boot",
         context:
-          "Aclaracion de versionado para evitar confusiones entre contexto historico y stack vigente.",
+          "Aclaración de versionado para evitar confusiones entre contexto histórico y stack vigente.",
         content:
-          "Spring Framework 4 fue lanzado en 2013 y su soporte activo termino hace anos; por eso no corresponde presentarlo como novedad actual. En su momento aporto soporte para Java 8 y una base mas madura para aplicaciones empresariales. Hoy, las novedades relevantes llegan por Spring Framework 6 y Spring Boot 3, alineados con Jakarta EE 9+, Java 17+, AOT y runtime nativo con GraalVM. Para equipos enterprise, actualizar responde a seguridad, compatibilidad y performance operativa. Conclusion: si el objetivo es modernizar, la conversacion correcta es Spring 6/Boot 3; Spring 4 queda como contexto historico.",
+          "Spring Framework 4 fue lanzado en 2013 y su soporte activo terminó hace años; por eso no corresponde presentarlo como novedad actual. En su momento aportó soporte para Java 8 y una base más madura para aplicaciones empresariales. Hoy, las novedades relevantes llegan por Spring Framework 6 y Spring Boot 3, alineados con Jakarta EE 9+, Java 17+, AOT y runtime nativo con GraalVM. Para equipos enterprise, actualizar responde a seguridad, compatibilidad y performance operativa. Conclusión: si el objetivo es modernizar, la conversación correcta es Spring 6/Boot 3; Spring 4 queda como contexto histórico.",
         tag: "Spring",
         status: "Nota completa",
       },
       {
-        title: "Spring vs Quarkus: comparacion tecnica para decidir",
+        title: "Spring vs Quarkus: comparación técnica para decidir",
         context:
-          "Comparativa de arranque, memoria, experiencia de desarrollo y ecosistema para elegir segun contexto.",
+          "Comparativa de arranque, memoria, experiencia de desarrollo y ecosistema para elegir según contexto.",
         content:
-          "En JVM tradicional, Spring Boot ofrece un ecosistema mas amplio y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, sobre todo con compilacion nativa en GraalVM, algo util en serverless y alta densidad de contenedores. El tradeoff es una mayor complejidad de pipeline y validaciones extra para algunas librerias en modo nativo. Ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en ejemplos corporativos y talento disponible. Conclusion: Spring Boot encaja mejor en plataformas empresariales amplias; Quarkus destaca cuando startup rapido y ahorro de memoria pesan mas.",
+          "En JVM tradicional, Spring Boot ofrece un ecosistema más amplio y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, sobre todo con compilación nativa en GraalVM, algo útil en serverless y alta densidad de contenedores. El tradeoff es una mayor complejidad de pipeline y validaciones extra para algunas librerías en modo nativo. Ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en ejemplos corporativos y talento disponible. Conclusión: Spring Boot encaja mejor en plataformas empresariales amplias; Quarkus destaca cuando startup rápido y ahorro de memoria pesan más.",
         tag: "Spring vs Quarkus",
         status: "Nota completa",
       },
