@@ -31,55 +31,84 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
   data-panel-state="inactive"
   hidden
 >
-  <div class="container-shell details-panel-inner">
-    <header class="blog-intro" data-reveal="up">
+  <div class="container-shell pt-[1.9rem] max-md:pt-[1.25rem]">
+    <header class="mb-[1.35rem] grid max-w-[72ch] gap-[0.7rem] max-md:mb-4 max-md:gap-[0.62rem]" data-reveal="up">
       <p class="micro-label">{blogOverline}</p>
-      <h2 class="blog-intro-title">{blogTitle}</h2>
-      <p class="blog-intro-copy">{blogIntro}</p>
+      <h2 class="m-0 text-[clamp(1.7rem,4vw,2.4rem)] font-[620] leading-[1.05] tracking-[-0.036em] text-text [text-wrap:balance]">
+        {blogTitle}
+      </h2>
+      <p class="m-0 max-w-[60ch] text-[clamp(0.98rem,1.7vw,1.06rem)] leading-[1.68] text-muted [text-wrap:pretty]">
+        {blogIntro}
+      </p>
     </header>
 
-    <div class="blog-hub-band card-surface" data-reveal="up">
+    <div
+      class="card-surface mb-6 flex items-center justify-between gap-4 rounded-[0.95rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)] px-[1.15rem] py-4 max-md:mb-4 max-md:flex-col max-md:items-start"
+      data-reveal="up"
+    >
       <div>
-        <p class="blog-hub-kicker">{blogLabels.article}</p>
-        <p class="blog-hub-value">{publishedPostsCount} {blogLabels.postsCount}</p>
+        <p class="m-0 font-[var(--font-accent)] text-[0.72rem] uppercase tracking-[0.09em] text-[#9eabb9]">{blogLabels.article}</p>
+        <p class="mt-[0.2rem] text-base font-[560] tracking-[-0.01em] text-text">
+          {publishedPostsCount} {blogLabels.postsCount}
+        </p>
       </div>
 
-      <div class="blog-hub-tags" aria-label={blogLabels.available}>
-        {featuredTags.map((tag) => <span class="blog-hub-tag">{tag}</span>)}
+      <div class="flex flex-wrap justify-end gap-[0.45rem] max-md:justify-start" aria-label={blogLabels.available}>
+        {featuredTags.map((tag) => (
+          <span class="inline-flex items-center rounded-full border border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] bg-[rgba(12,18,24,0.7)] px-[0.62rem] py-[0.28rem] font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.04em] text-[#d9e3ee]">
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
 
     <div class="grid gap-6 md:grid-cols-2" data-reveal-group data-reveal-stagger-mobile="60" data-reveal-stagger-desktop="50">
       {
         blogPosts.map((post) => (
-          <article class="blog-card card-surface border border-border/65" data-reveal="up">
-            <a href={post.href} class="blog-card-link" aria-label={`${blogLabels.readArticle}: ${post.title}`}>
-              <figure class="blog-card-cover" aria-hidden="true">
-                <img src={post.cover.src} alt={post.cover.alt} loading="lazy" decoding="async" class="blog-card-cover-media" />
+          <article class="blog-card card-surface min-h-full overflow-hidden rounded-[0.95rem] border border-border/65" data-reveal="up">
+            <a href={post.href} class="blog-card-link flex min-h-full flex-col" aria-label={`${blogLabels.readArticle}: ${post.title}`}>
+              <figure class="relative m-0 aspect-[16/8] overflow-hidden bg-[color:color-mix(in_oklab,var(--color-surface)_82%,black_18%)] max-md:aspect-[16/9]" aria-hidden="true">
+                <img
+                  src={post.cover.src}
+                  alt={post.cover.alt}
+                  loading="lazy"
+                  decoding="async"
+                  class="blog-card-cover-media"
+                />
                 <span class="blog-card-cover-wash"></span>
               </figure>
 
-              <div class="blog-card-body">
-                <div class="blog-card-meta">
-                  <p class="micro-label blog-card-tag">{post.tag}</p>
-                  <span class="blog-card-status">{blogLabels.available}</span>
+              <div class="grid gap-[0.9rem] px-[1.2rem] pt-[1.1rem] pb-[1.25rem] max-md:gap-[0.82rem] max-md:p-4">
+                <div class="flex flex-wrap items-center justify-between gap-x-[0.9rem] gap-y-[0.5rem]">
+                  <p class="micro-label m-0 tracking-[0.1em]">{post.tag}</p>
+                  <span class="blog-card-status inline-flex items-center gap-[0.36rem] rounded-full border border-[color:color-mix(in_oklab,var(--color-border)_68%,transparent)] bg-[color:color-mix(in_oklab,var(--color-surface)_88%,black_12%)] px-[0.6rem] py-[0.26rem] text-[0.68rem] font-[560] uppercase tracking-[0.045em] text-[color:color-mix(in_oklab,var(--color-text)_84%,#eaf2fb)]">
+                    {blogLabels.available}
+                  </span>
                 </div>
 
-                <h3 class="blog-card-title">{post.title}</h3>
-                <p class="blog-card-content">{post.description}</p>
+                <h3 class="m-0 text-[clamp(1.2rem,0.96rem+0.75vw,1.7rem)] font-[620] leading-[1.12] tracking-[-0.02em] text-text [text-wrap:balance]">
+                  {post.title}
+                </h3>
+                <p class="m-0 max-w-[58ch] text-[0.95rem] leading-[1.74] text-muted [text-wrap:pretty] max-md:text-[0.92rem] max-md:leading-[1.58]">
+                  {post.description}
+                </p>
 
-                <dl class="blog-card-details">
-                  <div>
-                    <dt>{blogLabels.published}</dt>
-                    <dd>{formatPostDate(post.publishDate)}</dd>
+                <dl class="grid grid-cols-2 gap-[0.8rem] pt-[0.1rem] max-md:grid-cols-1 max-md:gap-[0.7rem]">
+                  <div class="border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.78rem]">
+                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.08em] text-[#9aa8b7]">
+                      {blogLabels.published}
+                    </dt>
+                    <dd class="mt-[0.28rem] text-[0.9rem] leading-[1.4] text-text">{formatPostDate(post.publishDate)}</dd>
                   </div>
-                  <div>
-                    <dt>{blogLabels.readingTime}</dt>
-                    <dd>{post.readingTimeMinutes} min</dd>
+                  <div class="border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.78rem]">
+                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.08em] text-[#9aa8b7]">
+                      {blogLabels.readingTime}
+                    </dt>
+                    <dd class="mt-[0.28rem] text-[0.9rem] leading-[1.4] text-text">{post.readingTimeMinutes} min</dd>
                   </div>
                 </dl>
 
-                <span class="inline-cta blog-card-cta">
+                <span class="inline-cta mt-[0.15rem] w-fit">
                   {blogLabels.readArticle}
                 </span>
               </div>
@@ -96,108 +125,8 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
     display: none;
   }
 
-  .details-panel-inner {
-    padding-top: 1.9rem;
-  }
-
-  .blog-intro {
-    display: grid;
-    gap: 0.7rem;
-    max-width: 72ch;
-    margin-bottom: 1.35rem;
-  }
-
-  .blog-intro-title {
-    margin: 0;
-    text-wrap: balance;
-    font-size: clamp(1.7rem, 4vw, 2.4rem);
-    font-weight: 620;
-    line-height: 1.05;
-    letter-spacing: -0.036em;
-    color: var(--color-text);
-  }
-
-  .blog-intro-copy {
-    margin: 0;
-    max-width: 60ch;
-    text-wrap: pretty;
-    font-size: clamp(0.98rem, 1.7vw, 1.06rem);
-    line-height: 1.68;
-    color: var(--color-muted);
-  }
-
-  .blog-hub-band {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.15rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
-    border-radius: 0.95rem;
-  }
-
-  .blog-hub-kicker,
-  .blog-hub-value {
-    margin: 0;
-  }
-
-  .blog-hub-kicker {
-    font-family: var(--font-accent);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: #9eabb9;
-  }
-
-  .blog-hub-value {
-    margin-top: 0.2rem;
-    font-size: 1rem;
-    font-weight: 560;
-    letter-spacing: -0.01em;
-    color: var(--color-text);
-  }
-
-  .blog-hub-tags {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.45rem;
-  }
-
-  .blog-hub-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.28rem 0.62rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-    border-radius: 999px;
-    background: rgba(12, 18, 24, 0.7);
-    font-family: var(--font-accent);
-    font-size: 0.68rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #d9e3ee;
-  }
-
   .blog-card {
-    min-height: 100%;
-    border-radius: 0.95rem;
-    overflow: hidden;
     transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
-  }
-
-  .blog-card-link {
-    display: flex;
-    min-height: 100%;
-    flex-direction: column;
-  }
-
-  .blog-card-cover {
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-    aspect-ratio: 16 / 8;
-    background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
   }
 
   .blog-card-cover-media {
@@ -218,41 +147,6 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
     pointer-events: none;
   }
 
-  .blog-card-body {
-    display: grid;
-    gap: 0.9rem;
-    padding: 1.1rem 1.2rem 1.25rem;
-  }
-
-  .blog-card-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem 0.9rem;
-  }
-
-  .blog-card-tag {
-    margin: 0;
-    letter-spacing: 0.1em;
-  }
-
-  .blog-card-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.36rem;
-    margin: 0;
-    padding: 0.26rem 0.6rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 68%, transparent);
-    border-radius: 999px;
-    font-size: 0.68rem;
-    font-weight: 560;
-    letter-spacing: 0.045em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--color-text) 84%, #eaf2fb);
-    background: color-mix(in oklab, var(--color-surface) 88%, black 12%);
-  }
-
   .blog-card-status::before {
     content: "";
     width: 0.38rem;
@@ -260,63 +154,6 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
     border-radius: 999px;
     background: rgba(231, 240, 249, 0.86);
     box-shadow: 0 0 8px rgba(231, 240, 249, 0.36);
-  }
-
-  .blog-card-title {
-    margin: 0;
-    font-size: clamp(1.2rem, 0.96rem + 0.75vw, 1.7rem);
-    font-weight: 620;
-    line-height: 1.12;
-    letter-spacing: -0.02em;
-    color: var(--color-text);
-    text-wrap: balance;
-  }
-
-  .blog-card-content {
-    margin: 0;
-    max-width: 58ch;
-    font-size: 0.95rem;
-    line-height: 1.74;
-    color: var(--color-muted);
-    text-wrap: pretty;
-  }
-
-  .blog-card-details {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
-    margin: 0;
-    padding-top: 0.1rem;
-  }
-
-  .blog-card-details div {
-    padding-left: 0.78rem;
-    border-left: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-  }
-
-  .blog-card-details dt,
-  .blog-card-details dd {
-    margin: 0;
-  }
-
-  .blog-card-details dt {
-    font-family: var(--font-accent);
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #9aa8b7;
-  }
-
-  .blog-card-details dd {
-    margin-top: 0.28rem;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    color: var(--color-text);
-  }
-
-  .blog-card-cta {
-    margin-top: 0.15rem;
-    width: fit-content;
   }
 
   .blog-card-link:focus-visible {
@@ -335,46 +172,6 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
   .blog-card:hover .blog-card-cover-media {
     filter: saturate(0.92) contrast(0.98);
     transform: scale(1.02);
-  }
-
-  @media (max-width: 767px) {
-    .details-panel-inner {
-      padding-top: 1.25rem;
-    }
-
-    .blog-intro {
-      gap: 0.62rem;
-      margin-bottom: 1rem;
-    }
-
-    .blog-hub-band {
-      align-items: flex-start;
-      flex-direction: column;
-      margin-bottom: 1rem;
-    }
-
-    .blog-hub-tags {
-      justify-content: flex-start;
-    }
-
-    .blog-card-cover {
-      aspect-ratio: 16 / 9;
-    }
-
-    .blog-card-body {
-      padding: 1rem;
-      gap: 0.82rem;
-    }
-
-    .blog-card-content {
-      font-size: 0.92rem;
-      line-height: 1.58;
-    }
-
-    .blog-card-details {
-      grid-template-columns: 1fr;
-      gap: 0.7rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

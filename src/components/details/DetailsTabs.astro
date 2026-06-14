@@ -12,11 +12,11 @@ const { tabsAriaLabel, tabs } = Astro.props;
 ---
 
 <div class="container-shell">
-  <div class="details-tabs-wrap">
-    <div class="details-tabs" role="tablist" aria-label={tabsAriaLabel} data-details-tabs>
+  <div class="details-tabs-wrap sticky top-[var(--details-sticky-offset)] z-30 -mx-[0.1rem] mt-0 px-[0.05rem] pt-[0.08rem] pb-[0.3rem] backdrop-blur-[10px] max-md:-mx-[0.12rem] max-md:px-0 max-md:pt-[0.06rem] max-md:pb-[0.26rem]">
+    <div class="details-tabs flex gap-[0.32rem] overflow-x-auto p-[0.16rem] [scrollbar-width:thin] [scroll-behavior:smooth] max-md:gap-[0.26rem]" role="tablist" aria-label={tabsAriaLabel} data-details-tabs>
       <button
         id="tab-experiencia"
-        class="details-tab"
+        class="details-tab relative inline-flex shrink-0 items-baseline gap-[0.4rem] bg-transparent px-[0.7rem] py-[0.62rem] font-[var(--font-accent)] text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[#9caab8] transition-[color,border-color,background-color,box-shadow] duration-200 ease-out max-md:whitespace-nowrap max-md:px-[0.58rem] max-md:py-[0.5rem] max-md:text-[0.68rem]"
         type="button"
         role="tab"
         aria-selected="true"
@@ -24,12 +24,12 @@ const { tabsAriaLabel, tabs } = Astro.props;
         data-tab="experiencia"
         tabindex="0"
       >
-        <span class="details-tab-index">01 //</span>
+        <span class="details-tab-index text-[0.62rem] tracking-[0.09em] text-[#8797a8]">01 //</span>
         <span>{tabs.experiencia}</span>
       </button>
       <button
         id="tab-proyectos"
-        class="details-tab"
+        class="details-tab relative inline-flex shrink-0 items-baseline gap-[0.4rem] bg-transparent px-[0.7rem] py-[0.62rem] font-[var(--font-accent)] text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[#9caab8] transition-[color,border-color,background-color,box-shadow] duration-200 ease-out max-md:whitespace-nowrap max-md:px-[0.58rem] max-md:py-[0.5rem] max-md:text-[0.68rem]"
         type="button"
         role="tab"
         aria-selected="false"
@@ -37,12 +37,12 @@ const { tabsAriaLabel, tabs } = Astro.props;
         data-tab="proyectos"
         tabindex="-1"
       >
-        <span class="details-tab-index">02 //</span>
+        <span class="details-tab-index text-[0.62rem] tracking-[0.09em] text-[#8797a8]">02 //</span>
         <span>{tabs.proyectos}</span>
       </button>
       <button
         id="tab-blog"
-        class="details-tab"
+        class="details-tab relative inline-flex shrink-0 items-baseline gap-[0.4rem] bg-transparent px-[0.7rem] py-[0.62rem] font-[var(--font-accent)] text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[#9caab8] transition-[color,border-color,background-color,box-shadow] duration-200 ease-out max-md:whitespace-nowrap max-md:px-[0.58rem] max-md:py-[0.5rem] max-md:text-[0.68rem]"
         type="button"
         role="tab"
         aria-selected="false"
@@ -50,7 +50,7 @@ const { tabsAriaLabel, tabs } = Astro.props;
         data-tab="blog"
         tabindex="-1"
       >
-        <span class="details-tab-index">03 //</span>
+        <span class="details-tab-index text-[0.62rem] tracking-[0.09em] text-[#8797a8]">03 //</span>
         <span>{tabs.blog}</span>
       </button>
     </div>
@@ -58,41 +58,7 @@ const { tabsAriaLabel, tabs } = Astro.props;
 </div>
 
 <style>
-  .details-tabs-wrap {
-    position: sticky;
-    top: var(--details-sticky-offset);
-    z-index: 30;
-    margin-top: 0;
-    margin-left: -0.1rem;
-    margin-right: -0.1rem;
-    padding: 0.08rem 0.05rem 0.3rem;
-    backdrop-filter: blur(10px);
-  }
-
-  .details-tabs {
-    display: flex;
-    gap: 0.32rem;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scroll-behavior: smooth;
-    padding: 0.16rem;
-  }
-
   .details-tab {
-    position: relative;
-    display: inline-flex;
-    flex: 0 0 auto;
-    align-items: baseline;
-    gap: 0.4rem;
-    padding: 0.62rem 0.7rem;
-    color: #9caab8;
-    font-family: var(--font-accent);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    background: transparent;
     transition:
       color 180ms ease,
       border-color 180ms ease,
@@ -149,33 +115,8 @@ const { tabsAriaLabel, tabs } = Astro.props;
     outline-offset: 3px;
   }
 
-  .details-tab-index {
-    font-size: 0.62rem;
-    letter-spacing: 0.09em;
-    color: #8797a8;
-  }
-
   .details-tab[aria-selected="true"] .details-tab-index {
     color: #c9d4e1;
-  }
-
-  @media (max-width: 767px) {
-    .details-tabs-wrap {
-      margin-top: 0;
-      margin-left: -0.12rem;
-      margin-right: -0.12rem;
-      padding: 0.06rem 0 0.26rem;
-    }
-
-    .details-tab {
-      padding: 0.5rem 0.58rem;
-      font-size: 0.68rem;
-      white-space: nowrap;
-    }
-
-    .details-tabs {
-      gap: 0.26rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

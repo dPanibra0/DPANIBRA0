@@ -81,44 +81,57 @@ const structuredData = {
 >
   <Navbar nav={postNav} ui={ui.navbar} />
 
-  <main class="article-main border-t border-border/50">
-    <div class="container-shell article-shell">
-      <a href="/detalles" class="inline-cta article-back" data-reveal="up">
+  <main class="border-t border-border/50 pt-[clamp(2.2rem,6vw,4.5rem)] pb-[clamp(3rem,8vw,5.5rem)] max-md:pt-[1.4rem]">
+    <div class="container-shell grid gap-4">
+      <a href="/detalles" class="inline-cta w-fit" data-reveal="up">
         <Icon name="lucide:arrow-left" class="h-3.5 w-3.5" aria-hidden="true" />
         Volver</a>
 
-      <article class="article-card card-surface" data-reveal="up">
-        <header class="article-hero">
-          <div class="article-copy">
-            <p class="micro-label article-tag">{post.data.tag}</p>
-            <h1 class="article-title">{post.data.title}</h1>
-            <p class="article-description">{post.data.description}</p>
+      <article
+        class="card-surface overflow-hidden rounded-[1.1rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)]"
+        data-reveal="up"
+      >
+        <header class="grid gap-[1.4rem] border-b border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] p-[clamp(1.15rem,2vw,1.5rem)] min-[960px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.95fr)] min-[960px]:items-end max-md:p-4">
+          <div class="grid gap-[0.8rem]">
+            <p class="micro-label m-0">{post.data.tag}</p>
+            <h1 class="m-0 max-w-[16ch] text-[clamp(2rem,4.8vw,3.9rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
+              {post.data.title}
+            </h1>
+            <p class="m-0 max-w-[62ch] text-[clamp(1rem,1.6vw,1.08rem)] leading-[1.72] text-muted [text-wrap:pretty]">
+              {post.data.description}
+            </p>
 
-            <dl class="article-meta" aria-label="Metadatos del articulo">
-              <div>
-                <dt>Publicado</dt>
-                <dd>{publishedLabel}</dd>
+            <dl class="m-0 flex flex-wrap gap-[0.9rem] pt-[0.2rem] max-md:gap-[0.7rem]" aria-label="Metadatos del articulo">
+              <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
+                <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Publicado</dt>
+                <dd class="mt-[0.28rem] text-[0.94rem] text-text">{publishedLabel}</dd>
               </div>
-              <div>
-                <dt>Lectura</dt>
-                <dd>{readingTimeMinutes} min</dd>
+              <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
+                <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Lectura</dt>
+                <dd class="mt-[0.28rem] text-[0.94rem] text-text">{readingTimeMinutes} min</dd>
               </div>
               {updatedLabel && (
-                <div>
-                  <dt>Actualizado</dt>
-                  <dd>{updatedLabel}</dd>
+                <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
+                  <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Actualizado</dt>
+                  <dd class="mt-[0.28rem] text-[0.94rem] text-text">{updatedLabel}</dd>
                 </div>
               )}
             </dl>
           </div>
 
-          <figure class="article-cover">
-            <img src={post.data.cover.src} alt={post.data.cover.alt} loading="eager" decoding="async" class="article-cover-media" />
+          <figure class="relative m-0 aspect-[16/8] overflow-hidden rounded-[0.92rem] border border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] bg-[color:color-mix(in_oklab,var(--color-surface)_82%,black_18%)] max-md:aspect-[16/10]">
+            <img
+              src={post.data.cover.src}
+              alt={post.data.cover.alt}
+              loading="eager"
+              decoding="async"
+              class="h-full w-full object-cover object-center [filter:saturate(0.88)_contrast(0.96)]"
+            />
             <span class="article-cover-wash"></span>
           </figure>
         </header>
 
-        <div class="article-prose">
+        <div class="article-prose mx-auto max-w-[76ch] px-[clamp(1.15rem,3vw,2rem)] pt-[clamp(1.35rem,3vw,2.2rem)] pb-[clamp(1.8rem,4vw,2.6rem)] max-md:px-4 max-md:pt-[1.15rem] max-md:pb-[1.6rem]">
           <Content />
         </div>
       </article>
@@ -139,110 +152,6 @@ const structuredData = {
 </MainLayout>
 
 <style>
-  .article-main {
-    padding: clamp(2.2rem, 6vw, 4.5rem) 0 clamp(3rem, 8vw, 5.5rem);
-  }
-
-  .article-shell {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .article-back {
-    width: fit-content;
-  }
-
-  .article-card {
-    border-radius: 1.1rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
-    overflow: hidden;
-  }
-
-  .article-hero {
-    display: grid;
-    gap: 1.4rem;
-    padding: clamp(1.15rem, 2vw, 1.5rem);
-    border-bottom: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-  }
-
-  .article-copy {
-    display: grid;
-    gap: 0.8rem;
-  }
-
-  .article-tag {
-    margin: 0;
-  }
-
-  .article-title {
-    margin: 0;
-    max-width: 16ch;
-    font-size: clamp(2rem, 4.8vw, 3.9rem);
-    line-height: 0.98;
-    letter-spacing: -0.045em;
-    text-wrap: balance;
-  }
-
-  .article-description {
-    margin: 0;
-    max-width: 62ch;
-    font-size: clamp(1rem, 1.6vw, 1.08rem);
-    line-height: 1.72;
-    color: var(--color-muted);
-    text-wrap: pretty;
-  }
-
-  .article-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-    margin: 0;
-    padding-top: 0.2rem;
-  }
-
-  .article-meta div {
-    min-width: 140px;
-    padding-left: 0.8rem;
-    border-left: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-  }
-
-  .article-meta dt,
-  .article-meta dd {
-    margin: 0;
-  }
-
-  .article-meta dt {
-    font-family: var(--font-accent);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9aa8b7;
-  }
-
-  .article-meta dd {
-    margin-top: 0.28rem;
-    font-size: 0.94rem;
-    color: var(--color-text);
-  }
-
-  .article-cover {
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-    border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-    border-radius: 0.92rem;
-    aspect-ratio: 16 / 8;
-    background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
-  }
-
-  .article-cover-media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    filter: saturate(0.88) contrast(0.96);
-  }
-
   .article-cover-wash {
     position: absolute;
     inset: 0;
@@ -250,12 +159,6 @@ const structuredData = {
       linear-gradient(180deg, rgba(8, 12, 18, 0.08) 0%, rgba(8, 12, 18, 0.46) 100%),
       linear-gradient(120deg, rgba(77, 131, 166, 0.18) 0%, rgba(77, 131, 166, 0) 58%);
     pointer-events: none;
-  }
-
-  .article-prose {
-    max-width: 76ch;
-    margin: 0 auto;
-    padding: clamp(1.35rem, 3vw, 2.2rem) clamp(1.15rem, 3vw, 2rem) clamp(1.8rem, 4vw, 2.6rem);
   }
 
   .article-prose :global(h2),
@@ -310,39 +213,7 @@ const structuredData = {
     color: var(--color-text);
   }
 
-  @media (min-width: 960px) {
-    .article-hero {
-      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-      align-items: end;
-    }
-  }
-
   @media (max-width: 767px) {
-    .article-main {
-      padding-top: 1.4rem;
-    }
-
-    .article-hero {
-      padding: 1rem;
-    }
-
-    .article-meta {
-      gap: 0.7rem;
-    }
-
-    .article-meta div {
-      min-width: unset;
-      flex: 1 1 100%;
-    }
-
-    .article-cover {
-      aspect-ratio: 16 / 10;
-    }
-
-    .article-prose {
-      padding: 1.15rem 1rem 1.6rem;
-    }
-
     .article-prose :global(p),
     .article-prose :global(li) {
       font-size: 0.98rem;

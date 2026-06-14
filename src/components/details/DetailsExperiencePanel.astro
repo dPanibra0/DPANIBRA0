@@ -44,15 +44,15 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
   data-tab-panel="experiencia"
   data-panel-state="active"
 >
-  <div class="container-shell details-panel-inner">
-    <div class="details-exp-frame relative">
+  <div class="container-shell pt-[1.25rem] md:pt-[1.9rem]">
+    <div class="relative isolate overflow-visible border-none bg-transparent py-3 shadow-none md:py-[0.9rem]">
       <div class="absolute bottom-0 left-[10px] top-0 w-px bg-white/75"></div>
 
       <div class="space-y-14 md:space-y-20 lg:space-y-24" data-reveal-group data-reveal-stagger-mobile="70" data-reveal-stagger-desktop="56">
         {
           items.map((item) => (
             <article
-              class="exp-item relative grid gap-7 pl-10 md:pl-14 lg:grid-cols-[0.34fr_0.66fr] lg:gap-12"
+              class="exp-item relative grid gap-7 pl-10 opacity-[0.88] transition-[opacity,transform] duration-[260ms] ease-out md:pl-14 md:opacity-[0.78] lg:grid-cols-[0.34fr_0.66fr] lg:gap-12"
               data-exp-card
               data-exp-item
               data-reveal="up"
@@ -66,21 +66,21 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
               </div>
 
               <div class="max-w-[920px]">
-                <figure class="exp-cover">
+                <figure class="exp-cover relative mb-[0.82rem] aspect-[16/10] overflow-hidden rounded-[0.78rem] border md:mb-4 md:aspect-[16/8]">
                   <img
                     src={item.cover.src}
                     alt={item.cover.alt}
                     loading="lazy"
                     decoding="async"
-                    class="exp-cover-media"
+                    class="exp-cover-media h-full w-full object-cover object-center"
                   />
                   <span class="exp-cover-wash" aria-hidden="true"></span>
                 </figure>
 
                 <h4 class="text-[21px] font-semibold leading-[1.08] tracking-[-0.02em] text-text md:text-[31px]">{item.role}</h4>
-                <p class="exp-rich-text mt-2.5 text-[15px] leading-relaxed text-muted md:text-[17px]">
+                <p class="mt-2.5 text-[15px] leading-relaxed text-muted md:text-[17px]">
                   {parseInlineEmphasis(item.context).map((segment) =>
-                    segment.emphasized ? <strong class="exp-emphasis">{segment.text}</strong> : segment.text,
+                    segment.emphasized ? <strong class="font-semibold text-text">{segment.text}</strong> : segment.text,
                   )}
                 </p>
 
@@ -88,9 +88,9 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
                   {item.highlights.map((highlight) => (
                     <li class="flex gap-3 text-[14.5px] leading-relaxed text-muted md:text-[15.5px]">
                       <span class="mt-[1px] text-muted">&#8250;</span>
-                      <span class="exp-rich-text">
+                      <span>
                         {parseInlineEmphasis(highlight).map((segment) =>
-                          segment.emphasized ? <strong class="exp-emphasis">{segment.text}</strong> : segment.text,
+                          segment.emphasized ? <strong class="font-semibold text-text">{segment.text}</strong> : segment.text,
                         )}
                       </span>
                     </li>
@@ -100,7 +100,7 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
                 <div class="mt-5 flex flex-wrap gap-2 md:mt-6">
                   {item.technologies.map((tech) => (
                     <span
-                      class="stack-card__chip selectable-chip px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] exp-tech-chip"
+                      class="stack-card__chip selectable-chip exp-tech-chip cursor-default px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] pointer-events-none select-none transition-none"
                       aria-label={tech}
                     >
                       <Icon name={resolveTechIcon(tech)} class="h-3.5 w-3.5" aria-hidden="true" />
@@ -127,43 +127,12 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
     display: none;
   }
 
-  .details-panel-inner {
-    padding-top: 1.9rem;
-  }
-
-  .details-exp-frame {
-    position: relative;
-    overflow: visible;
-    isolation: isolate;
-    border: none;
-    border-radius: 0;
-    padding: 0.9rem 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .exp-item {
-    opacity: 0.78;
-    transition:
-      opacity 260ms ease,
-      transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
   .exp-cover {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1rem;
     border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-    border-radius: 0.78rem;
-    aspect-ratio: 16 / 8;
     background: color-mix(in oklab, var(--color-surface) 84%, black 16%);
   }
 
   .exp-cover-media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
     filter: saturate(0.82) contrast(0.92);
     transform: translate3d(0, var(--exp-parallax-y, 0px), 0) scale(1.02);
     transition:
@@ -190,25 +159,11 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
       border-color 180ms ease;
   }
 
-  .exp-rich-text {
-    color: inherit;
-  }
-
-  .exp-emphasis {
-    color: var(--color-text);
-    font-weight: 600;
-  }
-
   .exp-tech-chip {
     border-color: color-mix(in oklab, var(--color-border) 76%, transparent);
     background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
     color: color-mix(in oklab, var(--color-muted) 92%, white 8%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    cursor: default;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-    transition: none;
   }
 
   .exp-item:hover,
@@ -239,25 +194,6 @@ const parseInlineEmphasis = (text: string): EmphasisSegment[] =>
       0 0 0 2px rgba(10, 10, 10, 0.95),
       0 0 14px 2px rgba(255, 255, 255, 0.82),
       0 0 26px 4px rgba(221, 233, 245, 0.54);
-  }
-
-  @media (max-width: 767px) {
-    .details-panel-inner {
-      padding-top: 1.25rem;
-    }
-
-    .details-exp-frame {
-      padding: 0.75rem 0;
-    }
-
-    .exp-item {
-      opacity: 0.88;
-    }
-
-    .exp-cover {
-      margin-bottom: 0.82rem;
-      aspect-ratio: 16 / 10;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

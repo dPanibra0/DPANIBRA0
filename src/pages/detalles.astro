@@ -25,10 +25,12 @@ const blogPosts = await getTechnicalPostSummaries();
 >
   <Navbar nav={detailNav} ui={ui.navbar} />
 
-  <main class="details-main">
+  <main
+    class="details-main pb-[clamp(3.2rem,8vw,6.2rem)] max-md:pb-[clamp(2.8rem,10vw,4.8rem)]"
+  >
     <DetailsTabs tabsAriaLabel={ui.detalles.tabsAriaLabel} tabs={ui.detalles.tabs} />
 
-    <div class="details-panels-shell" aria-label={ui.detalles.tabPanelsAriaLabel}>
+    <div class="relative mt-[0.7rem] overflow-x-clip max-md:mt-[0.6rem]" aria-label={ui.detalles.tabPanelsAriaLabel}>
       <DetailsExperiencePanel items={content.experience.items} resolveTechIcon={resolveTechIcon} />
       <DetailsProjectsPanel
         items={content.projects.items}
@@ -67,13 +69,6 @@ const blogPosts = await getTechnicalPostSummaries();
     --details-sticky-offset: 74px;
     --details-panel-transition-ms: 320ms;
     --details-panel-transition-easing: cubic-bezier(0.22, 0.88, 0.28, 1);
-    padding-bottom: clamp(3.2rem, 8vw, 6.2rem);
-  }
-
-  .details-panels-shell {
-    margin-top: 0.7rem;
-    position: relative;
-    overflow-x: clip;
   }
 
   :global(.details-panel[hidden]) {
@@ -160,11 +155,6 @@ const blogPosts = await getTechnicalPostSummaries();
   @media (max-width: 767px) {
     .details-main {
       --details-sticky-offset: 66px;
-      padding-bottom: clamp(2.8rem, 10vw, 4.8rem);
-    }
-
-    .details-panels-shell {
-      margin-top: 0.6rem;
     }
   }
 
