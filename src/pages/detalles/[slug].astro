@@ -1,0 +1,352 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import Navbar from "../../components/layout/Navbar.astro";
+import Contact from "../../components/sections/Contact.astro";
+import Footer from "../../components/layout/Footer.astro";
+import FloatingQuickActions from "../../components/ui/FloatingQuickActions.astro";
+import { getTranslations } from "../../content/talento/i18n";
+import { formatPostDate } from "../../content/technical-posts-data";
+import { Icon } from "astro-icon/components";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("technicalPosts", ({ data }) => !data.draft);
+
+  return posts.map((post: CollectionEntry<"technicalPosts">) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const lang = "es" as const;
+const { content, ui } = getTranslations(lang);
+const postNav = [
+  { label: "Inicio", href: "/" },
+  { label: "Detalles", href: "/detalles" },
+  { label: "Contacto", href: "#contacto" },
+];
+
+const { post } = Astro.props as { post: CollectionEntry<"technicalPosts"> };
+const { Content } = await render(post);
+const words = post.body.trim().split(/\s+/).filter(Boolean).length;
+const readingTimeMinutes = Math.max(1, Math.round(words / 180));
+const articleTitle = `${post.data.title} | David Panibra`;
+const articlePath = `/detalles/${post.id}`;
+const publishedLabel = formatPostDate(post.data.publishDate);
+const updatedLabel = post.data.updatedDate ? formatPostDate(post.data.updatedDate) : null;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
+  inLanguage: lang,
+  mainEntityOfPage: `https://davidpanibra.dev${articlePath}`,
+  image: [post.data.cover.src],
+  author: {
+    "@type": "Person",
+    name: "David Panibra",
+    url: "https://www.linkedin.com/in/david-panibra-1bb87a1a4/",
+  },
+  publisher: {
+    "@type": "Person",
+    name: "David Panibra",
+  },
+  articleSection: post.data.tag,
+  keywords: [post.data.tag, "backend java", "microservicios", "arquitectura enterprise"],
+};
+---
+
+<MainLayout
+  title={articleTitle}
+  description={post.data.description}
+  lang={lang}
+  seo={{
+    type: "article",
+    canonicalPath: articlePath,
+    image: {
+      src: post.data.cover.src,
+      alt: post.data.cover.alt,
+    },
+    article: {
+      publishedTime: post.data.publishDate.toISOString(),
+      modifiedTime: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
+      author: "David Panibra",
+      section: post.data.tag,
+      tags: [post.data.tag, "Backend Java", "Microservicios"],
+    },
+  }}
+  structuredData={structuredData}
+>
+  <Navbar nav={postNav} ui={ui.navbar} />
+
+  <main class="article-main border-t border-border/50">
+    <div class="container-shell article-shell">
+      <a href="/detalles" class="inline-cta article-back" data-reveal="up">
+        <Icon name="lucide:arrow-left" class="h-3.5 w-3.5" aria-hidden="true" />
+        Volver</a>
+
+      <article class="article-card card-surface" data-reveal="up">
+        <header class="article-hero">
+          <div class="article-copy">
+            <p class="micro-label article-tag">{post.data.tag}</p>
+            <h1 class="article-title">{post.data.title}</h1>
+            <p class="article-description">{post.data.description}</p>
+
+            <dl class="article-meta" aria-label="Metadatos del articulo">
+              <div>
+                <dt>Publicado</dt>
+                <dd>{publishedLabel}</dd>
+              </div>
+              <div>
+                <dt>Lectura</dt>
+                <dd>{readingTimeMinutes} min</dd>
+              </div>
+              {updatedLabel && (
+                <div>
+                  <dt>Actualizado</dt>
+                  <dd>{updatedLabel}</dd>
+                </div>
+              )}
+            </dl>
+          </div>
+
+          <figure class="article-cover">
+            <img src={post.data.cover.src} alt={post.data.cover.alt} loading="eager" decoding="async" class="article-cover-media" />
+            <span class="article-cover-wash"></span>
+          </figure>
+        </header>
+
+        <div class="article-prose">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Contact
+    id="contacto"
+    contact={content.contact}
+    overline={content.overlines.contact}
+    ui={ui.contact}
+    floatingActionsUi={ui.floatingActions}
+  />
+
+  <FloatingQuickActions ui={ui.floatingActions} />
+
+  <Footer footer={content.footer} nav={postNav} />
+</MainLayout>
+
+<style>
+  .article-main {
+    padding: clamp(2.2rem, 6vw, 4.5rem) 0 clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .article-shell {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .article-back {
+    width: fit-content;
+  }
+
+  .article-card {
+    border-radius: 1.1rem;
+    border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
+    overflow: hidden;
+  }
+
+  .article-hero {
+    display: grid;
+    gap: 1.4rem;
+    padding: clamp(1.15rem, 2vw, 1.5rem);
+    border-bottom: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+  }
+
+  .article-copy {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .article-tag {
+    margin: 0;
+  }
+
+  .article-title {
+    margin: 0;
+    max-width: 16ch;
+    font-size: clamp(2rem, 4.8vw, 3.9rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .article-description {
+    margin: 0;
+    max-width: 62ch;
+    font-size: clamp(1rem, 1.6vw, 1.08rem);
+    line-height: 1.72;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin: 0;
+    padding-top: 0.2rem;
+  }
+
+  .article-meta div {
+    min-width: 140px;
+    padding-left: 0.8rem;
+    border-left: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+  }
+
+  .article-meta dt,
+  .article-meta dd {
+    margin: 0;
+  }
+
+  .article-meta dt {
+    font-family: var(--font-accent);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9aa8b7;
+  }
+
+  .article-meta dd {
+    margin-top: 0.28rem;
+    font-size: 0.94rem;
+    color: var(--color-text);
+  }
+
+  .article-cover {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+    border-radius: 0.92rem;
+    aspect-ratio: 16 / 8;
+    background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
+  }
+
+  .article-cover-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.88) contrast(0.96);
+  }
+
+  .article-cover-wash {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(8, 12, 18, 0.08) 0%, rgba(8, 12, 18, 0.46) 100%),
+      linear-gradient(120deg, rgba(77, 131, 166, 0.18) 0%, rgba(77, 131, 166, 0) 58%);
+    pointer-events: none;
+  }
+
+  .article-prose {
+    max-width: 76ch;
+    margin: 0 auto;
+    padding: clamp(1.35rem, 3vw, 2.2rem) clamp(1.15rem, 3vw, 2rem) clamp(1.8rem, 4vw, 2.6rem);
+  }
+
+  .article-prose :global(h2),
+  .article-prose :global(h3) {
+    margin: 2rem 0 0.8rem;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+
+  .article-prose :global(h2) {
+    font-size: clamp(1.45rem, 2vw, 1.9rem);
+  }
+
+  .article-prose :global(h3) {
+    font-size: clamp(1.18rem, 1.7vw, 1.4rem);
+  }
+
+  .article-prose :global(p),
+  .article-prose :global(li) {
+    font-size: 1.02rem;
+    line-height: 1.82;
+    color: color-mix(in oklab, var(--color-muted) 84%, white 16%);
+  }
+
+  .article-prose :global(p) {
+    margin: 0 0 1rem;
+    text-wrap: pretty;
+  }
+
+  .article-prose :global(ul),
+  .article-prose :global(ol) {
+    margin: 0 0 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .article-prose :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .article-prose :global(code) {
+    padding: 0.1rem 0.32rem;
+    border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
+    border-radius: 0.35rem;
+    background: rgba(10, 15, 21, 0.8);
+    font-family: var(--font-accent);
+    font-size: 0.92em;
+    color: #e7eff8;
+  }
+
+  .article-prose :global(strong) {
+    color: var(--color-text);
+  }
+
+  @media (min-width: 960px) {
+    .article-hero {
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      align-items: end;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .article-main {
+      padding-top: 1.4rem;
+    }
+
+    .article-hero {
+      padding: 1rem;
+    }
+
+    .article-meta {
+      gap: 0.7rem;
+    }
+
+    .article-meta div {
+      min-width: unset;
+      flex: 1 1 100%;
+    }
+
+    .article-cover {
+      aspect-ratio: 16 / 10;
+    }
+
+    .article-prose {
+      padding: 1.15rem 1rem 1.6rem;
+    }
+
+    .article-prose :global(p),
+    .article-prose :global(li) {
+      font-size: 0.98rem;
+      line-height: 1.72;
+    }
+  }
+</style>

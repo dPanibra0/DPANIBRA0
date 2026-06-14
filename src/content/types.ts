@@ -193,13 +193,14 @@ export interface PortfolioUiTranslations {
     blogOverline: string;
     blogTitle: string;
     blogIntro: string;
-    blogPosts: Array<{
-      title: string;
-      context: string;
-      content: string;
-      tag: string;
-      status: string;
-    }>;
+    blogLabels: {
+      readArticle: string;
+      published: string;
+      readingTime: string;
+      article: string;
+      available: string;
+      postsCount: string;
+    };
   };
 }
 

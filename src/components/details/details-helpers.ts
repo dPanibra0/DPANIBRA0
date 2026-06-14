@@ -60,21 +60,3 @@ export const projectCovers = [
 
 export const resolveProjectCover = (index: number) =>
   projectCovers[index] ?? projectCovers[index % projectCovers.length];
-
-export const blogCovers = [
-  {
-    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-latamtech.png",
-    alt: "Imagen editorial de arquitectura de sistemas empresariales",
-  },
-  {
-    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-nttdata.png",
-    alt: "Imagen editorial de procesos y observabilidad operativa",
-  },
-  {
-    src: "https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-multiplica.png",
-    alt: "Imagen editorial de automatizacion y plataforma corporativa",
-  },
-] as const;
-
-export const resolveBlogCover = (index: number) =>
-  blogCovers[index] ?? blogCovers[index % blogCovers.length];

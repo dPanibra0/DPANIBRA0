@@ -162,11 +162,11 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"talento": Record<string, {
+		"technicalPosts": Record<string, {
   id: string;
   body?: string;
-  collection: "talento";
-  data: any;
+  collection: "technicalPosts";
+  data: InferEntrySchema<"technicalPosts">;
   rendered?: RenderedContent;
   filePath?: string;
 }>;
@@ -202,6 +202,6 @@ declare module 'astro:content' {
 		LiveContentConfig['collections'][C]['loader']
 	>;
 
-	export type ContentConfig = typeof import("./../src/content.config.mjs");
+	export type ContentConfig = typeof import("./../src/content.config.js");
 	export type LiveContentConfig = never;
 }

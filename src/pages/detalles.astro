@@ -9,11 +9,13 @@ import DetailsExperiencePanel from "../components/details/DetailsExperiencePanel
 import DetailsProjectsPanel from "../components/details/DetailsProjectsPanel.astro";
 import DetailsBlogPanel from "../components/details/DetailsBlogPanel.astro";
 import { getTranslations } from "../content/talento/i18n";
-import { resolveBlogCover, resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
+import { getTechnicalPostSummaries } from "../content/technical-posts-data";
+import { resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
 
 const lang = "es" as const;
 const { content, ui } = getTranslations(lang);
 const detailNav = content.nav.filter((item) => item.href === "#contacto");
+const blogPosts = await getTechnicalPostSummaries();
 ---
 
 <MainLayout
@@ -23,7 +25,7 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
 >
   <Navbar nav={detailNav} ui={ui.navbar} />
 
-  <main class="details-main pt-8 border-t border-border/50">
+  <main class="details-main">
     <DetailsTabs tabsAriaLabel={ui.detalles.tabsAriaLabel} tabs={ui.detalles.tabs} />
 
     <div class="details-panels-shell" aria-label={ui.detalles.tabPanelsAriaLabel}>
@@ -41,8 +43,8 @@ const detailNav = content.nav.filter((item) => item.href === "#contacto");
         blogOverline={ui.detalles.blogOverline}
         blogTitle={ui.detalles.blogTitle}
         blogIntro={ui.detalles.blogIntro}
-        blogPosts={ui.detalles.blogPosts}
-        resolveBlogCover={resolveBlogCover}
+        blogLabels={ui.detalles.blogLabels}
+        blogPosts={blogPosts}
       />
     </div>
   </main>
