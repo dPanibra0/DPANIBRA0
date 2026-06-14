@@ -1,49 +1,54 @@
 ---
 import { Icon } from "astro-icon/components";
+import type { PortfolioUiTranslations } from "../../content/types";
 
 interface Props {
-  lang: "es" | "en";
+  ui?: PortfolioUiTranslations["floatingActions"];
+  variant?: "desktop" | "contact-mobile";
 }
 
-const { lang } = Astro.props;
+const defaultUi: PortfolioUiTranslations["floatingActions"] = {
+  ariaLabel: "Quick actions",
+  linkedin: "Open LinkedIn profile",
+  github: "Open GitHub profile",
+  email: "Send email",
+  contact: "Go to contact",
+  scrollTop: "Back to top",
+};
 
-const labels =
-  lang === "es"
-    ? {
-        linkedin: "Abrir perfil de LinkedIn",
-        github: "Abrir perfil de GitHub",
-        email: "Enviar correo",
-        contact: "Ir a contacto",
-        scrollTop: "Volver arriba",
-      }
-    : {
-        linkedin: "Open LinkedIn profile",
-        github: "Open GitHub profile",
-        email: "Send email",
-        contact: "Go to contact section",
-        scrollTop: "Back to top",
-      };
+const { ui: uiProp, variant = "desktop" } = Astro.props;
+const ui = uiProp ?? defaultUi;
 
-const contactHref = lang === "es" ? "#contacto" : "#contact";
+const contactHref = "#contacto";
+const isDesktopVariant = variant === "desktop";
 ---
 
 <aside
-  class="pointer-events-none fixed bottom-5 right-4 z-50 sm:bottom-6 sm:right-6"
-  aria-label="Quick actions"
-  data-floating-actions
-  data-initial-lang={lang}
+  class:list={[
+    "pointer-events-none",
+    isDesktopVariant
+      ? "fixed bottom-5 left-1/2 z-50 hidden w-[min(calc(100vw-1.5rem),22rem)] -translate-x-1/2 md:bottom-6 md:left-auto md:right-6 md:block md:w-auto md:translate-x-0"
+      : "fq-mobile-root sticky z-20 mx-auto mt-6 flex w-full justify-center px-1 md:hidden",
+  ]}
+  aria-label={ui.ariaLabel}
+  data-floating-actions={variant}
 >
   <div
-    class="pointer-events-none flex translate-y-2 flex-col items-center gap-2 rounded-2xl border border-white/10 p-2 opacity-0 backdrop-blur-md shadow-[0_20px_40px_-24px_rgba(0,0,0,0.85)] transition duration-300"
+    class:list={[
+      "flex items-center justify-center gap-2 overflow-hidden border border-white/10 px-3 py-2 shadow-md backdrop-blur-md",
+      isDesktopVariant
+        ? "pointer-events-none translate-y-2 flex-col rounded-2xl bg-transparent p-2 opacity-0 transition duration-300"
+        : "pointer-events-auto w-fit max-w-full rounded-full bg-[#f8fbff]/92",
+    ]}
     data-floating-actions-panel
-    aria-hidden="true"
+    aria-hidden={isDesktopVariant ? "true" : "false"}
   >
     <a
       href="https://www.linkedin.com/in/david-panibra-1bb87a1a4/"
       target="_blank"
       rel="noopener noreferrer"
-      class="fq-action"
-      aria-label={labels.linkedin}
+      class="fq-action rounded-full"
+      aria-label={ui.linkedin}
     >
       <Icon name="simple-icons:linkedin" class="h-4 w-4" aria-hidden="true" />
     </a>
@@ -51,22 +56,27 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
       href="https://github.com/dPanibra0"
       target="_blank"
       rel="noopener noreferrer"
-      class="fq-action"
-      aria-label={labels.github}
+      class="fq-action rounded-full"
+      aria-label={ui.github}
     >
       <Icon name="simple-icons:github" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href="mailto:dpanibra0@gmail.com" class="fq-action" aria-label={labels.email}>
+    <a href="mailto:dpanibra0@gmail.com" class="fq-action rounded-full" aria-label={ui.email}>
       <Icon name="simple-icons:gmail" class="h-4 w-4" aria-hidden="true" />
     </a>
-    <a href={contactHref} class="fq-action" data-contact-action aria-label={labels.contact}>
+    <!-- <a
+      href={contactHref}
+      class:list={["fq-action rounded-full", isDesktopVariant ? "hidden md:inline-flex" : "hidden"]}
+      data-contact-action={isDesktopVariant ? "true" : undefined}
+      aria-label={ui.contact}
+    >
       <Icon name="lucide:message-circle" class="h-4 w-4" aria-hidden="true" />
-    </a>
+    </a> -->
     <button
       type="button"
-      class="fq-action fq-action-scroll border border-white/10"
+      class="fq-action fq-action-scroll border border-white/10 rounded-full"
       data-scroll-top
-      aria-label={labels.scrollTop}
+      aria-label={ui.scrollTop}
     >
       <span class="fq-scroll-icon-wrap" aria-hidden="true">
         <span class="fq-scroll-icon fq-scroll-icon-primary">
@@ -87,14 +97,21 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     width: 2.25rem;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(20, 22, 26, 0.334), rgba(12, 14, 17, 0.95));
+    background: #0a0a0a;
     color: rgb(236, 239, 244);
     transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
   }
 
   .fq-action-scroll {
     overflow: hidden;
+  }
+
+  .fq-action-scroll.is-intro-animating .fq-scroll-icon-primary {
+    animation: fq-scroll-primary-intro 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .fq-action-scroll.is-intro-animating .fq-scroll-icon-secondary {
+    animation: fq-scroll-secondary-intro 620ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .fq-scroll-icon-wrap {
@@ -120,6 +137,40 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     opacity: 0;
   }
 
+  @keyframes fq-scroll-primary-intro {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    32%,
+    60% {
+      transform: translateY(-120%);
+      opacity: 0;
+    }
+
+    61% {
+      transform: translateY(120%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fq-scroll-secondary-intro {
+    0%,
+    24%,
+    100% {
+      transform: translateY(120%);
+      opacity: 0;
+    }
+
+    48%,
+    72% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .fq-action-scroll:hover .fq-scroll-icon-primary {
       transform: translateY(-120%);
@@ -143,8 +194,7 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
 
   .fq-action:hover {
     transform: translateY(-1px);
-    border-color: rgba(77, 131, 166, 0.8);
-    background: linear-gradient(180deg, rgba(31, 41, 53, 0.96), rgba(17, 24, 33, 0.96));
+    
   }
 
   .fq-action:active {
@@ -157,94 +207,144 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
   }
 
 
-  @media (max-width: 640px) {
+  @media (max-width: 767px) {
+    .fq-mobile-root {
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    }
+
     .fq-action {
       height: 2.125rem;
       width: 2.125rem;
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fq-action,
+    .fq-scroll-icon,
+    .fq-action-scroll.is-intro-animating .fq-scroll-icon-primary,
+    .fq-action-scroll.is-intro-animating .fq-scroll-icon-secondary {
+      animation: none;
+      transition: none;
+    }
+  }
 </style>
 
-<script>
-  const floatingActions = document.querySelector("[data-floating-actions]") as HTMLElement | null;
-  const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]") as HTMLElement | null;
-  const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]") as HTMLButtonElement | null;
-  const contactAction = floatingActions?.querySelector("[data-contact-action]") as HTMLAnchorElement | null;
-  let lastScrollY = window.scrollY;
+<script is:inline define:vars={{ contactLabel: ui.contact, variant }}>
+  const floatingActions = document.querySelector(`[data-floating-actions="${variant}"]`);
+  const floatingActionsPanel = floatingActions?.querySelector("[data-floating-actions-panel]");
+  const scrollTopButton = floatingActions?.querySelector("[data-scroll-top]");
+  const contactAction = floatingActions?.querySelector("[data-contact-action]");
+  const reducedMotionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  const langLabels = {
-    es: {
-      nextText: "EN",
-      languageAria: "Cambiar idioma a ingles",
-      contactAria: "Ir a contacto",
-      contactHref: "#contacto",
-    },
-    en: {
-      nextText: "ES",
-      languageAria: "Switch language to Spanish",
-      contactAria: "Go to contact section",
-      contactHref: "#contact",
-    },
-  } as const;
-
-  const readStoredLang = (fallback: "es" | "en") => {
-    const raw = localStorage.getItem("site-lang");
-    if (raw === "es" || raw === "en") return raw;
-    return fallback;
-  };
-
-  const applyLanguageUi = (nextLang: "es" | "en") => {
-    const state = langLabels[nextLang];
+  if (!floatingActions || !floatingActionsPanel) {
+    if (scrollTopButton) {
+      scrollTopButton.addEventListener("click", () => {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      });
+    }
+  } else if (variant === "desktop") {
+    const contactSection = document.querySelector("[data-contact-zone]") ?? document.getElementById("contacto");
+    const contactForm = document.querySelector("[data-contact-form]");
+    const footer = document.querySelector("footer");
+    let lastScrollY = window.scrollY;
+    let isPanelVisible = false;
 
     if (contactAction) {
-      contactAction.setAttribute("href", state.contactHref);
-      contactAction.setAttribute("aria-label", state.contactAria);
+      contactAction.setAttribute("href", "#contacto");
+      contactAction.setAttribute("aria-label", contactLabel);
     }
 
-    document.documentElement.lang = nextLang;
-  };
+    const setPanelVisible = (visible) => {
+      isPanelVisible = visible;
+      floatingActionsPanel.classList.toggle("opacity-0", !visible);
+      floatingActionsPanel.classList.toggle("translate-y-2", !visible);
+      floatingActionsPanel.classList.toggle("pointer-events-none", !visible);
+      floatingActionsPanel.classList.toggle("pointer-events-auto", visible);
+      floatingActionsPanel.setAttribute("aria-hidden", String(!visible));
+    };
 
-  const applyLanguageBlocks = (nextLang: "es" | "en") => {
-    document.querySelectorAll("[data-lang-block]").forEach((block) => {
-      const matches = block.getAttribute("data-lang-block") === nextLang;
-      block.toggleAttribute("hidden", !matches);
-      block.setAttribute("aria-hidden", String(!matches));
-    });
-  };
+    const updateFloatingVisibility = () => {
+      const currentScrollY = window.scrollY;
+      const deltaY = currentScrollY - lastScrollY;
+      const viewportHeight = window.innerHeight;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - viewportHeight, 1);
+      const progress = currentScrollY / maxScroll;
+      const scrollingUp = deltaY <= -6;
+      const scrollingDown = deltaY >= 6;
+      const scrolledPastIntro = currentScrollY > 120;
+      const nearPageEnd = progress >= 0.86;
+      const contactRect = contactSection?.getBoundingClientRect();
+      const inContactZone =
+        !!contactRect &&
+        contactRect.top < viewportHeight * 0.94 &&
+        contactRect.bottom > viewportHeight * 0.22;
 
-  const setPanelVisible = (visible: boolean) => {
-    if (!floatingActionsPanel) return;
-    floatingActionsPanel.classList.toggle("opacity-0", !visible);
-    floatingActionsPanel.classList.toggle("translate-y-2", !visible);
-    floatingActionsPanel.classList.toggle("pointer-events-none", !visible);
-    floatingActionsPanel.classList.toggle("pointer-events-auto", visible);
-    floatingActionsPanel.setAttribute("aria-hidden", String(!visible));
-  };
+      let shouldShow = isPanelVisible;
+      if (!scrolledPastIntro) {
+        shouldShow = false;
+      } else if (nearPageEnd || inContactZone) {
+        shouldShow = true;
+      } else if (scrollingUp) {
+        shouldShow = true;
+      } else if (scrollingDown) {
+        shouldShow = false;
+      }
 
-  const updateFloatingVisibility = () => {
-    if (!floatingActions || !floatingActionsPanel) return;
+      setPanelVisible(shouldShow);
 
-    const currentScrollY = window.scrollY;
+      let extraOffset = 0;
 
-    if (currentScrollY < 8 ) {
-      setPanelVisible(false);
+      if (contactForm instanceof HTMLElement) {
+        const collisionRect = contactForm.getBoundingClientRect();
+        const avoidLine = viewportHeight - 148;
+        if (collisionRect.top < avoidLine && collisionRect.bottom > 0) {
+          extraOffset = Math.max(extraOffset, avoidLine - collisionRect.top + 18);
+        }
+      }
+
+      if (footer) {
+        const footerTop = footer.getBoundingClientRect().top;
+        if (footerTop < viewportHeight) {
+          extraOffset = Math.max(extraOffset, viewportHeight - footerTop + 16);
+        }
+      }
+
+      floatingActions.style.bottom = `calc(${24 + extraOffset}px + env(safe-area-inset-bottom, 0px))`;
       lastScrollY = currentScrollY;
-      return;
+    };
+
+    updateFloatingVisibility();
+    window.addEventListener("scroll", updateFloatingVisibility, { passive: true });
+    window.addEventListener("resize", updateFloatingVisibility);
+  } else {
+    let hasAnimatedIntro = false;
+
+    if (
+      scrollTopButton instanceof HTMLElement &&
+      !reducedMotionMediaQuery.matches &&
+      "IntersectionObserver" in window
+    ) {
+      const introObserver = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          if (!entry?.isIntersecting || hasAnimatedIntro) return;
+
+          hasAnimatedIntro = true;
+          scrollTopButton.classList.add("is-intro-animating");
+          window.setTimeout(() => {
+            scrollTopButton.classList.remove("is-intro-animating");
+          }, 700);
+          introObserver.disconnect();
+        },
+        {
+          threshold: 0.45,
+        },
+      );
+
+      introObserver.observe(floatingActions);
     }
-
-    if (currentScrollY > lastScrollY + 8) {
-      setPanelVisible(false);
-    } else if (currentScrollY < lastScrollY - 8) {
-      setPanelVisible(true);
-    }
-
-    lastScrollY = currentScrollY;
-  };
-
-
-  updateFloatingVisibility();
-  window.addEventListener("scroll", updateFloatingVisibility, { passive: true });
-  window.addEventListener("resize", updateFloatingVisibility);
+  }
 
   if (scrollTopButton) {
     scrollTopButton.addEventListener("click", () => {
@@ -253,17 +353,4 @@ const contactHref = lang === "es" ? "#contacto" : "#contact";
     });
   }
 
-  const initialLang = floatingActions?.dataset.initialLang === "en" ? "en" : "es";
-  const activeLang = readStoredLang(initialLang);
-  applyLanguageUi(activeLang);
-  applyLanguageBlocks(activeLang);
-
-  window.addEventListener("site-language:change", (event) => {
-    const custom = event as CustomEvent<{ lang?: string }>;
-    const nextLang = custom.detail?.lang;
-    if (nextLang !== "es" && nextLang !== "en") return;
-    localStorage.setItem("site-lang", nextLang);
-    applyLanguageUi(nextLang);
-    applyLanguageBlocks(nextLang);
-  });
 </script>

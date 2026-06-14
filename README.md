@@ -1,12 +1,12 @@
-# David Panibra - Software Engineer
+# David Panibra - Backend Java Microservices Engineer
 
 <p align="center">
   <img src="./src/assets/dpanibra0_2d_isometric_voxel_art-banner.png" alt="Banner de David Panibra" width="100%" />
 </p>
 
-Ingeniero de software especializado en **backend**, **microservicios** y **arquitectura orientada al dominio**.
+Perfil orientado a **backend Java**, **microservicios** e **integraciones empresariales**.
 
-Diseño y construyo sistemas empresariales de extremo a extremo: desde la lógica de negocio y las integraciones hasta la consistencia de datos en producción.
+Construyo servicios con Java y Spring Boot para procesamiento de datos, reglas de negocio e integracion entre plataformas con foco en consistencia operativa en produccion.
 
 ## En qué puedo aportar valor
 

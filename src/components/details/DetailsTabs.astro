@@ -1,0 +1,193 @@
+---
+interface Props {
+  tabsAriaLabel: string;
+  tabs: {
+    experiencia: string;
+    proyectos: string;
+    blog: string;
+  };
+}
+
+const { tabsAriaLabel, tabs } = Astro.props;
+---
+
+<div class="container-shell">
+  <div class="details-tabs-wrap">
+    <div class="details-tabs" role="tablist" aria-label={tabsAriaLabel} data-details-tabs>
+      <button
+        id="tab-experiencia"
+        class="details-tab"
+        type="button"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-experiencia"
+        data-tab="experiencia"
+        tabindex="0"
+      >
+        <span class="details-tab-index">01 //</span>
+        <span>{tabs.experiencia}</span>
+      </button>
+      <button
+        id="tab-proyectos"
+        class="details-tab"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-proyectos"
+        data-tab="proyectos"
+        tabindex="-1"
+      >
+        <span class="details-tab-index">02 //</span>
+        <span>{tabs.proyectos}</span>
+      </button>
+      <button
+        id="tab-blog"
+        class="details-tab"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-blog"
+        data-tab="blog"
+        tabindex="-1"
+      >
+        <span class="details-tab-index">03 //</span>
+        <span>{tabs.blog}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .details-tabs-wrap {
+    position: sticky;
+    top: var(--details-sticky-offset);
+    z-index: 30;
+    margin-top: 0;
+    margin-left: -0.1rem;
+    margin-right: -0.1rem;
+    padding: 0.08rem 0.05rem 0.3rem;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(7, 11, 16, 0.92) 0%, rgba(7, 11, 16, 0.72) 72%, rgba(7, 11, 16, 0) 100%);
+  }
+
+  .details-tabs {
+    display: flex;
+    gap: 0.32rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    padding: 0.16rem;
+  }
+
+  .details-tab {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding: 0.62rem 0.7rem;
+    color: #9caab8;
+    font-family: var(--font-accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    transition:
+      color 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .details-tab::after {
+    content: "";
+    position: absolute;
+    left: 0.58rem;
+    right: 0.58rem;
+    bottom: 0.32rem;
+    height: 1px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-text) 70%, transparent);
+    opacity: 0;
+    transform: scaleX(0.55);
+    transform-origin: left;
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .details-tab:hover {
+    color: color-mix(in oklab, var(--color-text) 88%, white);
+    background: color-mix(in oklab, var(--color-surface) 72%, transparent);
+    border-color: color-mix(in oklab, var(--color-border) 70%, transparent);
+  }
+
+  .details-tab[aria-selected="true"] {
+    color: var(--color-text);
+    background:
+      radial-gradient(120% 130% at 50% 100%, rgba(245, 250, 255, 0.2) 0%, rgba(245, 250, 255, 0) 74%),
+      color-mix(in oklab, var(--color-surface) 78%, black 22%);
+    border-color: color-mix(in oklab, var(--color-border) 62%, rgba(214, 230, 245, 0.26));
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 0 14px -8px rgba(255, 255, 255, 0.9),
+      0 10px 22px -18px rgba(201, 220, 238, 0.62);
+  }
+
+  .details-tab:hover::after,
+  .details-tab:focus-visible::after,
+  .details-tab[aria-selected="true"]::after {
+    transform: scaleX(1);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
+    opacity: 0.95;
+  }
+
+  .details-tab:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.72);
+    outline-offset: 3px;
+  }
+
+  .details-tab-index {
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+    color: #8797a8;
+  }
+
+  .details-tab[aria-selected="true"] .details-tab-index {
+    color: #c9d4e1;
+  }
+
+  @media (max-width: 767px) {
+    .details-tabs-wrap {
+      margin-top: 0;
+      margin-left: -0.12rem;
+      margin-right: -0.12rem;
+      padding: 0.06rem 0 0.26rem;
+    }
+
+    .details-tab {
+      padding: 0.5rem 0.58rem;
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+
+    .details-tabs {
+      gap: 0.26rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .details-tab,
+    .details-tab::after {
+      animation: none;
+      transition: none;
+    }
+
+    .details-tabs {
+      scroll-behavior: auto;
+    }
+  }
+</style>

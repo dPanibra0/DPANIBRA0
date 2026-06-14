@@ -11,13 +11,13 @@ interface Props {
 const { id, hero } = Astro.props;
 ---
 
-<section id={id} class="section-space pt-16" data-hero-section>
+<section id={id} class="section-space" data-hero-section>
   <div
     class="hero-glow hero-stage relative overflow-hidden"
   >
     <div class="pointer-events-none absolute inset-0 hidden lg:block">
       <div class="container-shell relative h-full">
-        <div class="absolute right-0 top-16 w-[55%] aspect-[16/10]">
+        <div class="absolute right-10 top-16 w-[55%] aspect-[16/10]">
           <Image
             src={heroImage}
             alt="Enterprise backend architecture visual"
@@ -34,13 +34,13 @@ const { id, hero } = Astro.props;
     <div class="hero-bg-fade pointer-events-none absolute inset-0 hidden lg:block"></div>
     <div class="container-shell relative z-10">
       <div
-        class="max-w-3xl py-8 md:py-12 lg:py-16"
+        class="max-w-3xl  pb-8 md:py-12 lg:py-16"
       data-reveal-group
       data-reveal-stagger-mobile="86"
       data-reveal-stagger-desktop="68"
     >
         <div
-          class="availability-badge mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted"
+          class="availability-badge mb-5 inline-flex items-center gap-2 border border-border bg-surface px-3 py-1.5 text-xs text-muted"
           data-reveal="up"
         >
           <span class="availability-dot"></span>
@@ -54,11 +54,11 @@ const { id, hero } = Astro.props;
           {hero.title}
         </h1>
         <p class="mt-6 max-w-2xl text-base leading-relaxed tracking-[-0.01em] text-muted md:text-lg" data-reveal="up">{hero.subtitle}</p>
-        <div class="relative mt-8 overflow-hidden lg:hidden" data-reveal="zoom" data-reveal-delay="90">
+        <div class="hero-mobile-parallax-shell relative mt-8 lg:hidden" data-hero-mobile-media data-reveal="zoom" data-reveal-delay="90">
           <Image
             src={heroImage}
             alt="Enterprise backend architecture visual"
-            class="block h-[250px] w-full object-cover object-[62%_center]"
+            class="hero-mobile-parallax-image block h-[280px] w-full object-cover object-[62%_center]"
             widths={[480, 768, 1024]}
             sizes="100vw"
             format="webp"
@@ -81,11 +81,56 @@ const { id, hero } = Astro.props;
       {
         hero.stats.map((stat) => (
           <article class="stats-item px-6 py-7 text-center md:px-8 md:py-8" data-reveal="up">
-            <p class="text-2xl font-semibold tracking-[-0.03em] text-text md:text-3xl">{stat.value}</p>
-            <p class="mt-2 text-sm leading-snug text-muted md:text-base">{stat.label}</p>
+            <p class="text-3xl font-semibold tracking-[-0.04em] text-text md:text-[34px]">{stat.value}</p>
+            <p class="mt-2 text-sm font-medium leading-snug tracking-[-0.01em] text-muted md:text-base">{stat.label}</p>
           </article>
         ))
       }
     </div>
   </div>
  </section>
+
+<script>
+  (() => {
+    const section = document.querySelector("[data-hero-section]");
+    if (!(section instanceof HTMLElement)) return;
+
+    const media = section.querySelector("[data-hero-mobile-media]");
+    if (!(media instanceof HTMLElement)) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 1023px)");
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      ticking = false;
+
+      if (reducedMotion.matches || !mobileViewport.matches) {
+        section.style.setProperty("--hero-mobile-parallax", "0px");
+        return;
+      }
+
+      const rect = media.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const sectionCenter = rect.top + rect.height / 2;
+      const viewportCenter = viewportHeight / 2;
+      const rawOffset = (viewportCenter - sectionCenter) * 0.032;
+      const clampedOffset = Math.max(-10, Math.min(10, rawOffset));
+
+      section.style.setProperty("--hero-mobile-parallax", `${clampedOffset.toFixed(2)}px`);
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateParallax);
+    };
+
+    updateParallax();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", requestUpdate);
+    reducedMotion.addEventListener("change", requestUpdate);
+  })();
+</script>

@@ -1,109 +1,499 @@
 ---
-import type { PortfolioContent } from "../../content/types";
+import { Icon } from "astro-icon/components";
+import type {
+  PortfolioContent,
+  PortfolioUiTranslations,
+} from "../../content/types";
+import { imagenesBlob } from "../../content/imagenes-blob";
+import { getProjectDetailHref } from "../../utils/project-detail";
 
 interface Props {
   id: string;
   projects: PortfolioContent["projects"];
   overline: string;
-  labels: {
-    problem: string;
-    architecture: string;
-    stack: string;
-    challenges: string;
-    solution: string;
-    impact: string;
-  };
+  ui: PortfolioUiTranslations["projects"];
 }
 
-const { id, projects, overline, labels } = Astro.props;
-const isEnglish = projects.title.toLowerCase().includes("featured");
+type ProjectItem = Props["projects"]["items"][number];
+type ProjectCardItem = ProjectItem & {
+  summary?: string;
+  liveUrl?: string;
+  statusBadge?: {
+    label: string;
+    tone?: "blue" | "neutral";
+  };
+};
 
-const headlineTop = isEnglish ? "Featured" : "Decisiones técnicas con";
-const headlineBottom = isEnglish ? "enterprise project architecture" : "impacto empresarial real";
+const getBadgeToneClass = (tone?: "blue" | "neutral") => {
+  return tone === "blue" ? "project-card-badge--blue" : "project-card-badge--neutral";
+};
 
-const metricLabels = isEnglish
-  ? ["Latency reduction", "Production uptime", "Response window"]
-  : ["Reduccion latencia", "Uptime alcanzado", "Tiempo de respuesta"];
+const { id, projects, overline, ui } = Astro.props as Props;
 
-const metricValues = [
-  ["84%", "99.9%", "5s→800ms"],
-  ["67%", "99.8%", "2.4h→55m"],
-];
+const deriveTeaser = (project: ProjectItem) => {
+  const source = project.problem || project.impact || project.solution;
+  if (!source) {
+    return "Caso empresarial con foco en continuidad operativa.";
+  }
 
-const sectionTags = isEnglish
-  ? ["Logistics · Microservices", "Finance · Batch"]
-  : ["Logistica · Microservicios", "Finanzas · Batch"];
+  const clean = source.replace(/\s+/g, " ").trim();
+  const sentence = clean.split(".")[0]?.trim() || clean;
+
+  if (sentence.length <= 110) {
+    return sentence.endsWith(".") ? sentence : `${sentence}.`;
+  }
+
+  return `${sentence.slice(0, 107).trimEnd()}...`;
+};
+
+const fallbackProject: ProjectItem = {
+  title: ui.fallbackProject.title,
+  impact: ui.fallbackProject.impact,
+  stack: ui.fallbackProject.stack,
+  problem: "",
+  architecture: "",
+  challenges: "",
+  solution: "",
+};
+
+const visibleProjects = [...projects.items];
+while (visibleProjects.length < 3) {
+  visibleProjects.push(fallbackProject);
+}
+
+const projectImages = [...imagenesBlob.proyectos];
 ---
 
-<section id={id} class="section-space border-t border-border/50">
+<section
+  id={id}
+  class="section-space border-t border-border/50"
+  data-projects-section
+>
   <div class="container-shell pt-8 md:pt-12">
-    <p class="micro-label mb-5">{overline}</p>
-    <h2 class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
-      {headlineTop}
+    <p class="micro-label mb-5" data-reveal="up">{overline}</p>
+    <h2
+      class="max-w-[780px] text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]"
+      data-reveal="up"
+    >
+      {ui.headingTop}
       <br />
-      <span class="text-muted">{headlineBottom}</span>
+      <span class="text-muted">{ui.headingBottom}</span>
     </h2>
-    <p class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg">{projects.intro}</p>
+    <p
+      class="mt-7 max-w-[860px] text-base leading-relaxed text-muted md:text-lg"
+      data-reveal="up"
+    >
+      {projects.intro}
+    </p>
 
-    <div class="mt-12 space-y-6">
+    <div
+      class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+      data-reveal-group
+      data-reveal-stagger-mobile="72"
+      data-reveal-stagger-desktop="54"
+    >
       {
-        projects.items.map((project, index) => (
-          <article class="overflow-hidden rounded-2xl border border-border/60 bg-black/20">
-            <div class="relative h-[240px] overflow-hidden md:h-[300px] lg:h-[340px]">
-              <img src="/images/hero-real.png" alt={project.title} class="h-full w-full object-cover object-center opacity-55" loading="lazy" />
-              <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(77,131,166,0.32),transparent_35%)]"></div>
-              <div class="project-image-fade pointer-events-none absolute inset-x-0 bottom-0 h-20 md:h-24"></div>
-              <span class="absolute left-4 top-4 rounded-full border border-border/80 bg-black/35 px-3 py-1 text-xs text-muted">{sectionTags[index] ?? sectionTags[0]}</span>
-            </div>
+        visibleProjects.map((project: ProjectCardItem, index: number) => {
+          const projectCard = project as ProjectCardItem;
+          const hasProjectDetails = project !== fallbackProject;
+          const detailsHref = hasProjectDetails
+            ? getProjectDetailHref(project, index)
+            : "/detalles#proyectos";
+          const imageSrc =
+            projectImages[index] ?? projectImages[projectImages.length - 1];
+          const teaser = deriveTeaser(project);
+          const projectSummary = projectCard.summary || teaser;
+          const stackItems = project.stack
+            .split(",")
+            .map((tech) => tech.trim())
+            .filter(Boolean)
+            .slice(0, 3);
 
-            <div class="grid gap-6 p-6 md:p-7 lg:grid-cols-[1.45fr_0.55fr]">
-              <div>
-                <h3 class="text-xl font-semibold tracking-[-0.02em] text-text md:text-2xl">{project.title}</h3>
-                <p class="mt-3 max-w-[900px] text-sm leading-relaxed text-muted md:text-base">{project.impact}</p>
-
-                <div class="mt-6 flex flex-wrap gap-2.5">
-                  {project.stack.split(",").map((tech) => <span class="rounded-md border border-border/80 bg-surface/30 px-2.5 py-1.5 text-xs text-muted">{tech.trim()}</span>)}
+          return (
+            <article class="project-card-shell" data-reveal="up">
+              <a
+                href={detailsHref}
+                class="project-card group flex h-full flex-col overflow-hidden rounded-sm border border-border/65"
+                data-project-card
+                aria-label={`Ver detalle del proyecto ${project.title}`}
+              >
+                <div
+                  class="project-mobile-parallax-shell relative h-[180px] md:h-[210px] overflow-hidden border-b border-border/50"
+                  data-project-mobile-media
+                >
+                  <img
+                    src={imageSrc}
+                    alt={project.title}
+                    class="project-image project-mobile-parallax-image h-full w-full object-cover object-center"
+                    loading="lazy"
+                  />
+                  <div class="project-image-overlay absolute inset-0" />
+                  {projectCard.statusBadge ? (
+                    <span class={`project-card-badge ${getBadgeToneClass(projectCard.statusBadge.tone)}`}>
+                      {projectCard.statusBadge.label}
+                    </span>
+                  ) : null}
                 </div>
-              </div>
+                <div class="project-card-body flex grow flex-col p-5 md:p-6">
+                  <h3 class="project-card-title text-text">{project.title}</h3>
+                  <p class="project-card-summary mt-3 text-sm leading-relaxed text-muted md:block">
+                    {projectSummary}
+                  </p>
 
-                <div class="space-y-3 text-xs text-muted md:text-sm">
-                {metricLabels.map((label, metricIndex) => <div class="flex items-center justify-between border-b border-border/40 pb-2">
-                  <span>{label}</span>
-                  <span class="text-text">{metricValues[index]?.[metricIndex] ?? metricValues[0][metricIndex]}</span>
-                </div>)}
-              </div>
-            </div>
-
-            <details class="project-details">
-              <summary class="flex cursor-pointer list-none items-center gap-2 px-6 py-4 text-sm font-medium text-muted transition hover:text-text md:px-8">
-                <span class="details-open-label">{isEnglish ? "Hide details" : "Ocultar detalles"}</span>
-                <span class="details-closed-label">{isEnglish ? "Show details" : "Ver detalles"}</span>
-                <span class="details-arrow text-base">⌃</span>
-              </summary>
-
-              <div class="grid gap-6 p-6 md:p-7 lg:grid-cols-2">
-                <div>
-                  <p class="micro-label mb-4">{labels.problem}</p>
-                  <p class="text-sm leading-relaxed text-muted md:text-base">{project.problem}</p>
-
-                  <p class="micro-label mb-4 mt-8">{labels.architecture}</p>
-                  <p class="text-sm leading-relaxed text-muted md:text-base">{project.architecture}</p>
+                  <div class="mt-5 flex flex-wrap gap-2">
+                    {stackItems.map((tech) => (
+                      <span class="stack-chip border border-border/80 bg-surface/35 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-muted/95 md:text-[11px]">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div class="grow"></div>
+                  <div class="project-card-footer mt-5 flex w-full items-center justify-between border-t border-border/50 pt-4 md:pb-0 md:pt-4">
+                    <span class="text-[10px] font-medium uppercase tracking-[0.14em] text-muted/85 md:text-[11px]">
+                      {ui.sectionTags[index] ?? ui.sectionTags[0]}
+                    </span>
+                    <span class="inline-cta project-link" aria-hidden="true">
+                      <span class="text-[8px] md:text-[11px]">
+                        {ui.detailsLabel}
+                      </span>
+                      <Icon
+                        name="lucide:arrow-right"
+                        class="project-link-icon h-3.5 w-3.5"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </div>
                 </div>
-
-                <div>
-                  <p class="micro-label mb-4">{labels.solution}</p>
-                  <ul class="space-y-3">
-                    {project.solution.split(",").map((item) => <li class="flex gap-3 text-sm leading-relaxed text-muted md:text-base">
-                      <span class="text-muted">✓</span>
-                      <span>{item.trim()}</span>
-                    </li>)}
-                  </ul>
-                </div>
-              </div>
-            </details>
-          </article>
-        ))
+              </a>
+            </article>
+          );
+        })
       }
     </div>
   </div>
 </section>
+
+<style>
+  .project-card-shell {
+    min-width: 0;
+  }
+
+  .project-card-body,
+  .project-card-footer {
+    background: transparent;
+  }
+
+  .project-card {
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      border-color 220ms ease,
+      background-color 220ms ease,
+      box-shadow 240ms ease;
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.72);
+    outline-offset: 4px;
+  }
+
+  .project-card-title {
+    max-width: 14ch;
+    font-size: clamp(1.55rem, 4vw, 1.82rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .project-image {
+    transition: transform 420ms ease;
+  }
+
+  .project-link-icon {
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .project-image-overlay {
+    background: linear-gradient(
+      to top,
+      rgba(10, 10, 10, 0.38),
+      rgba(10, 10, 10, 0.1)
+    );
+  }
+
+  .project-card-badge {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.36rem 0.72rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-border) 56%, rgba(255, 255, 255, 0.22));
+    backdrop-filter: blur(10px);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .project-card-badge::before {
+    content: "";
+    width: 0.36rem;
+    height: 0.36rem;
+    border-radius: 999px;
+  }
+
+  .project-card-badge--blue {
+    color: #eff7ff;
+    background: linear-gradient(135deg, rgba(41, 109, 186, 0.9), rgba(25, 86, 156, 0.82));
+    border-color: rgba(173, 216, 255, 0.44);
+    box-shadow: 0 14px 28px -18px rgba(24, 84, 152, 0.88);
+  }
+
+  .project-card-badge--blue::before {
+    background: #a9d5ff;
+    box-shadow: 0 0 10px rgba(169, 213, 255, 0.82);
+  }
+
+  .project-card-badge--neutral {
+    color: color-mix(in oklab, var(--color-text) 90%, #f3f8ff);
+    background: rgba(9, 15, 23, 0.58);
+  }
+
+  .project-card-badge--neutral::before {
+    background: rgba(231, 240, 249, 0.86);
+    box-shadow: 0 0 8px rgba(231, 240, 249, 0.46);
+  }
+
+  .project-card:focus-visible .project-link {
+    color: color-mix(in oklab, var(--color-text) 88%, white);
+  }
+
+  .project-card:focus-visible .project-link::after {
+    transform: scaleX(1);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
+  }
+
+  .project-card:focus-visible .project-link-icon {
+    transform: translateX(3px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .project-card:hover {
+      border-color: color-mix(in oklab, var(--color-border) 44%, rgba(231, 241, 251, 0.72));
+      background: color-mix(in oklab, var(--color-surface) 84%, transparent);
+      box-shadow: 0 18px 36px -28px rgba(214, 229, 242, 0.46);
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.03);
+    }
+
+    .project-card:hover .project-link,
+    .project-card:focus-visible .project-link {
+      color: color-mix(in oklab, var(--color-text) 88%, white);
+    }
+
+    .project-card:hover .project-link::after,
+    .project-card:focus-visible .project-link::after {
+      transform: scaleX(1);
+      background: color-mix(in oklab, var(--color-text) 90%, white);
+    }
+
+    .project-card:hover .project-link-icon,
+    .project-card:focus-visible .project-link-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .project-card-summary {
+      display: none;
+    }
+
+    .project-mobile-parallax-shell {
+      overflow: hidden;
+    }
+
+    .project-mobile-parallax-image {
+      transform: translate3d(0, var(--project-mobile-parallax, 0px), 0)
+        scale(1.05);
+      transform-origin: center top;
+      transition: transform 80ms linear;
+      will-change: transform;
+    }
+
+    .project-card.is-mobile-visible .project-link,
+    .project-card:active .project-link,
+    .project-card:focus-visible .project-link {
+      color: color-mix(in oklab, var(--color-text) 88%, white);
+    }
+
+    .project-card.is-mobile-visible .project-link::after,
+    .project-card:active .project-link::after,
+    .project-card:focus-visible .project-link::after {
+      transform: scaleX(1);
+      background: color-mix(in oklab, var(--color-text) 90%, white);
+    }
+
+    .project-card.is-mobile-visible .project-link-icon,
+    .project-card:active .project-link-icon,
+    .project-card:focus-visible .project-link-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .project-card-title {
+      max-width: none;
+      font-size: 1.32rem;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .project-card-summary {
+      max-width: 32ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-image,
+    .project-link,
+    .project-link-icon,
+    .project-card {
+      transition: none;
+    }
+
+    .project-card:hover .project-image {
+      transform: none;
+    }
+
+    .project-mobile-parallax-image {
+      transform: none;
+      will-change: auto;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const section = document.querySelector("[data-projects-section]");
+    if (!(section instanceof HTMLElement)) return;
+
+    const mediaItems = Array.from(
+      section.querySelectorAll("[data-project-mobile-media]"),
+    );
+    const projectCards = Array.from(
+      section.querySelectorAll("[data-project-card]"),
+    );
+
+    if (!mediaItems.length && !projectCards.length) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
+    let revealObserver: IntersectionObserver | null = null;
+
+    let ticking = false;
+
+    const resetParallax = () => {
+      mediaItems.forEach((media) => {
+        if (media instanceof HTMLElement) {
+          media.style.setProperty("--project-mobile-parallax", "0px");
+        }
+      });
+    };
+
+    const updateParallax = () => {
+      ticking = false;
+
+      if (reducedMotion.matches || !mobileViewport.matches) {
+        resetParallax();
+        return;
+      }
+
+      const viewportHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      const viewportCenter = viewportHeight / 2;
+
+      mediaItems.forEach((media) => {
+        if (!(media instanceof HTMLElement)) return;
+
+        const rect = media.getBoundingClientRect();
+        const mediaCenter = rect.top + rect.height / 2;
+        const rawOffset = (viewportCenter - mediaCenter) * 0.032;
+        const clampedOffset = Math.max(-10, Math.min(10, rawOffset));
+
+        media.style.setProperty(
+          "--project-mobile-parallax",
+          `${clampedOffset.toFixed(2)}px`,
+        );
+      });
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateParallax);
+    };
+
+    const syncMobileCardReveal = () => {
+      projectCards.forEach((card) => {
+        if (card instanceof HTMLElement) {
+          card.classList.remove("is-mobile-visible");
+        }
+      });
+
+      revealObserver?.disconnect();
+      revealObserver = null;
+
+      if (
+        reducedMotion.matches ||
+        !mobileViewport.matches ||
+        !projectCards.length ||
+        !("IntersectionObserver" in window)
+      ) {
+        return;
+      }
+
+      revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.target instanceof HTMLElement) {
+              entry.target.classList.toggle(
+                "is-mobile-visible",
+                entry.isIntersecting && entry.intersectionRatio >= 0.45,
+              );
+            }
+          });
+        },
+        {
+          threshold: [0.45, 0.7],
+        },
+      );
+
+      projectCards.forEach((card) => {
+        if (card instanceof HTMLElement) {
+          revealObserver?.observe(card);
+        }
+      });
+    };
+
+    updateParallax();
+    syncMobileCardReveal();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", () => {
+      requestUpdate();
+      syncMobileCardReveal();
+    });
+    reducedMotion.addEventListener("change", () => {
+      requestUpdate();
+      syncMobileCardReveal();
+    });
+  })();
+</script>

@@ -1,0 +1,317 @@
+---
+interface Props {
+  id: string;
+  hexagonal: {
+    headingPrimary: string;
+    headingSecondary: string;
+    intro: string;
+    points: string[];
+  };
+  overline: string;
+}
+
+const { id, hexagonal, overline } = Astro.props;
+---
+
+<section id={id} class="section-space border-t border-border/50" data-hex-architecture>
+  <div class="container-shell pt-8 md:pt-12">
+    <div class="hex-arch-layout" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="46">
+      <article class="hex-arch-copy" data-reveal="up">
+        <p class="micro-label mb-5">{overline}</p>
+        <h2 class="text-[32px] font-semibold leading-[1.02] tracking-[-0.03em] text-text md:text-[44px]">
+          {hexagonal.headingPrimary}
+          <br />
+          <span class="text-muted">{hexagonal.headingSecondary}</span>
+        </h2>
+        <p class="mt-6 max-w-[64ch] text-base leading-relaxed text-muted md:text-lg">{hexagonal.intro}</p>
+        <ul class="mt-6 space-y-3" data-hex-list>
+          {
+            hexagonal.points.map((point, index) => (
+              <li
+                class="hex-concept-item flex w-full items-start gap-3 rounded-xl px-4 py-3 text-[15px] leading-relaxed text-muted transition-[opacity,color,transform,background-color,box-shadow] duration-300 md:text-base"
+                data-hex-concept={index === 0 ? "dominio" : index === 1 ? "aplicacion" : "infraestructura"}
+                data-hex-trigger
+                tabindex="0"
+              >
+                <span class="text-muted">›</span>
+                <span>{point}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+
+      <article class="hex-arch-diagram-wrap" data-reveal="up">
+        <svg viewBox="0 0 620 360" class="hex-architecture-diagram" role="img" aria-label="Diagrama de arquitectura hexagonal con dominio, puertos y adaptadores">
+          <g class="hex-hit-zone" data-hex-concept="infraestructura" data-hex-trigger tabindex="0" role="button" aria-label="Resaltar infraestructura">
+            <polygon points="310,26 438,100 438,244 310,318 182,244 182,100" />
+          </g>
+
+          <g class="hex-hit-zone" data-hex-concept="aplicacion" data-hex-trigger tabindex="0" role="button" aria-label="Resaltar aplicacion">
+            <polygon points="310,56 412,115 412,229 310,288 208,229 208,115" />
+          </g>
+
+          <g class="hex-hit-zone" data-hex-concept="dominio" data-hex-trigger tabindex="0" role="button" aria-label="Resaltar dominio">
+            <polygon points="310,94 378,133 378,211 310,250 242,211 242,133" />
+          </g>
+
+          <g data-hex-concept="dominio" class="hex-zone" stroke="currentColor" fill="none">
+            <polygon stroke-width="1.8" points="310,94 378,133 378,211 310,250 242,211 242,133" />
+          </g>
+
+          <g data-hex-concept="aplicacion" class="hex-zone" stroke="currentColor" fill="none">
+            <polygon stroke-width="1.2" points="310,56 412,115 412,229 310,288 208,229 208,115" />
+          </g>
+
+          <g data-hex-concept="infraestructura" class="hex-zone" stroke="currentColor" fill="none">
+            <polygon stroke-width="1" points="310,26 438,100 438,244 310,318 182,244 182,100" />
+          </g>
+
+          <g data-hex-concept="dominio" class="hex-zone" fill="currentColor" font-size="16" font-weight="600" text-anchor="middle">
+            <text x="310" y="176">DOMINIO</text>
+          </g>
+
+          <g data-hex-concept="aplicacion" class="hex-zone" fill="currentColor" font-size="12" text-anchor="middle">
+            <text x="310" y="86">PUERTOS</text>
+            <text x="406" y="141">APLICACION</text>
+            <text x="406" y="218">APLICACION</text>
+            <text x="310" y="278">PUERTOS</text>
+            <text x="214" y="218">APLICACION</text>
+            <text x="214" y="141">APLICACION</text>
+          </g>
+
+          <g data-hex-concept="infraestructura" class="hex-zone" fill="currentColor" font-size="11" text-anchor="middle">
+            <text x="310" y="18">TELEMETRIA</text>
+            <text x="456" y="96">API REST</text>
+            <text x="456" y="260">DB / EVENTOS</text>
+            <text x="310" y="348">INTEGRACIONES</text>
+            <text x="164" y="260">SCHEDULER</text>
+            <text x="164" y="96">CLIENTES</text>
+          </g>
+        </svg>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  [data-hex-architecture] {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  [data-hex-architecture]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(110% 76% at 72% 52%, rgba(111, 174, 232, 0.14) 0%, rgba(111, 174, 232, 0) 70%);
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 340ms ease, transform 420ms ease;
+  }
+
+  [data-hex-architecture][data-has-active="true"]::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  [data-hex-architecture] .hex-concept-item {
+    cursor: pointer;
+    transform-origin: left center;
+    outline: none;
+    background: transparent;
+  }
+
+  [data-hex-architecture][data-has-active="true"] .hex-concept-item,
+  [data-hex-architecture][data-has-active="true"] .hex-zone {
+    opacity: 0.32;
+  }
+
+  [data-hex-architecture][data-has-active="true"] .hex-concept-item[data-active="true"],
+  [data-hex-architecture][data-has-active="true"] .hex-zone[data-active="true"] {
+    opacity: 1;
+  }
+
+  [data-hex-architecture] .hex-concept-item[data-active="true"] {
+    color: rgba(238, 245, 253, 0.99);
+    background: linear-gradient(110deg, rgba(158, 201, 242, 0.16), rgba(158, 201, 242, 0.06));
+    box-shadow: 0 16px 34px rgba(2, 11, 26, 0.36), inset 0 0 0 1px rgba(185, 214, 245, 0.28);
+    transform: translateX(7px) translateY(-2px) scale(1.018);
+  }
+
+  [data-hex-architecture] .hex-concept-item:focus-visible {
+    background: rgba(160, 203, 242, 0.08);
+    box-shadow: inset 0 0 0 2px rgba(169, 209, 244, 0.45);
+  }
+
+  [data-hex-architecture] .hex-zone {
+    pointer-events: none;
+    opacity: 0.78;
+    transform-origin: 310px 172px;
+    transition: opacity 280ms ease, filter 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-hex-architecture] .hex-zone polygon {
+    transition: fill 280ms ease, stroke 280ms ease;
+  }
+
+  [data-hex-architecture] .hex-hit-zone {
+    pointer-events: all;
+    cursor: pointer;
+    outline: none;
+  }
+
+  [data-hex-architecture] .hex-hit-zone polygon {
+    fill: rgba(255, 255, 255, 0.001);
+    stroke: none;
+  }
+
+  [data-hex-architecture] .hex-hit-zone:focus-visible polygon {
+    fill: rgba(160, 203, 242, 0.08);
+  }
+
+  [data-hex-architecture] .hex-zone[data-active="true"] {
+    filter: drop-shadow(0 20px 24px rgba(4, 15, 33, 0.3)) drop-shadow(0 0 6px rgba(198, 222, 248, 0.24));
+    transform: translateY(-5px) scale(1.028);
+  }
+
+  [data-hex-architecture] .hex-zone[data-active="true"] polygon {
+    fill: rgba(158, 201, 242, 0.14);
+  }
+
+  [data-hex-architecture] .hex-zone[data-hex-concept="aplicacion"] {
+    opacity: 0.88;
+  }
+
+  [data-hex-architecture] .hex-zone[data-hex-concept="infraestructura"] {
+    opacity: 0.72;
+  }
+
+  @media (max-width: 1023px) {
+    [data-hex-architecture] .hex-concept-item {
+      cursor: default;
+    }
+
+    [data-hex-architecture] .hex-hit-zone {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-hex-architecture]::before,
+    [data-hex-architecture] .hex-concept-item,
+    [data-hex-architecture] .hex-zone {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const section = document.querySelector("[data-hex-architecture]");
+    if (!(section instanceof HTMLElement)) return;
+
+    const targets = Array.from(section.querySelectorAll("[data-hex-concept]"));
+    const interactiveElements = Array.from(section.querySelectorAll("[data-hex-trigger]"));
+    const mobileItems = Array.from(section.querySelectorAll(".hex-concept-item"));
+    const concepts = ["dominio", "aplicacion", "infraestructura"];
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 1023px)");
+
+    let ticking = false;
+
+    const setActive = (concept) => {
+      const hasActive = Boolean(concept);
+      section.dataset.hasActive = hasActive ? "true" : "false";
+
+      targets.forEach((element) => {
+        const matches = hasActive && element.getAttribute("data-hex-concept") === concept;
+        if (matches) {
+          element.setAttribute("data-active", "true");
+        } else {
+          element.removeAttribute("data-active");
+        }
+      });
+    };
+
+    const getScrollConcept = () => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const viewportActivationLine = viewportHeight * 0.42;
+
+      let closestConcept = null;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      mobileItems.forEach((item) => {
+        if (!(item instanceof HTMLElement)) return;
+
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(itemCenter - viewportActivationLine);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestConcept = item.getAttribute("data-hex-concept");
+        }
+      });
+
+      if (!closestConcept) return null;
+
+      const activationRadius = Math.min(viewportHeight * 0.12, 88);
+      return closestDistance <= activationRadius ? closestConcept : null;
+    };
+
+    const updateActiveConcept = () => {
+      ticking = false;
+
+      if (!mobileViewport.matches) {
+        setActive(concepts[0]);
+        return;
+      }
+
+      if (reducedMotion.matches) {
+        setActive(null);
+        return;
+      }
+
+      setActive(getScrollConcept());
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateActiveConcept);
+    };
+
+    interactiveElements.forEach((element) => {
+      element.addEventListener("pointerenter", () => {
+        if (mobileViewport.matches) return;
+        setActive(element.getAttribute("data-hex-concept"));
+      });
+
+      element.addEventListener("pointerleave", () => {
+        if (mobileViewport.matches) return;
+        setActive(concepts[0]);
+      });
+
+      element.addEventListener("focusin", () => {
+        if (mobileViewport.matches) return;
+        setActive(element.getAttribute("data-hex-concept"));
+      });
+
+      element.addEventListener("focusout", () => {
+        if (mobileViewport.matches) return;
+        setActive(concepts[0]);
+      });
+    });
+
+    updateActiveConcept();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    mobileViewport.addEventListener("change", requestUpdate);
+    reducedMotion.addEventListener("change", requestUpdate);
+  })();
+</script>
