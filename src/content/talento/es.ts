@@ -403,7 +403,7 @@ export const esUi: PortfolioUiTranslations = {
     blogOverline: "BLOG_TÉCNICO",
     blogTitle: "Notas sobre backend y arquitectura",
     blogIntro:
-      "Ahora funciona como hub de descubrimiento: notas reales, URLs compartibles y lectura directa desde cada artículo.",
+      "Reflexiones y aprendizajes sobre el desarrollo backend, arquitectura de sistemas y mejores prácticas en entornos empresariales.",
     blogLabels: {
       readArticle: "Leer artículo",
       published: "Publicado",
@@ -411,6 +411,7 @@ export const esUi: PortfolioUiTranslations = {
       article: "Artículo técnico",
       available: "Disponible",
       postsCount: "artículos publicados",
+      moreArticles: "Mas articulos",
     },
   },
 };

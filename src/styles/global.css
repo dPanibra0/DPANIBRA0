@@ -110,6 +110,9 @@ a {
   font-size: 0.75rem;
   font-weight: 500;
 }
+.accent-label-font{
+  font-family: var(--font-accent);
+}
 
 .technical-accent {
   font-family: var(--font-accent);

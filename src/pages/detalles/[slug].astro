@@ -1,20 +1,26 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
-import Navbar from "../../components/layout/Navbar.astro";
+import { Icon } from "astro-icon/components";
 import Contact from "../../components/sections/Contact.astro";
 import Footer from "../../components/layout/Footer.astro";
+import Navbar from "../../components/layout/Navbar.astro";
 import FloatingQuickActions from "../../components/ui/FloatingQuickActions.astro";
 import { getTranslations } from "../../content/talento/i18n";
 import { formatPostDate } from "../../content/technical-posts-data";
-import { Icon } from "astro-icon/components";
+import MainLayout from "../../layouts/MainLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("technicalPosts", ({ data }) => !data.draft);
+  const posts = (await getCollection("technicalPosts", ({ data }) => !data.draft)).sort(
+    (a: CollectionEntry<"technicalPosts">, b: CollectionEntry<"technicalPosts">) =>
+      b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  );
 
-  return posts.map((post: CollectionEntry<"technicalPosts">) => ({
+  return posts.map((post: CollectionEntry<"technicalPosts">, index: number) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      nextPost: posts[index + 1] ?? null,
+    },
   }));
 }
 
@@ -26,14 +32,43 @@ const postNav = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-const { post } = Astro.props as { post: CollectionEntry<"technicalPosts"> };
+const { post, nextPost } = Astro.props as {
+  post: CollectionEntry<"technicalPosts">;
+  nextPost: CollectionEntry<"technicalPosts"> | null;
+};
+
 const { Content } = await render(post);
 const words = post.body.trim().split(/\s+/).filter(Boolean).length;
 const readingTimeMinutes = Math.max(1, Math.round(words / 180));
 const articleTitle = `${post.data.title} | David Panibra`;
 const articlePath = `/detalles/${post.id}`;
+const articleUrl = new URL(articlePath, Astro.site ?? new URL("https://davidpanibra.dev")).toString();
 const publishedLabel = formatPostDate(post.data.publishDate);
 const updatedLabel = post.data.updatedDate ? formatPostDate(post.data.updatedDate) : null;
+const nextArticle = nextPost
+  ? {
+      href: `/detalles/${nextPost.id}`,
+      title: nextPost.data.title,
+      description: nextPost.data.description,
+      tag: nextPost.data.tag,
+      publishedLabel: formatPostDate(nextPost.data.publishDate),
+    }
+  : null;
+const shareLinks = [
+  {
+    label: "LinkedIn",
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`,
+  },
+  {
+    label: "X",
+    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(post.data.title)}`,
+  },
+  {
+    label: "Email",
+    href: `mailto:?subject=${encodeURIComponent(post.data.title)}&body=${encodeURIComponent(`${post.data.description}\n\n${articleUrl}`)}`,
+  },
+];
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -42,7 +77,7 @@ const structuredData = {
   datePublished: post.data.publishDate.toISOString(),
   dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
   inLanguage: lang,
-  mainEntityOfPage: `https://davidpanibra.dev${articlePath}`,
+  mainEntityOfPage: articleUrl,
   image: [post.data.cover.src],
   author: {
     "@type": "Person",
@@ -83,56 +118,136 @@ const structuredData = {
 
   <main class="border-t border-border/50 pt-[clamp(2.2rem,6vw,4.5rem)] pb-[clamp(3rem,8vw,5.5rem)] max-md:pt-[1.4rem]">
     <div class="container-shell grid gap-4">
-      <a href="/detalles" class="inline-cta w-fit" data-reveal="up">
+      <a href="/detalles#blog" class="inline-cta w-fit" data-reveal="up">
         <Icon name="lucide:arrow-left" class="h-3.5 w-3.5" aria-hidden="true" />
-        Volver</a>
+        Volver
+      </a>
 
-      <article
-        class="card-surface overflow-hidden rounded-[1.1rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)]"
-        data-reveal="up"
-      >
-        <header class="grid gap-[1.4rem] border-b border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] p-[clamp(1.15rem,2vw,1.5rem)] min-[960px]:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.95fr)] min-[960px]:items-end max-md:p-4">
-          <div class="grid gap-[0.8rem]">
-            <p class="micro-label m-0">{post.data.tag}</p>
-            <h1 class="m-0 max-w-[16ch] text-[clamp(2rem,4.8vw,3.9rem)] leading-[0.98] tracking-[-0.045em] [text-wrap:balance]">
-              {post.data.title}
-            </h1>
-            <p class="m-0 max-w-[62ch] text-[clamp(1rem,1.6vw,1.08rem)] leading-[1.72] text-muted [text-wrap:pretty]">
-              {post.data.description}
-            </p>
-
-            <dl class="m-0 flex flex-wrap gap-[0.9rem] pt-[0.2rem] max-md:gap-[0.7rem]" aria-label="Metadatos del articulo">
-              <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
-                <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Publicado</dt>
-                <dd class="mt-[0.28rem] text-[0.94rem] text-text">{publishedLabel}</dd>
-              </div>
-              <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
-                <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Lectura</dt>
-                <dd class="mt-[0.28rem] text-[0.94rem] text-text">{readingTimeMinutes} min</dd>
-              </div>
-              {updatedLabel && (
-                <div class="min-w-[140px] border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.8rem] max-md:min-w-0 max-md:basis-full">
-                  <dt class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.08em] text-[#9aa8b7]">Actualizado</dt>
-                  <dd class="mt-[0.28rem] text-[0.94rem] text-text">{updatedLabel}</dd>
-                </div>
-              )}
-            </dl>
-          </div>
-
-          <figure class="relative m-0 aspect-[16/8] overflow-hidden rounded-[0.92rem] border border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] bg-[color:color-mix(in_oklab,var(--color-surface)_82%,black_18%)] max-md:aspect-[16/10]">
+      <article id="post-layout" class="grid gap-[clamp(1.35rem,3vw,2rem)]" data-reveal="up">
+        <header class="grid gap-[clamp(1rem,2vw,1.35rem)]">
+          <figure
+            id="post-hero"
+            class="relative m-0 overflow-hidden rounded-xl border border-[color:color-mix(in_oklab,var(--color-border)_82%,transparent)] bg-[linear-gradient(180deg,rgba(12,15,20,0.92),rgba(9,11,15,0.98))]"
+          >
             <img
+              id="post-hero-image"
               src={post.data.cover.src}
               alt={post.data.cover.alt}
               loading="eager"
               decoding="async"
-              class="h-full w-full object-cover object-center [filter:saturate(0.88)_contrast(0.96)]"
+              class="aspect-[16/8] w-full object-cover object-center max-md:aspect-[16/10]"
             />
             <span class="article-cover-wash"></span>
           </figure>
+
+          <div class="mx-auto grid w-full max-w-3xl mt-10">
+            <div
+              id="post-meta-strip"
+              class="flex flex-col gap-3 border-y border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] py-[0.92rem] md:flex-row md:items-start md:justify-between md:gap-6"
+            >
+              <p id="post-category" class="accent-label-font m-0 text-[#d6dde5]">{post.data.tag}</p>
+
+              <div class="grid gap-[0.18rem] text-left md:justify-items-end md:text-right accent-label-font">
+                <div class="flex flex-col items-right gap-x-[1rem] gap-y-[0.22rem] text-[0.82rem] uppercase tracking-[0.1em] text-[#cdd4dc]">
+                  <p id="post-published" class="m-0 font-[var(--font-accent)]">Publicado {publishedLabel}</p>
+                  <p id="post-reading-time" class="m-0 font-[var(--font-accent)]">Lectura {readingTimeMinutes} min</p>
+                </div>
+                {
+                  updatedLabel && (
+                    <p class="m-0 text-[0.72rem] uppercase tracking-[0.08em] text-[#7f8a94]">
+                      Actualizado {updatedLabel}
+                    </p>
+                  )
+                }
+              </div>
+            </div>
+
+            <div class="mt-10">
+              <h1
+                id="post-title"
+                class="m-0 max-w-3xl text-[clamp(2.35rem,5.1vw,5.2rem)] font-[500] leading-[0.94] tracking-[-0.055em] [text-wrap:balance]"
+              >
+                {post.data.title}
+              </h1>
+              <p
+                id="post-description"
+                class="mt-4 max-w-3xl accent-label-font text-[clamp(.8rem,1.45vw,1.18rem)] leading-[1.72] text-[#b3bcc6] [text-wrap:pretty]"
+              >
+                {post.data.description}
+              </p>
+            </div>
+          </div>
         </header>
 
-        <div class="article-prose mx-auto max-w-[76ch] px-[clamp(1.15rem,3vw,2rem)] pt-[clamp(1.35rem,3vw,2.2rem)] pb-[clamp(1.8rem,4vw,2.6rem)] max-md:px-4 max-md:pt-[1.15rem] max-md:pb-[1.6rem]">
+        <div id="post-prose" class="article-prose mx-auto grid w-full max-w-3xl ">
           <Content />
+        </div>
+
+        <div class="mx-auto grid w-full max-w-3xl gap-4 border-t border-[color:color-mix(in_oklab,var(--color-border)_68%,transparent)] pt-[clamp(1.4rem,3vw,2rem)] lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-start">
+          <section
+            id="post-share"
+            class="grid gap-[0.85rem] rounded-[1rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)] bg-[rgba(11,13,17,0.68)] p-[1rem]"
+            aria-labelledby="post-share-title"
+          >
+            <div class="grid gap-[0.3rem]">
+              <p id="post-share-title" class="micro-label m-0 text-[#d5dce4]">Share</p>
+              <p class="m-0 max-w-3xl text-[0.92rem] leading-[1.55] text-[#8e98a2]">
+                Comparte esta nota con alguien que este decidiendo stack, arquitectura o practicas backend.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              {
+                shareLinks.map((item) => (
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("mailto:") ? undefined : "_blank"}
+                    rel={item.href.startsWith("mailto:") ? undefined : "noreferrer"}
+                    class="inline-flex items-center gap-2 rounded-full border border-white/10 px-[0.8rem] py-[0.58rem] text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-[#edf1f5] transition duration-200 ease-out hover:border-white/30 hover:bg-white/[0.04]"
+                  >
+                    <Icon name="lucide:arrow-up-right" class="h-3.5 w-3.5" aria-hidden="true" />
+                    {item.label}
+                  </a>
+                ))
+              }
+            </div>
+          </section>
+
+          {
+            nextArticle && (
+              <section
+                id="post-next-article"
+                class="grid gap-[0.8rem] rounded-[1rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)] bg-[linear-gradient(180deg,rgba(14,17,22,0.92),rgba(9,11,15,0.98))] p-[1rem] md:p-[1.15rem]"
+                aria-labelledby="post-next-article-title"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="grid gap-[0.26rem]">
+                    <p id="post-next-article-title" class="micro-label m-0 text-[#d5dce4]">Next article</p>
+                    <p class="m-0 text-[0.76rem] uppercase tracking-[0.09em] text-[#87919b]">
+                      {nextArticle.tag} - {nextArticle.publishedLabel}
+                    </p>
+                  </div>
+                  <Icon name="lucide:move-right" class="mt-0.5 h-4 w-4 text-[#dde3ea]" aria-hidden="true" />
+                </div>
+
+                <a
+                  href={nextArticle.href}
+                  class="group grid gap-[0.72rem] rounded-[0.9rem] border border-white/8 bg-black/20 p-[0.95rem] transition duration-200 ease-out hover:border-white/16 hover:bg-white/[0.03]"
+                >
+                  <h2 class="m-0 max-w-[18ch] text-[clamp(1.38rem,2.1vw,2rem)] font-[640] leading-[1.02] tracking-[-0.04em] text-white transition duration-200 ease-out group-hover:text-[#f6f8fa]">
+                    {nextArticle.title}
+                  </h2>
+                  <p class="m-0 max-w-3xl text-[0.94rem] leading-[1.62] text-[#9ca6b0]">
+                    {nextArticle.description}
+                  </p>
+                  <span class="inline-flex w-fit items-center gap-2 border-b border-white/28 pb-[0.2rem] text-[0.72rem] font-semibold uppercase tracking-[0.11em] text-[#edf1f5] transition duration-200 ease-out group-hover:border-white/60">
+                    Ir al siguiente
+                    <Icon name="lucide:arrow-right" class="h-3.5 w-3.5" aria-hidden="true" />
+                  </span>
+                </a>
+              </section>
+            )
+          }
         </div>
       </article>
     </div>
@@ -156,68 +271,122 @@ const structuredData = {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(180deg, rgba(8, 12, 18, 0.08) 0%, rgba(8, 12, 18, 0.46) 100%),
-      linear-gradient(120deg, rgba(77, 131, 166, 0.18) 0%, rgba(77, 131, 166, 0) 58%);
+      linear-gradient(180deg, rgba(5, 8, 12, 0.04) 0%, rgba(5, 8, 12, 0.38) 100%),
+      linear-gradient(120deg, rgba(77, 131, 166, 0.16) 0%, rgba(77, 131, 166, 0) 60%);
     pointer-events: none;
+  }
+
+  .article-prose {
+    color: color-mix(in oklab, var(--color-muted) 78%, white 22%);
   }
 
   .article-prose :global(h2),
   .article-prose :global(h3) {
-    margin: 2rem 0 0.8rem;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: var(--color-text);
+    margin-top: 2.6rem;
+    margin-bottom: 0;
+    font-weight: 650;
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+    color: #f2f5f8;
+    text-wrap: balance;
   }
 
   .article-prose :global(h2) {
-    font-size: clamp(1.45rem, 2vw, 1.9rem);
+    font-size: clamp(1.6rem, 2.2vw, 2.2rem);
   }
 
   .article-prose :global(h3) {
-    font-size: clamp(1.18rem, 1.7vw, 1.4rem);
+    font-size: clamp(1.26rem, 1.8vw, 1.56rem);
   }
 
   .article-prose :global(p),
   .article-prose :global(li) {
-    font-size: 1.02rem;
-    line-height: 1.82;
-    color: color-mix(in oklab, var(--color-muted) 84%, white 16%);
+    font-size: 1.4rem;
+    line-height: 1.92;
+    color: color-mix(in oklab, var(--color-muted) 74%, white 100%);
   }
 
   .article-prose :global(p) {
-    margin: 0 0 1rem;
+    margin-bottom: 0;
     text-wrap: pretty;
+  }
+
+  .article-prose :global(a) {
+    color: #edf3f9;
+    text-decoration: underline;
+    text-decoration-color: rgba(237, 243, 249, 0.34);
+    text-underline-offset: 0.2rem;
+    transition: text-decoration-color 180ms ease, color 180ms ease;
+  }
+
+  .article-prose :global(a:hover),
+  .article-prose :global(a:focus-visible) {
+    color: white;
+    text-decoration-color: rgba(255, 255, 255, 0.72);
   }
 
   .article-prose :global(ul),
   .article-prose :global(ol) {
-    margin: 0 0 1.25rem;
-    padding-left: 1.25rem;
+    padding-left: 1.15rem;
   }
 
   .article-prose :global(li + li) {
-    margin-top: 0.4rem;
+    margin-top: 0.42rem;
+  }
+
+  .article-prose :global(blockquote) {
+    margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+    padding-left: 1rem;
+    color: #d7dde4;
+  }
+
+  .article-prose :global(hr) {
+    border: 0;
+    border-top: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .article-prose :global(pre) {
+    overflow-x: auto;
+    border: 1px solid color-mix(in oklab, var(--color-border) 74%, transparent);
+    border-radius: 0.9rem;
+    background: rgba(10, 14, 19, 0.92);
+    padding: 1rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
 
   .article-prose :global(code) {
-    padding: 0.1rem 0.32rem;
+    padding: 0.14rem 0.35rem;
     border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
     border-radius: 0.35rem;
-    background: rgba(10, 15, 21, 0.8);
+    background: rgba(10, 15, 21, 0.74);
     font-family: var(--font-accent);
     font-size: 0.92em;
-    color: #e7eff8;
+    color: #eef3f8;
+  }
+
+  .article-prose :global(pre code) {
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
 
   .article-prose :global(strong) {
-    color: var(--color-text);
+    color: #f5f7fa;
   }
 
   @media (max-width: 767px) {
+    .article-prose :global(h2) {
+      margin-top: 2.2rem;
+    }
+
     .article-prose :global(p),
     .article-prose :global(li) {
-      font-size: 0.98rem;
-      line-height: 1.72;
+      font-size: 1.03rem;
+      line-height: 1.82;
     }
   }
 </style>

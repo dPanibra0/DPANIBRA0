@@ -200,6 +200,7 @@ export interface PortfolioUiTranslations {
       article: string;
       available: string;
       postsCount: string;
+      moreArticles: string;
     };
   };
 }

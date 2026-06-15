@@ -13,17 +13,46 @@ interface Props {
     article: string;
     available: string;
     postsCount: string;
+    moreArticles: string;
   };
   blogPosts: TechnicalPostSummary[];
 }
 
 const { blogOverline, blogTitle, blogIntro, blogLabels, blogPosts } = Astro.props as Props;
-const publishedPostsCount = blogPosts.length;
-const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slice(0, 3);
+const [featuredPost, ...otherPosts] = blogPosts;
+const relatedPosts = otherPosts.length > 0 ? otherPosts : blogPosts;
+const featuredCategory = featuredPost?.tag ?? blogOverline;
+const featuredDescription = featuredPost?.description ?? blogIntro;
+
+const normalizeIdPart = (value: string) => {
+  const normalized = value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  return normalized || "article";
+};
+
+const getPostSlug = (href: string) => {
+  const path = href.replace(/^https?:\/\/[^/]+/i, "").split(/[?#]/, 1)[0] ?? href;
+  const segments = path.split("/").filter(Boolean);
+
+  return normalizeIdPart(segments.at(-1) ?? path);
+};
+
+const postSlugCounts = new Map<string, number>();
+const relatedPostsWithIds = relatedPosts.map((post) => {
+  const baseSlug = getPostSlug(post.href);
+  const occurrence = (postSlugCounts.get(baseSlug) ?? 0) + 1;
+
+  postSlugCounts.set(baseSlug, occurrence);
+
+  return {
+    ...post,
+    idSlug: occurrence === 1 ? baseSlug : `${baseSlug}-${occurrence}`,
+  };
+});
 ---
 
 <section
-  id="panel-blog"
+  id="blog-panel"
   role="tabpanel"
   aria-labelledby="tab-blog"
   class="details-panel border-t border-border/50"
@@ -31,84 +60,132 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
   data-panel-state="inactive"
   hidden
 >
-  <div class="container-shell pt-[1.9rem] max-md:pt-[1.25rem]">
-    <header class="mb-[1.35rem] grid max-w-[72ch] gap-[0.7rem] max-md:mb-4 max-md:gap-[0.62rem]" data-reveal="up">
-      <p class="micro-label">{blogOverline}</p>
-      <h2 class="m-0 text-[clamp(1.7rem,4vw,2.4rem)] font-[620] leading-[1.05] tracking-[-0.036em] text-text [text-wrap:balance]">
-        {blogTitle}
-      </h2>
-      <p class="m-0 max-w-[60ch] text-[clamp(0.98rem,1.7vw,1.06rem)] leading-[1.68] text-muted [text-wrap:pretty]">
-        {blogIntro}
-      </p>
-    </header>
+  <div class="container-shell pt-0">
+    {
+      featuredPost ? (
+        <article
+          id="blog-featured-hero"
+          class="relative border-b border-white/10"
+          data-reveal="up"
+        >
+          <a
+            id="blog-featured-link"
+            href={featuredPost.href}
+            class="group relative block min-h-[28rem] overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/70 md:min-h-[38rem]"
+            aria-label={`${blogLabels.readArticle}: ${featuredPost.title}`}
+          >
+            <figure id="blog-featured-media" class="absolute inset-0 m-0" aria-hidden="true">
+              <img
+                id="blog-featured-image"
+                src={featuredPost.cover.src}
+                alt={featuredPost.cover.alt}
+                loading="eager"
+                decoding="async"
+                class="h-full w-full object-cover object-center brightness-[0.72] saturate-[0.72] contrast-[0.96] transition duration-300 ease-out group-hover:scale-[1.015] group-hover:brightness-[0.78]"
+              />
+              <span id="blog-featured-overlay" class="absolute inset-0 bg-[linear-gradient(180deg,rgba(1,1,1,0.18)_0%,rgba(1,1,1,0.52)_38%,rgba(1,1,1,0.9)_100%),linear-gradient(90deg,rgba(1,1,1,0.9)_0%,rgba(1,1,1,0.58)_38%,rgba(1,1,1,0.18)_70%,rgba(1,1,1,0.36)_100%)]"></span>
+            </figure>
 
-    <div
-      class="card-surface mb-6 flex items-center justify-between gap-4 rounded-[0.95rem] border border-[color:color-mix(in_oklab,var(--color-border)_72%,transparent)] px-[1.15rem] py-4 max-md:mb-4 max-md:flex-col max-md:items-start"
-      data-reveal="up"
-    >
-      <div>
-        <p class="m-0 font-[var(--font-accent)] text-[0.72rem] uppercase tracking-[0.09em] text-[#9eabb9]">{blogLabels.article}</p>
-        <p class="mt-[0.2rem] text-base font-[560] tracking-[-0.01em] text-text">
-          {publishedPostsCount} {blogLabels.postsCount}
-        </p>
-      </div>
+            <div id="blog-featured-content" class="relative z-10 mx-auto flex min-h-[28rem] w-full max-w-[var(--site-max-w)] flex-col-reverse px-[1.15rem] pb-[1.75rem] md:min-h-[38rem] md:px-[2rem] md:pb-[1.45rem]">
 
-      <div class="flex flex-wrap justify-end gap-[0.45rem] max-md:justify-start" aria-label={blogLabels.available}>
-        {featuredTags.map((tag) => (
-          <span class="inline-flex items-center rounded-full border border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] bg-[rgba(12,18,24,0.7)] px-[0.62rem] py-[0.28rem] font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.04em] text-[#d9e3ee]">
-            {tag}
-          </span>
-        ))}
+              <div class="grid max-w-[64rem] gap-[0.95rem] md:gap-[1.1rem]">
+              <p id="blog-featured-category" class="micro-label m-0 text-[#e4e8ec]">{featuredCategory}</p>
+
+                <h2 id="blog-featured-title" class="m-0 max-w-[64ch] text-balance text-[clamp(2.6rem,6vw,5.25rem)] font-[700] leading-[0.93] tracking-[-0.055em] text-white">
+                  {featuredPost.title}
+                </h2>
+                <p id="blog-featured-description" class="m-0 max-w-[34rem] text-pretty text-[0.98rem] leading-[1.65] text-[#d7dade] md:text-[1.04rem] md:leading-[1.72]">
+                  {featuredDescription}
+                </p>
+                <span id="blog-featured-cta" class="inline-flex w-fit items-center justify-center border border-[#d9dde2] bg-[#eceff2] px-[1rem] py-[0.72rem] text-[0.72rem] font-semibold uppercase tracking-[0.1em] text-[#111315] transition duration-200 ease-out group-hover:bg-white">
+                  {blogLabels.readArticle}
+                </span>
+                
+              </div>
+            </div>
+          </a>
+        </article>
+      ) : null
+    }
+
+    <div id="blog-list-header" class="mt-10 border-b border-white/10 py-[1.05rem] md:py-[1.25rem]" data-reveal="up">
+      <div class="flex flex-col gap-[0.9rem] md:flex-row md:items-end md:justify-between md:gap-6">
+        <div class="grid max-w-[44rem] gap-[0.38rem]">
+          <h3 id="blog-list-title" class="m-0 text-[clamp(1.25rem,2vw,1.7rem)] font-[620] leading-[1.05] tracking-[-0.03em] text-[#f1f3f5]">
+            {blogTitle}
+          </h3>
+          <p id="blog-list-intro" class="m-0 text-[0.92rem] leading-[1.6] text-[#8f959b] md:text-[0.95rem]">
+            {blogIntro}
+          </p>
+        </div>
+
+        <div id="blog-list-meta" class="flex items-center justify-between gap-4 md:block md:text-right">
+          <p class="m-0 font-[var(--font-accent)] text-[0.68rem] uppercase tracking-[0.11em] text-[#8f959b]">
+            {blogLabels.moreArticles}
+          </p>
+          <p id="blog-list-count" class="m-0 pt-[0.18rem] text-[0.76rem] uppercase tracking-[0.11em] text-[#c9cdd1]">
+            {blogPosts.length} {blogLabels.postsCount}
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="grid gap-6 md:grid-cols-2" data-reveal-group data-reveal-stagger-mobile="60" data-reveal-stagger-desktop="50">
+    <div id="blog-articles-list" data-reveal-group data-reveal-stagger-mobile="70" data-reveal-stagger-desktop="55">
       {
-        blogPosts.map((post) => (
-          <article class="blog-card card-surface min-h-full overflow-hidden rounded-[0.95rem] border border-border/65" data-reveal="up">
-            <a href={post.href} class="blog-card-link flex min-h-full flex-col" aria-label={`${blogLabels.readArticle}: ${post.title}`}>
-              <figure class="relative m-0 aspect-[16/8] overflow-hidden bg-[color:color-mix(in_oklab,var(--color-surface)_82%,black_18%)] max-md:aspect-[16/9]" aria-hidden="true">
+        relatedPostsWithIds.map((post) => (
+          <article id={`blog-article-${post.idSlug}`} class="border-b border-white/10 last:border-b-0" data-reveal="up">
+            <a
+              id={`blog-article-link-${post.idSlug}`}
+              href={post.href}
+              class="group grid gap-0  transition duration-200 ease-out hover:bg-[#080808] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white/65 md:grid-cols-[minmax(0,_48%)_minmax(0,_52%)]"
+              aria-label={`${blogLabels.readArticle}: ${post.title}`}
+            >
+              <figure id={`blog-article-media-${post.idSlug}`} class="relative m-0 min-h-[14rem] overflow-hidden bg-[#090909] md:min-h-[16.5rem]" aria-hidden="true">
                 <img
+                  id={`blog-article-image-${post.idSlug}`}
                   src={post.cover.src}
                   alt={post.cover.alt}
                   loading="lazy"
                   decoding="async"
-                  class="blog-card-cover-media"
+                  class="h-full w-full object-cover object-center brightness-[0.82] saturate-[0.72] contrast-[0.95] transition duration-300 ease-out group-hover:scale-[1.02]"
                 />
-                <span class="blog-card-cover-wash"></span>
+                <span id={`blog-article-overlay-${post.idSlug}`} class="absolute inset-0 bg-[linear-gradient(180deg,rgba(1,1,1,0.02)_0%,rgba(1,1,1,0.34)_100%)]"></span>
               </figure>
 
-              <div class="grid gap-[0.9rem] px-[1.2rem] pt-[1.1rem] pb-[1.25rem] max-md:gap-[0.82rem] max-md:p-4">
-                <div class="flex flex-wrap items-center justify-between gap-x-[0.9rem] gap-y-[0.5rem]">
-                  <p class="micro-label m-0 tracking-[0.1em]">{post.tag}</p>
-                  <span class="blog-card-status inline-flex items-center gap-[0.36rem] rounded-full border border-[color:color-mix(in_oklab,var(--color-border)_68%,transparent)] bg-[color:color-mix(in_oklab,var(--color-surface)_88%,black_12%)] px-[0.6rem] py-[0.26rem] text-[0.68rem] font-[560] uppercase tracking-[0.045em] text-[color:color-mix(in_oklab,var(--color-text)_84%,#eaf2fb)]">
+              <div id={`blog-article-content-${post.idSlug}`} class="grid content-start gap-[0.95rem] px-[1.15rem] py-[1rem] md:px-[1.5rem] md:py-[1.35rem]">
+                <div class="flex items-start justify-between gap-4">
+                  <p id={`blog-article-category-${post.idSlug}`} class="micro-label m-0 text-[#d0d4d8]">{post.tag}</p>
+                  <span id={`blog-article-status-${post.idSlug}`} class="inline-flex items-center border border-white/18 px-[0.56rem] py-[0.24rem] text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-[#f0f2f4]">
                     {blogLabels.available}
                   </span>
                 </div>
 
-                <h3 class="m-0 text-[clamp(1.2rem,0.96rem+0.75vw,1.7rem)] font-[620] leading-[1.12] tracking-[-0.02em] text-text [text-wrap:balance]">
-                  {post.title}
-                </h3>
-                <p class="m-0 max-w-[58ch] text-[0.95rem] leading-[1.74] text-muted [text-wrap:pretty] max-md:text-[0.92rem] max-md:leading-[1.58]">
-                  {post.description}
-                </p>
+                <div class="grid gap-[0.68rem]">
+                  <h4 id={`blog-article-title-${post.idSlug}`} class="m-0 max-w-[22ch] text-balance text-[clamp(1.3rem,1rem+0.72vw,1.86rem)] font-[640] leading-[1.02] tracking-[-0.03em] text-white">
+                    {post.title}
+                  </h4>
+                  <p id={`blog-article-description-${post.idSlug}`} class="m-0 max-w-[42rem] text-pretty text-[0.92rem] leading-[1.62] text-[#9da3a9] md:text-[0.95rem]">
+                    {post.description}
+                  </p>
+                </div>
 
-                <dl class="grid grid-cols-2 gap-[0.8rem] pt-[0.1rem] max-md:grid-cols-1 max-md:gap-[0.7rem]">
-                  <div class="border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.78rem]">
-                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.08em] text-[#9aa8b7]">
+                <dl id={`blog-article-meta-${post.idSlug}`} class="flex flex-wrap items-center gap-x-[1.1rem] gap-y-[0.45rem] text-[#d9dde1]">
+                  <div class="flex items-baseline gap-[0.55rem]">
+                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.11em] text-[#7d8389]">
                       {blogLabels.published}
                     </dt>
-                    <dd class="mt-[0.28rem] text-[0.9rem] leading-[1.4] text-text">{formatPostDate(post.publishDate)}</dd>
+                    <dd class="m-0 text-[0.83rem] leading-[1.35] text-[#e2e5e8]">{formatPostDate(post.publishDate)}</dd>
                   </div>
-                  <div class="border-l border-[color:color-mix(in_oklab,var(--color-border)_70%,transparent)] pl-[0.78rem]">
-                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.08em] text-[#9aa8b7]">
+                  <div class="h-[0.75rem] w-px bg-white/12"></div>
+                  <div class="flex items-baseline gap-[0.55rem]">
+                    <dt class="m-0 font-[var(--font-accent)] text-[0.66rem] uppercase tracking-[0.11em] text-[#7d8389]">
                       {blogLabels.readingTime}
                     </dt>
-                    <dd class="mt-[0.28rem] text-[0.9rem] leading-[1.4] text-text">{post.readingTimeMinutes} min</dd>
+                    <dd class="m-0 text-[0.83rem] leading-[1.35] text-[#e2e5e8]">{post.readingTimeMinutes} min</dd>
                   </div>
                 </dl>
 
-                <span class="inline-cta mt-[0.15rem] w-fit">
+                <span id={`blog-article-cta-${post.idSlug}`} class="inline-flex w-fit border-b border-white/50 pb-[0.16rem] text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-[#f1f3f5] transition duration-200 ease-out group-hover:border-white group-hover:text-white">
                   {blogLabels.readArticle}
                 </span>
               </div>
@@ -119,68 +196,3 @@ const featuredTags = Array.from(new Set(blogPosts.map((post) => post.tag))).slic
     </div>
   </div>
 </section>
-
-<style>
-  .details-panel[hidden] {
-    display: none;
-  }
-
-  .blog-card {
-    transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
-  }
-
-  .blog-card-cover-media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    filter: saturate(0.86) contrast(0.94);
-    transition: filter 220ms ease, transform 220ms ease;
-  }
-
-  .blog-card-cover-wash {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, rgba(8, 12, 18, 0.08) 0%, rgba(8, 12, 18, 0.46) 100%),
-      linear-gradient(120deg, rgba(77, 131, 166, 0.16) 0%, rgba(77, 131, 166, 0) 58%);
-    pointer-events: none;
-  }
-
-  .blog-card-status::before {
-    content: "";
-    width: 0.38rem;
-    height: 0.38rem;
-    border-radius: 999px;
-    background: rgba(231, 240, 249, 0.86);
-    box-shadow: 0 0 8px rgba(231, 240, 249, 0.36);
-  }
-
-  .blog-card-link:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-text) 34%, transparent);
-    outline-offset: -2px;
-  }
-
-  .blog-card:focus-within,
-  .blog-card:hover {
-    border-color: color-mix(in srgb, var(--color-border) 62%, var(--color-text) 38%);
-    box-shadow: 0 12px 24px -24px rgba(7, 13, 19, 0.32);
-    transform: translateY(-2px);
-  }
-
-  .blog-card:focus-within .blog-card-cover-media,
-  .blog-card:hover .blog-card-cover-media {
-    filter: saturate(0.92) contrast(0.98);
-    transform: scale(1.02);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .details-panel,
-    .blog-card,
-    .blog-card-cover-media {
-      animation: none;
-      transition: none;
-      transform: none;
-    }
-  }
-</style>
