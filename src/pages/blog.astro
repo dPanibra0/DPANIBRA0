@@ -1,0 +1,29 @@
+---
+import DetailsBlogPanel from "../components/details/DetailsBlogPanel.astro";
+import { getTranslations } from "../content/talento/i18n";
+import { getTechnicalPostSummaries } from "../content/technical-posts-data";
+import DetailsLayout from "../layouts/DetailsLayout.astro";
+
+const lang = "es" as const;
+const { content, ui } = getTranslations(lang);
+const blogPosts = await getTechnicalPostSummaries();
+---
+
+<DetailsLayout
+  title="Blog tecnico backend Java | David Panibra"
+  description="Notas tecnicas sobre backend Java, microservicios, arquitectura e integraciones empresariales."
+  lang={lang}
+  content={content}
+  ui={ui}
+  currentRoute="blog"
+>
+  <div class="relative mt-[0.7rem] overflow-x-clip max-md:mt-[0.6rem]">
+    <DetailsBlogPanel
+      blogOverline={ui.detalles.blogOverline}
+      blogTitle={ui.detalles.blogTitle}
+      blogIntro={ui.detalles.blogIntro}
+      blogLabels={ui.detalles.blogLabels}
+      blogPosts={blogPosts}
+    />
+  </div>
+</DetailsLayout>

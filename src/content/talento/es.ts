@@ -334,6 +334,7 @@ export const esUi: PortfolioUiTranslations = {
   navbar: {
     menuLabel: "Abrir menú",
     logoAlt: "dPanibra0 logo",
+    blogActionLabel: "Blog técnico",
   },
   experience: {
     detailsLabel: "Ver más detalle",
@@ -376,7 +377,6 @@ export const esUi: PortfolioUiTranslations = {
   },
   detalles: {
     tabsAriaLabel: "Secciones de detalle",
-    tabPanelsAriaLabel: "Contenido de detalle",
     tabs: {
       experiencia: "Experiencia laboral",
       proyectos: "Proyectos",
@@ -403,44 +403,15 @@ export const esUi: PortfolioUiTranslations = {
     blogOverline: "BLOG_TÉCNICO",
     blogTitle: "Notas sobre backend y arquitectura",
     blogIntro:
-      "Notas breves sobre microservicios, integraciones y decisiones de arquitectura tomadas en contexto real.",
-    blogPosts: [
-      {
-        title: "Pruebas de integración para flujos de negocio en microservicios",
-        context:
-          "Dónde poner el foco cuando el riesgo real está en validaciones, ramas de negocio y sincronización entre servicios.",
-        content:
-          "En integraciones empresariales, probar solo el caso feliz no alcanza. El riesgo aparece en validaciones por tipo de operación, datos incompletos, orden de eventos o respuestas parciales entre plataformas. Conviene modelar pruebas alrededor del flujo de negocio: qué entra, qué decisión toma el servicio, qué se persiste y qué salida se publica o devuelve. Herramientas como Spock ayudan a cubrir ramas con claridad. Conclusión: la prueba vale más cuando verifica decisiones críticas del negocio y no solo la respuesta HTTP.",
-        tag: "Testing backend",
-        status: "Nota completa",
-      },
-      {
-        title: "Arquitecturas evolutivas para plataformas de negocio",
-        context:
-          "Uso práctico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.",
-        content:
-          "La arquitectura hexagonal y clean architecture protegen el dominio mediante puertos y adaptadores, separando reglas de negocio de frameworks, bases de datos y transporte. Eso mejora pruebas unitarias y facilita reemplazar adaptadores sin reescribir el core. El tradeoff es claro: suma capas, contratos y código de ensamblaje, algo que puede frenar equipos pequeños o productos tempranos. En contextos enterprise con integraciones múltiples y vida útil larga, el costo inicial suele compensarse. Conclusión: conviene aplicarla de forma selectiva, priorizando módulos críticos y evitando sobrearquitectura en flujos simples.",
-        tag: "Arquitectura",
-        status: "Nota completa",
-      },
-      {
-        title: "Contexto real sobre Spring Framework 4 y Spring Boot",
-        context:
-          "Aclaración de versionado para evitar confusiones entre contexto histórico y stack vigente.",
-        content:
-          "Spring Framework 4 fue lanzado en 2013 y su soporte activo terminó hace años; por eso no corresponde presentarlo como novedad actual. En su momento aportó soporte para Java 8 y una base más madura para aplicaciones empresariales. Hoy, las novedades relevantes llegan por Spring Framework 6 y Spring Boot 3, alineados con Jakarta EE 9+, Java 17+, AOT y runtime nativo con GraalVM. Para equipos enterprise, actualizar responde a seguridad, compatibilidad y performance operativa. Conclusión: si el objetivo es modernizar, la conversación correcta es Spring 6/Boot 3; Spring 4 queda como contexto histórico.",
-        tag: "Spring",
-        status: "Nota completa",
-      },
-      {
-        title: "Spring vs Quarkus: comparación técnica para decidir",
-        context:
-          "Comparativa de arranque, memoria, experiencia de desarrollo y ecosistema para elegir según contexto.",
-        content:
-          "En JVM tradicional, Spring Boot ofrece un ecosistema más amplio y una curva conocida para muchos equipos. Quarkus prioriza tiempos de arranque bajos y menor huella de memoria, sobre todo con compilación nativa en GraalVM, algo útil en serverless y alta densidad de contenedores. El tradeoff es una mayor complejidad de pipeline y validaciones extra para algunas librerías en modo nativo. Ambos tienen hot reload y buen soporte de testing, pero Spring suele ganar en ejemplos corporativos y talento disponible. Conclusión: Spring Boot encaja mejor en plataformas empresariales amplias; Quarkus destaca cuando startup rápido y ahorro de memoria pesan más.",
-        tag: "Spring vs Quarkus",
-        status: "Nota completa",
-      },
-    ],
+      "Reflexiones y aprendizajes sobre el desarrollo backend, arquitectura de sistemas y mejores prácticas en entornos empresariales.",
+    blogLabels: {
+      readArticle: "Leer artículo",
+      published: "Publicado",
+      readingTime: "Lectura",
+      article: "Artículo técnico",
+      available: "Disponible",
+      postsCount: "artículos publicados",
+      moreArticles: "Mas articulos",
+    },
   },
 };

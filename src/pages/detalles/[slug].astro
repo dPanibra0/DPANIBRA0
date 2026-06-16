@@ -1,0 +1,37 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("technicalPosts", ({ data }) => !data.draft)).sort(
+    (a: CollectionEntry<"technicalPosts">, b: CollectionEntry<"technicalPosts">) =>
+      b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  );
+
+  return posts.map((post: CollectionEntry<"technicalPosts">) => ({
+    params: { slug: post.id },
+    props: {
+      redirectPath: `/blog/${post.id}`,
+    },
+  }));
+}
+
+const { redirectPath } = Astro.props as {
+  redirectPath: string;
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirigiendo al blog</title>
+    <meta http-equiv="refresh" content={`0;url=${redirectPath}`} />
+    <link rel="canonical" href={`https://davidpanibra.dev${redirectPath}`} />
+  </head>
+  <body>
+    <main style="font-family: sans-serif; padding: 2rem; color: #f5f7fa; background: #090b10; min-height: 100vh;">
+      <p>Este articulo ahora vive en <a href={redirectPath}>{redirectPath}</a>.</p>
+    </main>
+  </body>
+</html>

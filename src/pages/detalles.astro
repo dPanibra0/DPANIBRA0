@@ -1,183 +1,44 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
-import Navbar from "../components/layout/Navbar.astro";
-import Contact from "../components/sections/Contact.astro";
-import Footer from "../components/layout/Footer.astro";
-import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
-import DetailsTabs from "../components/details/DetailsTabs.astro";
-import DetailsExperiencePanel from "../components/details/DetailsExperiencePanel.astro";
-import DetailsProjectsPanel from "../components/details/DetailsProjectsPanel.astro";
-import DetailsBlogPanel from "../components/details/DetailsBlogPanel.astro";
-import { getTranslations } from "../content/talento/i18n";
-import { resolveBlogCover, resolveProjectCover, resolveTechIcon } from "../components/details/details-helpers";
-
-const lang = "es" as const;
-const { content, ui } = getTranslations(lang);
-const detailNav = content.nav.filter((item) => item.href === "#contacto");
+const title = "Redirigiendo a la nueva arquitectura";
+const description = "La ruta /detalles fue reemplazada por /experiencia, /proyectos y /blog.";
 ---
 
-<MainLayout
-  title={ui.detalles.pageTitle}
-  description={ui.detalles.pageDescription}
-  lang={lang}
->
-  <Navbar nav={detailNav} ui={ui.navbar} />
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href="https://davidpanibra.dev/experiencia" />
+    <script is:inline>
+      (() => {
+        const hash = window.location.hash;
+        const normalizedHash = hash.toLowerCase();
+        let nextPath = "/experiencia";
 
-  <main class="details-main pt-8 border-t border-border/50">
-    <DetailsTabs tabsAriaLabel={ui.detalles.tabsAriaLabel} tabs={ui.detalles.tabs} />
+        if (normalizedHash === "#blog") {
+          nextPath = "/blog";
+        } else if (
+          normalizedHash === "#proyectos" ||
+          normalizedHash.startsWith("#proyecto-")
+        ) {
+          nextPath = `/proyectos${hash}`;
+        } else if (normalizedHash === "#contacto") {
+          nextPath = "/experiencia#contacto";
+        }
 
-    <div class="details-panels-shell" aria-label={ui.detalles.tabPanelsAriaLabel}>
-      <DetailsExperiencePanel items={content.experience.items} resolveTechIcon={resolveTechIcon} />
-      <DetailsProjectsPanel
-        items={content.projects.items}
-        overline={ui.detalles.projectsOverline}
-        title={ui.detalles.projectsTitle}
-        intro={ui.detalles.projectsIntro}
-        projectLabels={ui.detalles.projectLabels}
-        resolveTechIcon={resolveTechIcon}
-        resolveProjectCover={resolveProjectCover}
-      />
-      <DetailsBlogPanel
-        blogOverline={ui.detalles.blogOverline}
-        blogTitle={ui.detalles.blogTitle}
-        blogIntro={ui.detalles.blogIntro}
-        blogPosts={ui.detalles.blogPosts}
-        resolveBlogCover={resolveBlogCover}
-      />
-    </div>
-  </main>
-
-  <Contact
-    id="contacto"
-    contact={content.contact}
-    overline={content.overlines.contact}
-    ui={ui.contact}
-    floatingActionsUi={ui.floatingActions}
-  />
-
-  <FloatingQuickActions ui={ui.floatingActions} />
-
-  <Footer footer={content.footer} nav={content.nav} />
-</MainLayout>
-
-<style>
-  .details-main {
-    --details-sticky-offset: 74px;
-    --details-panel-transition-ms: 320ms;
-    --details-panel-transition-easing: cubic-bezier(0.22, 0.88, 0.28, 1);
-    padding-bottom: clamp(3.2rem, 8vw, 6.2rem);
-  }
-
-  .details-panels-shell {
-    margin-top: 0.7rem;
-    position: relative;
-    overflow-x: clip;
-  }
-
-  :global(.details-panel[hidden]) {
-    display: none;
-  }
-
-  :global(.details-panel[data-panel-transition]) {
-    will-change: transform, opacity;
-    pointer-events: none;
-  }
-
-  :global(.details-panel[data-panel-transition="in-forward"]) {
-    animation: details-panel-in-forward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
-  }
-
-  :global(.details-panel[data-panel-transition="out-forward"]) {
-    animation: details-panel-out-forward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
-  }
-
-  :global(.details-panel[data-panel-transition="in-backward"]) {
-    animation: details-panel-in-backward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
-  }
-
-  :global(.details-panel[data-panel-transition="out-backward"]) {
-    animation: details-panel-out-backward var(--details-panel-transition-ms) var(--details-panel-transition-easing);
-  }
-
-  :global(.details-panel[data-panel-transition] [data-reveal]),
-  :global(.details-panel[data-panel-transition] [data-reveal].is-revealed) {
-    animation: none !important;
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  @keyframes details-panel-in-forward {
-    from {
-      opacity: 0.78;
-      transform: translateX(42px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes details-panel-out-forward {
-    from {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    to {
-      opacity: 0.72;
-      transform: translateX(-42px);
-    }
-  }
-
-  @keyframes details-panel-in-backward {
-    from {
-      opacity: 0.78;
-      transform: translateX(-42px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes details-panel-out-backward {
-    from {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    to {
-      opacity: 0.72;
-      transform: translateX(42px);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .details-main {
-      --details-sticky-offset: 66px;
-      padding-bottom: clamp(2.8rem, 10vw, 4.8rem);
-    }
-
-    .details-panels-shell {
-      margin-top: 0.6rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    :global(.details-panel[data-panel-transition]),
-    :global(.details-panel[data-panel-state="active"]) {
-      animation: none;
-      transform: none;
-      opacity: 1;
-    }
-  }
-</style>
-
-<script>
-  import { initDetailsTabs } from "../scripts/details-tabs";
-
-  initDetailsTabs();
-</script>
+        window.location.replace(nextPath);
+      })();
+    </script>
+  </head>
+  <body>
+    <main style="font-family: sans-serif; padding: 2rem; color: #f5f7fa; background: #090b10; min-height: 100vh;">
+      <p>La ruta <code>/detalles</code> cambio.</p>
+      <p>
+        Usa <a href="/experiencia">/experiencia</a>, <a href="/proyectos">/proyectos</a>
+        o <a href="/blog">/blog</a>.
+      </p>
+    </main>
+  </body>
+</html>

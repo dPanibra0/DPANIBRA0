@@ -1,0 +1,25 @@
+---
+import DetailsExperiencePanel from "../components/details/DetailsExperiencePanel.astro";
+import { resolveTechIcon } from "../components/details/details-helpers";
+import { getTranslations } from "../content/talento/i18n";
+import DetailsLayout from "../layouts/DetailsLayout.astro";
+
+const lang = "es" as const;
+const { content, ui } = getTranslations(lang);
+---
+
+<DetailsLayout
+  title="Experiencia backend Java | David Panibra"
+  description="Experiencia profesional en backend Java, microservicios, integraciones y operaciones empresariales en produccion."
+  lang={lang}
+  content={content}
+  ui={ui}
+  currentRoute="experiencia"
+>
+  <div class="relative mt-[0.7rem] overflow-x-clip max-md:mt-[0.6rem]">
+    <DetailsExperiencePanel
+      items={content.experience.items}
+      resolveTechIcon={resolveTechIcon}
+    />
+  </div>
+</DetailsLayout>

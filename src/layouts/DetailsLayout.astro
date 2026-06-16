@@ -1,0 +1,54 @@
+---
+import type { PortfolioContent, PortfolioUiTranslations } from "../content/types";
+import type { DetailRouteId } from "../utils/details-routes";
+import MainLayout from "./MainLayout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import Contact from "../components/sections/Contact.astro";
+import Footer from "../components/layout/Footer.astro";
+import FloatingQuickActions from "../components/ui/FloatingQuickActions.astro";
+import DetailsRouteNav from "../components/details/DetailsRouteNav.astro";
+import { getDetailFooterNav, getDetailHeaderNav } from "../utils/details-routes";
+
+interface Props {
+  title: string;
+  description: string;
+  lang: "es" | "en";
+  content: PortfolioContent;
+  ui: PortfolioUiTranslations;
+  currentRoute: DetailRouteId;
+}
+
+const { title, description, lang, content, ui, currentRoute } = Astro.props as Props;
+const headerNav = getDetailHeaderNav();
+const footerNav = getDetailFooterNav(ui.detalles.tabs);
+const defaultSecondaryAction = { label: "Blog técnico", href: "/blog" };
+const secondaryAction = currentRoute === "blog"
+  ? null
+  : defaultSecondaryAction;
+---
+
+<MainLayout title={title} description={description} lang={lang}>
+  <Navbar nav={headerNav} ui={ui.navbar} secondaryAction={secondaryAction} />
+
+  <main class="details-main pb-[clamp(3.2rem,8vw,6.2rem)] max-md:pb-[clamp(2.8rem,10vw,4.8rem)]">
+    <DetailsRouteNav
+      currentRoute={currentRoute}
+      ariaLabel={ui.detalles.tabsAriaLabel}
+      tabs={ui.detalles.tabs}
+    />
+
+    <slot />
+  </main>
+
+  <Contact
+    id="contacto"
+    contact={content.contact}
+    overline={content.overlines.contact}
+    ui={ui.contact}
+    floatingActionsUi={ui.floatingActions}
+  />
+
+  <FloatingQuickActions ui={ui.floatingActions} />
+
+  <Footer footer={content.footer} nav={footerNav} />
+</MainLayout>

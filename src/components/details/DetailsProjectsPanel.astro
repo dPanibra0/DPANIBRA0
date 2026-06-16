@@ -59,26 +59,21 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
 ---
 
 <section
-  id="panel-proyectos"
-  role="tabpanel"
-  aria-labelledby="tab-proyectos"
-  class="details-panel details-panel-projects border-t border-border/50"
-  data-tab-panel="proyectos"
-  data-panel-state="inactive"
-  hidden
+  class="details-panel border-t border-border/50"
 >
-  <div class="container-shell details-panel-inner">
-    <header class="projects-intro" data-reveal="up">
+  <div class="container-shell pt-[0.9rem] md:pt-[1.9rem]">
+    <header class="mb-4 grid max-w-[74ch] gap-[0.62rem] md:mb-[1.55rem] md:gap-[0.7rem]" data-reveal="up">
       <p class="micro-label">{overline}</p>
-      <h2 class="projects-title">{title}</h2>
-      <p class="projects-copy">{intro}</p>
+      <h2 class="m-0 text-balance text-[clamp(1.7rem,4vw,2.5rem)] font-[620] leading-[1.04] tracking-[-0.038em] text-text">{title}</h2>
+      <p class="m-0 max-w-[62ch] text-pretty text-[clamp(0.98rem,1.7vw,1.08rem)] leading-[1.68] text-muted">{intro}</p>
     </header>
 
-    <div class="project-list grid gap-6 md:gap-7" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="54">
+    <div class="mt-[0.14rem] grid gap-6 md:mt-2 md:gap-7" data-reveal-group data-reveal-stagger-mobile="64" data-reveal-stagger-desktop="54">
       {
         items.map((project: ProjectItem, index: number) => {
           const cover = resolveProjectCover(index);
           const projectSummary = resolveProjectSummary(project, index);
+          const isReversed = index % 2 === 1;
           const liveSiteLabel = project.liveUrl
             ? new URL(project.liveUrl).hostname.replace(/^www\./, "")
             : null;
@@ -86,99 +81,130 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
           return (
             <article
               id={getProjectDetailId(project, index)}
-              class={`project-details p-5 md:p-7 ${index % 2 === 1 ? "project-details--reversed" : ""}`}
+              class={`project-details relative grid gap-[1.1rem] overflow-hidden bg-transparent p-[1.08rem] opacity-90 transition-opacity duration-[260ms] ease-out md:p-7 md:opacity-80 ${isReversed ? "project-details--reversed" : ""}`}
               data-reveal="up"
               data-project-item
               data-project-detail-anchor
               data-project-summary={projectSummary}
               tabindex="-1"
             >
-              <div class="project-details-grid">
-                <header class="project-hero">
-                  <div class="project-heading-row">
-                    <h3 class="project-title">{project.title}</h3>
-                    <div class="project-heading-actions">
-                      <span class="project-kind-badge project-kind-badge--neutral">Caso aplicado</span>
+              <div class={`grid gap-[1.95rem] lg:items-start lg:gap-10 ${isReversed ? "lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.95fr)]" : "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.25fr)]"}`}>
+                <header class={`grid gap-4 ${isReversed ? "lg:col-start-2 lg:row-start-1" : ""}`}>
+                  <div class="flex flex-wrap items-start justify-between gap-x-[1.15rem] gap-y-[0.9rem]">
+                    <h3 class="project-title m-0 max-w-[900px] text-balance text-[clamp(1.34rem,3.6vw,2.06rem)] font-[620] leading-[1.16] tracking-[-0.024em] text-text transition-[color,text-shadow] duration-[240ms] ease-out">
+                      {project.title}
+                    </h3>
+                    <div class="flex flex-wrap justify-end gap-[0.55rem]">
+                      <span class="project-kind-badge project-kind-badge--neutral inline-flex items-center gap-[0.38rem] rounded-full px-[0.68rem] py-[0.34rem] text-[0.6rem] font-semibold uppercase tracking-[0.09em]">
+                        Caso aplicado
+                      </span>
                       {project.statusBadge ? (
-                        <span class={`project-kind-badge ${getBadgeToneClass(project.statusBadge.tone)}`}>
+                        <span
+                          class={`project-kind-badge inline-flex items-center gap-[0.38rem] rounded-full px-[0.68rem] py-[0.34rem] text-[0.6rem] font-semibold uppercase tracking-[0.09em] ${getBadgeToneClass(project.statusBadge.tone)}`}
+                        >
                           {project.statusBadge.label}
                         </span>
                       ) : null}
                     </div>
                   </div>
-                  <figure class="project-cover" aria-hidden="true">
+                  <figure class="project-cover relative aspect-[16/9] overflow-hidden rounded-[0.8rem] border md:aspect-[16/7]" aria-hidden="true">
                     <img
                       src={cover.src}
                       alt={cover.alt}
                       loading="lazy"
                       decoding="async"
-                      class="project-cover-media"
+                      class="project-cover-media h-full w-full object-cover object-center"
                     />
                     <span class="project-cover-wash" aria-hidden="true"></span>
                   </figure>
-                  {project.summary ? <p class="project-summary">{project.summary}</p> : null}
-                  <div class="project-architecture-block">
-                    <span class="micro-label project-architecture-label">{projectLabels.architecture}</span>
-                    <p class="project-architecture">{project.architecture}</p>
+                  {project.summary ? (
+                    <p class="project-summary m-0 max-w-[58ch] text-pretty text-[clamp(1rem,1.9vw,1.14rem)] font-medium leading-[1.55] text-[color:color-mix(in_oklab,var(--color-text)_92%,#eaf2fb)]">
+                      {project.summary}
+                    </p>
+                  ) : null}
+                  <div class="grid gap-[0.38rem]">
+                    <span class="micro-label project-architecture-label tracking-[0.085em]">{projectLabels.architecture}</span>
+                    <p class="project-architecture m-0 max-w-[66ch] text-pretty text-[clamp(0.96rem,1.65vw,1.04rem)] font-[430] leading-[1.7] tracking-[0.002em] text-muted transition-colors duration-[240ms] ease-out">
+                      {project.architecture}
+                    </p>
                   </div>
                   {project.liveUrl ? (
-                    <div class="project-links-row">
-                      <span class="micro-label project-link-label">{projectLabels.liveSite}</span>
+                    <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+                      <span class="micro-label project-link-label tracking-[0.085em]">{projectLabels.liveSite}</span>
                       <a
                         href={project.liveUrl}
-                        class="project-live-link"
+                        class="project-live-link inline-flex items-center gap-[0.38rem] text-[0.92rem] leading-[1.4] text-[color:color-mix(in_oklab,var(--color-text)_90%,#eef6ff)] transition-[color,transform] duration-[220ms] ease-out"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <span>{liveSiteLabel}</span>
-                        <Icon name="lucide:arrow-up-right" class="project-live-link-icon" aria-hidden="true" />
+                        <Icon name="lucide:arrow-up-right" class="h-[0.95rem] w-[0.95rem] transition-transform duration-[220ms] ease-out" aria-hidden="true" />
                       </a>
                     </div>
                   ) : null}
                 </header>
 
-                <div class="project-side">
-                  <div class="project-impact-callout">
-                    <span class="micro-label project-impact-label">{projectLabels.impact}</span>
-                    <p class="project-impact-copy">{project.impact}</p>
+                <div class={`grid content-start gap-[1.08rem] lg:gap-[1.45rem] ${isReversed ? "lg:col-start-1 lg:row-start-1" : ""}`}>
+                  <div class="project-impact-callout grid gap-[0.45rem] rounded-[0.85rem] border px-[1.05rem] py-4">
+                    <span class="micro-label project-impact-label tracking-[0.085em]">{projectLabels.impact}</span>
+                    <p class="project-impact-copy m-0 max-w-[34ch] text-pretty text-[clamp(0.94rem,1.55vw,1.02rem)] leading-[1.62] text-[color:color-mix(in_oklab,var(--color-text)_88%,#e6effa)]">
+                      {project.impact}
+                    </p>
                   </div>
 
-                  <dl class="project-facts">
-                    <div>
-                      <dt class="micro-label project-fact-label">{projectLabels.problem}</dt>
-                      <dd class="project-fact-value">{project.problem}</dd>
+                  <dl class="grid gap-[1.08rem] lg:gap-[1.12rem]">
+                    <div class="project-fact-item grid gap-[0.42rem] border-l pl-[0.72rem] md:pl-[0.92rem]">
+                      <dt class="micro-label project-fact-label tracking-[0.075em]">{projectLabels.problem}</dt>
+                      <dd class="project-fact-value m-0 max-w-[52ch] text-pretty text-[clamp(0.92rem,1.5vw,1rem)] leading-[1.66] tracking-[0.001em] text-muted transition-colors duration-[220ms] ease-out">
+                        {project.problem}
+                      </dd>
                     </div>
-                    <div>
-                      <dt class="micro-label project-fact-label">{projectLabels.challenges}</dt>
-                      <dd class="project-fact-value">{project.challenges}</dd>
+                    <div class="project-fact-item grid gap-[0.42rem] border-l pl-[0.72rem] md:pl-[0.92rem]">
+                      <dt class="micro-label project-fact-label tracking-[0.075em]">{projectLabels.challenges}</dt>
+                      <dd class="project-fact-value m-0 max-w-[52ch] text-pretty text-[clamp(0.92rem,1.5vw,1rem)] leading-[1.66] tracking-[0.001em] text-muted transition-colors duration-[220ms] ease-out">
+                        {project.challenges}
+                      </dd>
                     </div>
-                    <div>
-                      <dt class="micro-label project-fact-label">{projectLabels.solution}</dt>
-                      <dd class="project-fact-value">{project.solution}</dd>
+                    <div class="project-fact-item grid gap-[0.42rem] border-l pl-[0.72rem] md:pl-[0.92rem]">
+                      <dt class="micro-label project-fact-label tracking-[0.075em]">{projectLabels.solution}</dt>
+                      <dd class="project-fact-value m-0 max-w-[52ch] text-pretty text-[clamp(0.92rem,1.5vw,1rem)] leading-[1.66] tracking-[0.001em] text-muted transition-colors duration-[220ms] ease-out">
+                        {project.solution}
+                      </dd>
                     </div>
                   </dl>
 
                   <div
-                    class={`project-tech ${index % 2 === 1 ? "project-tech--reversed" : ""}`}
+                    class="project-tech relative flex w-full max-w-full flex-wrap items-center justify-between gap-x-[0.84rem] gap-y-[0.72rem] rounded-[0.8rem] border p-[0.72rem] transition-[border-color,background-color] duration-[220ms] ease-out md:p-[0.9rem] lg:p-[1.08rem]"
                     aria-label={`Tecnologias clave de ${project.title}`}
                   >
-                    <div class="project-tech-meta" aria-hidden="true">
-                      <span class="project-tech-summary" data-tech-label>{projectSummary}</span>
+                    <div
+                      class={`project-tech-meta flex min-h-[1.45rem] basis-full items-center ${isReversed ? "justify-start text-left md:justify-end md:text-right" : "justify-start text-left"} md:min-h-[1.6rem] md:flex-[0_1_18ch]`}
+                      aria-hidden="true"
+                    >
+                      <span
+                        class={`project-tech-summary inline-flex min-w-0 max-w-full items-center text-left text-[clamp(0.74rem,1.28vw,0.86rem)] font-[560] uppercase leading-[1.22] tracking-[0.035em] text-[color:color-mix(in_oklab,var(--color-text)_82%,#d8e6f6)] transition-[color,opacity,transform] duration-[170ms] ease-out md:min-w-[min(18ch,100%)] md:leading-[1.3] ${isReversed ? "md:justify-end md:text-right" : "md:justify-start"}`}
+                        data-tech-label
+                      >
+                        {projectSummary}
+                      </span>
                     </div>
-                    <ul class="project-tech-list" role="list">
+                    <ul
+                      class={`project-tech-list flex basis-full flex-wrap items-center gap-x-[0.72rem] gap-y-[0.52rem] justify-start md:gap-y-[0.68rem] ${isReversed ? "md:order-1 md:mr-auto md:basis-auto md:flex-1 md:justify-start" : "md:ml-auto md:basis-auto md:flex-1 md:justify-end"}`}
+                      role="list"
+                    >
                       {project.stack.split(",").map((tech: string) => {
                         const label = tech.trim();
 
                         return (
                           <li
-                            class="hex-tech-badge"
+                            class="hex-tech-badge inline-flex h-[2.36rem] w-[2.7rem] items-center justify-center md:h-[2.8rem] md:w-[3.2rem]"
                             role="listitem"
                             aria-label={label}
                             title={label}
                             tabindex="0"
                             data-tech-name={label}
                           >
-                            <Icon name={resolveTechIcon(label)} class="hex-tech-icon" aria-hidden="true" />
+                            <Icon name={resolveTechIcon(label)} class="h-[1.12rem] w-[1.12rem] text-[#f4f8ff] md:h-[1.36rem] md:w-[1.36rem]" aria-hidden="true" />
                           </li>
                         );
                       })}
@@ -200,69 +226,13 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
 </section>
 
 <style>
-  .details-panel[hidden] {
-    display: none;
-  }
-
-  .details-panel-inner {
-    padding-top: 1.9rem;
-  }
-
-  .details-panel-projects .details-panel-inner {
-    padding-top: 0.9rem;
-  }
-
-  .projects-intro {
-    display: grid;
-    gap: 0.7rem;
-    max-width: 74ch;
-    margin-bottom: 1.55rem;
-  }
-
-  .projects-title {
-    margin: 0;
-    text-wrap: balance;
-    font-size: clamp(1.7rem, 4vw, 2.5rem);
-    font-weight: 620;
-    line-height: 1.04;
-    letter-spacing: -0.038em;
-    color: var(--color-text);
-  }
-
-  .projects-copy {
-    margin: 0;
-    max-width: 62ch;
-    text-wrap: pretty;
-    font-size: clamp(0.98rem, 1.7vw, 1.08rem);
-    line-height: 1.68;
-    color: var(--color-muted);
-  }
-
-  .project-details {
-    position: relative;
-    overflow: hidden;
-    background: transparent;
-    display: grid;
-    gap: 1.1rem;
-    opacity: 0.8;
-    transition: opacity 260ms ease;
-  }
-
   .project-details:hover,
   .project-details.is-active {
     opacity: 1;
   }
 
   .project-kind-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.38rem;
-    padding: 0.34rem 0.68rem;
-    border-radius: 999px;
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .project-kind-badge::before {
@@ -295,127 +265,12 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
     box-shadow: 0 0 10px rgba(169, 213, 255, 0.8);
   }
 
-  .project-details-grid {
-    display: grid;
-    gap: 1.95rem;
-  }
-
-  .project-hero {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .project-summary {
-    margin: 0;
-    max-width: 58ch;
-    text-wrap: pretty;
-    font-size: clamp(1rem, 1.9vw, 1.14rem);
-    font-weight: 500;
-    line-height: 1.55;
-    color: color-mix(in oklab, var(--color-text) 92%, #eaf2fb);
-  }
-
-  .project-architecture-block {
-    display: grid;
-    gap: 0.38rem;
-  }
-
-  .project-architecture-label,
-  .project-impact-label {
-    letter-spacing: 0.085em;
-  }
-
-  .project-heading-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.9rem 1.15rem;
-  }
-
-  .project-heading-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.55rem;
-  }
-
-  .project-title {
-    max-width: 900px;
-    margin: 0;
-    text-wrap: balance;
-    font-size: clamp(1.34rem, 3.6vw, 2.06rem);
-    font-weight: 620;
-    line-height: 1.16;
-    letter-spacing: -0.024em;
-    color: var(--color-text);
-    transition: color 240ms ease, text-shadow 260ms ease;
-  }
-
-  .project-architecture {
-    margin: 0;
-    max-width: 66ch;
-    text-wrap: pretty;
-    font-size: clamp(0.96rem, 1.65vw, 1.04rem);
-    font-weight: 430;
-    line-height: 1.7;
-    letter-spacing: 0.002em;
-    color: var(--color-muted);
-    transition: color 240ms ease;
-  }
-
-  .project-links-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem 1rem;
-  }
-
-  .project-link-label {
-    letter-spacing: 0.085em;
-  }
-
-  .project-live-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.38rem;
-    color: color-mix(in oklab, var(--color-text) 90%, #eef6ff);
-    font-size: 0.92rem;
-    line-height: 1.4;
-    text-decoration: none;
-    transition: color 220ms ease, transform 220ms ease;
-  }
-
-  .project-live-link-icon {
-    width: 0.95rem;
-    height: 0.95rem;
-    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .project-side {
-    display: grid;
-    gap: 1.08rem;
-    align-content: start;
-  }
-
-  .project-list {
-    margin-top: 0.5rem;
-  }
-
   .project-cover {
-    position: relative;
-    overflow: hidden;
     border: 1px solid color-mix(in oklab, var(--color-border) 72%, transparent);
-    border-radius: 0.8rem;
-    aspect-ratio: 16 / 7;
     background: color-mix(in oklab, var(--color-surface) 82%, black 18%);
   }
 
   .project-cover-media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
     filter: saturate(0.84) contrast(0.9);
     transform: scale(1.02);
     transition:
@@ -433,100 +288,23 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
     transition: background 280ms ease;
   }
 
-  .project-facts {
-    display: grid;
-    gap: 1.08rem;
-  }
-
   .project-impact-callout {
-    display: grid;
-    gap: 0.45rem;
-    padding: 1rem 1.05rem;
     border: 1px solid color-mix(in oklab, var(--color-border) 64%, rgba(233, 243, 252, 0.26));
-    border-radius: 0.85rem;
     background:
       linear-gradient(135deg, rgba(230, 239, 248, 0.06), rgba(230, 239, 248, 0.01)),
       color-mix(in oklab, var(--color-surface) 88%, black 12%);
   }
 
-  .project-impact-copy {
-    margin: 0;
-    max-width: 34ch;
-    text-wrap: pretty;
-    font-size: clamp(0.94rem, 1.55vw, 1.02rem);
-    line-height: 1.62;
-    color: color-mix(in oklab, var(--color-text) 88%, #e6effa);
-  }
-
-  .project-facts > div {
-    border-left: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-    padding-left: 0.92rem;
-    display: grid;
-    gap: 0.42rem;
-  }
-
-  .project-fact-label {
-    letter-spacing: 0.075em;
-    transition: color 220ms ease;
-  }
-
-  .project-fact-value {
-    margin: 0;
-    max-width: 52ch;
-    text-wrap: pretty;
-    font-size: clamp(0.92rem, 1.5vw, 1rem);
-    line-height: 1.66;
-    letter-spacing: 0.001em;
-    color: var(--color-muted);
-    transition: color 220ms ease;
+  .project-fact-item {
+    border-left-color: color-mix(in oklab, var(--color-border) 70%, transparent);
   }
 
   .project-tech {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.72rem 0.84rem;
-    border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
-    border-radius: 0.8rem;
-    padding: 0.9rem;
+    border-color: color-mix(in oklab, var(--color-border) 70%, transparent);
     background: color-mix(in oklab, var(--color-surface) 87%, black 13%);
-    transition: border-color 220ms ease, background-color 220ms ease;
-  }
-
-  .project-tech-meta {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 1.6rem;
-    flex: 0 1 18ch;
-    margin-bottom: 0;
   }
 
   .project-tech-summary {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    min-width: min(18ch, 100%);
-    margin: 0;
-    text-align: left;
-    font-size: clamp(0.74rem, 1.28vw, 0.86rem);
-    font-weight: 560;
-    line-height: 1.3;
-    letter-spacing: 0.035em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--color-text) 82%, #d8e6f6);
-    transition: color 220ms ease;
-  }
-
-  .project-tech-summary {
-    transition:
-      opacity 170ms ease,
-      transform 170ms ease;
     will-change: opacity, transform;
   }
 
@@ -535,40 +313,7 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
     transform: translateY(-0.12rem);
   }
 
-  .project-tech-list {
-    display: flex;
-    flex: 1 1 18rem;
-    flex-wrap: wrap;
-    gap: 0.68rem 0.72rem;
-    align-items: center;
-    justify-content: flex-end;
-    margin-inline-start: auto;
-  }
-
-  .project-tech--reversed .project-tech-meta {
-    order: 2;
-    justify-content: flex-end;
-    text-align: right;
-  }
-
-  .project-tech--reversed .project-tech-summary {
-    justify-content: flex-end;
-    text-align: right;
-  }
-
-  .project-tech--reversed .project-tech-list {
-    order: 1;
-    justify-content: flex-start;
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-
   .hex-tech-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3.2rem;
-    height: 2.8rem;
     border: 1.4px solid rgba(234, 242, 250, 0.9);
     background: color-mix(in oklab, var(--color-surface) 76%, black 24%);
     clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
@@ -614,7 +359,7 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
       color-mix(in oklab, var(--color-surface) 82%, black 18%);
   }
 
-  .project-details.is-active .project-facts > div {
+  .project-details.is-active .project-fact-item {
     border-left-color: color-mix(in oklab, var(--color-border) 38%, rgba(231, 241, 251, 0.84));
   }
 
@@ -631,14 +376,8 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
       0 14px 28px -14px rgba(218, 233, 248, 0.76);
   }
 
-  .project-details.is-active .hex-tech-icon {
+  .project-details.is-active .hex-tech-badge svg {
     color: #fbfdff;
-  }
-
-  .hex-tech-icon {
-    width: 1.36rem;
-    height: 1.36rem;
-    color: #f4f8ff;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -670,8 +409,8 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
       color: #f5faff;
     }
 
-    .project-live-link:hover .project-live-link-icon,
-    .project-live-link:focus-visible .project-live-link-icon {
+    .project-live-link:hover svg,
+    .project-live-link:focus-visible svg {
       transform: translate3d(2px, -2px, 0);
     }
   }
@@ -685,103 +424,6 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
   .hex-tech-badge:focus-within {
     outline: 2px solid rgba(77, 131, 166, 0.72);
     outline-offset: 3px;
-  }
-
-  @media (min-width: 1024px) {
-    .project-details-grid {
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr);
-      align-items: start;
-      gap: 2.4rem;
-    }
-
-    .project-details--reversed .project-details-grid {
-      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
-    }
-
-    .project-details--reversed .project-hero {
-      grid-column: 2;
-      grid-row: 1;
-    }
-
-    .project-details--reversed .project-side {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .project-side {
-      gap: 1.45rem;
-    }
-
-    .project-tech {
-      padding: 1.08rem;
-    }
-
-    .project-facts {
-      gap: 1.12rem;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .details-panel-inner {
-      padding-top: 1.25rem;
-    }
-
-    .projects-intro {
-      gap: 0.62rem;
-      margin-bottom: 1rem;
-    }
-
-    .project-details {
-      padding: 1.08rem;
-      opacity: 0.9;
-    }
-
-    .project-facts > div {
-      padding-left: 0.72rem;
-    }
-
-    .project-list {
-      margin-top: 0.14rem;
-    }
-
-    .project-cover {
-      aspect-ratio: 16 / 9;
-    }
-
-    .project-tech {
-      padding: 0.72rem;
-    }
-
-    .project-tech-meta {
-      min-height: 1.45rem;
-      flex-basis: 100%;
-      order: 1;
-      justify-content: flex-start;
-      text-align: left;
-    }
-
-    .project-tech-summary {
-      max-width: 100%;
-      line-height: 1.22;
-    }
-
-    .project-tech-list {
-      flex-basis: 100%;
-      gap: 0.52rem;
-      order: 2;
-      justify-content: flex-start;
-      margin-inline: 0;
-    }
-
-    .hex-tech-badge {
-      width: 2.7rem;
-      height: 2.36rem;
-    }
-
-    .hex-tech-icon {
-      width: 1.12rem;
-      height: 1.12rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -98,7 +98,7 @@ const projectImages = [...imagenesBlob.proyectos];
           const hasProjectDetails = project !== fallbackProject;
           const detailsHref = hasProjectDetails
             ? getProjectDetailHref(project, index)
-            : "/detalles#proyectos";
+            : "/proyectos";
           const imageSrc =
             projectImages[index] ?? projectImages[projectImages.length - 1];
           const teaser = deriveTeaser(project);
