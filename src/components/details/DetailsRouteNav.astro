@@ -1,0 +1,125 @@
+---
+import type { PortfolioUiTranslations } from "../../content/types";
+import {
+  detailRouteHrefById,
+  detailRouteOrder,
+  type DetailRouteId,
+} from "../../utils/details-routes";
+
+interface Props {
+  currentRoute: DetailRouteId;
+  ariaLabel: string;
+  tabs: PortfolioUiTranslations["detalles"]["tabs"];
+}
+
+const { currentRoute, ariaLabel, tabs } = Astro.props as Props;
+
+const routeLabels = {
+  experiencia: tabs.experiencia,
+  proyectos: tabs.proyectos,
+  blog: tabs.blog,
+};
+---
+
+<div class="container-shell">
+  <div class="details-tabs-wrap sticky top-[74px] z-30 -mx-[0.1rem] mt-0 px-[0.05rem] pt-[0.08rem] pb-[0.3rem] backdrop-blur-[10px] max-md:top-[66px] max-md:-mx-[0.12rem] max-md:px-0 max-md:pt-[0.06rem] max-md:pb-[0.26rem]">
+    <nav
+      class="details-tabs flex gap-[0.32rem] overflow-x-auto p-[0.16rem] [scrollbar-width:thin] [scroll-behavior:smooth] max-md:gap-[0.26rem]"
+      aria-label={ariaLabel}
+    >
+      {
+        detailRouteOrder.map((routeId, index) => {
+          const isActive = routeId === currentRoute;
+
+          return (
+            <a
+              href={detailRouteHrefById[routeId]}
+              class="details-tab relative inline-flex shrink-0 items-baseline gap-[0.4rem] bg-transparent px-[0.7rem] py-[0.62rem] font-[var(--font-accent)] text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-[#9caab8] transition-[color,border-color,background-color,box-shadow] duration-200 ease-out max-md:whitespace-nowrap max-md:px-[0.58rem] max-md:py-[0.5rem] max-md:text-[0.68rem]"
+              aria-current={isActive ? "page" : undefined}
+            >
+              <span class="details-tab-index text-[0.62rem] tracking-[0.09em] text-[#8797a8]">
+                {String(index + 1).padStart(2, "0")} //
+              </span>
+              <span>{routeLabels[routeId]}</span>
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</div>
+
+<style>
+  .details-tab {
+    transition:
+      color 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .details-tab::after {
+    content: "";
+    position: absolute;
+    left: 0.58rem;
+    right: 0.58rem;
+    bottom: 0.32rem;
+    height: 1px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-text) 70%, transparent);
+    opacity: 0;
+    transform: scaleX(0.55);
+    transform-origin: left;
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .details-tab:hover {
+    color: color-mix(in oklab, var(--color-text) 88%, white);
+    background: color-mix(in oklab, var(--color-surface) 72%, transparent);
+    border-color: color-mix(in oklab, var(--color-border) 70%, transparent);
+  }
+
+  .details-tab[aria-current="page"] {
+    color: var(--color-text);
+    background:
+      radial-gradient(120% 130% at 50% 100%, rgba(245, 250, 255, 0.2) 0%, rgba(245, 250, 255, 0) 74%),
+      color-mix(in oklab, var(--color-surface) 78%, black 22%);
+    border-color: color-mix(in oklab, var(--color-border) 62%, rgba(214, 230, 245, 0.26));
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 0 14px -8px rgba(255, 255, 255, 0.9),
+      0 10px 22px -18px rgba(201, 220, 238, 0.62);
+  }
+
+  .details-tab:hover::after,
+  .details-tab:focus-visible::after,
+  .details-tab[aria-current="page"]::after {
+    transform: scaleX(1);
+    background: color-mix(in oklab, var(--color-text) 90%, white);
+    opacity: 0.95;
+  }
+
+  .details-tab:focus-visible {
+    outline: 2px solid rgba(77, 131, 166, 0.72);
+    outline-offset: 3px;
+  }
+
+  .details-tab[aria-current="page"] .details-tab-index {
+    color: #c9d4e1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .details-tab,
+    .details-tab::after {
+      animation: none;
+      transition: none;
+    }
+
+    .details-tabs {
+      scroll-behavior: auto;
+    }
+  }
+</style>

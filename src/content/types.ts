@@ -132,6 +132,7 @@ export interface PortfolioUiTranslations {
   navbar: {
     menuLabel: string;
     logoAlt: string;
+    blogActionLabel: string;
   };
   experience: {
     detailsLabel: string;
@@ -168,7 +169,6 @@ export interface PortfolioUiTranslations {
   };
   detalles: {
     tabsAriaLabel: string;
-    tabPanelsAriaLabel: string;
     tabs: {
       experiencia: string;
       proyectos: string;

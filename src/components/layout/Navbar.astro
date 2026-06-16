@@ -5,11 +5,18 @@ import { Icon } from "astro-icon/components";
 interface Props {
   nav: NavItem[];
   ui: PortfolioUiTranslations["navbar"];
+  secondaryAction?: NavItem | null;
 }
 
-const { nav, ui } = Astro.props;
+const { nav, ui, secondaryAction } = Astro.props as Props;
 const menuLabel = ui.menuLabel;
 const contactHref = "#contacto";
+const defaultSecondaryAction = { label: "Blog técnico", href: "/blog" };
+const blogAction = secondaryAction === undefined
+  ? defaultSecondaryAction
+  : secondaryAction;
+const primaryNavItems = nav.filter((item) => item.href !== contactHref);
+const contactItem = nav.find((item) => item.href === contactHref);
 ---
 
 <header
@@ -25,21 +32,39 @@ const contactHref = "#contacto";
     </a>
     <nav class="hidden items-center gap-2 lg:ml-auto lg:flex">
       {
-        nav.map((item) => (
+        primaryNavItems.map((item) => (
           <a
             href={item.href}
-            class:list={[
-              "rounded-md px-3 py-2 text-sm font-medium tracking-wide transition",
-              item.href === contactHref
-                ? "rounded-full border border-text bg-text px-4 py-2 text-sm font-semibold tracking-[0.01em] text-bg shadow-[0_12px_24px_-18px_rgba(0,0,0,0.65)] hover:opacity-90"
-                : "text-muted hover:bg-surface/55 hover:text-text",
-            ]}
+            class="rounded-md px-3 py-2 text-sm font-medium tracking-wide text-muted transition hover:bg-surface/55 hover:text-text"
             data-nav-link
             data-nav-index={String(nav.indexOf(item))}
           >
             {item.label}
           </a>
         ))
+      }
+      {
+        blogAction && (
+          <a
+            href={blogAction.href}
+            class="accent-front-label inline-flex items-center px-2 py-2 text-[#a9b4bf] transition hover:text-text"
+            data-nav-secondary-action
+          >
+            {blogAction.label}
+          </a>
+        )
+      }
+      {
+        contactItem && (
+          <a
+            href={contactItem.href}
+            class="accent-front-label border border-text bg-text px-4 py-2 text-sm font-semibold tracking-[0.01em] text-bg shadow-[0_12px_24px_-18px_rgba(0,0,0,0.65)] transition hover:opacity-90"
+            data-nav-link
+            data-nav-index={String(nav.indexOf(contactItem))}
+          >
+            {contactItem.label}
+          </a>
+        )
       }
     </nav>
     <div class="ml-auto flex items-center gap-2 md:gap-3 lg:hidden">
@@ -71,9 +96,9 @@ const contactHref = "#contacto";
           <a
             href={item.href}
             class:list={[
-              "rounded-md px-3 py-2 text-sm font-normal transition",
+              " px-3 py-2 text-sm font-normal transition",
               item.href === contactHref
-                ? "rounded-full border border-text bg-text px-4 py-2 text-sm font-semibold text-bg hover:opacity-90"
+                ? "accent-front-label  border border-text bg-text px-4 py-2 text-sm font-semibold text-bg hover:opacity-90"
                 : "text-muted hover:bg-surface hover:text-text",
             ]}
             data-mobile-link
@@ -82,6 +107,18 @@ const contactHref = "#contacto";
             {item.label}
           </a>
         ))
+      }
+      {
+        blogAction && (
+          <a
+            href={blogAction.href}
+            class="accent-front-label inline-flex items-center px-3 py-2 text-[#a9b4bf] transition hover:text-text"
+            data-mobile-link
+            data-nav-secondary-action
+          >
+            {blogAction.label}
+          </a>
+        )
       }
     </div>
   </div>

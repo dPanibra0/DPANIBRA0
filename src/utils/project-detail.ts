@@ -21,5 +21,5 @@ export const getProjectDetailHref = (
   project: Pick<ProjectContent, "title">,
   index: number,
 ) => {
-  return `/detalles#${getProjectDetailId(project, index)}`;
+  return `/proyectos#${getProjectDetailId(project, index)}`;
 };

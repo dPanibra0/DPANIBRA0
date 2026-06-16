@@ -36,6 +36,16 @@ Construyo servicios con Java y Spring Boot para procesamiento de datos, reglas d
 
 Este repositorio contiene mi landing profesional en Astro.
 
+## Arquitectura de rutas actual
+
+- `/` - landing principal con secciones de presentacion.
+- `/experiencia` - experiencia ampliada con el layout compartido y contacto al final.
+- `/proyectos` - casos y proyectos ampliados, incluyendo anchors de detalle por proyecto.
+- `/blog` - indice del blog tecnico.
+- `/blog/[slug]` - detalle de cada post tecnico.
+
+`/detalles` y `/detalles/[slug]` quedaron retiradas como arquitectura principal y solo se conservan como compatibilidad de redireccion para enlaces viejos.
+
 ```bash
 npm install
 npm run dev

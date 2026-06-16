@@ -32,7 +32,7 @@ export const getTechnicalPostSummaries = async () => {
 
   return posts.sort(sortByNewest).map((post) => ({
     slug: post.id,
-    href: `/detalles/${post.id}`,
+    href: `/blog/${post.id}`,
     title: post.data.title,
     description: post.data.description,
     tag: post.data.tag,

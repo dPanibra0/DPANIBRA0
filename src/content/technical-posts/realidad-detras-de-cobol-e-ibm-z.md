@@ -1,14 +1,13 @@
 ---
-title: Arquitecturas evolutivas para plataformas de negocio
-description: Uso práctico de arquitectura hexagonal y clean architecture, con tradeoffs reales de complejidad, testing y entrega.
-publishDate: 2026-03-27
-tag: Arquitectura
+title: ¿Mainframe sigue vivo?
+description: Mi primera impresión sobre COBOL, IBM Z y por qué el mainframe sigue siendo relevante en la actualidad.
+publishDate: 2026-06-27
+tag: MAINFRAME
 draft: false
 cover:
-  src: https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-nttdata.png
+  src: https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/blog/realidad-detras-de-cobol-e-ibm-z.jpg
   alt: Imagen editorial de procesos y observabilidad operativa
 ---
-
 Arquitectura hexagonal y clean architecture no son un fin en sí mismo. Sirven cuando el dominio necesita protección frente a cambios frecuentes en transporte, persistencia o integraciones externas.
 
 ## Lo que resuelven bien

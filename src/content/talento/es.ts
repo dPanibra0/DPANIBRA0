@@ -334,6 +334,7 @@ export const esUi: PortfolioUiTranslations = {
   navbar: {
     menuLabel: "Abrir menú",
     logoAlt: "dPanibra0 logo",
+    blogActionLabel: "Blog técnico",
   },
   experience: {
     detailsLabel: "Ver más detalle",
@@ -376,7 +377,6 @@ export const esUi: PortfolioUiTranslations = {
   },
   detalles: {
     tabsAriaLabel: "Secciones de detalle",
-    tabPanelsAriaLabel: "Contenido de detalle",
     tabs: {
       experiencia: "Experiencia laboral",
       proyectos: "Proyectos",

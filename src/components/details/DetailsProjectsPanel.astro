@@ -59,13 +59,7 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
 ---
 
 <section
-  id="panel-proyectos"
-  role="tabpanel"
-  aria-labelledby="tab-proyectos"
   class="details-panel border-t border-border/50"
-  data-tab-panel="proyectos"
-  data-panel-state="inactive"
-  hidden
 >
   <div class="container-shell pt-[0.9rem] md:pt-[1.9rem]">
     <header class="mb-4 grid max-w-[74ch] gap-[0.62rem] md:mb-[1.55rem] md:gap-[0.7rem]" data-reveal="up">
@@ -232,10 +226,6 @@ const getBadgeToneClass = (tone?: "blue" | "neutral") => {
 </section>
 
 <style>
-  .details-panel[hidden] {
-    display: none;
-  }
-
   .project-details:hover,
   .project-details.is-active {
     opacity: 1;

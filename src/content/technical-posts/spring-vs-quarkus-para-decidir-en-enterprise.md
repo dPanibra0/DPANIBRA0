@@ -5,32 +5,50 @@ publishDate: 2026-04-19
 tag: Spring vs Quarkus
 draft: false
 cover:
-  src: https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/experiencia/exp-latamtech.png
+  src: https://mhlzixj98t0wnclm.public.blob.vercel-storage.com/blog/spring-vs-quarkus.png
   alt: Imagen editorial de arquitectura de sistemas empresariales
 ---
 
-Spring Boot y Quarkus resuelven necesidades parecidas, pero no empujan con la misma fuerza las mismas prioridades. Elegir bien depende menos de la moda y más del contexto de operación.
+Durante los últimos años he visto muchas comparaciones entre Spring Boot y Quarkus. Algunas se enfocan en benchmarks, otras en consumo de memoria o tiempos de arranque. Sin embargo, después de trabajar principalmente con Spring Boot e investigar Quarkus para proyectos modernos, creo que la pregunta correcta no es cuál es mejor, sino cuál se adapta mejor a cada necesidad.
 
-## Donde Spring Boot suele ganar
+## El dominio de Spring Boot
 
-Spring Boot ofrece un ecosistema muy amplio, talento disponible y una base conocida por muchos equipos corporativos. Eso reduce fricción cuando hay integraciones variadas, librerías maduras y múltiples módulos compartiendo convenciones.
+Spring Boot se ha convertido en el estándar para el desarrollo backend en Java. Cuenta con una comunidad enorme, documentación abundante y un ecosistema que cubre prácticamente cualquier necesidad empresarial.
 
-Para plataformas enterprise grandes, esa previsibilidad suele tener mucho valor.
+Desde APIs REST hasta seguridad, mensajería, bases de datos o arquitecturas distribuidas, Spring ofrece soluciones maduras y ampliamente probadas. Además, encontrar desarrolladores con experiencia en Spring suele ser mucho más sencillo que en otras alternativas.
 
-## Donde Quarkus destaca
+Por esta razón, la mayoría de proyectos empresariales continúan apostando por Spring Boot como su principal framework backend.
 
-Quarkus pone el foco en arranque rápido y menor huella de memoria, especialmente cuando se aprovecha compilación nativa. Eso lo vuelve atractivo en escenarios como:
+## ¿Qué aporta Quarkus?
 
-- serverless,
-- workloads con alta densidad de contenedores,
-- o servicios donde el costo de cold start importa de verdad.
+Quarkus nació con un enfoque diferente. Fue diseñado pensando en contenedores, Kubernetes y arquitecturas cloud-native.
 
-## El tradeoff menos visible
+Su principal ventaja es la optimización de recursos. Las aplicaciones suelen iniciar más rápido y consumir menos memoria, algo especialmente valioso en entornos donde se ejecutan múltiples servicios o donde los costos de infraestructura son una preocupación importante.
 
-La ventaja operativa de Quarkus puede venir con una exigencia mayor en pipeline, validación de librerías y pruebas adicionales cuando se trabaja con runtime nativo. No siempre es un problema, pero sí es una conversación que debe ocurrir antes de adoptar.
+Aunque comparte muchas tecnologías conocidas del ecosistema Java, Quarkus intenta ofrecer una experiencia más orientada a la nube moderna.
 
-Spring, por su parte, suele simplificar decisiones cuando el equipo prioriza velocidad de entrega, ecosistema y menor sorpresa técnica.
+## Más allá de los benchmarks
 
-## Cierre
+Uno de los errores más comunes al comparar frameworks es centrarse únicamente en los números.
 
-En plataformas empresariales amplias, Spring Boot suele encajar mejor como default pragmática. Quarkus brilla cuando startup rápido y eficiencia de recursos pesan más que la amplitud del ecosistema.
+Sí, es cierto que Quarkus puede ofrecer mejores tiempos de arranque y menor consumo de memoria en determinados escenarios. Pero en proyectos reales también importan otros factores.
+
+La experiencia del equipo, la facilidad para resolver problemas, la calidad de la documentación, la disponibilidad de librerías y el soporte de la comunidad suelen tener un impacto mucho mayor en el éxito de un proyecto que unos pocos milisegundos de diferencia.
+
+Por eso, una decisión basada únicamente en benchmarks puede terminar siendo una mala decisión técnica.
+
+## ¿Cuál elegiría hoy?
+
+Si tuviera que iniciar un proyecto empresarial tradicional, probablemente seguiría eligiendo Spring Boot.
+
+Su ecosistema es extremadamente maduro, la productividad es alta y la cantidad de recursos disponibles hace que resolver problemas sea mucho más sencillo.
+
+Por otro lado, si el proyecto estuviera fuertemente orientado a Kubernetes, microservicios altamente escalables o una estrategia cloud-native desde el primer día, consideraría seriamente Quarkus.
+
+## Conclusión
+
+No creo que Quarkus venga a reemplazar a Spring Boot. Más bien representa una alternativa moderna para ciertos escenarios específicos.
+
+Spring Boot sigue siendo la opción más equilibrada para la mayoría de aplicaciones empresariales, mientras que Quarkus destaca cuando la eficiencia en recursos y la integración con entornos cloud se convierten en requisitos prioritarios.
+
+Al final, la mejor elección no depende de cuál framework tenga el benchmark más rápido, sino de cuál ayuda mejor a resolver los problemas reales del proyecto.
