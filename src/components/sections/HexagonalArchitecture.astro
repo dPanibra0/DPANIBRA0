@@ -24,11 +24,11 @@ const { id, hexagonal, overline } = Astro.props;
           <span class="text-muted">{hexagonal.headingSecondary}</span>
         </h2>
         <p class="mt-6 max-w-[64ch] text-base leading-relaxed text-muted md:text-lg">{hexagonal.intro}</p>
-        <ul class="mt-6 space-y-3" data-hex-list>
+        <ul class="mt-6 " data-hex-list>
           {
             hexagonal.points.map((point, index) => (
               <li
-                class="hex-concept-item flex w-full items-start gap-3 rounded-xl px-4 py-3 text-[15px] leading-relaxed text-muted transition-[opacity,color,transform,background-color,box-shadow] duration-300 md:text-base"
+                class="hex-concept-item flex w-full items-start gap-3  px-4 py-3 text-[15px] leading-relaxed text-muted transition-[opacity,color,transform,background-color,box-shadow] duration-300 md:text-base"
                 data-hex-concept={index === 0 ? "dominio" : index === 1 ? "aplicacion" : "infraestructura"}
                 data-hex-trigger
                 tabindex="0"
